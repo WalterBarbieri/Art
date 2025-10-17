@@ -1,0 +1,146 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  background-color: #fafaf1;
+  color: #212B31;
+  font-family: "Noto Sans", sans-serif;
+  flex: 1;
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+input {
+  background-color: #fafaf1 !important;
+  margin-bottom: 1em;
+  border: none !important;
+  border-bottom: solid 1px !important;
+  border-radius: 0 !important;
+  border-color: #1A1A1A !important;
+
+  &:focus {
+      background-color: #fafaf1 !important;
+  }
+}
+
+.button {
+  background-color: #5cb95fd8;
+  color: #1A1A1A;
+  border: none;
+  transition: all 0.2s !important;
+  &:disabled {
+      background-color: #93f796;
+      color: #1A1A1A;
+  }
+  &:hover {
+      background-color: #5cb95fd8;
+      color: #1A1A1A;
+      text-decoration: underline;
+      text-decoration-thickness: 0.1em;
+      text-underline-offset: 0.2em;
+  }
+}
+
+.redButton {
+  background-color: #e91414d8;
+  color: #1A1A1A;
+  border: none;
+  transition: all 0.2s !important;
+  &:disabled {
+      background-color: #df5757d8;
+      color: #1A1A1A;
+  }
+  &:hover {
+      background-color: #e91414d8;
+      color: #1A1A1A;
+      text-decoration: underline;
+      text-decoration-thickness: 0.1em;
+      text-underline-offset: 0.2em;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+}
+
+a {
+  text-decoration: none;
+  font-weight: bold;
+  &:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 0.1em;
+    text-underline-offset: 0.2em;
+  }
+}
+
+.mySelect {
+  background-color: #fafaf1;
+  color: #212B31;
+  border: none;
+  width: auto;
+  cursor: pointer;
+}
+
+option {
+  background-color: #fafaf1;
+}
+
+.smallIcon {
+  width: 1.5em;
+}
+
+.icon {
+  width: 2em;
+}
+
+.bigIcon {
+  width: 6em;
+}
+
+.modal-dialog {
+  position: fixed !important;
+  top: 6em;
+  right: 1em;
+}
+.modal-content {
+  background-color: #dccbb0;
+  color: #235425;
+}
+
+li {
+  list-style-type: none;
+  font-size: large;
+  margin-bottom: 0.5em;
+}
+
+.textFormat {
+  white-space: pre-line;
+}
+
+textarea {
+  resize: none;
+  overflow-y: hidden;
+  margin-bottom: 1em;
+  min-height: 2em;
+}
