@@ -7,7 +7,7 @@ import java.util.List;
 import WebPage.ElenaFranconi.Content.Content;
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Course.Course;
-import WebPage.ElenaFranconi.Event.Recipients.EventRecipient;
+import WebPage.ElenaFranconi.Recipients.EventRecipient.EventRecipient;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -29,7 +29,10 @@ public class Event extends Content {
 	private List<LocalDateTime> eventDates;
 
 	@OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<EventRecipient> recipients = new ArrayList<>();
+	private List<EventRecipient> participants = new ArrayList<>();
+
+	@OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<EventRecipient> waitingList = new ArrayList<>();
 
 	@OneToOne(mappedBy = "linkedEvent")
 	private Course linkedCourse;

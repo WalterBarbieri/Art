@@ -52,6 +52,8 @@ public abstract class Content {
 
 	private String location;
 
+	private int maxParticipants;
+
 	private LocalDateTime createdAt;
 
 	@Enumerated(EnumType.STRING)
