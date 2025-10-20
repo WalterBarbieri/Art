@@ -16,6 +16,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -56,12 +58,26 @@ public abstract class Content {
 
 	private LocalDateTime createdAt;
 
+	private LocalDateTime updatedAt;
+
 	@Enumerated(EnumType.STRING)
 	private ContentStatus contentStatus;
 
 	private LocalDateTime relevantDate;
 
 	private boolean archived;
+
+	@PrePersist
+	protected void onCreate() {
+		LocalDateTime now = LocalDateTime.now();
+		createdAt = now;
+		updatedAt = now;
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updatedAt = LocalDateTime.now();
+	}
 
 	public abstract ContentStatus calculateContentStatus();
 

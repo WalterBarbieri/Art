@@ -1,6 +1,5 @@
 package WebPage.ElenaFranconi.Content;
 
-import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -70,8 +69,12 @@ public abstract class AbstractContentService<T extends Content> {
 	}
 
 	protected void prepareContent(T content) {
-		content.setCreatedAt(LocalDateTime.now());
 		content.setArchived(false);
+		content.setContentStatus(content.calculateContentStatus());
+		content.setRelevantDate(content.calculateRelevantDate());
+	}
+
+	protected void refreshContentStatusAndDate(T content) {
 		content.setContentStatus(content.calculateContentStatus());
 		content.setRelevantDate(content.calculateRelevantDate());
 	}
