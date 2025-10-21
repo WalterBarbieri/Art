@@ -27,6 +27,8 @@ public class EventRecipient extends Recipient {
 
 	private String city;
 
+	private int number;
+
 	private RecipientStatus status;
 
 	private boolean subscribeToNewsletter;
