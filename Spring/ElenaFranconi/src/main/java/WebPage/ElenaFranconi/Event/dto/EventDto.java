@@ -48,9 +48,10 @@ public class EventDto {
 
 	public static EventDto fromEvent(Event event) {
 		return new EventDto(event.getId(), event.getTitle(), event.getDescription(), event.getCoverImagePath(),
-				event.getImagePaths(), event.getFilePaths(), event.getVideoPaths(), event.getEventDates(),
-				event.getLocation(), event.getLinkedCourse() != null ? event.getLinkedCourse().getId() : null,
-				event.getCreatedAt(), event.getContentStatus(), event.calculateRelevantDate(), event.isArchived());
+				event.getImagePaths(), event.getFilePaths(), event.getVideoPaths(),
+				event.getDateSlots().stream().map(dateSlot -> dateSlot.getDateTime()).toList(), event.getLocation(),
+				event.getLinkedCourse() != null ? event.getLinkedCourse().getId() : null, event.getCreatedAt(),
+				event.getContentStatus(), event.calculateRelevantDate(), event.isArchived());
 	}
 
 	public static List<EventDto> fromEventList(List<Event> events) {

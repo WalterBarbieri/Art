@@ -1,5 +1,6 @@
 package WebPage.ElenaFranconi.Event;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import WebPage.ElenaFranconi.Content.AbstractContentService;
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Event.dto.EventRequestDto;
+import WebPage.ElenaFranconi.EventDateSlot.EventDateSlot;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
 import jakarta.transaction.Transactional;
 
@@ -60,8 +62,14 @@ public class EventService extends AbstractContentService<Event> {
 		Event event = new Event();
 		event.setTitle(body.getTitle());
 		event.setDescription(body.getDescription());
-		event.setEventDates(body.getEventDates());
 		event.setLocation(body.getLocation());
+
+		for (LocalDateTime date : body.getEventDates()) {
+			EventDateSlot slot = new EventDateSlot();
+			slot.setDateTime(date);
+			slot.setMaxParticipants(body.getMaxParticipants());
+			event.addDateSlot(slot);
+		}
 
 		prepareContent(event);
 

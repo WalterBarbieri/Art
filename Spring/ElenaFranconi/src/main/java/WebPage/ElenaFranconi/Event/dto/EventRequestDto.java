@@ -12,6 +12,7 @@ public class EventRequestDto {
 	private String title;
 	private String description;
 	private List<LocalDateTime> eventDates;
+	private int maxParticipants;
 	private String location;
 	private MultipartFile coverImage;
 	private List<MultipartFile> images;

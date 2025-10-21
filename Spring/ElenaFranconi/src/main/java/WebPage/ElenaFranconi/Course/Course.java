@@ -30,10 +30,7 @@ public class Course extends Content {
 	private LocalDateTime dateTo;
 
 	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<CourseRecipient> participants = new ArrayList<>();
-
-	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<CourseRecipient> waitingList = new ArrayList<>();
+	private List<CourseRecipient> recipients = new ArrayList<>();
 
 	@OneToOne
 	@JoinColumn(name = "linked_event_id")

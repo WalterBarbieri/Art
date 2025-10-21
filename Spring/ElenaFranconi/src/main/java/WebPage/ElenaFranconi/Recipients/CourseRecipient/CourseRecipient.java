@@ -2,6 +2,7 @@ package WebPage.ElenaFranconi.Recipients.CourseRecipient;
 
 import WebPage.ElenaFranconi.Course.Course;
 import WebPage.ElenaFranconi.Recipients.Recipient;
+import WebPage.ElenaFranconi.Recipients.RecipientStatus;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
@@ -31,6 +32,8 @@ public class CourseRecipient extends Recipient {
 	private String postalCode;
 
 	private String fiscalCode;
+
+	private RecipientStatus status;
 
 	private boolean photoVideoConsent;
 

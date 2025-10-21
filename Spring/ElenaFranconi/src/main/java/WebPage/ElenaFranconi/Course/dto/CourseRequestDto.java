@@ -14,6 +14,7 @@ public class CourseRequestDto {
 	private LocalDateTime dateFrom;
 	private LocalDateTime dateTo;
 	private String location;
+	private int maxParticipants;
 	private MultipartFile coverImage;
 	private List<MultipartFile> images;
 	private List<MultipartFile> files;

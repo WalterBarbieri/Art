@@ -7,9 +7,8 @@ import java.util.List;
 import WebPage.ElenaFranconi.Content.Content;
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Course.Course;
-import WebPage.ElenaFranconi.Recipients.EventRecipient.EventRecipient;
+import WebPage.ElenaFranconi.EventDateSlot.EventDateSlot;
 import jakarta.persistence.CascadeType;
-import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -25,26 +24,22 @@ import lombok.Setter;
 @Setter
 public class Event extends Content {
 
-	@ElementCollection
-	private List<LocalDateTime> eventDates;
-
 	@OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<EventRecipient> participants = new ArrayList<>();
-
-	@OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<EventRecipient> waitingList = new ArrayList<>();
+	private List<EventDateSlot> dateSlots = new ArrayList<>();
 
 	@OneToOne(mappedBy = "linkedEvent")
 	private Course linkedCourse;
 
 	@Override
 	public ContentStatus calculateContentStatus() {
-		if (eventDates == null || eventDates.isEmpty())
+		if (dateSlots == null || dateSlots.isEmpty())
 			return ContentStatus.COMPLETED;
 
+		List<LocalDateTime> dates = dateSlots.stream().map(EventDateSlot::getDateTime).toList();
+
 		LocalDateTime now = LocalDateTime.now();
-		LocalDateTime earliestDate = eventDates.stream().min(LocalDateTime::compareTo).orElse(null);
-		LocalDateTime latestDate = eventDates.stream().max(LocalDateTime::compareTo).orElse(null);
+		LocalDateTime earliestDate = dates.stream().min(LocalDateTime::compareTo).orElse(null);
+		LocalDateTime latestDate = dates.stream().max(LocalDateTime::compareTo).orElse(null);
 
 		if (earliestDate == null || latestDate == null)
 			return ContentStatus.COMPLETED;
@@ -58,9 +53,15 @@ public class Event extends Content {
 
 	@Override
 	public LocalDateTime calculateRelevantDate() {
-		if (eventDates == null || eventDates.isEmpty())
+		if (dateSlots == null || dateSlots.isEmpty())
 			return this.getCreatedAt();
-		return eventDates.stream().min(LocalDateTime::compareTo).orElse(this.getCreatedAt());
+		return dateSlots.stream().map(EventDateSlot::getDateTime).min(LocalDateTime::compareTo)
+				.orElse(this.getCreatedAt());
+	}
+
+	public void addDateSlot(EventDateSlot slot) {
+		slot.setEvent(this);
+		this.dateSlots.add(slot);
 	}
 
 }

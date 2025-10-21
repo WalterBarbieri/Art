@@ -47,7 +47,7 @@ public class ContentDto {
 		}
 		if (content instanceof Event) {
 			Event event = (Event) content;
-			dto.setEventDates(event.getEventDates());
+			dto.setEventDates(event.getDateSlots().stream().map(dateSlots -> dateSlots.getDateTime()).toList());
 		}
 		return dto;
 	}

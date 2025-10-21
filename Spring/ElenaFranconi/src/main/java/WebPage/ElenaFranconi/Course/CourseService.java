@@ -63,6 +63,7 @@ public class CourseService extends AbstractContentService<Course> {
 		course.setDateFrom(body.getDateFrom());
 		course.setDateTo(body.getDateTo());
 		course.setLocation(body.getLocation());
+		course.setMaxParticipants(body.getMaxParticipants());
 
 		prepareContent(course);
 
