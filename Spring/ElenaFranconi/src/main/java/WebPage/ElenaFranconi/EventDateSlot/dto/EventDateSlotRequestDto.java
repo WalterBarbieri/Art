@@ -1,6 +1,6 @@
 package WebPage.ElenaFranconi.EventDateSlot.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.UUID;
 
 import lombok.Data;
@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class EventDateSlotRequestDto {
 
-	private LocalDateTime dateTime;
+	private LocalDate date;
 	private int maxParticipants;
 	private UUID eventId;
 

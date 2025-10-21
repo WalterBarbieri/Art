@@ -1,6 +1,6 @@
 package WebPage.ElenaFranconi.Event;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,11 +35,11 @@ public class Event extends Content {
 		if (dateSlots == null || dateSlots.isEmpty())
 			return ContentStatus.COMPLETED;
 
-		List<LocalDateTime> dates = dateSlots.stream().map(EventDateSlot::getDateTime).toList();
+		List<LocalDate> dates = dateSlots.stream().map(EventDateSlot::getDate).toList();
 
-		LocalDateTime now = LocalDateTime.now();
-		LocalDateTime earliestDate = dates.stream().min(LocalDateTime::compareTo).orElse(null);
-		LocalDateTime latestDate = dates.stream().max(LocalDateTime::compareTo).orElse(null);
+		LocalDate now = LocalDate.now();
+		LocalDate earliestDate = dates.stream().min(LocalDate::compareTo).orElse(null);
+		LocalDate latestDate = dates.stream().max(LocalDate::compareTo).orElse(null);
 
 		if (earliestDate == null || latestDate == null)
 			return ContentStatus.COMPLETED;
@@ -52,15 +52,16 @@ public class Event extends Content {
 	}
 
 	@Override
-	public LocalDateTime calculateRelevantDate() {
+	public LocalDate calculateRelevantDate() {
 		if (dateSlots == null || dateSlots.isEmpty())
-			return this.getCreatedAt();
-		return dateSlots.stream().map(EventDateSlot::getDateTime).min(LocalDateTime::compareTo)
-				.orElse(this.getCreatedAt());
+			return this.getCreatedAt().toLocalDate();
+		return dateSlots.stream().map(EventDateSlot::getDate).min(LocalDate::compareTo)
+				.orElse(this.getCreatedAt().toLocalDate());
 	}
 
 	public void addDateSlot(EventDateSlot slot) {
 		slot.setEvent(this);
+		slot.setMaxParticipants(this.getMaxParticipants());
 		this.dateSlots.add(slot);
 	}
 

@@ -1,6 +1,6 @@
 package WebPage.ElenaFranconi.Course;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,9 +25,9 @@ import lombok.Setter;
 @Setter
 public class Course extends Content {
 
-	private LocalDateTime dateFrom;
+	private LocalDate dateFrom;
 
-	private LocalDateTime dateTo;
+	private LocalDate dateTo;
 
 	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<CourseRecipient> recipients = new ArrayList<>();
@@ -40,7 +40,7 @@ public class Course extends Content {
 	public ContentStatus calculateContentStatus() {
 		if (dateFrom == null || dateTo == null)
 			return ContentStatus.COMPLETED;
-		LocalDateTime now = LocalDateTime.now();
+		LocalDate now = LocalDate.now();
 
 		if (now.isBefore(dateFrom))
 			return ContentStatus.UPCOMING;
@@ -51,9 +51,12 @@ public class Course extends Content {
 	}
 
 	@Override
-	public LocalDateTime calculateRelevantDate() {
-		if (dateFrom == null)
-			return this.getCreatedAt();
+	public LocalDate calculateRelevantDate() {
+		if (dateFrom == null) {
+			return this.getCreatedAt().toLocalDate();
+
+		}
+
 		return this.dateFrom;
 	}
 

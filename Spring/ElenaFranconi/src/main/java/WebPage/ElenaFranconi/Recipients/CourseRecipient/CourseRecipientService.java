@@ -1,5 +1,6 @@
 package WebPage.ElenaFranconi.Recipients.CourseRecipient;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,12 @@ public class CourseRecipientService {
 	@Transactional
 	public CourseRecipient findById(UUID id) {
 		return courseRecipientRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+	}
+
+	@Transactional
+	public List<CourseRecipient> findAllByCourse(UUID courseId) {
+		Course course = courseRepository.findById(courseId).orElseThrow(() -> new NotFoundException(courseId));
+		return course.getRecipients();
 	}
 
 	// TEST METHODS

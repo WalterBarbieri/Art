@@ -1,6 +1,6 @@
 package WebPage.ElenaFranconi.Content.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -9,6 +9,7 @@ import WebPage.ElenaFranconi.Content.Content;
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Course.Course;
 import WebPage.ElenaFranconi.Event.Event;
+import WebPage.ElenaFranconi.EventDateSlot.EventDateSlot;
 import lombok.Data;
 
 @Data
@@ -20,9 +21,9 @@ public class ContentDto {
 	private String contentType;
 	private String coverImagePath;
 	private ContentStatus contentStatus;
-	private LocalDateTime dateFrom;
-	private LocalDateTime dateTo;
-	private List<LocalDateTime> eventDates = new ArrayList<>();
+	private LocalDate dateFrom;
+	private LocalDate dateTo;
+	private List<LocalDate> eventDates = new ArrayList<>();
 	private String location;
 
 	public ContentDto(UUID id, String title, String description, String contentType, String coverImagePath,
@@ -47,7 +48,7 @@ public class ContentDto {
 		}
 		if (content instanceof Event) {
 			Event event = (Event) content;
-			dto.setEventDates(event.getDateSlots().stream().map(dateSlots -> dateSlots.getDateTime()).toList());
+			dto.setEventDates(event.getDateSlots().stream().map(EventDateSlot::getDate).toList());
 		}
 		return dto;
 	}

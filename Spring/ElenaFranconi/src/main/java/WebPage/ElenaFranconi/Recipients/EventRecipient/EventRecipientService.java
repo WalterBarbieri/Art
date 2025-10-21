@@ -1,5 +1,6 @@
 package WebPage.ElenaFranconi.Recipients.EventRecipient;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,12 @@ public class EventRecipientService {
 	@Transactional
 	public EventRecipient findById(UUID id) {
 		return eventRecipientRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+	}
+
+	@Transactional
+	public List<EventRecipient> findAllByEventDateSlot(UUID eventDateSlotId) {
+		EventDateSlot eventDateSlot = eventDateSlotService.findById(eventDateSlotId);
+		return eventDateSlot.getRecipients();
 	}
 
 	// TEST METHODS

@@ -1,5 +1,6 @@
 package WebPage.ElenaFranconi.Content;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,7 +64,7 @@ public abstract class Content {
 	@Enumerated(EnumType.STRING)
 	private ContentStatus contentStatus;
 
-	private LocalDateTime relevantDate;
+	private LocalDate relevantDate;
 
 	private boolean archived;
 
@@ -81,6 +82,6 @@ public abstract class Content {
 
 	public abstract ContentStatus calculateContentStatus();
 
-	public abstract LocalDateTime calculateRelevantDate();
+	public abstract LocalDate calculateRelevantDate();
 
 }

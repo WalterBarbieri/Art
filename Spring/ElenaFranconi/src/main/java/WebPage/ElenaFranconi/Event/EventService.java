@@ -1,6 +1,6 @@
 package WebPage.ElenaFranconi.Event;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
@@ -63,11 +63,11 @@ public class EventService extends AbstractContentService<Event> {
 		event.setTitle(body.getTitle());
 		event.setDescription(body.getDescription());
 		event.setLocation(body.getLocation());
+		event.setMaxParticipants(body.getMaxParticipants());
 
-		for (LocalDateTime date : body.getEventDates()) {
+		for (LocalDate date : body.getEventDates()) {
 			EventDateSlot slot = new EventDateSlot();
-			slot.setDateTime(date);
-			slot.setMaxParticipants(body.getMaxParticipants());
+			slot.setDate(date);
 			event.addDateSlot(slot);
 		}
 
