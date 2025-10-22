@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import WebPage.ElenaFranconi.Event.Event;
+import WebPage.ElenaFranconi.Recipients.RecipientStatus;
 import WebPage.ElenaFranconi.Recipients.EventRecipient.EventRecipient;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -42,5 +43,14 @@ public class EventDateSlot {
 
 	@OneToMany(mappedBy = "eventDateSlot", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<EventRecipient> recipients = new ArrayList<>();
+
+	public long countParticipants() {
+		return this.getRecipients().stream().filter(r -> r.getStatus() == RecipientStatus.CONFIRMED)
+				.mapToLong(r -> r.getNumber()).sum();
+	}
+
+	public boolean isFull() {
+		return countParticipants() >= this.maxParticipants;
+	}
 
 }

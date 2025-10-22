@@ -4,11 +4,15 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import WebPage.ElenaFranconi.Content.AbstractContentService;
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Course.dto.CourseRequestDto;
+import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
 import jakarta.transaction.Transactional;
 
@@ -26,37 +30,46 @@ public class CourseService extends AbstractContentService<Course> {
 
 	// GET METHODS
 	@Transactional
-	public Course findById(UUID id) {
+	public Course findCourseById(UUID id) {
 		return courseRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
 	}
 
 	@Transactional
-	public List<Course> findAll() {
+	public List<Course> findAllCourse() {
 		return courseRepository.findAll();
 	}
 
 	@Transactional
-	public List<Course> findAllActive() {
+	public List<Course> findAllActiveCourse() {
 		return courseRepository.findByArchived(false);
 	}
 
 	@Transactional
-	public List<Course> findByContentStatusAndActive(ContentStatus contentStatus) {
+	public List<Course> findCourseByContentStatusAndActive(ContentStatus contentStatus) {
 		return courseRepository.findByContentStatusAndArchived(contentStatus, false);
 	}
 
 	@Transactional
-	public List<Course> findAllActiveSorted() {
+	public List<Course> findAllActiveCourseSorted() {
 		return courseRepository.findAllActiveCoursesSorted();
 	}
 
 	@Transactional
-	public List<Course> findAllActiveSortedInv() {
+	public List<Course> findAllActiveCourseSortedInv() {
 		return courseRepository.findAllActiveCoursesSortedInv();
+	}
+
+	@Transactional
+	Page<Course> findActiveCoursesSortedPaged(int page, int size) {
+		Pageable pageable = PageRequest.of(page, size);
+		return courseRepository.findActiveCoursesSortedPaged(pageable);
 	}
 
 	// LOGIC METHODS
 	public Course saveCourse(CourseRequestDto body) {
+		if (body.getDateFrom().isAfter(body.getDateTo())) {
+			throw new BadRequestException("The start date must be before or equal the end date.");
+		}
 		Course course = new Course();
 		course.setTitle(body.getTitle());
 		course.setDescription(body.getDescription());

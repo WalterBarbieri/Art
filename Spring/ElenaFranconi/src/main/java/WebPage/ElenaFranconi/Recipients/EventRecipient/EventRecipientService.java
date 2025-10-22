@@ -1,6 +1,9 @@
 package WebPage.ElenaFranconi.Recipients.EventRecipient;
 
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import WebPage.ElenaFranconi.EventDateSlot.EventDateSlot;
 import WebPage.ElenaFranconi.EventDateSlot.EventDateSlotService;
+import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
 import WebPage.ElenaFranconi.Recipients.RecipientStatus;
 import WebPage.ElenaFranconi.Recipients.EventRecipient.dto.EventRecipientRequestDto;
@@ -39,30 +43,35 @@ public class EventRecipientService {
 	@Transactional
 	public EventRecipient registerEventRecipient(EventRecipientRequestDto body) {
 		if (body.getNumber() < 1 || body.getNumber() > 5) {
-			throw new IllegalArgumentException("Number of participants must be between 1 and 5.");
+			throw new BadRequestException("Number of participants must be between 1 and 5.");
+		}
+		if (!body.isPrivacyAccepted()) {
+			throw new BadRequestException("Privacy policy must be accepted.");
 		}
 		EventDateSlot eventDateSlot = eventDateSlotService.findById(body.getEventDateSlotId());
-		long confirmedCount = eventDateSlot.getRecipients().stream()
-				.filter(r -> r.getStatus() == RecipientStatus.CONFIRMED).mapToLong(r -> r.getNumber()).sum();
-		EventRecipient eventRecipient = new EventRecipient();
-		eventRecipient.setName(body.getName());
-		eventRecipient.setSurname(body.getSurname());
-		eventRecipient.setEmail(body.getEmail());
-		eventRecipient.setPhoneNumber(body.getPhoneNumber());
-		eventRecipient.setCity(body.getCity());
-		eventRecipient.setNumber(body.getNumber());
-		eventRecipient.setPrivacyAccepted(body.isPrivacyAccepted());
-		eventRecipient.setSubscribeToNewsletter(body.isSubscribeToNewsletter());
-		eventRecipient.setStatus(RecipientStatus.PENDING);
-		eventRecipient.setEventDateSlot(eventDateSlot);
-
-		if (confirmedCount <= eventDateSlot.getMaxParticipants()) {
-			eventRecipient.setStatus(RecipientStatus.CONFIRMED);
-		} else {
-			eventRecipient.setStatus(RecipientStatus.WAITING);
+		if (eventDateSlot.getDate().isBefore(LocalDate.now())) {
+			throw new BadRequestException("Cannot register for an event date slot in the past.");
 		}
-		eventDateSlot.getRecipients().add(eventRecipient);
-		return eventRecipientRepository.save(eventRecipient);
+		Optional<EventRecipient> existingRecipient = eventDateSlot.getRecipients().stream()
+				.filter(r -> r.getEmail().equalsIgnoreCase(body.getEmail())).findFirst();
+		EventRecipient recipient;
+
+		if (existingRecipient.isPresent()) {
+			recipient = existingRecipient.get();
+			if (recipient.getStatus() != RecipientStatus.UNSUBSCRIBED) {
+				throw new BadRequestException(
+						"A recipient with this email is already registered for the event date slot.");
+			}
+		} else {
+			recipient = new EventRecipient();
+			populateEventRecipientFromDto(recipient, body);
+			recipient.setEventDateSlot(eventDateSlot);
+			eventDateSlot.getRecipients().add(recipient);
+		}
+
+		recipient.setStatus(RecipientStatus.PENDING);
+		this.updateRecipientStatus(eventDateSlot, recipient);
+		return eventRecipientRepository.save(recipient);
 
 	}
 
@@ -80,17 +89,48 @@ public class EventRecipientService {
 		case CONFIRMED, WAITING:
 			EventDateSlot eventDateSlot = eventDateSlotService.findById(eventRecipient.getEventDateSlot().getId());
 			eventRecipient.setStatus(RecipientStatus.UNSUBSCRIBED);
-			long confirmedCount = eventDateSlot.getRecipients().stream()
-					.filter(r -> r.getStatus() == RecipientStatus.CONFIRMED).mapToLong(r -> r.getNumber()).sum();
-			eventDateSlot.getRecipients().stream().filter(r -> r.getStatus() == RecipientStatus.WAITING).findFirst()
-					.ifPresent(waitingRecipient -> {
-						if (confirmedCount < eventDateSlot.getMaxParticipants()) {
-							waitingRecipient.setStatus(RecipientStatus.CONFIRMED);
-							eventRecipientRepository.save(waitingRecipient);
-						}
-					});
+			this.promoteFromWaitingList(eventDateSlot);
 			eventRecipientRepository.save(eventRecipient);
 			break;
+		}
+	}
+
+	// HELPER METHODS
+	private long confirmedCount(EventDateSlot eventDateSlot) {
+		return eventDateSlot.getRecipients().stream().filter(r -> r.getStatus() == RecipientStatus.CONFIRMED)
+				.mapToLong(r -> r.getNumber()).sum();
+	}
+
+	private void populateEventRecipientFromDto(EventRecipient recipient, EventRecipientRequestDto dto) {
+		recipient.setName(dto.getName());
+		recipient.setSurname(dto.getSurname());
+		recipient.setEmail(dto.getEmail());
+		recipient.setPhoneNumber(dto.getPhoneNumber());
+		recipient.setCity(dto.getCity());
+		recipient.setNumber(dto.getNumber());
+		recipient.setPrivacyAccepted(dto.isPrivacyAccepted());
+		recipient.setSubscribeToNewsletter(dto.isSubscribeToNewsletter());
+	}
+
+	private void updateRecipientStatus(EventDateSlot slot, EventRecipient recipient) {
+		long confirmedCount = slot.countParticipants();
+		recipient.setStatus(
+				confirmedCount < slot.getMaxParticipants() ? RecipientStatus.CONFIRMED : RecipientStatus.WAITING);
+	}
+
+	private void promoteFromWaitingList(EventDateSlot slot) {
+		long confirmedCount = slot.countParticipants();
+		List<EventRecipient> waitingRecipients = slot.getRecipients().stream()
+				.filter(r -> r.getStatus() == RecipientStatus.WAITING)
+				.sorted(Comparator.comparing(EventRecipient::getCreatedAt)).toList();
+		for (EventRecipient waiting : waitingRecipients) {
+			if (confirmedCount < slot.getMaxParticipants()) {
+				waiting.setStatus(RecipientStatus.CONFIRMED);
+				eventRecipientRepository.save(waiting);
+				confirmedCount += waiting.getNumber();
+			} else {
+				break;
+			}
 		}
 	}
 

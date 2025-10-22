@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Event.Event;
+import WebPage.ElenaFranconi.EventDateSlot.dto.EventDateSlotDto;
 import lombok.Data;
 
 @Data
@@ -19,9 +20,8 @@ public class EventDto {
 	private List<String> imagePaths;
 	private List<String> filePaths;
 	private List<String> videoPaths;
-	private List<LocalDate> eventDates;
+	private List<EventDateSlotDto> eventDateSlots;
 	private String location;
-	private int maxParticipants;
 	private UUID linkedCourseId;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
@@ -29,10 +29,10 @@ public class EventDto {
 	private LocalDate relevantDate;
 	private boolean archived;
 
-	private EventDto(UUID id, String title, String description, String coverImagePath, List<String> imagePaths,
-			List<String> filePaths, List<String> videoPaths, List<LocalDate> eventDates, String location,
-			int maxParticipants, UUID linkedCourseId, LocalDateTime createdAt, LocalDateTime updatedAt,
-			ContentStatus contentStatus, LocalDate relevantDate, boolean archived) {
+	public EventDto(UUID id, String title, String description, String coverImagePath, List<String> imagePaths,
+			List<String> filePaths, List<String> videoPaths, List<EventDateSlotDto> eventDateSlots, String location,
+			UUID linkedCourseId, LocalDateTime createdAt, LocalDateTime updatedAt, ContentStatus contentStatus,
+			LocalDate relevantDate, boolean archived) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
@@ -40,9 +40,8 @@ public class EventDto {
 		this.imagePaths = imagePaths;
 		this.filePaths = filePaths;
 		this.videoPaths = videoPaths;
-		this.eventDates = eventDates;
+		this.eventDateSlots = eventDateSlots;
 		this.location = location;
-		this.maxParticipants = maxParticipants;
 		this.linkedCourseId = linkedCourseId;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
@@ -52,12 +51,11 @@ public class EventDto {
 	}
 
 	public static EventDto fromEvent(Event event) {
+		List<EventDateSlotDto> dateSlotDtos = EventDateSlotDto.fromEventDateSlots(event.getDateSlots());
 		return new EventDto(event.getId(), event.getTitle(), event.getDescription(), event.getCoverImagePath(),
-				event.getImagePaths(), event.getFilePaths(), event.getVideoPaths(),
-				event.getDateSlots().stream().map(dateSlot -> dateSlot.getDate()).toList(), event.getLocation(),
-				event.getMaxParticipants(), event.getLinkedCourse() != null ? event.getLinkedCourse().getId() : null,
-				event.getCreatedAt(), event.getUpdatedAt(), event.getContentStatus(), event.calculateRelevantDate(),
-				event.isArchived());
+				event.getImagePaths(), event.getFilePaths(), event.getVideoPaths(), dateSlotDtos, event.getLocation(),
+				event.getLinkedCourse() != null ? event.getLinkedCourse().getId() : null, event.getCreatedAt(),
+				event.getUpdatedAt(), event.getContentStatus(), event.calculateRelevantDate(), event.isArchived());
 	}
 
 	public static List<EventDto> fromEventList(List<Event> events) {

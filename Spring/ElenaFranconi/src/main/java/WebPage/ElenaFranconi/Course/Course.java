@@ -7,6 +7,7 @@ import java.util.List;
 import WebPage.ElenaFranconi.Content.Content;
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Event.Event;
+import WebPage.ElenaFranconi.Recipients.RecipientStatus;
 import WebPage.ElenaFranconi.Recipients.CourseRecipient.CourseRecipient;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -58,6 +59,14 @@ public class Course extends Content {
 		}
 
 		return this.dateFrom;
+	}
+
+	public long countParticipants() {
+		return this.getRecipients().stream().filter(r -> r.getStatus() == RecipientStatus.CONFIRMED).count();
+	}
+
+	public boolean isFull() {
+		return countParticipants() >= this.getMaxParticipants();
 	}
 
 }

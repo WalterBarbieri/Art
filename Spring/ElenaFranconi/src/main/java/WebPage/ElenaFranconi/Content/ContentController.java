@@ -3,8 +3,10 @@ package WebPage.ElenaFranconi.Content;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import WebPage.ElenaFranconi.Content.dto.ContentDto;
@@ -32,11 +34,19 @@ public class ContentController {
 		return dtos;
 	}
 
-	@GetMapping("/default")
+	@GetMapping("/homepage")
 	public List<ContentDto> getTop4ActiveContentSorted() {
-		List<Content> contents = contentQueryService.findTop4ActiveSorted();
+		List<Content> contents = contentQueryService.findTop4ActiveContentSorted();
 		List<ContentDto> dtos = ContentDto.fromContentList(contents);
 		return dtos;
+	}
+
+	@GetMapping("/paged")
+	public Page<ContentDto> getActiveContentSortedPaged(@RequestParam(defaultValue = "0") int page,
+			@RequestParam(defaultValue = "10") int size) {
+		Page<Content> contentPage = contentQueryService.findActiveContentSortedPaged(page, size);
+
+		return contentPage.map(ContentDto::fromContent);
 	}
 
 }

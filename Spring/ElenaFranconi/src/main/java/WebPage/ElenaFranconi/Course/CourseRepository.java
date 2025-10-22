@@ -3,6 +3,8 @@ package WebPage.ElenaFranconi.Course;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,14 +17,58 @@ public interface CourseRepository extends JpaRepository<Course, UUID> {
 
 	List<Course> findByContentStatusAndArchived(ContentStatus contentStatus, boolean archived);
 
-	@Query("SELECT c FROM Course c WHERE c.archived = false ORDER BY " + "CASE WHEN c.contentStatus = 'ONGOING' THEN 1 "
-			+ "WHEN c.contentStatus = 'UPCOMING' THEN 2 " + "WHEN c.contentStatus = 'COMPLETED' THEN 3 END, "
-			+ "c.relevantDate ASC")
+	@Query("""
+			SELECT c FROM Course c
+			WHERE c.archived = false
+			ORDER BY
+			    CASE
+			        WHEN c.contentStatus = 'ONGOING' THEN 1
+			        WHEN c.contentStatus = 'UPCOMING' THEN 2
+			        WHEN c.contentStatus = 'COMPLETED' THEN 3
+			    END,
+			    CASE
+			        WHEN c.contentStatus IN ('ONGOING', 'UPCOMING') THEN c.relevantDate
+			    END ASC,
+			    CASE
+			        WHEN c.contentStatus = 'COMPLETED' THEN c.relevantDate
+			    END DESC
+			""")
 	List<Course> findAllActiveCoursesSorted();
 
-	@Query("SELECT c FROM Course c WHERE c.archived = false ORDER BY "
-			+ "CASE WHEN c.contentStatus = 'COMPLETED' THEN 1 " + "WHEN c.contentStatus = 'UPCOMING' THEN 2 "
-			+ "WHEN c.contentStatus = 'ONGOING' THEN 3 END, " + "c.relevantDate DESC")
+	@Query("""
+			SELECT c FROM Course c
+			WHERE c.archived = false
+			ORDER BY
+			    CASE
+			        WHEN c.contentStatus = 'COMPLETED' THEN 1
+			        WHEN c.contentStatus = 'UPCOMING' THEN 2
+			        WHEN c.contentStatus = 'ONGOING' THEN 3
+			    END,
+			    CASE
+			        WHEN c.contentStatus IN ('ONGOING', 'UPCOMING') THEN c.relevantDate
+			    END DESC,
+			    CASE
+			        WHEN c.contentStatus = 'COMPLETED' THEN c.relevantDate
+			    END ASC
+			""")
 	List<Course> findAllActiveCoursesSortedInv();
+
+	@Query("""
+			SELECT c FROM Course c
+			WHERE c.archived = false
+			ORDER BY
+			    CASE
+			        WHEN c.contentStatus = 'ONGOING' THEN 1
+			        WHEN c.contentStatus = 'UPCOMING' THEN 2
+			        WHEN c.contentStatus = 'COMPLETED' THEN 3
+			    END,
+			    CASE
+			        WHEN c.contentStatus IN ('ONGOING', 'UPCOMING') THEN c.relevantDate
+			    END ASC,
+			    CASE
+			        WHEN c.contentStatus = 'COMPLETED' THEN c.relevantDate
+			    END DESC
+			""")
+	Page<Course> findActiveCoursesSortedPaged(Pageable pageable);
 
 }

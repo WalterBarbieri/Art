@@ -3,6 +3,8 @@ package WebPage.ElenaFranconi.Event;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,14 +18,58 @@ public interface EventRepository extends JpaRepository<Event, UUID> {
 
 	List<Event> findByContentStatusAndArchived(ContentStatus contentStatus, boolean archived);
 
-	@Query("SELECT e FROM Event e WHERE e.archived = false ORDER BY " + "CASE WHEN e.contentStatus = 'ONGOING' THEN 1 "
-			+ "WHEN e.contentStatus = 'UPCOMING' THEN 2 " + "WHEN e.contentStatus = 'COMPLETED' THEN 3 END, "
-			+ "e.relevantDate ASC")
+	@Query("""
+			SELECT c FROM Event c
+			WHERE c.archived = false
+			ORDER BY
+			    CASE
+			        WHEN c.contentStatus = 'ONGOING' THEN 1
+			        WHEN c.contentStatus = 'UPCOMING' THEN 2
+			        WHEN c.contentStatus = 'COMPLETED' THEN 3
+			    END,
+			    CASE
+			        WHEN c.contentStatus IN ('ONGOING', 'UPCOMING') THEN c.relevantDate
+			    END ASC,
+			    CASE
+			        WHEN c.contentStatus = 'COMPLETED' THEN c.relevantDate
+			    END DESC
+			""")
 	List<Event> findAllActiveEventsSorted();
 
-	@Query("SELECT e FROM Event e WHERE e.archived = false ORDER BY "
-			+ "CASE WHEN e.contentStatus = 'COMPLETED' THEN 1 " + "WHEN e.contentStatus = 'UPCOMING' THEN 2 "
-			+ "WHEN e.contentStatus = 'ONGOING' THEN 3 END, " + "e.relevantDate DESC")
+	@Query("""
+			SELECT c FROM Event c
+			WHERE c.archived = false
+			ORDER BY
+			    CASE
+			        WHEN c.contentStatus = 'COMPLETED' THEN 1
+			        WHEN c.contentStatus = 'UPCOMING' THEN 2
+			        WHEN c.contentStatus = 'ONGOING' THEN 3
+			    END,
+			    CASE
+			        WHEN c.contentStatus IN ('ONGOING', 'UPCOMING') THEN c.relevantDate
+			    END DESC,
+			    CASE
+			        WHEN c.contentStatus = 'COMPLETED' THEN c.relevantDate
+			    END ASC
+			""")
 	List<Event> findAllActiveEventsSortedInv();
+
+	@Query("""
+			SELECT c FROM Event c
+			WHERE c.archived = false
+			ORDER BY
+			    CASE
+			        WHEN c.contentStatus = 'ONGOING' THEN 1
+			        WHEN c.contentStatus = 'UPCOMING' THEN 2
+			        WHEN c.contentStatus = 'COMPLETED' THEN 3
+			    END,
+			    CASE
+			        WHEN c.contentStatus IN ('ONGOING', 'UPCOMING') THEN c.relevantDate
+			    END ASC,
+			    CASE
+			        WHEN c.contentStatus = 'COMPLETED' THEN c.relevantDate
+			    END DESC
+			""")
+	Page<Event> findActiveEventsSortedPaged(Pageable pageable);
 
 }

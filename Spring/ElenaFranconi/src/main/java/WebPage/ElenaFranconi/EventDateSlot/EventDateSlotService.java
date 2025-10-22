@@ -24,7 +24,7 @@ public class EventDateSlotService {
 	@Transactional
 	public EventDateSlot createEventDateSlot(EventDateSlotRequestDto body) {
 		EventDateSlot eventDateSlot = new EventDateSlot();
-		Event event = eventService.findById(body.getEventId());
+		Event event = eventService.findEventById(body.getEventId());
 		eventDateSlot.setDate(body.getDate());
 		eventDateSlot.setMaxParticipants(body.getMaxParticipants());
 		eventDateSlot.setEvent(event);

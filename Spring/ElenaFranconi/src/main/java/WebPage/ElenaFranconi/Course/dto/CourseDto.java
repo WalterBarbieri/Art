@@ -23,6 +23,8 @@ public class CourseDto {
 	private LocalDate dateTo;
 	private String location;
 	private int maxParticipants;
+	private long confirmedParticipants;
+	private boolean full;
 	private UUID linkedEventId;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
@@ -30,10 +32,10 @@ public class CourseDto {
 	private LocalDate relevantDate;
 	private boolean archived;
 
-	private CourseDto(UUID id, String title, String description, String coverImagePath, List<String> imagePaths,
+	public CourseDto(UUID id, String title, String description, String coverImagePath, List<String> imagePaths,
 			List<String> filePaths, List<String> videoPaths, LocalDate dateFrom, LocalDate dateTo, String location,
-			int maxParticipants, UUID linkedEventId, LocalDateTime createdAt, LocalDateTime updatedAt,
-			ContentStatus contentStatus, LocalDate relevantDate, boolean archived) {
+			int maxParticipants, long confirmedParticipants, boolean full, UUID linkedEventId, LocalDateTime createdAt,
+			LocalDateTime updatedAt, ContentStatus contentStatus, LocalDate relevantDate, boolean archived) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
@@ -45,6 +47,8 @@ public class CourseDto {
 		this.dateTo = dateTo;
 		this.location = location;
 		this.maxParticipants = maxParticipants;
+		this.confirmedParticipants = confirmedParticipants;
+		this.full = full;
 		this.linkedEventId = linkedEventId;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
@@ -54,9 +58,11 @@ public class CourseDto {
 	}
 
 	public static CourseDto fromCourse(Course course) {
+		long confirmedParticipants = course.countParticipants();
+		boolean full = course.isFull();
 		return new CourseDto(course.getId(), course.getTitle(), course.getDescription(), course.getCoverImagePath(),
 				course.getImagePaths(), course.getFilePaths(), course.getVideoPaths(), course.getDateFrom(),
-				course.getDateTo(), course.getLocation(), course.getMaxParticipants(),
+				course.getDateTo(), course.getLocation(), course.getMaxParticipants(), confirmedParticipants, full,
 				course.getLinkedEvent() != null ? course.getLinkedEvent().getId() : null, course.getCreatedAt(),
 				course.getUpdatedAt(), course.getContentStatus(), course.calculateRelevantDate(), course.isArchived());
 	}
