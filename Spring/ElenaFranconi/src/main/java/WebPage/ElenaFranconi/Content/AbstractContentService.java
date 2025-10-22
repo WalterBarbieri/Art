@@ -81,6 +81,19 @@ public abstract class AbstractContentService<T extends Content> {
 		content.setRelevantDate(content.calculateRelevantDate());
 	}
 
+	protected void handlePressReviewImage(T content, MultipartFile pressReviewImage) {
+		UUID contentId = content.getId();
+
+		if (pressReviewImage != null && !pressReviewImage.isEmpty()) {
+			if (!isValidImage(pressReviewImage)) {
+				throw new IllegalArgumentException("Invalid image format for press review image");
+			}
+			String path = storageService.storeFile(pressReviewImage, contentId, FileType.PRESS_REVIEW);
+			// Assuming there's a method to set press review image path
+			// content.setPressReviewImagePath(normalizePath(path));
+		}
+	}
+
 	// VALIDATION METHODS
 	protected String normalizePath(String path) {
 		return path.replace("\\", "/");

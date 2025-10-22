@@ -2,7 +2,7 @@ package WebPage.ElenaFranconi.Storage;
 
 public enum FileType {
 
-	IMAGE("images"), FILE("files"), VIDEO("videos");
+	IMAGE("images"), FILE("files"), VIDEO("videos"), PRESS_REVIEW("press_review");
 
 	private final String directoryName;
 
@@ -19,6 +19,7 @@ public enum FileType {
 		case "image" -> IMAGE;
 		case "file" -> FILE;
 		case "video" -> VIDEO;
+		case "press_review" -> PRESS_REVIEW;
 		default -> throw new IllegalArgumentException("Unknown file type: " + type);
 		};
 	}

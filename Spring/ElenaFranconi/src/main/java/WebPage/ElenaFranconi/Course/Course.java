@@ -7,6 +7,7 @@ import java.util.List;
 import WebPage.ElenaFranconi.Content.Content;
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Event.Event;
+import WebPage.ElenaFranconi.PressReview.PressReview;
 import WebPage.ElenaFranconi.Recipients.RecipientStatus;
 import WebPage.ElenaFranconi.Recipients.CourseRecipient.CourseRecipient;
 import jakarta.persistence.CascadeType;
@@ -36,6 +37,9 @@ public class Course extends Content {
 	@OneToOne
 	@JoinColumn(name = "linked_event_id")
 	private Event linkedEvent;
+
+	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<PressReview> pressReviews = new ArrayList<>();
 
 	@Override
 	public ContentStatus calculateContentStatus() {

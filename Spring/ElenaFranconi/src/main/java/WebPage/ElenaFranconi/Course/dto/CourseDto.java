@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Course.Course;
+import WebPage.ElenaFranconi.PressReview.dto.PressReviewDto;
 import lombok.Data;
 
 @Data
@@ -31,40 +32,34 @@ public class CourseDto {
 	private ContentStatus contentStatus;
 	private LocalDate relevantDate;
 	private boolean archived;
-
-	public CourseDto(UUID id, String title, String description, String coverImagePath, List<String> imagePaths,
-			List<String> filePaths, List<String> videoPaths, LocalDate dateFrom, LocalDate dateTo, String location,
-			int maxParticipants, long confirmedParticipants, boolean full, UUID linkedEventId, LocalDateTime createdAt,
-			LocalDateTime updatedAt, ContentStatus contentStatus, LocalDate relevantDate, boolean archived) {
-		this.id = id;
-		this.title = title;
-		this.description = description;
-		this.coverImagePath = coverImagePath;
-		this.imagePaths = imagePaths;
-		this.filePaths = filePaths;
-		this.videoPaths = videoPaths;
-		this.dateFrom = dateFrom;
-		this.dateTo = dateTo;
-		this.location = location;
-		this.maxParticipants = maxParticipants;
-		this.confirmedParticipants = confirmedParticipants;
-		this.full = full;
-		this.linkedEventId = linkedEventId;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.contentStatus = contentStatus;
-		this.relevantDate = relevantDate;
-		this.archived = archived;
-	}
+	private List<PressReviewDto> pressReviews;
 
 	public static CourseDto fromCourse(Course course) {
 		long confirmedParticipants = course.countParticipants();
 		boolean full = course.isFull();
-		return new CourseDto(course.getId(), course.getTitle(), course.getDescription(), course.getCoverImagePath(),
-				course.getImagePaths(), course.getFilePaths(), course.getVideoPaths(), course.getDateFrom(),
-				course.getDateTo(), course.getLocation(), course.getMaxParticipants(), confirmedParticipants, full,
-				course.getLinkedEvent() != null ? course.getLinkedEvent().getId() : null, course.getCreatedAt(),
-				course.getUpdatedAt(), course.getContentStatus(), course.calculateRelevantDate(), course.isArchived());
+		CourseDto dto = new CourseDto();
+		dto.setId(course.getId());
+		dto.setTitle(course.getTitle());
+		dto.setDescription(course.getDescription());
+		dto.setCoverImagePath(course.getCoverImagePath());
+		dto.setImagePaths(course.getImagePaths());
+		dto.setFilePaths(course.getFilePaths());
+		dto.setVideoPaths(course.getVideoPaths());
+		dto.setDateFrom(course.getDateFrom());
+		dto.setDateTo(course.getDateTo());
+		dto.setLocation(course.getLocation());
+		dto.setMaxParticipants(course.getMaxParticipants());
+		dto.setConfirmedParticipants(confirmedParticipants);
+		dto.setFull(full);
+		dto.setLinkedEventId(course.getLinkedEvent() != null ? course.getLinkedEvent().getId() : null);
+		dto.setCreatedAt(course.getCreatedAt());
+		dto.setUpdatedAt(course.getUpdatedAt());
+		dto.setContentStatus(course.getContentStatus());
+		dto.setRelevantDate(course.calculateRelevantDate());
+		dto.setArchived(course.isArchived());
+		dto.setPressReviews(PressReviewDto.fromPressReviewList(course.getPressReviews()));
+
+		return dto;
 	}
 
 	public static List<CourseDto> fromCourseList(List<Course> courses) {

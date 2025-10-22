@@ -8,6 +8,7 @@ import WebPage.ElenaFranconi.Content.Content;
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Course.Course;
 import WebPage.ElenaFranconi.EventDateSlot.EventDateSlot;
+import WebPage.ElenaFranconi.PressReview.PressReview;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
@@ -29,6 +30,9 @@ public class Event extends Content {
 
 	@OneToOne(mappedBy = "linkedEvent")
 	private Course linkedCourse;
+
+	@OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<PressReview> pressReviews = new ArrayList<>();
 
 	@Override
 	public ContentStatus calculateContentStatus() {

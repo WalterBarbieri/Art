@@ -51,7 +51,7 @@ public class StorageController {
 			}
 
 			String dispositionType = switch (type) {
-			case IMAGE -> "inline";
+			case IMAGE, PRESS_REVIEW -> "inline";
 			case VIDEO -> "inline";
 			case FILE -> "attachment";
 			};

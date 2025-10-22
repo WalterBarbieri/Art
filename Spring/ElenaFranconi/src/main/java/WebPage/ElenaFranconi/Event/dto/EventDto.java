@@ -8,6 +8,7 @@ import java.util.UUID;
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Event.Event;
 import WebPage.ElenaFranconi.EventDateSlot.dto.EventDateSlotDto;
+import WebPage.ElenaFranconi.PressReview.dto.PressReviewDto;
 import lombok.Data;
 
 @Data
@@ -28,34 +29,28 @@ public class EventDto {
 	private ContentStatus contentStatus;
 	private LocalDate relevantDate;
 	private boolean archived;
-
-	public EventDto(UUID id, String title, String description, String coverImagePath, List<String> imagePaths,
-			List<String> filePaths, List<String> videoPaths, List<EventDateSlotDto> eventDateSlots, String location,
-			UUID linkedCourseId, LocalDateTime createdAt, LocalDateTime updatedAt, ContentStatus contentStatus,
-			LocalDate relevantDate, boolean archived) {
-		this.id = id;
-		this.title = title;
-		this.description = description;
-		this.coverImagePath = coverImagePath;
-		this.imagePaths = imagePaths;
-		this.filePaths = filePaths;
-		this.videoPaths = videoPaths;
-		this.eventDateSlots = eventDateSlots;
-		this.location = location;
-		this.linkedCourseId = linkedCourseId;
-		this.createdAt = createdAt;
-		this.updatedAt = updatedAt;
-		this.contentStatus = contentStatus;
-		this.relevantDate = relevantDate;
-		this.archived = archived;
-	}
+	private List<PressReviewDto> pressReviews;
 
 	public static EventDto fromEvent(Event event) {
 		List<EventDateSlotDto> dateSlotDtos = EventDateSlotDto.fromEventDateSlots(event.getDateSlots());
-		return new EventDto(event.getId(), event.getTitle(), event.getDescription(), event.getCoverImagePath(),
-				event.getImagePaths(), event.getFilePaths(), event.getVideoPaths(), dateSlotDtos, event.getLocation(),
-				event.getLinkedCourse() != null ? event.getLinkedCourse().getId() : null, event.getCreatedAt(),
-				event.getUpdatedAt(), event.getContentStatus(), event.calculateRelevantDate(), event.isArchived());
+		EventDto dto = new EventDto();
+		dto.setId(event.getId());
+		dto.setTitle(event.getTitle());
+		dto.setDescription(event.getDescription());
+		dto.setCoverImagePath(event.getCoverImagePath());
+		dto.setImagePaths(event.getImagePaths());
+		dto.setFilePaths(event.getFilePaths());
+		dto.setVideoPaths(event.getVideoPaths());
+		dto.setEventDateSlots(dateSlotDtos);
+		dto.setLocation(event.getLocation());
+		dto.setLinkedCourseId(event.getLinkedCourse() != null ? event.getLinkedCourse().getId() : null);
+		dto.setCreatedAt(event.getCreatedAt());
+		dto.setUpdatedAt(event.getUpdatedAt());
+		dto.setContentStatus(event.getContentStatus());
+		dto.setRelevantDate(event.calculateRelevantDate());
+		dto.setArchived(event.isArchived());
+		dto.setPressReviews(PressReviewDto.fromPressReviewList(event.getPressReviews()));
+		return dto;
 	}
 
 	public static List<EventDto> fromEventList(List<Event> events) {
