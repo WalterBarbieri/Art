@@ -4,12 +4,12 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import WebPage.ElenaFranconi.Event.Event;
 import WebPage.ElenaFranconi.Event.EventService;
 import WebPage.ElenaFranconi.EventDateSlot.dto.EventDateSlotRequestDto;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
-import jakarta.transaction.Transactional;
 
 @Service
 public class EventDateSlotService {
@@ -33,7 +33,7 @@ public class EventDateSlotService {
 	}
 
 	// GET METHODS
-	@Transactional
+	@Transactional(readOnly = true)
 	public EventDateSlot findById(UUID id) {
 		return eventDateSlotRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
 	}

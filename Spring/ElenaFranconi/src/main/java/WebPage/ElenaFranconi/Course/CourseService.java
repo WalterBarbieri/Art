@@ -8,13 +8,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import WebPage.ElenaFranconi.Content.AbstractContentService;
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Course.dto.CourseRequestDto;
 import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
-import jakarta.transaction.Transactional;
 
 @Service
 public class CourseService extends AbstractContentService<Course> {
@@ -29,37 +29,37 @@ public class CourseService extends AbstractContentService<Course> {
 	}
 
 	// GET METHODS
-	@Transactional
+	@Transactional(readOnly = true)
 	public Course findCourseById(UUID id) {
 		return courseRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Course> findAllCourse() {
 		return courseRepository.findAll();
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Course> findAllActiveCourse() {
 		return courseRepository.findByArchived(false);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Course> findCourseByContentStatusAndActive(ContentStatus contentStatus) {
 		return courseRepository.findByContentStatusAndArchived(contentStatus, false);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Course> findAllActiveCourseSorted() {
 		return courseRepository.findAllActiveCoursesSorted();
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Course> findAllActiveCourseSortedInv() {
 		return courseRepository.findAllActiveCoursesSortedInv();
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	Page<Course> findActiveCoursesSortedPaged(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		return courseRepository.findActiveCoursesSortedPaged(pageable);

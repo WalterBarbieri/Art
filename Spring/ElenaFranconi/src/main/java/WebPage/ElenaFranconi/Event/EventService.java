@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import WebPage.ElenaFranconi.Content.AbstractContentService;
 import WebPage.ElenaFranconi.Content.ContentStatus;
@@ -16,7 +17,6 @@ import WebPage.ElenaFranconi.Event.dto.EventRequestDto;
 import WebPage.ElenaFranconi.EventDateSlot.EventDateSlot;
 import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
-import jakarta.transaction.Transactional;
 
 @Service
 public class EventService extends AbstractContentService<Event> {
@@ -31,37 +31,37 @@ public class EventService extends AbstractContentService<Event> {
 	}
 
 	// GET METHODS
-	@Transactional
+	@Transactional(readOnly = true)
 	public Event findEventById(UUID id) {
 		return eventRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Event> findAllEvent() {
 		return eventRepository.findAll();
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Event> findAllActiveEvent() {
 		return eventRepository.findByArchived(false);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Event> findEventByContentStatusAndActive(ContentStatus contentStatus) {
 		return eventRepository.findByContentStatusAndArchived(contentStatus, false);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Event> findAllActiveEventSorted() {
 		return eventRepository.findAllActiveEventsSorted();
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Event> findAllActiveEventSortedInv() {
 		return eventRepository.findAllActiveEventsSortedInv();
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public Page<Event> findActiveEventSortedPaged(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		return eventRepository.findActiveEventsSortedPaged(pageable);

@@ -9,13 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import WebPage.ElenaFranconi.PressReview.dto.PressReviewDto;
 
 @RestController
-@RequestMapping("/api/press-reviews")
+@RequestMapping("/api/press-review")
 public class PressReviewController {
 
 	@Autowired
@@ -35,8 +36,8 @@ public class PressReviewController {
 
 	// POST METHODS
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public PressReviewDto createPressReview(@PathVariable UUID contentId, @PathVariable String url,
-			@PathVariable MultipartFile image) {
+	public PressReviewDto createPressReview(@RequestParam UUID contentId, @RequestParam String url,
+			@RequestParam MultipartFile image) {
 		PressReview pressReview = pressReviewService.createPressReview(contentId, url, image);
 		return PressReviewDto.fromPressReview(pressReview);
 	}

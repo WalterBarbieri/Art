@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
@@ -17,6 +18,9 @@ public class UserService {
 		this.ur = ur;
 	}
 
+	// POST METHODS
+
+	@Transactional
 	public User saveUser(UserRequestDto body) {
 		Boolean existingUser = ur.findByEmail(body.getEmail()).isPresent();
 
@@ -29,22 +33,29 @@ public class UserService {
 		}
 	}
 
+	// GET METHODS
+	@Transactional(readOnly = true)
 	public User findByEmail(String email) {
 		return ur.findByEmail(email).orElseThrow(() -> new NotFoundException(email));
 	}
 
+	@Transactional(readOnly = true)
 	public User findByUsername(String username) {
 		return ur.findByUsername(username).orElseThrow(() -> new NotFoundException(username));
 	}
 
+	@Transactional(readOnly = true)
 	public User findById(UUID id) {
 		return ur.findById(id).orElseThrow(() -> new NotFoundException(id.toString()));
 	}
 
+	@Transactional(readOnly = true)
 	public User getAuthenticatedUser(UserDetails userDetails) {
 		return this.findByUsername(userDetails.getUsername());
 	}
 
+	// DELETE METHODS
+	@Transactional
 	public void deleteUserById(UUID id) {
 		ur.deleteById(id);
 	}

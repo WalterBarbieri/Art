@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import WebPage.ElenaFranconi.Content.Content;
@@ -16,7 +17,6 @@ import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
 import WebPage.ElenaFranconi.Storage.FileType;
 import WebPage.ElenaFranconi.Storage.StorageService;
-import jakarta.transaction.Transactional;
 
 @Service
 public class PressReviewService {
@@ -58,18 +58,18 @@ public class PressReviewService {
 	}
 
 	// GET METHODS
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<PressReview> findPressReviewByCourseId(UUID courseId) {
 		return pressReviewRepository.findByCourseId(courseId);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<PressReview> findPressReviewByEventId(UUID eventId) {
 		return pressReviewRepository.findByEventId(eventId);
 	}
 
 	// VALIDATION METHODS
-	protected String normalizePath(String path) {
+	private String normalizePath(String path) {
 		return path.replace("\\", "/");
 	}
 

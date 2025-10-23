@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import WebPage.ElenaFranconi.Course.Course;
 import WebPage.ElenaFranconi.Course.CourseRepository;
@@ -15,7 +16,6 @@ import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
 import WebPage.ElenaFranconi.Recipients.RecipientStatus;
 import WebPage.ElenaFranconi.Recipients.CourseRecipient.dto.CourseRecipientRequestDto;
-import jakarta.transaction.Transactional;
 
 @Service
 public class CourseRecipientService {
@@ -28,12 +28,12 @@ public class CourseRecipientService {
 
 	// GET METHODS
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public CourseRecipient findById(UUID id) {
 		return courseRecipientRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<CourseRecipient> findAllByCourse(UUID courseId) {
 		Course course = courseRepository.findById(courseId).orElseThrow(() -> new NotFoundException(courseId));
 		return course.getRecipients();

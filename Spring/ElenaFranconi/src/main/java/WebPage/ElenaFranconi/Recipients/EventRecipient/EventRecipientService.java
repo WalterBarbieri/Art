@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import WebPage.ElenaFranconi.EventDateSlot.EventDateSlot;
 import WebPage.ElenaFranconi.EventDateSlot.EventDateSlotService;
@@ -15,7 +16,6 @@ import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
 import WebPage.ElenaFranconi.Recipients.RecipientStatus;
 import WebPage.ElenaFranconi.Recipients.EventRecipient.dto.EventRecipientRequestDto;
-import jakarta.transaction.Transactional;
 
 @Service
 public class EventRecipientService {
@@ -27,12 +27,12 @@ public class EventRecipientService {
 	public EventDateSlotService eventDateSlotService;
 
 	// GET METHODS
-	@Transactional
+	@Transactional(readOnly = true)
 	public EventRecipient findById(UUID id) {
 		return eventRecipientRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<EventRecipient> findAllByEventDateSlot(UUID eventDateSlotId) {
 		EventDateSlot eventDateSlot = eventDateSlotService.findById(eventDateSlotId);
 		return eventDateSlot.getRecipients();
@@ -96,10 +96,6 @@ public class EventRecipientService {
 	}
 
 	// HELPER METHODS
-	private long confirmedCount(EventDateSlot eventDateSlot) {
-		return eventDateSlot.getRecipients().stream().filter(r -> r.getStatus() == RecipientStatus.CONFIRMED)
-				.mapToLong(r -> r.getNumber()).sum();
-	}
 
 	private void populateEventRecipientFromDto(EventRecipient recipient, EventRecipientRequestDto dto) {
 		recipient.setName(dto.getName());

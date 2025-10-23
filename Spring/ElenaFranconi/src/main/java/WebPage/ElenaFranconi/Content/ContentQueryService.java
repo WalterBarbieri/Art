@@ -7,8 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import jakarta.transaction.Transactional;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ContentQueryService {
@@ -16,38 +15,38 @@ public class ContentQueryService {
 	private ContentRepository contentRepository;
 
 	// GET METHODS
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Content> findAllActiveContent() {
 		return contentRepository.findByArchived(false);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Content> findContentByContentStatusAndActive(ContentStatus contentStatus) {
 		return contentRepository.findByContentStatusAndArchived(contentStatus, false);
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Content> findAllContent() {
 		return contentRepository.findAll();
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Content> findAllActiveContentSorted() {
 		return contentRepository.findAllActiveContentSorted();
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Content> findAllActiveContentSortedInv() {
 		return contentRepository.findAllActiveContentSortedInv();
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Content> findTop4ActiveContentSorted() {
 		Page<Content> page = contentRepository.findActiceContentSortedPaged(PageRequest.of(0, 4));
 		return page.getContent();
 	}
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public Page<Content> findActiveContentSortedPaged(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
 		return contentRepository.findActiceContentSortedPaged(pageable);
