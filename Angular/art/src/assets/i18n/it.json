@@ -1,0 +1,43 @@
+{
+  "NAVBAR": {
+    "PROJECT": "PROGETTI",
+    "CONTACT": "CONTATTI"
+  },
+  "FOOTER": {
+    "CONTACT": "Contatti",
+    "PRIVATE": "Area Riservata",
+    "AUTHOR": "Sito web sviluppato da"
+  },
+  "title": {
+    "app": "Art Natura e Teatro",
+    "home": "Benvenuti in Art Natura e Teatro"
+  },
+  "meta": {
+    "app": {
+      "description": "INSERIRE DESCRIZIONE",
+      "author": "BWFullStackDeveloper",
+      "ogTitle": "Art Natura e Teatro",
+      "ogDescription": "INSERIRE DESCRIZIONE",
+      "ogImage": "URL IMMAGINE",
+      "ogUrl": "URL SITO",
+      "ogType": "website",
+      "twitterCard": "summary_large_image",
+      "twitterTitle": "Art Natura e Teatro",
+      "twitterDescription": "INSERIRE DESCRIZIONE",
+      "twitterImage": "URL IMMAGINE"
+    },
+    "home": {
+      "description": "INSERIRE DESCRIZIONE",
+      "author": "BWFullStackDeveloper",
+      "ogTitle": "Art Natura e Teatro",
+      "ogDescription": "INSERIRE DESCRIZIONE",
+      "ogImage": "URL IMMAGINE",
+      "ogUrl": "URL SITO",
+      "ogType": "website",
+      "twitterCard": "summary_large_image",
+      "twitterTitle": "Art Natura e Teatro",
+      "twitterDescription": "INSERIRE DESCRIZIONE",
+      "twitterImage": "URL IMMAGINE"
+    }
+  }
+}

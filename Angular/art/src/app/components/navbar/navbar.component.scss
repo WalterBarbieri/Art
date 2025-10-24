@@ -1,0 +1,152 @@
+// COLOR VARIABLES
+$text-primary: rgb(64, 176, 196);
+
+:host {
+  display: block;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  width: 100%;
+  height: fit-content;
+  color: $text-primary;
+}
+
+
+.navbarIcon {
+  width: 6em;
+}
+
+.navItem {
+  color: rgb(250, 250, 241);
+  font-weight: bold;
+
+}
+
+a {
+  color: $text-primary !important;
+}
+
+a.active {
+  text-decoration: underline;
+  text-decoration-thickness: 0.1em;
+  text-underline-offset: 0.2em;
+  color: $text-primary !important;
+
+}
+
+a.show {
+  color: $text-primary !important;
+}
+
+a.select {
+  color: $text-primary;
+}
+
+.languageSelect {
+  background-color: white;
+  color: $text-primary;
+  border: none;
+  width: auto;
+  cursor: pointer;
+}
+
+.languageSelect option {
+  background-color: white;
+  color: $text-primary;
+}
+
+.addCursor {
+  cursor: pointer;
+}
+
+.addUnderline:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 0.1em;
+  text-underline-offset: 0.2em;
+}
+
+.logoContainer {
+  text-align: center;
+  padding: 0;
+
+}
+
+.linkContainer {
+  text-align: center;
+  padding: 0;
+}
+
+.privateContainer {
+  text-align: center;
+  padding: 0;
+}
+
+.custom-toggler {
+  border: 2px solid $text-primary;
+  padding: 5px;
+  border-radius: 5px;
+  height: fit-content;
+}
+
+.custom-toggler_focus {
+  box-shadow: none;
+}
+
+.custom-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(64, 176, 196)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+}
+
+.custom-navbar-collapse {
+  position: fixed;
+  top: 7em;
+  left: 0.5em;
+  background-color: white;
+  z-index: 10;
+  border: solid;
+  border-color: rgb(64, 176, 196, 0.175);
+  border-width: 0.1rem;
+  width: fit-content;
+
+  @media (min-width: 350px) {
+    left: 1em;
+  }
+
+  @media (min-width: 450px) {
+    left: 2em;
+  }
+
+  @media (min-width: 550px) {
+    left: 3em;
+  }
+  @media (min-width: 650px) {
+    left: 4em;
+  }
+  @media (min-width: 750px) {
+    left: 5em;
+  }
+  @media (min-width: 850px) {
+    left: 6em;
+  }
+  @media (min-width: 950px) {
+    left: 7em;
+  }
+  @media (min-width: 992px) {
+
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: auto;
+    background-color: transparent;
+    border: none;
+
+    ul {
+      width: 100%;
+      li {
+        margin-bottom: 0;
+      }
+    }
+
+  }
+
+}

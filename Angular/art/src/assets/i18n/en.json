@@ -1,0 +1,43 @@
+{"NAVBAR": {
+    "PROJECT": "PROJECTS",
+    "CONTACT": "CONTACTS"
+  },
+  "FOOTER": {
+    "CONTACT": "Contacts",
+    "PRIVATE": "Private Area",
+    "AUTHOR": "Website developed by"
+  },
+  "title": {
+    "app": "Art Nature and Theatre",
+    "home": "Welcome to Art Nature and Theatre"
+  },
+  "meta": {
+    "app": {
+      "description": "Official website of Art Nature and Theatre - Discover our artistic performances combining nature and theatrical arts",
+      "author": "BWFullStackDeveloper",
+      "ogTitle": "Art Nature and Theatre",
+      "ogDescription": "Official website of Art Nature and Theatre - Discover our artistic performances combining nature and theatrical arts",
+      "ogImage": "IMAGE URL",
+      "ogUrl": "SITE URL",
+      "ogType": "website",
+      "twitterCard": "summary_large_image",
+      "twitterTitle": "Art Nature and Theatre",
+      "twitterDescription": "Official website of Art Nature and Theatre - Discover our artistic performances combining nature and theatrical arts",
+      "twitterImage": "IMAGE URL"
+    },
+    "home": {
+      "description": "Welcome to Art Nature and Theatre - Explore our unique artistic world that combines natural beauty with theatrical performances",
+      "keywords": "art, nature, theatre, performances, shows, artistic, culture, entertainment",
+      "author": "BWFullStackDeveloper",
+      "ogTitle": "Art Nature and Theatre - Home",
+      "ogDescription": "Welcome to Art Nature and Theatre - Explore our unique artistic world that combines natural beauty with theatrical performances",
+      "ogImage": "IMAGE URL",
+      "ogUrl": "SITE URL",
+      "ogType": "website",
+      "twitterCard": "summary_large_image",
+      "twitterTitle": "Art Nature and Theatre - Home",
+      "twitterDescription": "Welcome to Art Nature and Theatre - Explore our unique artistic world that combines natural beauty with theatrical performances",
+      "twitterImage": "IMAGE URL"
+    }
+  }
+}

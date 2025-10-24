@@ -1,3 +1,7 @@
+// COLOR VARIABLES
+$bg-primary: white;
+$text-primary: #212B31;
+
 html, body {
   height: 100%;
   margin: 0;
@@ -6,8 +10,8 @@ html, body {
 }
 
 body {
-  background-color: #fafaf1;
-  color: #212B31;
+  background-color: $bg-primary;
+  color: $text-primary;
   font-family: "Noto Sans", sans-serif;
   flex: 1;
 }
@@ -26,7 +30,7 @@ button {
 }
 
 input {
-  background-color: #fafaf1 !important;
+  background-color: $bg-primary !important;
   margin-bottom: 1em;
   border: none !important;
   border-bottom: solid 1px !important;
@@ -34,7 +38,7 @@ input {
   border-color: #1A1A1A !important;
 
   &:focus {
-      background-color: #fafaf1 !important;
+      background-color: $bg-primary !important;
   }
 }
 
@@ -95,15 +99,15 @@ a {
 }
 
 .mySelect {
-  background-color: #fafaf1;
-  color: #212B31;
+  background-color: $bg-primary;
+  color: $text-primary;
   border: none;
   width: auto;
   cursor: pointer;
 }
 
 option {
-  background-color: #fafaf1;
+  background-color: $bg-primary;
 }
 
 .smallIcon {

@@ -1,9 +1,110 @@
 <nav class="navbar navbar-expand-lg">
   <div class="row align-items-center w-100 m-0">
-    <div class="col-4 logoContainer">
+    <div class="col-4 col-lg-3 order-2 order-lg-1 logoContainer">
       <a class="navbar-brand" routerLink="/">
-        <img src="assets/logo.png" alt="Art Gallery Logo" class="logo-image">
+        <img
+          [src]="logoPath"
+          alt="Art Logo"
+          class="navbarIcon"
+        />
       </a>
     </div>
 
+    <div class="col-4 col-lg-6 order-1 order-lg-2 linkContainer">
+      <button
+        class="navbar-toggler custom-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+        (click)="toggleHamburgerMenu()"
+        [class.isActive]="isOpen"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div
+        class="collapse navbar-collapse custom-navbar-collapse"
+        id="navbarNav"
+      >
+        <ul
+          class="navbar-nav d-flex justify-content-center justify-content-lg-evenly mx-2 mx-lg-0"
+        >
+          <li class="nav-item">
+            <a
+              [routerLink]="['/']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              class="nav-link navItem"
+              (click)="toggleHamburgerMenu()"
+            >
+              HOME
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              [routerLink]="['/info']"
+              routerLinkActive="active"
+              class="nav-link navItem"
+              (click)="toggleHamburgerMenu()"
+            >
+              INFO
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              [routerLink]="['/projects']"
+              routerLinkActive="active"
+              class="nav-link navItem"
+              (click)="toggleHamburgerMenu()"
+            >
+              {{ 'NAVBAR.PROJECT' | translate }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              [routerLink]="['/bio']"
+              routerLinkActive="active"
+              class="nav-link navItem"
+              (click)="toggleHamburgerMenu()"
+            >
+              BIO
+            </a>
+          </li>
+          <li class="nav-item">
+            <a
+              [routerLink]="['/contacts']"
+              routerLinkActive="active"
+              class="nav-link navItem"
+              (click)="toggleHamburgerMenu()"
+            >
+              {{ 'NAVBAR.CONTACT' | translate }}
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-4 col-lg-3 order-3 privateContainer">
+      <div class="d-flex flex-column">
+        <div class="d-flex align-items-center justify-content-center">
+          <i
+            class="fa-solid fa-globe me-1 d-none d-sm-block fs-5"
+            aria-label="Language selector"
+          ></i>
+          <select
+            name="languageSelect"
+            id="languageSelect"
+            (change)="onLanguageChange($event)"
+            [value]="selectedLanguage"
+            class="form-select languageSelect"
+            (click)="closeHamburgerMenu()"
+          >
+            <option value="it">{{ isLargeScreen ? 'Italiano' : 'IT' }}</option>
+            <option value="en">{{ isLargeScreen ? 'English' : 'EN' }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
   </div>
+</nav>
