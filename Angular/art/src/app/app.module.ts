@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -15,6 +15,10 @@ import { ContactComponent } from './components/contact/contact.component';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { LoginComponent } from './auth/login/login.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
+import { ErrorComponent } from './components/error/error.component';
+import { AuthService } from './auth/auth.service';
+import { AuthGuard } from './auth/auth.guard';
+import { TokenInterceptor } from './auth/token.interceptor';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
@@ -30,7 +34,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     BioComponent,
     ContactComponent,
     LoginComponent,
-    PrivacyComponent
+    PrivacyComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -44,7 +49,11 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       }
     })
   ],
-  providers: [],
+  providers: [
+    AuthService,
+    AuthGuard,
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

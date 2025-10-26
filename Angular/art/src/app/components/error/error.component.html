@@ -1,0 +1,10 @@
+<div class="container-fluid py-5 text-center">
+  <div *ngIf="errorService.errorMessage$ | async as errorMessage">
+    <h2 class="mb-5">{{ 'ERROR.TITLE' | translate }}</h2>
+    <h5>{{ errorMessage | translate }}</h5>
+  </div>
+  <div *ngIf="!(errorService.errorMessage$ | async)">
+    <h2 class="mb-5">{{ 'ERROR.TITLE' | translate }}</h2>
+    <h5>{{ 'ERROR.DEFAULT' | translate }}</h5>
+  </div>
+</div>

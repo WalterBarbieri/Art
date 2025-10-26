@@ -7,6 +7,7 @@ import { BioComponent } from './components/bio/bio.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { LoginComponent } from './auth/login/login.component';
+import { ErrorComponent } from './components/error/error.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,10 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
+  },
+  {
+    path: 'error',
+    component: ErrorComponent
   }
 ];
 

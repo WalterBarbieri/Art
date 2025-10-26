@@ -7,6 +7,18 @@
     "PRIVATE": "Private Area",
     "AUTHOR": "Website developed by"
   },
+  "GUARD": {
+    "NOT_AUTHORIZED": "You are not authorized to view this content",
+    "NOT_AUTHENTICATED": "You cannot access this content without logging in"
+  },
+  "ERROR": {
+    "TITLE": "Oops! Something went wrong",
+    "DEFAULT": "An unexpected error occurred",
+    "NETWORK": "Network error",
+    "UNAUTHORIZED": "Unauthorized access",
+    "NOT_FOUND": "Resource not found",
+    "LOGIN_FAILED": "Invalid email or password"
+  },
   "title": {
     "app": "Art Nature and Theatre",
     "home": "Welcome to Art Nature and Theatre"

@@ -93,6 +93,6 @@ export class AuthService {
 
   hasRole(role: string): boolean {
     const userData = this.authSubj.value;
-    return userData ? userData.userTokenResponse.ruolo === role : false;
+    return userData ? userData.userTokenResponse.role === role : false;
   }
 }

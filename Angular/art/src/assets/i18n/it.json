@@ -8,6 +8,18 @@
     "PRIVATE": "Area Riservata",
     "AUTHOR": "Sito web sviluppato da"
   },
+  "GUARD": {
+    "NOT_AUTHORIZED": "Non sei autorizzato a vedere questo contenuto",
+    "NOT_AUTHENTICATED": "Non puoi accedere a questo contenuto senza effettuare il login"
+  },
+  "ERROR": {
+    "TITLE": "Oops! Qualcosa è andato storto",
+    "DEFAULT": "Si è verificato un errore imprevisto",
+    "NETWORK": "Errore di connessione",
+    "UNAUTHORIZED": "Accesso non autorizzato",
+    "NOT_FOUND": "Risorsa non trovata",
+    "LOGIN_FAILED": "Email o password non corretti"
+  },
   "title": {
     "app": "Art Natura e Teatro",
     "home": "Benvenuti in Art Natura e Teatro"
