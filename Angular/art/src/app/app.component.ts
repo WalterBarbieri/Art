@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { LanguageService } from './service/language.service';
 import { MetaService } from './service/meta.service';
+import { StaticAssetService } from './service/static-asset.service';
 
 @Component({
   selector: 'app-root',
@@ -12,12 +13,12 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'art';
   private languageSubscription: Subscription = new Subscription();
 
-  constructor(private languageService: LanguageService, private metaService: MetaService) {}
+  constructor(private languageService: LanguageService, private metaService: MetaService, private staticAssetService: StaticAssetService) {}
 
   ngOnInit(): void {
     this.updateMetaTags();
     this.setupLanguageSubscription();
-
+    this.preloadAssets();
   }
   ngOnDestroy(): void {
     this.languageSubscription.unsubscribe();
@@ -32,5 +33,9 @@ export class AppComponent implements OnInit, OnDestroy {
     this.languageSubscription = this.languageService.language$.subscribe(() => {
       this.updateMetaTags();
     });
+  }
+
+  private preloadAssets() {
+    this.staticAssetService.preloadCriticalAssets(['logo', 'fallback_image', 'home_banner']);
   }
 }

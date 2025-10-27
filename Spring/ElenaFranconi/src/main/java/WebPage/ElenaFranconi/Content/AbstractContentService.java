@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Storage.FileType;
 import WebPage.ElenaFranconi.Storage.StorageService;
 
@@ -26,7 +27,7 @@ public abstract class AbstractContentService<T extends Content> {
 
 		if (coverImage != null && !coverImage.isEmpty()) {
 			if (!isValidImage(coverImage)) {
-				throw new IllegalArgumentException("Invalid image format for cover image");
+				throw new BadRequestException("Invalid image format for cover image");
 			}
 			String path = storageService.storeFile(coverImage, contentId, FileType.IMAGE);
 			content.setCoverImagePath(normalizePath(path));
@@ -36,7 +37,7 @@ public abstract class AbstractContentService<T extends Content> {
 			for (MultipartFile image : images) {
 				if (image != null && !image.isEmpty()) {
 					if (!isValidImage(image)) {
-						throw new IllegalArgumentException("Invalid image format");
+						throw new BadRequestException("Invalid image format");
 					}
 					String path = storageService.storeFile(image, contentId, FileType.IMAGE);
 					content.getImagePaths().add(normalizePath(path));
@@ -48,7 +49,7 @@ public abstract class AbstractContentService<T extends Content> {
 			for (MultipartFile file : files) {
 				if (file != null && !file.isEmpty()) {
 					if (!isValidFile(file)) {
-						throw new IllegalArgumentException("Invalid file format");
+						throw new BadRequestException("Invalid file format");
 					}
 					String path = storageService.storeFile(file, contentId, FileType.FILE);
 					content.getFilePaths().add(normalizePath(path));
@@ -60,7 +61,7 @@ public abstract class AbstractContentService<T extends Content> {
 			for (MultipartFile video : videos) {
 				if (video != null && !video.isEmpty()) {
 					if (!isValidVideo(video)) {
-						throw new IllegalArgumentException("Invalid video format");
+						throw new BadRequestException("Invalid video format");
 					}
 					String path = storageService.storeFile(video, contentId, FileType.VIDEO);
 					content.getVideoPaths().add(normalizePath(path));

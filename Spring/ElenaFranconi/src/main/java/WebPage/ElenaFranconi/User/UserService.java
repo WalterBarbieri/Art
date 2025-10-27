@@ -46,7 +46,7 @@ public class UserService {
 
 	@Transactional(readOnly = true)
 	public User findById(UUID id) {
-		return ur.findById(id).orElseThrow(() -> new NotFoundException(id.toString()));
+		return ur.findById(id).orElseThrow(() -> new NotFoundException(id));
 	}
 
 	@Transactional(readOnly = true)

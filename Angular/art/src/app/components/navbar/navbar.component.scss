@@ -1,5 +1,4 @@
-// COLOR VARIABLES
-$text-primary: rgb(64, 176, 196);
+@import 'variables';
 
 :host {
   display: block;
@@ -8,7 +7,8 @@ $text-primary: rgb(64, 176, 196);
   z-index: 10;
   width: 100%;
   height: fit-content;
-  color: $text-primary;
+  color: $dark-cyan;
+  background-color: $white;
 }
 
 
@@ -23,28 +23,28 @@ $text-primary: rgb(64, 176, 196);
 }
 
 a {
-  color: $text-primary !important;
+  color: $dark-cyan !important;
 }
 
 a.active {
   text-decoration: underline;
   text-decoration-thickness: 0.1em;
   text-underline-offset: 0.2em;
-  color: $text-primary !important;
+  color: $dark-cyan !important;
 
 }
 
 a.show {
-  color: $text-primary !important;
+  color: $dark-cyan !important;
 }
 
 a.select {
-  color: $text-primary;
+  color: $dark-cyan;
 }
 
 .languageSelect {
   background-color: white;
-  color: $text-primary;
+  color: $dark-cyan;
   border: none;
   width: auto;
   cursor: pointer;
@@ -52,7 +52,7 @@ a.select {
 
 .languageSelect option {
   background-color: white;
-  color: $text-primary;
+  color: $dark-cyan;
 }
 
 .addCursor {
@@ -82,7 +82,7 @@ a.select {
 }
 
 .custom-toggler {
-  border: 2px solid $text-primary;
+  border: 2px solid $dark-cyan;
   padding: 5px;
   border-radius: 5px;
   height: fit-content;

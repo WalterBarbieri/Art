@@ -1,1 +1,76 @@
-<p>login works!</p>
+<div class="loginBody m-0 p-0">
+  <div class="text-center my-3">
+    <h2>{{ "LOGIN.TITLE" | translate }}</h2>
+    <h5>{{ "LOGIN.SUBTITLE" | translate }}</h5>
+  </div>
+  <div class="card mx-5">
+    <div class="card-body">
+      <div class="card-title text-center">
+        <h2>{{ "LOGIN.LOGIN" | translate }}</h2>
+      </div>
+      <form class="card-text" #form="ngForm" (submit)="login(form)">
+        <input
+          type="email"
+          name="email"
+          id="email"
+          class="form-control"
+          placeholder="Email"
+          required
+          ngModel
+        />
+        <div class="input-group mb-3">
+          <input
+            [type]="showPassword ? 'text' : 'password'"
+            name="password"
+            id="password"
+            class="form-control mb-0"
+            placeholder="Password"
+            required
+            ngModel
+          />
+          <button type="button" class="btn" (click)="togglePassword()">
+            <span [innerHTML]="passwordIcon"></span>
+          </button>
+        </div>
+
+        <div
+          class="d-flex flex-column flex-lg-row justify-content-center align-items-center"
+        >
+          <button
+            type="submit"
+            class="btn btn-primary my-2 me-2 submitButton"
+            [disabled]="form.invalid"
+          >
+            Login
+          </button>
+          <a [routerLink]="['/']" class="text-danger fw-normal">{{
+            "LOGIN.PASSWORD_FORGOTTEN" | translate
+          }}</a>
+        </div>
+      </form>
+    </div>
+    <div *ngIf="error" class="alertContainer mb-4">
+      <div
+        class="alert alert-danger d-flex justify-content-between align-items-center"
+        role="alert"
+        *ngIf="showAlert"
+      >
+        {{ error }}
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="close"
+          (click)="chiudiAlert()"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="showToast">
+  <ngb-toast class="top-0 end-0 loginToast" [autohide]="true">
+    <div class="toast-header">
+      <h6 class="me-auto">{{ toastMessage }}</h6>
+      <button type="button" class="btn-close" (click)="chiudiToast()"></button>
+    </div>
+  </ngb-toast>
+</div>

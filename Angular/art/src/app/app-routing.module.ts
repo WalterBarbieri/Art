@@ -8,6 +8,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { LoginComponent } from './auth/login/login.component';
 import { ErrorComponent } from './components/error/error.component';
+import { LoggedUserGuard } from './core/guards/logged-user.guard';
 
 const routes: Routes = [
   {
@@ -37,7 +38,8 @@ const routes: Routes = [
   },
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent,
+    canActivate: [LoggedUserGuard]
   },
   {
     path: 'error',

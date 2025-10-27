@@ -1,12 +1,10 @@
-// COLOR VARIABLES
-$bg-primary: rgb(142, 64, 15);
-$text-primary: rgb(127, 203, 216);
+@import 'variables';
 
 .footer {
-  background-color: $bg-primary;
-  color: $text-primary;
+  background-color: $brown;
+  color: $white;
   a {
-    color: $text-primary;
+    color: $white;
   }
 
   min-height: 3em;

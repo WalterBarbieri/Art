@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject, catchError, tap, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { AuthData } from './auth.interface';
+import { BehaviorSubject, tap } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { AuthData } from '../../auth/auth.interface';
 import { Router } from '@angular/router';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +19,9 @@ export class AuthService {
   timerLogout: any;
   errorMessage: string = '';
 
-  constructor(private HttpClient: HttpClient, private router: Router) {}
+  constructor(private HttpClient: HttpClient, private router: Router) {
+    this.restore();
+  }
 
   login(data: { email: string; password: string }) {
     return this.HttpClient.post<AuthData>(
@@ -31,13 +33,6 @@ export class AuthService {
         this.utente = data;
         localStorage.setItem('user', JSON.stringify(data));
         this.autoLogout(data);
-      }),
-      catchError((error: any) => {
-        if (error instanceof HttpErrorResponse) {
-          this.errorMessage = error.error;
-          return throwError(() => error);
-        }
-        return throwError(() => new Error('An unknown error occurred'));
       })
     );
   }

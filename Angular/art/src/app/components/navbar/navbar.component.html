@@ -87,6 +87,13 @@
     </div>
     <div class="col-4 col-lg-3 order-3 privateContainer">
       <div class="d-flex flex-column">
+        <div *ngIf="user" id="userLogged" class="d-flex align-items-center justify-content-center mb-2">
+            <small class="d-none d-md-block pe-md-3 pb-1" >{{user.userTokenResponse.username}}</small>
+            <div (click)="openModal()" (click)="closeHamburgerMenu()">
+              <i class="fa-solid fa-user-circle fs-4 addCursor" ></i>
+            </div>
+
+          </div>
         <div class="d-flex align-items-center justify-content-center">
           <i
             class="fa-solid fa-globe me-1 d-none d-sm-block fs-5"
@@ -108,3 +115,34 @@
     </div>
   </div>
 </nav>
+
+<ng-template #navbarModal>
+  <div class="modal-header">
+    <h1 class="modal-title fs-5 pt-1" id="navbarModalLabel">
+      {{ "NAVBAR.MODAL.TITLE" | translate }} <br />
+      {{ user?.userTokenResponse?.username }}
+    </h1>
+    <button
+      type="button"
+      class="btn-close ms-2"
+      aria-label="Close"
+      (click)="closeModal()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <h2
+      class="fs-5 addCursor addUnderline"
+      [routerLink]="['/userpage']"
+      (click)="closeModal()"
+    >
+      {{ "NAVBAR.MODAL.MY_ACCOUNT" | translate }}
+    </h2>
+    <hr />
+    <h2
+      class="fs-5 addCursor addUnderline text-danger"
+      (click)="logout(); closeModal()"
+    >
+      Logout
+    </h2>
+  </div>
+</ng-template>

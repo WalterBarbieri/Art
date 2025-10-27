@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -16,9 +16,9 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { LoginComponent } from './auth/login/login.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { ErrorComponent } from './components/error/error.component';
-import { AuthService } from './auth/auth.service';
-import { AuthGuard } from './auth/auth.guard';
-import { TokenInterceptor } from './auth/token.interceptor';
+import { LoaderComponent } from './components/loader/loader.component';
+import { SharedModule } from './shared/shared.module';
+import { CoreModule } from './core/core.module';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
@@ -35,7 +35,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     ContactComponent,
     LoginComponent,
     PrivacyComponent,
-    ErrorComponent
+    ErrorComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -47,13 +48,11 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
+    SharedModule,
+    CoreModule
   ],
-  providers: [
-    AuthService,
-    AuthGuard,
-    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

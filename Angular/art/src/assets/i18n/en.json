@@ -1,11 +1,22 @@
 {"NAVBAR": {
     "PROJECT": "PROJECTS",
-    "CONTACT": "CONTACTS"
+    "CONTACT": "CONTACTS",
+    "MODAL":
+    {
+      "TITLE": "Welcome",
+      "MY_ACCOUNT": "My Account"
+    }
   },
   "FOOTER": {
     "CONTACT": "Contacts",
     "PRIVATE": "Private Area",
     "AUTHOR": "Website developed by"
+  },
+  "LOGIN": {
+    "TITLE": "Private Area Login",
+    "SUBTITLE": "This area is reserved for administrators",
+    "LOGIN": "Login",
+    "PASSWORD_FORGOTTEN": "Forgot Password?"
   },
   "GUARD": {
     "NOT_AUTHORIZED": "You are not authorized to view this content",
@@ -13,11 +24,22 @@
   },
   "ERROR": {
     "TITLE": "Oops! Something went wrong",
-    "DEFAULT": "An unexpected error occurred",
     "NETWORK": "Network error",
     "UNAUTHORIZED": "Unauthorized access",
     "NOT_FOUND": "Resource not found",
-    "LOGIN_FAILED": "Invalid email or password"
+    "NOT_FOUND_WITH_ID": "not found",
+    "FORBIDDEN": "Access forbidden",
+    "BAD_REQUEST": "Invalid request",
+    "VALIDATION": "Validation error",
+    "TOKEN_INVALID": "Invalid or expired token",
+    "GENERIC": "A server error occurred",
+    "UNKNOWN": "Unknown error",
+    "CREDENTIAL": "Invalid credentials, please check your email and password"
+  },
+  "VALIDATION": {
+    "PRIVACY_REQUIRED": "Privacy policy acceptance is required",
+    "LIABILITY_REQUIRED": "Liability release acceptance is required",
+    "PHOTO_CONSENT_REQUIRED": "Photo and video consent is required"
   },
   "title": {
     "app": "Art Nature and Theatre",

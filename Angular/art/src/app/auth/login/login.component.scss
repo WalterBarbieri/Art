@@ -1,0 +1,35 @@
+@import 'variables';
+.loginBody{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 25em;
+}
+.card {
+    border: none;
+    background-color: $white;
+}
+
+.loginToast {
+  position: fixed;
+  top: 8em;
+  right: 1em;
+  z-index: 100;
+  width: auto;
+  background-color: #93f796;
+  .toast-header {
+      background-color: #93f796;
+      h6 {
+          color: #1A1A1A;
+      }
+  }
+}
+
+.submitButton {
+    width: fit-content;
+}
+
+.alertContainer {
+    width: fit-content;
+}

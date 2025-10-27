@@ -5,8 +5,14 @@ import {
   HostListener,
   OnInit,
   OnDestroy,
+  ViewChild,
+  TemplateRef,
 } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
+import { AuthData } from 'src/app/auth/auth.interface';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
 import { LanguageService } from 'src/app/service/language.service';
 import { StaticAssetService } from 'src/app/service/static-asset.service';
 
@@ -21,15 +27,27 @@ export class NavbarComponent implements OnInit, OnDestroy {
   logoPath: string = '';
   selectedLanguage!: string;
   private languageSubscription: Subscription = new Subscription();
+  user!: AuthData | null;
+  isModalOpen: boolean = false;
+
+  private modalRef!: NgbModalRef | null;
+
+  @ViewChild('userIcon') userIcon!: ElementRef;
+  @ViewChild('navbarModal') navbarModal!: ElementRef;
 
   constructor(
     private cdr: ChangeDetectorRef,
     private elementRef: ElementRef,
     private staticAssetService: StaticAssetService,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private authService: AuthService,
+    private modalService: NgbModal,
+    private loaderService: LoaderService
   ) {}
 
   ngOnInit(): void {
+    this.rechargeUser();
+
     this.languageSubscription = this.languageService.language$.subscribe((lang) => {
       this.selectedLanguage = lang;
     });
@@ -88,6 +106,47 @@ export class NavbarComponent implements OnInit, OnDestroy {
   onLanguageChange(event: Event) {
     const language = (event.target as HTMLSelectElement).value;
     this.languageService.setLanguage(language);
+  }
+
+  openModal() {
+    this.modalRef = this.modalService.open(this.navbarModal, {
+      backdrop: 'static',
+      keyboard: false,
+    });
+    this.modalRef.result.then(
+      () => {
+        this.isModalOpen = false;
+      },
+      () => {
+        this.isModalOpen = false;
+      }
+    );
+    this.isModalOpen = true;
+  }
+
+  closeModal() {
+    if (this.modalRef) {
+      this.modalRef.close();
+    }
+  }
+
+  rechargeUser() {
+    this.loaderService.show();
+    this.authService.user$.subscribe((_user) => {
+      this.user = _user;
+      this.loaderService.hide();
+    });
+  }
+
+  logout() {
+    this.authService.logout();
+  }
+
+  onModalClose() {
+    this.isModalOpen = false;
+    if (this.userIcon) {
+      this.userIcon.nativeElement.focus();
+    }
   }
 
 }

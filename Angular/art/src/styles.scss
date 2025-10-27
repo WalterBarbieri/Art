@@ -1,6 +1,4 @@
-// COLOR VARIABLES
-$bg-primary: white;
-$text-primary: #212B31;
+@import 'variables';
 
 html, body {
   height: 100%;
@@ -10,8 +8,8 @@ html, body {
 }
 
 body {
-  background-color: $bg-primary;
-  color: $text-primary;
+  background-color: $white;
+  color: $dark-gray;
   font-family: "Noto Sans", sans-serif;
   flex: 1;
 }
@@ -30,7 +28,7 @@ button {
 }
 
 input {
-  background-color: $bg-primary !important;
+  background-color: $white !important;
   margin-bottom: 1em;
   border: none !important;
   border-bottom: solid 1px !important;
@@ -38,46 +36,9 @@ input {
   border-color: #1A1A1A !important;
 
   &:focus {
-      background-color: $bg-primary !important;
+      background-color: $white !important;
   }
 }
-
-.button {
-  background-color: #5cb95fd8;
-  color: #1A1A1A;
-  border: none;
-  transition: all 0.2s !important;
-  &:disabled {
-      background-color: #93f796;
-      color: #1A1A1A;
-  }
-  &:hover {
-      background-color: #5cb95fd8;
-      color: #1A1A1A;
-      text-decoration: underline;
-      text-decoration-thickness: 0.1em;
-      text-underline-offset: 0.2em;
-  }
-}
-
-.redButton {
-  background-color: #e91414d8;
-  color: #1A1A1A;
-  border: none;
-  transition: all 0.2s !important;
-  &:disabled {
-      background-color: #df5757d8;
-      color: #1A1A1A;
-  }
-  &:hover {
-      background-color: #e91414d8;
-      color: #1A1A1A;
-      text-decoration: underline;
-      text-decoration-thickness: 0.1em;
-      text-underline-offset: 0.2em;
-  }
-}
-
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -99,15 +60,15 @@ a {
 }
 
 .mySelect {
-  background-color: $bg-primary;
-  color: $text-primary;
+  background-color: $white;
+  color: $dark-gray;
   border: none;
   width: auto;
   cursor: pointer;
 }
 
 option {
-  background-color: $bg-primary;
+  background-color: $white;
 }
 
 .smallIcon {
@@ -128,8 +89,8 @@ option {
   right: 1em;
 }
 .modal-content {
-  background-color: #dccbb0;
-  color: #235425;
+  background-color: $white;
+  color: $dark-cyan;
 }
 
 li {
@@ -147,4 +108,35 @@ textarea {
   overflow-y: hidden;
   margin-bottom: 1em;
   min-height: 2em;
+}
+
+.toast-container {
+  position: fixed;
+  top: $navbar-height;
+  right: 1em;
+  z-index: 100;
+  width: auto;
+}
+.successToast {
+  background-color: $dark-cyan;
+
+  .toast-header {
+    background-color: $dark-cyan;
+
+    h6 {
+      color: $white;
+    }
+  }
+}
+
+.errorToast {
+  background-color: #f36464;
+
+  .toast-header {
+    background-color: #f36464;
+
+    h6 {
+      color: $white;
+    }
+  }
 }

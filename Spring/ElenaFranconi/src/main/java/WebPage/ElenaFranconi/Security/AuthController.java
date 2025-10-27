@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import WebPage.ElenaFranconi.Exceptions.NotFoundException;
 import WebPage.ElenaFranconi.Exceptions.UnauthorizedException;
 import WebPage.ElenaFranconi.User.User;
 import WebPage.ElenaFranconi.User.UserService;
@@ -42,11 +43,16 @@ public class AuthController {
 
 	@PostMapping("/login")
 	public ResponseEntity<TokenResponse> login(@RequestBody UserLoginDto body) {
-		User user = us.findByEmail(body.getEmail());
-		if (user != null && passwordEncoder.matches(body.getPassword(), user.getPassword())) {
-			String token = jtTools.createToken(user);
-			return new ResponseEntity<>(new TokenResponse(token, user), HttpStatus.OK);
-		} else {
+		try {
+			User user = us.findByEmail(body.getEmail());
+			if (passwordEncoder.matches(body.getPassword(), user.getPassword())) {
+				String token = jtTools.createToken(user);
+				return new ResponseEntity<>(new TokenResponse(token, user), HttpStatus.OK);
+			} else {
+				throw new UnauthorizedException(
+						"Invalid credentials, please check that the password and/or email are correct");
+			}
+		} catch (NotFoundException ex) {
 			throw new UnauthorizedException(
 					"Invalid credentials, please check that the password and/or email are correct");
 		}

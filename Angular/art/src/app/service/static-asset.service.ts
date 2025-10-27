@@ -8,6 +8,7 @@ export class StaticAssetService {
   private readonly assets: { [key: string]: string } = {
     fallback_image: environment.fallBackImage,
     logo: 'assets/images/LOGO_ART.jpeg',
+    home_banner: 'assets/images/home_banner.jpeg',
   };
   constructor() { }
 

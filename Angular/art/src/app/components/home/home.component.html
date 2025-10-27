@@ -1,0 +1,25 @@
+<div class="topSection py-5" [ngStyle]="{'background-image': 'url(' + homeBannerPath + ')'}">
+  <div class="container h-100 d-flex align-items-center justify-content-center">
+    <div class="hero-content text-center">
+      <h1>ART</h1>
+      <p>IN TEATRO E IN NATURA</p>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<div class="toast-container">
+  <ngb-toast *ngIf="successToast" class="successToast" [autohide]="true" [delay]="5000" (hidden)="chiudiToast()">
+    <div class="toast-header">
+      <h6 class="me-auto mb-0">{{ toastMessage }}</h6>
+      <button type="button" class="btn-close" (click)="chiudiToast()"></button>
+    </div>
+  </ngb-toast>
+
+  <ngb-toast *ngIf="errorToast" class="errorToast" [autohide]="true" [delay]="5000" (hidden)="chiudiToast()">
+    <div class="toast-header">
+      <h6 class="me-auto mb-0">{{ toastMessage }}</h6>
+      <button type="button" class="btn-close" (click)="chiudiToast()"></button>
+    </div>
+  </ngb-toast>
+</div>

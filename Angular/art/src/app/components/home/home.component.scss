@@ -1,0 +1,16 @@
+@import 'variables';
+.topSection {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: calc(100vh - $navbar-height);
+  width: 100%;
+
+  .hero-content {
+    backdrop-filter: blur(2px);
+    background: rgba(64, 176, 196, 0.2);
+    padding: 2rem;
+    border-radius: 10px;
+    color: $white;
+  }
+}

@@ -1,12 +1,23 @@
 {
   "NAVBAR": {
     "PROJECT": "PROGETTI",
-    "CONTACT": "CONTATTI"
+    "CONTACT": "CONTATTI",
+    "MODAL":
+    {
+      "TITLE": "Benvenuta",
+      "MY_ACCOUNT": "Il Mio Account"
+    }
   },
   "FOOTER": {
     "CONTACT": "Contatti",
     "PRIVATE": "Area Riservata",
     "AUTHOR": "Sito web sviluppato da"
+  },
+  "LOGIN": {
+    "TITLE": "Accesso Area Riservata",
+    "SUBTITLE": "Questa area è riservata agli amministratori",
+    "LOGIN": "Accedi",
+    "PASSWORD_FORGOTTEN": "Password dimenticata?"
   },
   "GUARD": {
     "NOT_AUTHORIZED": "Non sei autorizzato a vedere questo contenuto",
@@ -14,11 +25,22 @@
   },
   "ERROR": {
     "TITLE": "Oops! Qualcosa è andato storto",
-    "DEFAULT": "Si è verificato un errore imprevisto",
-    "NETWORK": "Errore di connessione",
+    "NETWORK": "Errore di connessione al server",
     "UNAUTHORIZED": "Accesso non autorizzato",
-    "NOT_FOUND": "Risorsa non trovata",
-    "LOGIN_FAILED": "Email o password non corretti"
+    "NOT_FOUND": "non trovato",
+    "NOT_FOUND_WITH_ID": "non trovato",
+    "FORBIDDEN": "Accesso vietato",
+    "BAD_REQUEST": "Richiesta non valida",
+    "VALIDATION": "Errore di validazione",
+    "TOKEN_INVALID": "Token non valido o scaduto",
+    "GENERIC": "Si è verificato un errore del server",
+    "UNKNOWN": "Errore sconosciuto",
+    "CREDENTIAL": "Credenziali non valide, verifica email e password"
+  },
+  "VALIDATION": {
+    "PRIVACY_REQUIRED": "L'accettazione della privacy policy è obbligatoria",
+    "LIABILITY_REQUIRED": "L'accettazione della liberatoria è obbligatoria",
+    "PHOTO_CONSENT_REQUIRED": "Il consenso per foto e video è obbligatorio"
   },
   "title": {
     "app": "Art Natura e Teatro",
