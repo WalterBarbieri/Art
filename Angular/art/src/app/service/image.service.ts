@@ -12,16 +12,47 @@ export class ImageService {
   constructor() { }
 
   getFullImageUrl(imagePath: string | null): Observable<string> {
-   if (!imagePath) {
-        return of(this.fallBackImage);
-      }
-      return of(`${this.baseUrl}${imagePath}`).pipe(
+    if (!imagePath) {
+      return of(this.fallBackImage);
+    }
+
+    if (imagePath.startsWith('http')) {
+      return of(imagePath).pipe(
         catchError(() => of(this.fallBackImage))
       );
+    }
+
+    const modifiedPath = imagePath
+      .replace(/^content\//, 'storage/');
+
+    const fullPath = `${this.baseUrl}${modifiedPath}`;
+
+    return of(fullPath).pipe(
+      catchError(() => of(this.fallBackImage))
+    );
   }
 
   getFullFileUrl(filePath: string): string {
-    return `${this.baseUrl}${filePath}`;
+    const modifiedPath = filePath.replace(/^content\//, 'storage/');
+    return `${this.baseUrl}${modifiedPath}`;
+  }
+
+  getFullVideoUrl(videoPath: string | null): Observable<string> {
+    if (!videoPath) {
+      return of('');
+    }
+
+    if (videoPath.startsWith('http')) {
+      return of(videoPath).pipe(
+        catchError(() => of(''))
+      );
+    }
+
+    const modifiedPath = videoPath.replace(/^content\//, 'storage/');
+    const fullPath = `${this.baseUrl}${modifiedPath}`;
+    return of(fullPath).pipe(
+      catchError(() => of(''))
+    );
   }
 
   isValidImage(file: File): boolean {
@@ -52,6 +83,20 @@ export class ImageService {
       "application/vnd.oasis.opendocument.chart",
       "application/vnd.oasis.opendocument.database",
       "application/vnd.oasis.opendocument.formula"
+    ];
+    return allowedTypes.includes(file.type);
+  }
+
+  isValidVideo(file: File): boolean {
+    if (!file) return false;
+    const allowedTypes = [
+      "video/mp4",
+      "video/mpeg",
+      "video/quicktime",
+      "video/x-msvideo", // AVI
+      "video/x-ms-wmv",  // WMV
+      "video/webm",
+      "video/ogg"
     ];
     return allowedTypes.includes(file.type);
   }

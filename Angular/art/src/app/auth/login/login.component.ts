@@ -42,9 +42,7 @@ export class LoginComponent implements OnInit {
         form.reset();
         if (processedError.backendMessage) {
           this.error =
-            processedError.backendMessage +
-            ' ' +
-            this.translate.instant(processedError.key);
+            this.translate.instant(processedError.key) + ': ' + processedError.backendMessage;
         } else {
           this.error = this.translate.instant(processedError.key);
         }

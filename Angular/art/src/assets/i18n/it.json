@@ -19,6 +19,20 @@
     "LOGIN": "Accedi",
     "PASSWORD_FORGOTTEN": "Password dimenticata?"
   },
+  "PROJECT": {
+    "TITLE": "PROGETTI",
+    "FILTER": "Filtri",
+    "STATUS_ONGOING": "In corso",
+    "STATUS_UPCOMING": "In arrivo",
+    "STATUS_COMPLETED": "Concluso",
+    "TYPE_COURSE": "Corso",
+    "TYPE_EVENT": "Performance",
+    "FILTER_BY_STATUS": "FILTRA PER STATO",
+    "FILTER_BY_TYPE": "FILTRA PER TIPO",
+    "ORDER_BY_DATE": "ORDINA PER DATA",
+    "NEWEST": "Più recenti",
+    "OLDEST": "Meno recenti"
+  },
   "GUARD": {
     "NOT_AUTHORIZED": "Non sei autorizzato a vedere questo contenuto",
     "NOT_AUTHENTICATED": "Non puoi accedere a questo contenuto senza effettuare il login"
@@ -41,6 +55,11 @@
     "PRIVACY_REQUIRED": "L'accettazione della privacy policy è obbligatoria",
     "LIABILITY_REQUIRED": "L'accettazione della liberatoria è obbligatoria",
     "PHOTO_CONSENT_REQUIRED": "Il consenso per foto e video è obbligatorio"
+  },
+  "GENERIC": {
+    "FROM": "dal",
+    "TO": "al",
+    "ALL": "Tutti"
   },
   "title": {
     "app": "Art Natura e Teatro",

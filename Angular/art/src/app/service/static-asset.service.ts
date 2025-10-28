@@ -9,6 +9,7 @@ export class StaticAssetService {
     fallback_image: environment.fallBackImage,
     logo: 'assets/images/LOGO_ART.jpeg',
     home_banner: 'assets/images/home_banner.jpeg',
+    art_image_1: 'assets/images/home_1.jpeg',
   };
   constructor() { }
 

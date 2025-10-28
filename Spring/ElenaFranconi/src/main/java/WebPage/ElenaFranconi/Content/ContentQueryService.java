@@ -41,8 +41,8 @@ public class ContentQueryService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Content> findTop4ActiveContentSorted() {
-		Page<Content> page = contentRepository.findActiceContentSortedPaged(PageRequest.of(0, 4));
+	public List<Content> findTop6ActiveContentSorted() {
+		Page<Content> page = contentRepository.findActiceContentSortedPaged(PageRequest.of(0, 6));
 		return page.getContent();
 	}
 

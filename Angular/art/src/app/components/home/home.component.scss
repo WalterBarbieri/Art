@@ -1,4 +1,6 @@
 @import 'variables';
+@import '_typed';
+
 .topSection {
   background-size: cover;
   background-position: center;
@@ -7,10 +9,177 @@
   width: 100%;
 
   .hero-content {
-    backdrop-filter: blur(2px);
-    background: rgba(64, 176, 196, 0.2);
     padding: 2rem;
-    border-radius: 10px;
     color: $white;
+    text-align: center;
+
+    .typed-lines {
+      display: inline-block;
+      font-size: 5em;
+      @include typed("ART\AnATuRa e teATRo",
+        "ART\AnATuRe and theATRe",
+        0.5, // velocità digitazione (sec per lettera)
+        (caret: true,
+          caret-speed: 0.75,
+          caret-width: 3px,
+          caret-color: $white,
+          caret-space: 2px,
+          iterations: infinite,
+          delay: 0.1));
+
+      @media (max-width: 768px) {
+        font-size: 4em;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 2em;
+      }
+
+    }
+  }
+}
+
+.middleSection {
+  height: calc(100vh - $navbar-height);
+  padding-top: 1em;
+  padding-bottom: 1em;
+
+  img {
+    max-width: 100%;
+    max-height: calc((100vh - $navbar-height - 10px)/2);
+    object-fit: cover;
+    border-radius: 10px;
+    @media (min-width: 992px) {
+      max-height: calc(100vh - $navbar-height - 10px);
+    }
+  }
+}
+
+
+.contentSection {
+  max-height: calc(100vh - $navbar-height);
+  .custom-carousel {
+    .carousel-track-container {
+      position: relative;
+      max-height: calc(100vh - $navbar-height - 100px);
+    }
+
+    .carousel-track {
+      transition: transform 0.3s ease;
+      max-height: calc(100vh - $navbar-height - 100px);
+
+      .carousel-card {
+        padding: 0 10px;
+
+        width: 100%;
+        @media (min-width: 576px) {
+          width: 50%;
+        }
+
+        @media (min-width: 992px) {
+          width: 33.333%;
+        }
+
+        @media (min-width: 1200px) {
+          width: 25%;
+        }
+      }
+    }
+  }
+
+  .card {
+    border: solid 1px $light-cyan;
+    border-radius: 0;
+    cursor: pointer;
+  }
+
+  .card-img-container {
+    height: 70%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+  }
+
+  .card-img-top {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+    border-radius: 0;
+  }
+
+  .card-title {
+  font-weight: bold;
+  color: $dark-cyan;
+}
+
+
+  .card-footer {
+    border-radius: 0;
+    background-color: $white;
+    background-color: $light-cyan-transparent;
+    border-color: $light-cyan-transparent;
+  }
+
+  // Badge status
+  .status-badge-overlay {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    z-index: 10;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    white-space: nowrap;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+
+    &.ongoing {
+      background: rgba(40, 167, 69, 0.95);
+      color: white;
+    }
+
+    &.upcoming {
+      background: rgba(255, 193, 7, 0.95);
+      color: #212529;
+    }
+  }
+
+  // Bottoni carousel
+  .carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.3s ease;
+
+    &:hover:not(:disabled) {
+      background: rgba(0,0,0,0.8);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    &:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    &.carousel-prev {
+      left: 15px;
+    }
+
+    &.carousel-next {
+      right: 15px;
+    }
   }
 }

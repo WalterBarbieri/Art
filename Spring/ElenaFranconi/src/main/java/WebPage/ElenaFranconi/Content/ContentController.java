@@ -36,7 +36,7 @@ public class ContentController {
 
 	@GetMapping("/homepage")
 	public List<ContentDto> getTop4ActiveContentSorted() {
-		List<Content> contents = contentQueryService.findTop4ActiveContentSorted();
+		List<Content> contents = contentQueryService.findTop6ActiveContentSorted();
 		List<ContentDto> dtos = ContentDto.fromContentList(contents);
 		return dtos;
 	}

@@ -1,1 +1,171 @@
-<p>projects works!</p>
+<div class="container-fluid py-5">
+  <!-- Project Title
+  <h2 class="text-center">{{ 'PROJECT.TITLE' | translate }}</h2> -->
+  <div *ngIf="filteredProjects.length > 0" class="text-center mb-3">
+    <button
+      type="button"
+      class="btn default-button"
+      (click)="showFilters = !showFilters"
+    >
+      {{ 'PROJECT.FILTER' | translate }}
+    </button>
+
+    <div
+      class="d-flex flex-column flex-sm-row mb-3 justify-content-center align-items-center"
+      *ngIf="showFilters"
+    >
+      <div class="selectContainer me-sm-3">
+        <label for="selectedStatusFilter" class="ps-2">
+          {{ "PROJECT.FILTER_BY_STATUS" | translate }}
+        </label>
+        <select
+          id="selectedStatusFilter"
+          class="form-select"
+          [(ngModel)]="selectedStatusFilter"
+          (change)="applyFilters()"
+        >
+          <option value="all">{{ "GENERIC.ALL" | translate }}</option>
+          <option value="ONGOING">
+            {{ "PROJECT.STATUS_ONGOING" | translate }}
+          </option>
+          <option value="UPCOMING">
+            {{ "PROJECT.STATUS_UPCOMING" | translate }}
+          </option>
+          <option value="COMPLETED">
+            {{ "PROJECT.STATUS_COMPLETED" | translate }}
+          </option>
+        </select>
+      </div>
+      <div class="selectContainer me-sm-3">
+        <label for="selectedTypeFilter" class="ps-2">{{
+          "PROJECT.FILTER_BY_TYPE" | translate
+        }}</label>
+        <select
+          id="selectedTypeFilter"
+          class="form-select"
+          [(ngModel)]="selectedTypeFilter"
+          (change)="applyFilters()"
+        >
+          <option value="all">{{ "GENERIC.ALL" | translate }}</option>
+          <option value="Course">
+            {{ "PROJECT.TYPE_COURSE" | translate }}
+          </option>
+          <option value="Event">{{ "PROJECT.TYPE_EVENT" | translate }}</option>
+        </select>
+      </div>
+      <div class="selectContainer me-sm-3">
+        <label for="selectedSortOrder" class="ps-2">{{
+          "PROJECT.ORDER_BY_DATE" | translate
+        }}</label>
+        <select
+          id="selectedSortOrder"
+          class="form-select"
+          [(ngModel)]="selectedSortOrder"
+          (change)="applyFilters()"
+        >
+          <option value="default">{{ "PROJECT.NEWEST" | translate }}</option>
+          <option value="reverse">{{ "PROJECT.OLDEST" | translate }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="filteredProjects.length > 0">
+    <div
+      class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2 cardContainer"
+      *ngFor="let project of filteredProjects; let i = index"
+    >
+      <div class="card h-100 position-relative">
+        <div class="card-img-container">
+          <div
+            *ngIf="imageLoading[i]"
+            class="h-100 d-flex justify-content-center align-items-center"
+          >
+            <app-image-loader></app-image-loader>
+          </div>
+          <img
+            *ngIf="!imageLoading[i]"
+            [src]="project.coverImagePath"
+            class="card-img-top"
+            alt="Project Cover Image"
+          />
+
+          <span
+            *ngIf="project.contentStatus === 'ONGOING'"
+            class="status-badge-overlay ongoing"
+          >
+            <i class="fas fa-tree me-1"></i
+            >{{ "PROJECT.STATUS_ONGOING" | translate }}
+          </span>
+          <span
+            *ngIf="project.contentStatus === 'UPCOMING'"
+            class="status-badge-overlay upcoming"
+          >
+            <i class="fas fa-seedling me-1"></i
+            >{{ "PROJECT.STATUS_UPCOMING" | translate }}
+          </span>
+        </div>
+        <div class="card-body text-center">
+          <div class="card-title">{{ project.title }}</div>
+          <div class="card-text">{{ truncateText(project.description) }}</div>
+        </div>
+        <div
+          class="card-footer d-flex align-items-center justify-content-center text-center"
+        >
+          <div class="flex-fill">
+            <ng-container *ngIf="project.contentType === 'Event'">
+              <div *ngFor="let date of project.eventDates">
+                {{ date | date : "dd/MM/yyyy" }}
+              </div>
+            </ng-container>
+            <ng-container *ngIf="project.contentType === 'Course'">
+              <div class="row mx-0">
+                <div class="col-5 text-end ps-0 pe-2">
+                  {{ "GENERIC.FROM" | translate }}:
+                </div>
+                <div class="col-7 text-start px-0">
+                  {{ project.dateFrom | date : "dd/MM/yyyy" }}
+                </div>
+              </div>
+              <div class="row mx-0">
+                <div class="col-5 text-end ps-0 pe-2">
+                  {{ "GENERIC.TO" | translate }}:
+                </div>
+                <div class="col-7 text-start px-0">
+                  {{ project.dateTo | date : "dd/MM/yyyy" }}
+                </div>
+              </div>
+            </ng-container>
+          </div>
+          <div class="flex-fill">
+            <div>{{ project.location }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Container -->
+<ngb-toast
+  *ngIf="successToast"
+  class="successToast"
+  [autohide]="true"
+  (hidden)="chiudiToast()"
+>
+  <div class="toast-header">
+    <h6 class="me-auto mb-0">{{ toastMessage }}</h6>
+    <button type="button" class="btn-close" (click)="chiudiToast()"></button>
+  </div>
+</ngb-toast>
+
+<ngb-toast
+  *ngIf="errorToast"
+  class="errorToast"
+  [autohide]="true"
+  (hidden)="chiudiToast()"
+>
+  <div class="toast-header">
+    <h6 class="me-auto mb-0">{{ toastMessage }}</h6>
+    <button type="button" class="btn-close" (click)="chiudiToast()"></button>
+  </div>
+</ngb-toast>

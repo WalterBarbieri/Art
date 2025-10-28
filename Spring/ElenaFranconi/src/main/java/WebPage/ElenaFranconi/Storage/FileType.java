@@ -2,7 +2,7 @@ package WebPage.ElenaFranconi.Storage;
 
 public enum FileType {
 
-	IMAGE("images"), FILE("files"), VIDEO("videos"), PRESS_REVIEW("press_review");
+	IMAGE("image"), FILE("file"), VIDEO("video"), PRESS_REVIEW("press_review");
 
 	private final String directoryName;
 

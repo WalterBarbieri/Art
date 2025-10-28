@@ -18,6 +18,20 @@
     "LOGIN": "Login",
     "PASSWORD_FORGOTTEN": "Forgot Password?"
   },
+  "PROJECT": {
+    "TITLE": "PROJECTS",
+    "FILTER": "Filters",
+    "STATUS_ONGOING": "Ongoing",
+    "STATUS_UPCOMING": "Upcoming",
+    "STATUS_COMPLETED": "Completed",
+    "TYPE_COURSE": "Workshop",
+    "TYPE_EVENT": "Performance",
+    "FILTER_BY_STATUS": "FILTER BY STATUS",
+    "FILTER_BY_TYPE": "FILTER BY TYPE",
+    "ORDER_BY_DATE": "ORDER BY DATE",
+    "NEWEST": "More recent",
+    "OLDEST": "Least recent"
+  },
   "GUARD": {
     "NOT_AUTHORIZED": "You are not authorized to view this content",
     "NOT_AUTHENTICATED": "You cannot access this content without logging in"
@@ -40,6 +54,11 @@
     "PRIVACY_REQUIRED": "Privacy policy acceptance is required",
     "LIABILITY_REQUIRED": "Liability release acceptance is required",
     "PHOTO_CONSENT_REQUIRED": "Photo and video consent is required"
+  },
+  "GENERIC": {
+    "FROM": "from",
+    "TO": "to",
+    "ALL": "All"
   },
   "title": {
     "app": "Art Nature and Theatre",
