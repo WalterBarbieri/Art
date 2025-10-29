@@ -18,6 +18,13 @@
     "LOGIN": "Login",
     "PASSWORD_FORGOTTEN": "Forgot Password?"
   },
+  "HOME": {
+    "TITLE": "ART nATuRe e theATRe",
+    "SUBTITLE": "theatrical research and experimentation in nature",
+    "FIND_OUT_MORE": "Find out more",
+    "BIO": "Actress and playwright, she leads theater workshops for children and adults. Creator and director of the ART nATuRe e theATRe project, a laboratory for theatrical research and experimentation in nature..."
+
+  },
   "PROJECT": {
     "TITLE": "PROJECTS",
     "FILTER": "Filters",

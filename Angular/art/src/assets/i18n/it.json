@@ -19,6 +19,13 @@
     "LOGIN": "Accedi",
     "PASSWORD_FORGOTTEN": "Password dimenticata?"
   },
+  "HOME": {
+    "TITLE": "ART nATuRa e teATRo",
+    "SUBTITLE": "ricerca e sperimentazione teatrale nella natura",
+    "FIND_OUT_MORE": "Scopri di più",
+    "BIO": "Attrice e autrice di testi teatrali, conduce laboratori di teatro per ragazzi e adulti. Ideatrice e conduttrice del progetto ART nATuRa e teATRo un laboratorio di ricerca e sperimentazione teatrale nella natura..."
+
+  },
   "PROJECT": {
     "TITLE": "PROGETTI",
     "FILTER": "Filtri",

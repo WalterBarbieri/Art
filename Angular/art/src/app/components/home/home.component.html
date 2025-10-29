@@ -1,5 +1,5 @@
 <div
-  class="topSection py-5"
+  class="topSection pt-5"
   [ngStyle]="{ 'background-image': 'url(' + homeBannerPath + ')' }"
 >
   <div class="container h-100 d-flex align-items-center justify-content-center">
@@ -10,52 +10,81 @@
 </div>
 <div class="middleSection container-fluid">
   <div class="row h-100">
-    <div class="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center text-center mb-3 mb-lg-0">
-      <h2>ART naTuRA e teATRo</h2>
-      <h4>ricerca e sperimentazione teatrale nella natura</h4>
-      <button type="button" class="btn default-button">Scopri di più</button>
+    <div class="col-12 col-lg-6 mb-3 mb-lg-0">
+      <div
+        class="middleSectionText h-100 mx-auto d-flex flex-column justify-content-center align-items-center text-center"
+      >
+        <h2>{{ "HOME.TITLE" | translate }}</h2>
+        <h4 class="mb-2">{{ "HOME.SUBTITLE" | translate }}</h4>
+        <button type="button" class="btn default-button">{{ "HOME.FIND_OUT_MORE" | translate }}</button>
+      </div>
     </div>
-    <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center">
-      <img [src]="artImagePath" alt="Art Image">
+    <div
+      class="col-12 col-lg-6 d-flex justify-content-center align-items-center"
+    >
+      <img [src]="artImagePath" alt="Art Image" />
     </div>
   </div>
 </div>
-<div class="contentSection container-fluid py-5 d-flex flex-column">
-  <h2 class="text-center mb-4">{{ 'PROJECT.TITLE' | translate }}</h2>
+<div class="contentSection container-fluid d-flex flex-column py-2">
+  <h2 class="text-center mb-4">{{ "PROJECT.TITLE" | translate }}</h2>
 
   <!-- CAROUSEL -->
-  <div class="custom-carousel position-relative flex-grow-1" *ngIf="projects.length > 0">
+  <div
+    class="custom-carousel position-relative flex-grow-1"
+    *ngIf="projects.length > 0"
+  >
     <div class="carousel-track-container overflow-hidden">
-      <div class="carousel-track d-flex" [style.transform]="'translateX(-' + (currentSlide * cardWidthPercentage) + '%)'">
-        <div class="carousel-card flex-shrink-0"
-             *ngFor="let project of projects; let i = index">
+      <div
+        class="carousel-track d-flex"
+        [style.transform]="
+          'translateX(-' + currentSlide * cardWidthPercentage + '%)'
+        "
+      >
+        <div
+          class="carousel-card flex-shrink-0"
+          *ngFor="let project of projects; let i = index"
+        >
           <div class="card h-100 position-relative">
             <div class="card-img-container">
-              <div *ngIf="imageLoading[i]"
-                   class="h-100 d-flex justify-content-center align-items-center">
+              <div
+                *ngIf="imageLoading[i]"
+                class="h-100 d-flex justify-content-center align-items-center"
+              >
                 <app-image-loader></app-image-loader>
               </div>
-              <img *ngIf="!imageLoading[i]"
-                   [src]="project.coverImagePath"
-                   class="card-img-top"
-                   alt="Project Cover Image" />
+              <img
+                *ngIf="!imageLoading[i]"
+                [src]="project.coverImagePath"
+                class="card-img-top"
+                alt="Project Cover Image"
+              />
 
-              <span *ngIf="project.contentStatus === 'ONGOING'"
-                    class="status-badge-overlay ongoing">
-                <i class="fas fa-tree me-1"></i>In corso
+              <span
+                *ngIf="project.contentStatus === 'ONGOING'"
+                class="status-badge-overlay ongoing"
+              >
+                <i class="fas fa-tree me-1"></i>{{ "PROJECT.STATUS_ONGOING" | translate }}
               </span>
-              <span *ngIf="project.contentStatus === 'UPCOMING'"
-                    class="status-badge-overlay upcoming">
-                <i class="fas fa-seedling me-1"></i>Prossimo
+              <span
+                *ngIf="project.contentStatus === 'UPCOMING'"
+                class="status-badge-overlay upcoming"
+              >
+                <i class="fas fa-seedling me-1"></i>{{ "PROJECT.STATUS_UPCOMING" | translate }}
               </span>
             </div>
 
             <div class="card-body text-center">
               <div class="card-title">{{ project.title }}</div>
-              <div class="card-text">{{ project.description | slice:0:100 }}{{ project.description.length > 100 ? '...' : '' }}</div>
+              <div class="card-text">
+                {{ project.description | slice : 0 : 100
+                }}{{ project.description.length > 100 ? "..." : "" }}
+              </div>
             </div>
 
-            <div class="card-footer d-flex align-items-center justify-content-center text-center">
+            <div
+              class="card-footer d-flex align-items-center justify-content-center text-center"
+            >
               <div class="flex-fill">
                 <ng-container *ngIf="project.contentType === 'Event'">
                   <div *ngFor="let date of project.eventDates">
@@ -64,12 +93,20 @@
                 </ng-container>
                 <ng-container *ngIf="project.contentType === 'Course'">
                   <div class="row mx-0">
-                    <div class="col-5 text-end ps-0 pe-2">{{ 'GENERIC.FROM' | translate }}</div>
-                    <div class="col-7 text-start px-0">{{ project.dateFrom | date : "dd/MM/yyyy" }}</div>
+                    <div class="col-5 text-end ps-0 pe-2">
+                      {{ "GENERIC.FROM" | translate }}
+                    </div>
+                    <div class="col-7 text-start px-0">
+                      {{ project.dateFrom | date : "dd/MM/yyyy" }}
+                    </div>
                   </div>
                   <div class="row mx-0">
-                    <div class="col-5 text-end ps-0 pe-2">{{ 'GENERIC.TO' | translate }}</div>
-                    <div class="col-7 text-start px-0">{{ project.dateTo | date : "dd/MM/yyyy" }}</div>
+                    <div class="col-5 text-end ps-0 pe-2">
+                      {{ "GENERIC.TO" | translate }}
+                    </div>
+                    <div class="col-7 text-start px-0">
+                      {{ project.dateTo | date : "dd/MM/yyyy" }}
+                    </div>
                   </div>
                 </ng-container>
               </div>
@@ -83,27 +120,39 @@
     </div>
 
     <!-- CAROUSEL CONTROL -->
-    <button class="carousel-btn carousel-prev"
-            (click)="prevSlide()"
-            [disabled]="currentSlide === 0">
+    <button
+      class="carousel-btn carousel-prev"
+      (click)="prevSlide()"
+      [disabled]="currentSlide === 0"
+    >
       <i class="fas fa-chevron-left"></i>
     </button>
-    <button class="carousel-btn carousel-next"
-            (click)="nextSlide()"
-            [disabled]="currentSlide >= maxSlides - 1">
+    <button
+      class="carousel-btn carousel-next"
+      (click)="nextSlide()"
+      [disabled]="currentSlide >= maxSlides - 1"
+    >
       <i class="fas fa-chevron-right"></i>
     </button>
   </div>
 </div>
 <div class="middleSection container-fluid">
   <div class="row h-100">
-    <div class="col-12 col-lg-6 d-flex flex-column justify-content-center align-items-center text-center mb-3 mb-lg-0 order-2">
-      <h2>Elena Franconi</h2>
-      <p>Attrice e autrice di testi teatrali, conduce laboratori di teatro per ragazzi e adulti. Ideatrice e conduttrice del progetto ART nATuRa e teATRo un laboratorio di ricerca e sperimentazione teatrale nella natura [...]</p>
-      <button type="button" class="btn default-button">Scopri di più</button>
+    <div class="col-12 col-lg-6 mb-3 mb-lg-0 order-2">
+      <div
+        class="middleSectionText h-100 mx-auto d-flex flex-column justify-content-center align-items-center"
+      >
+        <h2>Elena Franconi</h2>
+        <p class="mb-2">
+          {{ "HOME.BIO" | translate }}
+        </p>
+        <button type="button" class="btn default-button">Scopri di più</button>
+      </div>
     </div>
-    <div class="col-12 col-lg-6 d-flex justify-content-center align-items-center order-1">
-      <img [src]="artImagePath" alt="Elena Franconi Image">
+    <div
+      class="col-12 col-lg-6 d-flex justify-content-center align-items-center order-1"
+    >
+      <img [src]="artImagePath" alt="Elena Franconi Image" />
     </div>
   </div>
 </div>

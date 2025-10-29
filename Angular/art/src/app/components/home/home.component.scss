@@ -40,9 +40,13 @@
 }
 
 .middleSection {
-  height: calc(100vh - $navbar-height);
+  max-height: calc(100vh - $navbar-height);
   padding-top: 1em;
   padding-bottom: 1em;
+
+  border-bottom: solid 1px  $light-cyan-transparent;
+
+
 
   img {
     max-width: 100%;
@@ -53,11 +57,37 @@
       max-height: calc(100vh - $navbar-height - 10px);
     }
   }
+
+  p {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.5em;
+    max-height: 6em;
+
+
+    @media (max-width: 768px) {
+      -webkit-line-clamp: 3;
+      line-clamp: 3;
+      max-height: 4.5em;
+    }
+  }
+
+  .middleSectionText {
+    width: 75%;
+    @media (min-width: 992px) {
+      width: 50%;
+    }
+  }
 }
 
 
 .contentSection {
   max-height: calc(100vh - $navbar-height);
+  border-bottom: solid 1px  $light-cyan-transparent;
   .custom-carousel {
     .carousel-track-container {
       position: relative;
@@ -88,7 +118,7 @@
   }
 
   .card {
-    border: solid 1px $light-cyan;
+    border: solid 1px $light-cyan-transparent;
     border-radius: 0;
     cursor: pointer;
   }
