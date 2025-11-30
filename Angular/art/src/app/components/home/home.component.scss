@@ -44,8 +44,16 @@
   padding-top: 1em;
   padding-bottom: 1em;
 
-  border-bottom: solid 1px  $light-cyan-transparent;
+  position: relative;
 
+  &::after {
+    content: "";
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    border-bottom: 1px solid $light-cyan-transparent;
+    padding-top: 1em;
+  }
 
 
   img {
@@ -87,7 +95,16 @@
 
 .contentSection {
   max-height: calc(100vh - $navbar-height);
-  border-bottom: solid 1px  $light-cyan-transparent;
+  position: relative;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    border-bottom: 1px solid $light-cyan-transparent;
+    padding-top: 1em;
+  }
   .custom-carousel {
     .carousel-track-container {
       position: relative;
@@ -211,5 +228,9 @@
     &.carousel-next {
       right: 15px;
     }
+  }
+
+  .standardGray {
+    color: $dark-gray;
   }
 }

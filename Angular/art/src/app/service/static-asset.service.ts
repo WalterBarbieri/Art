@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { info } from 'console';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -9,7 +10,11 @@ export class StaticAssetService {
     fallback_image: environment.fallBackImage,
     logo: 'assets/images/LOGO_ART.jpeg',
     home_banner: 'assets/images/home_banner.jpeg',
-    art_image_1: 'assets/images/home_1.jpeg',
+    home_art: 'assets/images/franconi_elena_orizontal_2.jpeg',
+    home_elena_franconi: 'assets/images/franconi_elena_orizontal_1.jpeg',
+    info_banner: 'assets/images/franconi_elena_orizontal_3.jpeg',
+    info_art_1: 'assets/images/franconi_elena_vertical_3.jpeg',
+    info_art_2: 'assets/images/home_2.jpeg'
   };
   constructor() { }
 

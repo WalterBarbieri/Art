@@ -31,7 +31,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   // Static asset paths
   homeBannerPath: string = '';
-  artImagePath: string = '';
+  homeArtPath: string = '';
+  homeElenaFranconiPath: string = '';
 
   constructor(
     private metaService: MetaService,
@@ -92,7 +93,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private loadStaticAssets(): void {
     this.homeBannerPath = this.staticAssetService.getAssetPath('home_banner');
-    this.artImagePath = this.staticAssetService.getAssetPath('art_image_1');
+    this.homeArtPath = this.staticAssetService.getAssetPath('home_art');
+    this.homeElenaFranconiPath = this.staticAssetService.getAssetPath('home_elena_franconi');
   }
 
   getFullImageUrl(imagePath: string | null, index: number): void {
@@ -111,7 +113,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.loaderService.show();
       this.contentService.getTopSorted().subscribe({
         next: (data: Content[]) => {
-          this.projects = data;
+          this.projects = data.map(project => ({
+            ...project,
+            eventDates: project.eventDates ? project.eventDates.map(d => new Date(d)) : []
+          }));
           this.imageLoading = new Array(this.projects.length).fill(false);
           this.projects.forEach((project, index) => {
             this.getFullImageUrl(project.coverImagePath, index);
@@ -180,5 +185,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.currentSlide >= this.maxSlides) {
       this.currentSlide = Math.max(0, this.maxSlides - 1);
     }
+  }
+
+  getEventDatesDisplay(eventDates: Date[] | null): { dates: Date[], showDots: boolean } {
+    if (!eventDates || eventDates.length === 0) return { dates: [], showDots: false };
+    const sorted = [...eventDates].sort((a, b) => b.getDate() - a.getDate());
+    if (sorted.length <= 2) {
+      return { dates: sorted, showDots: false };
+    }
+    return { dates: [sorted[0], sorted[sorted.length - 1]], showDots: true };
   }
 }

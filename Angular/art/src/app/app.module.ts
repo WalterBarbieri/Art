@@ -19,6 +19,7 @@ import { ErrorComponent } from './components/error/error.component';
 import { LoaderComponent } from './components/loader/loader.component';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
+import { UserpageComponent } from './components/userpage/userpage.component';
 
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
@@ -36,7 +37,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     LoginComponent,
     PrivacyComponent,
     ErrorComponent,
-    LoaderComponent
+    LoaderComponent,
+    UserpageComponent
   ],
   imports: [
     BrowserModule,

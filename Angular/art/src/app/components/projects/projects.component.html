@@ -113,9 +113,13 @@
         >
           <div class="flex-fill">
             <ng-container *ngIf="project.contentType === 'Event'">
-              <div *ngFor="let date of project.eventDates">
-                {{ date | date : "dd/MM/yyyy" }}
-              </div>
+              <ng-container *ngIf="getEventDatesDisplay(project.eventDates) as display">
+                    <div>{{display.dates[0] | date : "dd/MM/yyyy"}}</div>
+                    <div *ngIf="display.showDots" class="text-center my-0">…</div>
+                    <div *ngIf="display.dates.length > 1">
+                      {{display.dates[display.dates.length - 1] | date : "dd/MM/yyyy"}}
+                    </div>
+                  </ng-container>
             </ng-container>
             <ng-container *ngIf="project.contentType === 'Course'">
               <div class="row mx-0">

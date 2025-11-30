@@ -7,8 +7,8 @@ export interface Content {
   contentType: string;
   coverImagePath: string;
   contentStatus: string;
-  dateFrom?: Date;
-  dateTo?: Date;
-  eventDates?: Date[];
+  dateFrom: Date | null;
+  dateTo: Date | null;
+  eventDates: Date[] | null;
   location: string;
 }

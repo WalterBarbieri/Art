@@ -9,6 +9,7 @@ import { PrivacyComponent } from './components/privacy/privacy.component';
 import { LoginComponent } from './auth/login/login.component';
 import { ErrorComponent } from './components/error/error.component';
 import { LoggedUserGuard } from './core/guards/logged-user.guard';
+import { UserpageComponent } from './components/userpage/userpage.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,10 @@ const routes: Routes = [
   {
     path: 'error',
     component: ErrorComponent
+  },
+  {
+    path: 'userpage',
+    component: UserpageComponent
   }
 ];
 

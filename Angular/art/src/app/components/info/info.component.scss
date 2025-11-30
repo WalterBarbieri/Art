@@ -1,0 +1,124 @@
+@import 'variables';
+@import 'typed';
+
+.infoImageContainer,
+.infoTextContainer {
+  width: 100%;
+}
+
+.infoTextContainer p {
+  width: 75%;
+  margin: 0 auto;
+  line-height: 2;
+  font-size: 1.2em;
+
+}
+
+.infoSubtitleContainer {
+  width: 75%;
+  margin: 0 auto;
+
+  h3 {
+    line-height: 1.7;
+    padding: 1em 0;
+    margin: 0;
+  }
+
+  position: relative;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    border-bottom: 1px solid $light-cyan-transparent;
+    padding-top: 1em;
+  }
+}
+
+
+
+.infoImage {
+  display: block;
+  margin: 0 auto;
+  height: auto;
+  width: auto;
+  max-width: 75%;
+  max-height: calc((100vh - $navbar-height) * 0.80);
+  object-fit: contain;
+}
+
+.blue {
+  color: $dark-cyan;
+}
+
+.brown {
+  color: $brown;
+}
+
+.lightblue {
+  color: $light-cyan;
+}
+
+@media screen and (min-width: 768px) {
+
+  .infoImageContainer,
+  .infoTextContainer {
+    flex: 1 1 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .infoTextContainer p {
+    width: 75%;
+    font-size: 1.4em;
+  }
+
+  .infoImage {
+    max-width: 100%;
+  }
+}
+
+.hero-content {
+  padding: 2rem;
+  color: $dark-cyan;
+  text-align: center;
+  height: 250px;
+  margin: 2em 0;
+
+  @media (max-width: 768px) {
+    height: 225px;
+  }
+
+  @media (max-width: 480px) {
+    height: 200px;
+  }
+
+  .typed-lines {
+    display: inline-block;
+    font-size: 4em;
+    margin: 0;
+    @include typed("ART\AnATuRa e teATRo",
+      "ART\AnATuRe and theATRe",
+      0.3, // velocità digitazione (sec per lettera)
+      (caret: true,
+        caret-speed: 0.75,
+        caret-width: 3px,
+        caret-color: $dark-cyan,
+        caret-space: 2px,
+        iterations: infinite,
+        delay: 0.1));
+
+    @media (max-width: 768px) {
+      font-size: 3em;
+      height: 225px;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 2em;
+      height: 200px;
+    }
+
+  }
+}

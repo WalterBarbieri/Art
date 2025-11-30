@@ -1,6 +1,7 @@
 <div
   class="topSection pt-5"
   [ngStyle]="{ 'background-image': 'url(' + homeBannerPath + ')' }"
+  alt="Art Homepage Banner"
 >
   <div class="container h-100 d-flex align-items-center justify-content-center">
     <div class="hero-content text-center">
@@ -16,18 +17,20 @@
       >
         <h2>{{ "HOME.TITLE" | translate }}</h2>
         <h4 class="mb-2">{{ "HOME.SUBTITLE" | translate }}</h4>
-        <button type="button" class="btn default-button">{{ "HOME.FIND_OUT_MORE" | translate }}</button>
+        <button type="button" class="btn default-button" [routerLink]="['info']">{{ "HOME.FIND_OUT_MORE" | translate }}</button>
       </div>
     </div>
     <div
       class="col-12 col-lg-6 d-flex justify-content-center align-items-center"
     >
-      <img [src]="artImagePath" alt="Art Image" />
+      <img [src]="homeArtPath" alt="Art Homepage Image" />
     </div>
   </div>
 </div>
 <div class="contentSection container-fluid d-flex flex-column py-2">
-  <h2 class="text-center mb-4">{{ "PROJECT.TITLE" | translate }}</h2>
+  <h2 class="text-center mb-4">
+    <a [routerLink]="['/projects']" class="fw-medium standardGray">{{ "PROJECT.TITLE" | translate }}</a>
+  </h2>
 
   <!-- CAROUSEL -->
   <div
@@ -87,9 +90,13 @@
             >
               <div class="flex-fill">
                 <ng-container *ngIf="project.contentType === 'Event'">
-                  <div *ngFor="let date of project.eventDates">
-                    {{ date | date : "dd/MM/yyyy" }}
-                  </div>
+                  <ng-container *ngIf="getEventDatesDisplay(project.eventDates) as display">
+                    <div>{{display.dates[0] | date : "dd/MM/yyyy"}}</div>
+                    <div *ngIf="display.showDots" class="text-center my-0">…</div>
+                    <div *ngIf="display.dates.length > 1">
+                      {{display.dates[display.dates.length - 1] | date : "dd/MM/yyyy"}}
+                    </div>
+                  </ng-container>
                 </ng-container>
                 <ng-container *ngIf="project.contentType === 'Course'">
                   <div class="row mx-0">
@@ -146,13 +153,13 @@
         <p class="mb-2">
           {{ "HOME.BIO" | translate }}
         </p>
-        <button type="button" class="btn default-button">Scopri di più</button>
+        <button type="button" class="btn default-button" [routerLink]="['bio']">Scopri di più</button>
       </div>
     </div>
     <div
       class="col-12 col-lg-6 d-flex justify-content-center align-items-center order-1"
     >
-      <img [src]="artImagePath" alt="Elena Franconi Image" />
+      <img [src]="homeElenaFranconiPath" alt="Elena Franconi Image" />
     </div>
   </div>
 </div>

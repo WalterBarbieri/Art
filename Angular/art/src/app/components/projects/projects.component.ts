@@ -53,7 +53,10 @@ export class ProjectsComponent implements OnInit {
     this.loaderService.show();
     this.contentService.getAllSorted().subscribe({
       next: (data: Content[]) => {
-        this.projects = data;
+        this.projects = data.map(project => ({
+            ...project,
+            eventDates: project.eventDates ? project.eventDates.map(d => new Date(d)) : []
+          }));
         this.imageLoading = new Array(this.projects.length).fill(false);
         this.projects.forEach((project, index) => {
           this.getFullImageUrl(project.coverImagePath, index);
@@ -120,5 +123,14 @@ export class ProjectsComponent implements OnInit {
     this.successToast = false;
     this.errorToast = false;
     this.toastMessage = '';
+  }
+
+  getEventDatesDisplay(eventDates: Date[] | null): { dates: Date[], showDots: boolean } {
+    if (!eventDates || eventDates.length === 0) return { dates: [], showDots: false };
+    const sorted = [...eventDates].sort((a, b) => b.getDate() - a.getDate());
+    if (sorted.length <= 2) {
+      return { dates: sorted, showDots: false };
+    }
+    return { dates: [sorted[0], sorted[sorted.length - 1]], showDots: true };
   }
 }
