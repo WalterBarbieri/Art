@@ -2,39 +2,81 @@
   <div class="hero-content text-center">
     <h2 class="typed-lines fw-bold"></h2>
   </div>
-  <div class="infoSubtitleContainer text-center">
-    <h3>ART nATuRa e teATRo è abitare poeticamente la natura e i luoghi, valorizzando i territori dal punto di vista paesaggistico e storico.</h3>
+  <div class="infoSubtitleContainer">
+    <h4>
+      <span class="fw-bold">{{ "HOME.TITLE" | translate }}</span>
+      <span [innerHTML]="('INFO.SUBTITLE' | translate | appNewlineToBr)"></span>
+    </h4>
+    <img [src]="infoBannerPath" alt="Info Art Banner" class="mb-3">
   </div>
+  <div class="section-divider"></div>
   <div
-    class="d-flex flex-column flex-md-row justify-content-around align-items-center py-5 infoSectionContainer"
+    class="infoSectionContainer d-flex flex-column flex-md-row justify-content-around align-items-center py-5"
   >
-    <div class="mb-5 mb-md-0 infoTextContainer text-center text-md-end">
+    <div class="mb-5 mb-md-0 infoTextContainer text-md-end">
       <p>
-        Il progetto di Elena Franconi trae ispirazione dal mondo vegetale per
-        sperimentare nuovi sguardi umani e sociali, trasformando il bosco in
-        spazio di scoperta, creazione e meraviglia.
+        {{ "HOME.TITLE" | translate }}
+        <span class="fst-italic" [innerHTML]="('INFO.SECTION_1' | translate | appNewlineToBr)"></span>
       </p>
     </div>
     <div class="infoImageContainer">
-      <img
-        [src]="infoArt1Path"
-        alt="Art Info Elena Franconi Image"
-        class="infoImage"
-      />
+      <img [src]="infoArt1Path" alt="Info Art Image" class="infoImage" />
     </div>
   </div>
+  <div class="section-divider"></div>
   <div
-    class="d-flex flex-column flex-md-row-reverse justify-content-around align-items-center py-5"
+    class="infoSectionContainer d-flex flex-column flex-md-row-reverse justify-content-around align-items-center py-5"
   >
-    <div class="mb-5 mb-md-0 infoTextContainer text-center text-md-start">
+    <div class="mb-5 mb-md-0 infoTextContainer">
       <p>
-        L'intento è recuperare quella frattura dolorosa che si è creata fra
-        Artificiale e Naturale per tornare alla totalità originaria e portare
-        unione e pienezza.
+        {{ "HOME.TITLE" | translate }}
+        <span class="fst-italic" [innerHTML]="('INFO.SECTION_2' | translate | appNewlineToBr)"></span>
       </p>
     </div>
     <div class="infoImageContainer">
-      <img [src]="infoArt2Path" alt="Art Info Image" class="infoImage" />
+      <img [src]="infoArt2Path" alt="Info Art Image" class="infoImage" />
+    </div>
+  </div>
+  <div class="section-divider"></div>
+  <div
+    class="infoSectionContainer d-flex flex-column flex-md-row justify-content-around align-items-center py-5"
+  >
+    <div class="mb-5 mb-md-0 infoTextContainer text-md-end">
+      <p>
+        {{ "HOME.TITLE" | translate }}
+        <span class="fst-italic" [innerHTML]="('INFO.SECTION_3' | translate | appNewlineToBr)"></span>
+      </p>
+    </div>
+    <div class="infoImageContainer">
+      <img [src]="infoArt3Path" alt="Info Art Image" class="infoImage" />
+    </div>
+  </div>
+  <div class="section-divider"></div>
+  <div
+    class="infoSectionContainer d-flex flex-column flex-md-row-reverse justify-content-around align-items-center py-5"
+  >
+    <div class="mb-5 mb-md-0 infoTextContainer">
+      <p>
+        {{ "HOME.TITLE" | translate }}
+        <span class="fst-italic" [innerHTML]="('INFO.SECTION_4' | translate | appNewlineToBr)"></span>
+      </p>
+    </div>
+    <div class="infoImageContainer">
+      <img [src]="infoArt4Path" alt="Info Art Image" class="infoImage" />
+    </div>
+  </div>
+  <div class="section-divider"></div>
+  <div
+    class="infoSectionContainer d-flex flex-column flex-md-row justify-content-around align-items-center py-5"
+  >
+    <div class="mb-5 mb-md-0 infoTextContainer text-md-end">
+      <p>
+        {{ "HOME.TITLE" | translate }}
+        <span class="fst-italic" [innerHTML]="('INFO.SECTION_5' | translate | appNewlineToBr)"></span>
+      </p>
+    </div>
+    <div class="infoImageContainer">
+      <img [src]="infoArt5Path" alt="Info Art Image" class="infoImage" />
     </div>
   </div>
 </div>

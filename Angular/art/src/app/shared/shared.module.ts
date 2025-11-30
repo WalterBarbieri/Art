@@ -3,9 +3,9 @@ import { TextareaAutoresizeDirective } from "../directive/textarea-autoresize.di
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
-import { HttpClientModule } from '@angular/common/http';
 import { ImageLoaderComponent } from "../components/loader/image-loader/image-loader.component";
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
+import { NewlineToBrPipe } from './pipes/NewlineToBr-pipe';
 
 @NgModule({
   declarations: [
@@ -17,17 +17,17 @@ import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule.forChild(),
-    HttpClientModule,
-    NgbToastModule
+    NgbToastModule,
+    NewlineToBrPipe
   ],
   exports: [
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    HttpClientModule,
     TextareaAutoresizeDirective,
     ImageLoaderComponent,
-    NgbToastModule
+    NgbToastModule,
+    NewlineToBrPipe
   ],
 })
 export class SharedModule { }

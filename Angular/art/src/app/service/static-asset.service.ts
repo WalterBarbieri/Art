@@ -8,13 +8,20 @@ import { environment } from 'src/environments/environment';
 export class StaticAssetService {
   private readonly assets: { [key: string]: string } = {
     fallback_image: environment.fallBackImage,
-    logo: 'assets/images/LOGO_ART.jpeg',
-    home_banner: 'assets/images/home_banner.jpeg',
-    home_art: 'assets/images/franconi_elena_orizontal_2.jpeg',
-    home_elena_franconi: 'assets/images/franconi_elena_orizontal_1.jpeg',
-    info_banner: 'assets/images/franconi_elena_orizontal_3.jpeg',
-    info_art_1: 'assets/images/franconi_elena_vertical_3.jpeg',
-    info_art_2: 'assets/images/home_2.jpeg'
+    logo: 'assets/logo/LOGO_ART_NO_BG.png',
+    home_banner: 'assets/images/art_1_banner.jpeg',
+    home_art: 'assets/images/art_3_horizontal.jpeg',
+    home_elena_franconi: 'assets/images/elena_franconi_art_1_horizontal.jpeg',
+    info_banner: 'assets/images/art_2_horizontal.jpeg',
+    info_art_1: 'assets/images/art_4_square.jpeg',
+    info_art_2: 'assets/images/art_5_square.jpeg',
+    info_art_3: 'assets/images/art_8_vertical.jpeg',
+    info_art_4: 'assets/images/nature_2_vertical.jpeg',
+    info_art_5: 'assets/images/art_6_vertical.jpeg',
+    bio_banner: 'assets/images/elena_franconi_art_4_horizontal.jpeg',
+    bio_art_1: 'assets/images/elena_franconi_art_5_vertical.jpeg',
+    bio_art_2: 'assets/images/elena_franconi_1_vertical.jpeg',
+    bio_art_3: 'assets/images/elena_franconi_art_2_horizontal.jpeg',
   };
   constructor() { }
 

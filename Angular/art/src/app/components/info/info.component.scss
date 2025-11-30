@@ -10,30 +10,34 @@
   width: 75%;
   margin: 0 auto;
   line-height: 2;
-  font-size: 1.2em;
-
 }
 
 .infoSubtitleContainer {
   width: 75%;
   margin: 0 auto;
+  position: relative;
 
-  h3 {
+  h4 {
     line-height: 1.7;
     padding: 1em 0;
     margin: 0;
   }
 
-  position: relative;
-
-  &::after {
-    content: "";
+  img {
     display: block;
+    margin: 0 auto;
+    height: auto;
+    width: auto;
+    max-height: calc(100vh - $navbar-height);
+    max-width: 100%;
+  }
+}
+
+.section-divider {
     width: 80%;
     margin: 0 auto;
     border-bottom: 1px solid $light-cyan-transparent;
     padding-top: 1em;
-  }
 }
 
 
@@ -48,18 +52,6 @@
   object-fit: contain;
 }
 
-.blue {
-  color: $dark-cyan;
-}
-
-.brown {
-  color: $brown;
-}
-
-.lightblue {
-  color: $light-cyan;
-}
-
 @media screen and (min-width: 768px) {
 
   .infoImageContainer,
@@ -72,11 +64,17 @@
 
   .infoTextContainer p {
     width: 75%;
-    font-size: 1.4em;
+    font-size: 1.2em;
   }
 
   .infoImage {
     max-width: 100%;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .infoSubtitleContainer {
+    width: 60%;
   }
 }
 

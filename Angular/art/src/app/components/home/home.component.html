@@ -1,7 +1,7 @@
 <div
   class="topSection pt-5"
   [ngStyle]="{ 'background-image': 'url(' + homeBannerPath + ')' }"
-  alt="Art Homepage Banner"
+  alt="Homepage Art Banner"
 >
   <div class="container h-100 d-flex align-items-center justify-content-center">
     <div class="hero-content text-center">
@@ -13,17 +13,17 @@
   <div class="row h-100">
     <div class="col-12 col-lg-6 mb-3 mb-lg-0">
       <div
-        class="middleSectionText h-100 mx-auto d-flex flex-column justify-content-center align-items-center text-center"
+        class="middleSectionText h-100 mx-auto d-flex flex-column justify-content-center align-items-center"
       >
-        <h2>{{ "HOME.TITLE" | translate }}</h2>
-        <h4 class="mb-2">{{ "HOME.SUBTITLE" | translate }}</h4>
-        <button type="button" class="btn default-button" [routerLink]="['info']">{{ "HOME.FIND_OUT_MORE" | translate }}</button>
+        <h2 class="mb-3">{{ "HOME.TITLE" | translate }}</h2>
+        <h4 class="mb-3">{{ "HOME.SUBTITLE" | translate }}</h4>
+        <button type="button" class="btn default-button mb-3 mb-lg-0" [routerLink]="['info']">{{ "HOME.FIND_OUT_MORE" | translate }}</button>
       </div>
     </div>
     <div
       class="col-12 col-lg-6 d-flex justify-content-center align-items-center"
     >
-      <img [src]="homeArtPath" alt="Art Homepage Image" />
+      <img [src]="homeArtPath" alt="Homepage Art Image" />
     </div>
   </div>
 </div>
@@ -149,17 +149,17 @@
       <div
         class="middleSectionText h-100 mx-auto d-flex flex-column justify-content-center align-items-center"
       >
-        <h2>Elena Franconi</h2>
-        <p class="mb-2">
+        <h2 class="mb-3">Elena Franconi</h2>
+        <p class="mb-3">
           {{ "HOME.BIO" | translate }}
         </p>
         <button type="button" class="btn default-button" [routerLink]="['bio']">Scopri di più</button>
       </div>
     </div>
     <div
-      class="col-12 col-lg-6 d-flex justify-content-center align-items-center order-1"
+      class="col-12 col-lg-6 d-flex justify-content-center align-items-center order-1 mb-3 mb-lg-0"
     >
-      <img [src]="homeElenaFranconiPath" alt="Elena Franconi Image" />
+      <img [src]="homeElenaFranconiPath" alt="Homepage Elena Franconi Image" />
     </div>
   </div>
 </div>

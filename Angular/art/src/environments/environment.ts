@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   baseURL: 'http://localhost:4001/',
-  fallBackImage: '../../../assets/images/LOGO_ART.jpeg'
+  fallBackImage: '../../../assets/logo/LOGO_ART_WHITE_BG.png'
 };
 
 /*

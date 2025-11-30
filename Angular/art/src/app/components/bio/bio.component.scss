@@ -1,0 +1,139 @@
+@import 'variables';
+@import 'typed';
+
+.bioImageContainer,
+.bioTextContainer {
+  width: 100%;
+}
+
+.bioTextContainer p,
+.bioTextContainer ul {
+  width: 75%;
+  margin: 0 auto;
+  line-height: 2;
+}
+
+.bioTextContainer ul {
+  padding-left: 0;
+
+  li {
+    font-size: medium;
+  }
+}
+.bioSubtitleContainer {
+  width: 75%;
+  margin: 3em auto;
+  position: relative;
+
+  h2 {
+    color: $dark-cyan;
+  }
+
+  h4 {
+    line-height: 1.7;
+    padding: 1em 0;
+    margin: 0;
+  }
+
+  img {
+    display: block;
+    margin: 0 auto;
+    height: auto;
+    width: auto;
+    max-height: calc(100vh - $navbar-height);
+    max-width: 100%;
+  }
+}
+
+.section-divider {
+    width: 80%;
+    margin: 0 auto;
+    border-bottom: 1px solid $light-cyan-transparent;
+    padding-top: 1em;
+}
+
+
+
+.bioImage {
+  display: block;
+  margin: 0 auto;
+  height: auto;
+  width: auto;
+  max-width: 75%;
+  max-height: calc((100vh - $navbar-height) * 0.80);
+  object-fit: contain;
+}
+
+@media screen and (min-width: 768px) {
+
+  .bioImageContainer,
+  .bioTextContainer {
+    flex: 1 1 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .bioTextContainer p,
+  .bioTextContainer ul {
+    width: 75%;
+    font-size: large;
+
+    li {
+      font-size: large;
+    }
+  }
+
+  .bioImage {
+    max-width: 100%;
+  }
+}
+
+@media screen and (min-width: 1400px) {
+  .bioSubtitleContainer {
+    width: 60%;
+  }
+}
+
+.hero-content {
+  padding: 2rem;
+  color: $dark-cyan;
+  text-align: center;
+  height: 250px;
+  margin: 2em 0;
+
+  @media (max-width: 768px) {
+    height: 225px;
+  }
+
+  @media (max-width: 480px) {
+    height: 200px;
+  }
+
+  .typed-lines {
+    display: inline-block;
+    font-size: 4em;
+    margin: 0;
+    @include typed("ART\AnATuRa e teATRo",
+      "ART\AnATuRe and theATRe",
+      0.3, // velocità digitazione (sec per lettera)
+      (caret: true,
+        caret-speed: 0.75,
+        caret-width: 3px,
+        caret-color: $dark-cyan,
+        caret-space: 2px,
+        iterations: infinite,
+        delay: 0.1));
+
+    @media (max-width: 768px) {
+      font-size: 3em;
+      height: 225px;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 2em;
+      height: 200px;
+    }
+
+  }
+}

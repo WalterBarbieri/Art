@@ -2,8 +2,7 @@
   "NAVBAR": {
     "PROJECT": "PROGETTI",
     "CONTACT": "CONTATTI",
-    "MODAL":
-    {
+    "MODAL": {
       "TITLE": "Benvenuta",
       "MY_ACCOUNT": "Il Mio Account"
     }
@@ -21,10 +20,9 @@
   },
   "HOME": {
     "TITLE": "ART nATuRa e teATRo",
-    "SUBTITLE": "ricerca e sperimentazione teatrale nella natura",
+    "SUBTITLE": "laboratorio di ricerca e sperimentazione teatrale nella natura e performance",
     "FIND_OUT_MORE": "Scopri di più",
     "BIO": "Attrice e autrice di testi teatrali, conduce laboratori di teatro per ragazzi e adulti. Ideatrice e conduttrice del progetto ART nATuRa e teATRo un laboratorio di ricerca e sperimentazione teatrale nella natura..."
-
   },
   "PROJECT": {
     "TITLE": "PROGETTI",
@@ -39,6 +37,25 @@
     "ORDER_BY_DATE": "ORDINA PER DATA",
     "NEWEST": "Più recenti",
     "OLDEST": "Meno recenti"
+  },
+  "INFO": {
+    "SUBTITLE": " è un laboratorio di ricerca e sperimentazione teatrale nella natura.\nNato nel 2021 dal desiderio di coltivare una relazione viva con la natura,\nin particolare con il mondo vegetale.\nTrae ispirazione nel linguaggio della gentilezza di poeti come Christian Bobin,\nChandra Candiani e Mariangela Gualtieri;\nnella lingua simbolica di autori come Francesco Boer;\ne nella scienza del professor Stefano Mancuso.",
+    "SECTION_1": " è abitare poeticamente la natura e i luoghi.\nValorizza i territori e trae ispirazione dal mondo vegetale\nper sperimentare nuovi sguardi umani e sociali.",
+    "SECTION_2": " è contaminazione fra identità:\nvegetale, animale, artificiale.\nÈ ascolto e connessione con lo spirito e la storia del luogo.",
+    "SECTION_3": " si propone di recuperare la frattura dolorosa\ntra Artificiale e Naturale.\nAttraverso il linguaggio simbolico, invita a tornare alla totalità originaria\ne a portare unione e pienezza.",
+    "SECTION_4": " è un gioco di parole,\nanzi di lettere, una sorta di anagramma.\nART è sia in natura che in teatro: va cercata!",
+    "SECTION_5": " è realizzato nella forma di singoli incontri\noppure come laboratorio con performance conclusiva."
+  },
+  "BIO": {
+    "SUBTITLE": "Attrice e autrice di testi teatrali, conduce laboratori di teatro per ragazzi e adulti.",
+    "SECTION_1": "Ideatrice e conduttrice del progetto ART nATuRa e teATRo un laboratorio di ricerca e sperimentazione teatrale nella natura ispirato alla filosofia del Prof. Stefano Mancuso e al linguaggio della gentilezza con la messa in scena di spettacoli nei boschi. Da sempre impegnata nella divulgazione dell’inclusione sociale, parità di genere e impegno civile, collabora con enti e associazioni nello sviluppo di progetti educativi e sui temi dell’intercultura. Ha condotto un laboratorio sulla narrazione rivolto ai richiedenti asilo, agli immigrati e agli italiani con lo scopo di creare occasioni di conoscenza e scambio fra diverse culture e diversi saperi.",
+    "SECTION_2": "Autrice dei testi teatrali:",
+    "SSECTION_2_LIST_ITEM_1": "PULSATILLA - monologo sulla relazione fra una madre e una figlia adolescente",
+    "SSECTION_2_LIST_ITEM_2": "68x15 UNA QUESTIONE DI COSCIENZA - uno spettacolo sul ‘68 e sulla presa di coscienza collettiva e individuale con il coordinamento drammaturgico di Donatella Diamanti",
+    "SSECTION_2_LIST_ITEM_3": "MOI pour TOI - sulla vita di Edith Piaf, per la compagnia Ex-it danza di Livorno",
+    "SSECTION_2_LIST_ITEM_4": "COSTI QUEL CHE COSTI - spettacolo del rione Paese Novo di Pomarance, alla 47° edizione del Palio di Pomarance",
+    "SSECTION_2_LIST_ITEM_5": "IMPIEGO SICURO CERCASI - sulla sicurezza sui luoghi di lavoro",
+    "SECTION_3": "Pubblica on line testi brevi firmati Mrstulips, che costituiscono parte di un progetto più ampio di scrittura, immagini e creazioni orafe in collaborazione con Pepe Factory."
   },
   "GUARD": {
     "NOT_AUTHORIZED": "Non sei autorizzato a vedere questo contenuto",

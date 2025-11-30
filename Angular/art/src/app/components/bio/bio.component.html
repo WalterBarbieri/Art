@@ -1,1 +1,55 @@
-<p>bio works!</p>
+<div class="container-fluid">
+  <div class="bioSubtitleContainer">
+    <h2 class="text-center fw-bold">Elena Franconi</h2>
+    <h4 class="text-center">
+      {{ "BIO.SUBTITLE" | translate }}
+    </h4>
+    <img [src]="bioBannerPath" alt="Bio Art Banner">
+  </div>
+  <div class="section-divider"></div>
+  <div
+    class="bioSectionContainer d-flex flex-column flex-md-row justify-content-around align-items-center py-5"
+  >
+    <div class="mb-5 mb-md-0 bioTextContainer text-md-end">
+      <p>
+        {{ "BIO.SECTION_1" | translate }}
+      </p>
+    </div>
+    <div class="bioImageContainer">
+      <img [src]="bioArt1Path" alt="Bio Art Image" class="bioImage" />
+    </div>
+  </div>
+  <div class="section-divider"></div>
+  <div
+    class="bioSectionContainer d-flex flex-column flex-md-row-reverse justify-content-around align-items-center py-5"
+  >
+    <div class="mb-5 mb-md-0 bioTextContainer flex-column">
+      <p>
+        {{ "BIO.SECTION_2" | translate }}
+      </p>
+      <ul>
+        <li>{{ "BIO.SSECTION_2_LIST_ITEM_1" | translate }}</li>
+        <li>{{ "BIO.SSECTION_2_LIST_ITEM_2" | translate }}</li>
+        <li>{{ "BIO.SSECTION_2_LIST_ITEM_3" | translate }}</li>
+        <li>{{ "BIO.SSECTION_2_LIST_ITEM_4" | translate }}</li>
+        <li>{{ "BIO.SSECTION_2_LIST_ITEM_5" | translate }}</li>
+      </ul>
+    </div>
+    <div class="bioImageContainer">
+      <img [src]="bioArt2Path" alt="Bio Art Image" class="bioImage" />
+    </div>
+  </div>
+  <div class="section-divider"></div>
+  <div
+    class="bioSectionContainer d-flex flex-column flex-md-row justify-content-around align-items-center py-5"
+  >
+    <div class="mb-5 mb-md-0 bioTextContainer text-md-end">
+      <p>
+        {{ "BIO.SECTION_3" | translate }}
+      </p>
+    </div>
+    <div class="bioImageContainer">
+      <img [src]="bioArt3Path" alt="Bio Art Image" class="bioImage" />
+    </div>
+  </div>
+</div>
