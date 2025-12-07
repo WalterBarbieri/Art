@@ -40,7 +40,8 @@
     "OLDEST": "Least recent"
   },
   "INFO": {
-    "SUBTITLE": " is a workshop for research and theatrical experimentation in nature.\nBorn in 2021 from the desire to cultivate a living relationship with nature,\nespecially with the vegetal world,\nit draws inspiration from the gentle language of poets such as Christian Bobin,\nChandra Livia Candiani and Mariangela Gualtieri,\nfrom the symbolic language of authors like Francesco Boer,\nand from the scientific insight of Stefano Mancuso.",
+    "SUBTITLE": " is a workshop for research \nand theatrical experimentation in nature.\nBorn in 2021 from the desire to cultivate a living relationship \nwith nature, especially with the vegetal world.",
+    "SUBTITLE_2":" draws inspiration \nfrom the gentle language of poets such as \nChristian Bobin, Chandra Livia Candiani and Mariangela Gualtieri;\nfrom the symbolic language of authors like Francesco Boer;\nand from the scientific insight of Stefano Mancuso.",
     "SECTION_1": " is about living poetically in nature and in places.\nIt honours the land and takes inspiration from the vegetal world\nto explore new human and social perspectives.",
     "SECTION_2": " is a meeting of identities:\nplant, animal, artificial.\nIt is listening and connecting with the spirit and history of the place.",
     "SECTION_3": " seeks to mend the painful fracture\nbetween the Artificial and the Natural.\nThrough symbolic language, it invites a return to original wholeness\nand brings unity and fullness.",
@@ -51,11 +52,11 @@
     "SUBTITLE": "Actress and playwright, she leads theatre workshops for children and adults.",
     "SECTION_1": "Creator and leader of the project ART nATuRe and tHeATRe, a workshop for research and theatrical experimentation in nature inspired by the philosophy of Prof. Stefano Mancuso and the language of gentleness, with performances staged in the woods. Always engaged in promoting social inclusion, gender equality, and civic commitment, she collaborates with organizations and associations on educational projects and intercultural topics. She has conducted a storytelling workshop aimed at asylum seekers, immigrants, and Italians to create opportunities for knowledge exchange between different cultures and knowledges.",
     "SECTION_2": "Author of the theatrical texts:",
-    "SSECTION_2_LIST_ITEM_1": "PULSATILLA - a monologue about the relationship between a mother and her teenage daughter",
-    "SSECTION_2_LIST_ITEM_2": "68x15 UNA QUESTIONE DI COSCIENZA - a performance on '68 and the development of collective and individual awareness, with dramaturgical coordination by Donatella Diamanti",
-    "SSECTION_2_LIST_ITEM_3": "MOI pour TOI - about the life of Edith Piaf, for the Ex-it danza company in Livorno",
-    "SSECTION_2_LIST_ITEM_4": "COSTI QUEL CHE COSTI - a performance of the Paese Novo district in Pomarance, at the 47th edition of the Palio di Pomarance",
-    "SSECTION_2_LIST_ITEM_5": "IMPIEGO SICURO CERCASI - about workplace safety",
+    "SECTION_2_LIST_ITEM_1": "Monologue about the relationship between a mother and her teenage daughter",
+    "SECTION_2_LIST_ITEM_2": "A performance about '68 and the development of collective and individual awareness, with dramaturgical coordination by Donatella Diamanti",
+    "SECTION_2_LIST_ITEM_3": "About the life of Edith Piaf, for the Ex-it danza company in Livorno",
+    "SECTION_2_LIST_ITEM_4": "Performance of the Paese Novo district in Pomarance, at the 47th edition of the Palio di Pomarance",
+    "SECTION_2_LIST_ITEM_5": "Performance about workplace safety",
     "SECTION_3": "She publishes short texts online under the name Mrstulips, which are part of a larger project of writing, images, and goldsmith creations in collaboration with Pepe Factory."
   },
   "GUARD": {

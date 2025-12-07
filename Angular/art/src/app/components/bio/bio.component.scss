@@ -8,6 +8,7 @@
 
 .bioTextContainer p,
 .bioTextContainer ul {
+  text-align: justify;
   width: 75%;
   margin: 0 auto;
   line-height: 2;
@@ -15,6 +16,10 @@
 
 .bioTextContainer ul {
   padding-left: 0;
+  h6 {
+    margin-bottom: 0;
+    font-weight: bold;
+  }
 
   li {
     font-size: medium;
@@ -76,7 +81,6 @@
 
   .bioTextContainer p,
   .bioTextContainer ul {
-    width: 75%;
     font-size: large;
 
     li {
@@ -86,6 +90,13 @@
 
   .bioImage {
     max-width: 100%;
+  }
+}
+
+@media screen and (min-width: 1200px) {
+  .bioTextContainer p,
+  .bioTextContainer ul  {
+    width: 60%;
   }
 }
 
