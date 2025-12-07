@@ -4,7 +4,7 @@
     <h4 class="text-center">
       {{ "BIO.SUBTITLE" | translate }}
     </h4>
-    <img [src]="bioBannerPath" alt="Bio Art Banner">
+    <img [src]="bioBannerPath" alt="Bio Art Banner" />
   </div>
   <div class="section-divider"></div>
   <div
@@ -58,10 +58,26 @@
   <div
     class="bioSectionContainer d-flex flex-column flex-md-row justify-content-around align-items-center py-5"
   >
-    <div class="mb-5 mb-md-0 bioTextContainer">
-      <p>
+    <div class="mb-5 mb-md-0 bioTextContainer flex-column">
+      <p class="mb-5">
         {{ "BIO.SECTION_3" | translate }}
       </p>
+      <div class="d-flex justify-content-evenly align-items-center">
+        <a
+          class="btn default-button mb-3 mb-lg-0"
+          href="assets/cv/Elena_Franconi_CV.pdf"
+          download="Elena-Franconi-CV-IT.pdf"
+        >
+          {{ "BIO.DOWNLOAD_CV" | translate }}
+        </a>
+        <button
+          type="button"
+          class="btn default-button mb-3 mb-lg-0"
+          [routerLink]="['/contacts']"
+        >
+          {{ "BIO.CONTACT_ME" | translate }}
+        </button>
+      </div>
     </div>
     <div class="bioImageContainer">
       <img [src]="bioArt3Path" alt="Bio Art Image" class="bioImage" />

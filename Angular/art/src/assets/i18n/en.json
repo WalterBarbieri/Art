@@ -50,14 +50,19 @@
   },
   "BIO": {
     "SUBTITLE": "Actress and playwright, she leads theatre workshops for children and adults.",
-    "SECTION_1": "Creator and leader of the project ART nATuRe and tHeATRe, a workshop for research and theatrical experimentation in nature inspired by the philosophy of Prof. Stefano Mancuso and the language of gentleness, with performances staged in the woods. Always engaged in promoting social inclusion, gender equality, and civic commitment, she collaborates with organizations and associations on educational projects and intercultural topics. She has conducted a storytelling workshop aimed at asylum seekers, immigrants, and Italians to create opportunities for knowledge exchange between different cultures and knowledges.",
+    "SECTION_1": "Creator and leader of the project ART nATuRe and theATRe, a workshop for research and theatrical experimentation in nature inspired by the philosophy of Prof. Stefano Mancuso and the language of gentleness, with performances staged in the woods. Always engaged in promoting social inclusion, gender equality, and civic commitment, she collaborates with organizations and associations on educational projects and intercultural topics. She has conducted a storytelling workshop aimed at asylum seekers, immigrants, and Italians to create opportunities for knowledge exchange between different cultures and knowledges.",
     "SECTION_2": "Author of the theatrical texts:",
     "SECTION_2_LIST_ITEM_1": "Monologue about the relationship between a mother and her teenage daughter",
     "SECTION_2_LIST_ITEM_2": "A performance about '68 and the development of collective and individual awareness, with dramaturgical coordination by Donatella Diamanti",
     "SECTION_2_LIST_ITEM_3": "About the life of Edith Piaf, for the Ex-it danza company in Livorno",
     "SECTION_2_LIST_ITEM_4": "Performance of the Paese Novo district in Pomarance, at the 47th edition of the Palio di Pomarance",
     "SECTION_2_LIST_ITEM_5": "Performance about workplace safety",
-    "SECTION_3": "She publishes short texts online under the name Mrstulips, which are part of a larger project of writing, images, and goldsmith creations in collaboration with Pepe Factory."
+    "SECTION_3": "She publishes short texts online under the name Mrstulips, which are part of a larger project of writing, images, and goldsmith creations in collaboration with Pepe Factory.",
+    "DOWNLOAD_CV": "Download CV",
+    "CONTACT_ME": "Contact me"
+  },
+  "CONTACT": {
+    "TITLE": "Contacts"
   },
   "GUARD": {
     "NOT_AUTHORIZED": "You are not authorized to view this content",

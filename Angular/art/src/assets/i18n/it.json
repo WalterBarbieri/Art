@@ -56,7 +56,12 @@
     "SECTION_2_LIST_ITEM_3": "Sulla vita di Edith Piaf, per la compagnia Ex-it danza di Livorno",
     "SECTION_2_LIST_ITEM_4": "Spettacolo del rione Paese Novo di Pomarance, alla 47° edizione del Palio di Pomarance",
     "SECTION_2_LIST_ITEM_5": "Spettacolo sulla sicurezza sui luoghi di lavoro",
-    "SECTION_3": "Pubblica on line testi brevi firmati Mrstulips, che costituiscono parte di un progetto più ampio di scrittura, immagini e creazioni orafe in collaborazione con Pepe Factory."
+    "SECTION_3": "Pubblica on line testi brevi firmati Mrstulips, che costituiscono parte di un progetto più ampio di scrittura, immagini e creazioni orafe in collaborazione con Pepe Factory.",
+    "DOWNLOAD_CV": "Scarica il CV",
+    "CONTACT_ME": "Contattami"
+  },
+  "CONTACT": {
+    "TITLE": "Contatti"
   },
   "GUARD": {
     "NOT_AUTHORIZED": "Non sei autorizzato a vedere questo contenuto",

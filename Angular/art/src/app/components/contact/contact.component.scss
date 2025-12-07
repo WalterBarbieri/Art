@@ -1,0 +1,30 @@
+@import 'variables';
+.fluid-container {
+  width: fit-content;
+  height: auto;
+  max-width: 100%;
+  height: calc(100vh - ($navbar-height + $footer-height));
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+.social-icons {
+  margin-top: 1em;
+  a {
+    background-color: $dark-cyan;
+    color: white;
+    font-size: 1.5em;
+    transition: color 0.3s ease;
+
+    &:hover {
+      background-color: $light-cyan;
+    }
+  }
+}
+.social-icon {
+  width: 2em;
+  height: 2em;
+  border-radius: 10%;
+}
