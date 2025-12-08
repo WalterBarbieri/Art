@@ -10,7 +10,7 @@ import { ContentService } from 'src/app/service/content.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
-import { log } from 'console';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-home',
@@ -19,9 +19,6 @@ import { log } from 'console';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   private languageSubscription: Subscription = new Subscription();
-  successToast: boolean = false;
-  errorToast: boolean = false;
-  toastMessage: string = '';
   currentLanguage: string = 'it';
   projects: Content[] = [];
   imageLoading: boolean[] = [];
@@ -42,17 +39,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     private imageService: ImageService,
     private contentService: ContentService,
     private loaderService: LoaderService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
     this.updateMetaTags();
     this.setupLanguageSubscription();
     this.loadStaticAssets();
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       const message = params['message'];
       if (message === 'LoginSuccess') {
-        this.mostraToast(true, 'Login successful!');
+        this.toastService.showSuccess('Login successful!');
       }
     });
     this.getAllProjects();
@@ -62,39 +60,26 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.languageSubscription.unsubscribe();
   }
 
-  mostraToast(success: boolean, message: string) {
-    this.toastMessage = message;
-    if (success) {
-      this.successToast = true;
-      this.errorToast = false;
-    } else {
-      this.errorToast = true;
-      this.successToast = false;
-    }
-  }
-
-  chiudiToast() {
-    this.successToast = false;
-    this.errorToast = false;
-    this.toastMessage = '';
-  }
-
   private updateMetaTags(): void {
     this.metaService.updateMetaTagsForComponents('home');
     this.metaService.updateTitleForComponent('home');
   }
 
   private setupLanguageSubscription(): void {
-    this.languageSubscription = this.languageService.language$.subscribe((language) => {
-      this.currentLanguage = language;
-      this.updateMetaTags();
-    });
+    this.languageSubscription = this.languageService.language$.subscribe(
+      (language) => {
+        this.currentLanguage = language;
+        this.updateMetaTags();
+      }
+    );
   }
 
   private loadStaticAssets(): void {
     this.homeBannerPath = this.staticAssetService.getAssetPath('home_banner');
     this.homeArtPath = this.staticAssetService.getAssetPath('home_art');
-    this.homeElenaFranconiPath = this.staticAssetService.getAssetPath('home_elena_franconi');
+    this.homeElenaFranconiPath = this.staticAssetService.getAssetPath(
+      'home_elena_franconi'
+    );
   }
 
   getFullImageUrl(imagePath: string | null, index: number): void {
@@ -109,41 +94,45 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     );
   }
-   getAllProjects(): void {
-      this.loaderService.show();
-      this.contentService.getTopSorted().subscribe({
-        next: (data: Content[]) => {
-          this.projects = data.map(project => ({
-            ...project,
-            eventDates: project.eventDates ? project.eventDates.map(d => new Date(d)) : []
-          }));
-          this.imageLoading = new Array(this.projects.length).fill(false);
-          this.projects.forEach((project, index) => {
-            this.getFullImageUrl(project.coverImagePath, index);
-          });
-          this.initializeCarousel();
-        },
-        error: (processedError: ProcessedError) => {
-          if (processedError.backendMessage) {
-            this.toastMessage =
-              this.translate.instant(processedError.key) +
-              ': ' +
-              processedError.backendMessage;
-          } else {
-            this.toastMessage = this.translate.instant(processedError.key);
-          }
-        },
-        complete: () => {
-          // Test: commento hide per vedere il loader più a lungo
-          // this.loaderService.hide();
+  getAllProjects(): void {
+    this.loaderService.show();
+    this.contentService.getTopSorted().subscribe({
+      next: (data: Content[]) => {
+        this.projects = data.map((project) => ({
+          ...project,
+          eventDates: project.eventDates
+            ? project.eventDates.map((d) => new Date(d))
+            : [],
+        }));
+        this.imageLoading = new Array(this.projects.length).fill(false);
+        this.projects.forEach((project, index) => {
+          this.getFullImageUrl(project.coverImagePath, index);
+        });
+        this.initializeCarousel();
+      },
+      error: (processedError: ProcessedError) => {
+        let message: string;
+        if (processedError.backendMessage) {
+          message =
+            this.translate.instant(processedError.key) +
+            ': ' +
+            processedError.backendMessage;
+        } else {
+          message = this.translate.instant(processedError.key);
+        }
+        this.toastService.showError(message);
+      },
+      complete: () => {
+        // Test: commento hide per vedere il loader più a lungo
+        // this.loaderService.hide();
 
-          // Opzionale: nascondi dopo 2 secondi per test
-          setTimeout(() => {
-            this.loaderService.hide();
-          }, 2000);
-        },
-      });
-    }
+        // Opzionale: nascondi dopo 2 secondi per test
+        setTimeout(() => {
+          this.loaderService.hide();
+        }, 2000);
+      },
+    });
+  }
 
   private initializeCarousel(): void {
     this.updateCarouselSettings();
@@ -151,23 +140,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private updateCarouselSettings(): void {
-
     const screenWidth = window.innerWidth;
 
     if (screenWidth >= 1200) {
-
       this.cardWidthPercentage = 25;
       this.maxSlides = Math.max(0, this.projects.length - 3);
     } else if (screenWidth >= 992) {
-
       this.cardWidthPercentage = 33.333;
       this.maxSlides = Math.max(0, this.projects.length - 2);
     } else if (screenWidth >= 576) {
-
       this.cardWidthPercentage = 50;
       this.maxSlides = Math.max(0, this.projects.length - 1);
     } else {
-
       this.cardWidthPercentage = 100;
       this.maxSlides = this.projects.length;
     }

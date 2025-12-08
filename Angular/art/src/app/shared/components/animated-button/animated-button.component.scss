@@ -1,0 +1,139 @@
+@import 'variables';
+/**Css for button @Pritam Joardar*/
+/* Button created by Pritam Joardar in Uiverse.io*/
+.animated-button {
+  position: relative;
+  height: 40px;
+  padding: 0 45px;
+  background: $light-cyan;
+  font-size: 17px;
+  font-weight: 500;
+  color: #181818;
+  cursor: pointer;
+  border: 1px solid $light-cyan;
+  border-radius: 50px;
+  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.2));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+}
+
+.animated-button:hover {
+  border: 1px solid $dark-cyan;
+  animation: wind 2s ease-in-out infinite;
+  text-decoration: none;
+}
+
+@keyframes wind {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  0% {
+    background-position: 50% 100%;
+  }
+
+  0% {
+    background-position: 0% 50%;
+  }
+}
+
+.icon-1 {
+  position: absolute;
+  top: 80%;
+  right: 0;
+  width: 25px;
+  transform: translateY(-50%) rotate(10deg);
+  transform-origin: 0 0;
+  transition: all 0.5s ease-in-out;
+  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.3));
+}
+
+.animated-button:hover .icon-1 {
+  animation: slay-1 3s cubic-bezier(0.52, 0, 0.58, 1) infinite;
+  transform: translateY(-50%) rotate(10deg);
+}
+
+@keyframes slay-1 {
+  0% {
+    transform: translateY(-50%) rotate(10deg);
+  }
+
+  50% {
+    transform: translateY(-50%) rotate(-5deg);
+  }
+
+  100% {
+    transform: translateY(-50%) rotate(10deg);
+  }
+}
+
+.icon-2 {
+  position: absolute;
+  top: 50%;
+  left: 25px;
+  width: 12px;
+  transform: translateY(-50%) rotate(10deg);
+  transform-origin: 50% 0;
+  transition: all 1s ease-in-out;
+  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
+}
+
+.animated-button:hover .icon-2 {
+  animation: slay-2 3s cubic-bezier(0.52, 0, 0.58, 1) 1s infinite;
+  transform: translateY(-50%) rotate(0);
+}
+
+@keyframes slay-2 {
+  0% {
+    transform: translateY(-50%) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-50%) rotate(15deg);
+  }
+
+  100% {
+    transform: translateY(-50%) rotate(0);
+  }
+}
+
+.icon-3 {
+  position: absolute;
+  top: 70%;
+  left: 0;
+  width: 18px;
+  transform: translateY(-50%) rotate(-5deg);
+  transform-origin: 50% 0;
+  transition: all 1s ease-in-out;
+  filter: drop-shadow(2px 2px 3px rgba(0, 0, 0, 0.5));
+}
+
+.animated-button:hover .icon-3 {
+  animation: slay-3 2s cubic-bezier(0.52, 0, 0.58, 1) 1s infinite;
+  transform: translateY(-50%) rotate(0);
+}
+
+@keyframes slay-3 {
+  0% {
+    transform: translateY(-50%) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-50%) rotate(-5deg);
+  }
+
+  100% {
+    transform: translateY(-50%) rotate(0);
+  }
+}
+
+// SVG styles
+.animated-button svg {
+  fill: #181818; // Dark color to match text
+}
+
+.animated-button:hover svg {
+  fill: #333; // Slightly lighter on hover
+}

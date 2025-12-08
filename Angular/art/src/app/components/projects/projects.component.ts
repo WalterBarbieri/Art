@@ -6,6 +6,7 @@ import { Content } from 'src/app/models/content.interface';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
 import { ContentService } from 'src/app/service/content.service';
 import { ImageService } from 'src/app/service/image.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-projects',
@@ -15,9 +16,6 @@ import { ImageService } from 'src/app/service/image.service';
 export class ProjectsComponent implements OnInit {
   projects: Content[] = [];
   filteredProjects: Content[] = [];
-  successToast: boolean = false;
-  errorToast: boolean = false;
-  toastMessage: string = '';
   imageLoading: boolean[] = [];
   selectedStatusFilter: string = 'all';
   selectedTypeFilter: string = 'all';
@@ -29,7 +27,8 @@ export class ProjectsComponent implements OnInit {
     private imageService: ImageService,
     private router: Router,
     private loaderService: LoaderService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -70,14 +69,13 @@ export class ProjectsComponent implements OnInit {
         this.applyFilters();
       },
       error: (processedError: ProcessedError) => {
+        let message: string;
         if (processedError.backendMessage) {
-          this.toastMessage =
-            this.translate.instant(processedError.key) +
-            ': ' +
-            processedError.backendMessage;
+          message = this.translate.instant(processedError.key) + ': ' + processedError.backendMessage;
         } else {
-          this.toastMessage = this.translate.instant(processedError.key);
+          message = this.translate.instant(processedError.key);
         }
+        this.toastService.showError(message);
       },
       complete: () => {
         this.loaderService.hide();
@@ -106,22 +104,4 @@ export class ProjectsComponent implements OnInit {
       this.filteredProjects.reverse();
     }
   }
-
-  mostraToast(success: boolean, message: string) {
-    this.toastMessage = message;
-    if (success) {
-      this.successToast = true;
-      this.errorToast = false;
-    } else {
-      this.errorToast = true;
-      this.successToast = false;
-    }
-  }
-
-  chiudiToast() {
-    this.successToast = false;
-    this.errorToast = false;
-    this.toastMessage = '';
-  }
-
 }

@@ -1,0 +1,24 @@
+<!--Button created by Pritam Joardar in Uiverse.io-->
+<button
+  *ngIf="type === 'button'"
+  class="animated-button {{ customClass }}"
+  [disabled]="disabled"
+  (click)="onClick($event)"
+>
+  {{ text }}
+  <div class="icon-1" [innerHTML]="icon1"></div>
+  <div class="icon-2" [innerHTML]="icon2"></div>
+  <div class="icon-3" [innerHTML]="icon3"></div>
+</button>
+
+<a
+  *ngIf="type === 'link'"
+  class="animated-button {{ customClass }}"
+  [href]="href"
+  [routerLink]="routerLink"
+>
+  {{ text }}
+  <div class="icon-1" [innerHTML]="icon1"></div>
+  <div class="icon-2" [innerHTML]="icon2"></div>
+  <div class="icon-3" [innerHTML]="icon3"></div>
+</a>

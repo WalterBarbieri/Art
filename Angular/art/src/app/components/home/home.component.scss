@@ -52,7 +52,7 @@
     width: 80%;
     margin: 0 auto;
     border-bottom: 1px solid $light-cyan-transparent;
-    padding-top: 1em;
+    padding-top: 2em;
   }
 
 
@@ -112,7 +112,7 @@
     width: 80%;
     margin: 0 auto;
     border-bottom: 1px solid $light-cyan-transparent;
-    padding-top: 1em;
+    padding-top: 2em;
   }
 
   .custom-carousel {
@@ -186,5 +186,22 @@
 
   .standardGray {
     color: $dark-gray;
+  }
+}
+
+.contact-section {
+  max-height: calc(100vh - $navbar-height);
+  padding-top: 1em;
+  padding-bottom: 1em;
+  margin-bottom: 3em;
+  position: relative;
+
+  &::after {
+    content: "";
+    display: block;
+    width: 80%;
+    margin: 0 auto;
+    border-bottom: 1px solid $light-cyan-transparent;
+    padding-top: 2em;
   }
 }

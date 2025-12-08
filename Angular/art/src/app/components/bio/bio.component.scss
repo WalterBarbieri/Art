@@ -8,7 +8,7 @@
 
 .bioTextContainer p,
 .bioTextContainer ul,
-.bioTextContainer div {
+.bioTextContainer > div {
   text-align: justify;
   width: 75%;
   margin: 0 auto;
@@ -96,8 +96,11 @@
 
 @media screen and (min-width: 1200px) {
   .bioTextContainer p,
-  .bioTextContainer ul  {
+  .bioTextContainer ul {
     width: 60%;
+  }
+  .bioTextContainer > div  {
+    width: 65%;
   }
 }
 

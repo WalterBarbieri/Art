@@ -17,7 +17,13 @@
       >
         <h2 class="mb-3">{{ "HOME.TITLE" | translate }}</h2>
         <h4 class="mb-3">{{ "HOME.SUBTITLE" | translate }}</h4>
-        <button type="button" class="btn default-button mb-3 mb-lg-0" [routerLink]="['info']">{{ "HOME.FIND_OUT_MORE" | translate }}</button>
+        <div class="mb-3 mb-lg-0">
+          <app-animated-button
+            type="link"
+            [routerLink]="['info']"
+            [text]="'HOME.FIND_OUT_MORE' | translate"
+          ></app-animated-button>
+        </div>
       </div>
     </div>
     <div
@@ -29,7 +35,9 @@
 </div>
 <div class="contentSection container-fluid d-flex flex-column py-2">
   <h2 class="text-center mb-4">
-    <a [routerLink]="['/projects']" class="fw-medium standardGray">{{ "PROJECT.TITLE" | translate }}</a>
+    <a [routerLink]="['/projects']" class="fw-medium standardGray">{{
+      "PROJECT.TITLE" | translate
+    }}</a>
   </h2>
 
   <!-- CAROUSEL -->
@@ -48,7 +56,11 @@
           class="carousel-card flex-shrink-0"
           *ngFor="let project of projects; let i = index"
         >
-          <app-project-card [project]="project" [isImageLoading]="imageLoading[i]" [truncateDescription]="true"></app-project-card>
+          <app-project-card
+            [project]="project"
+            [isImageLoading]="imageLoading[i]"
+            [truncateDescription]="true"
+          ></app-project-card>
         </div>
       </div>
     </div>
@@ -80,7 +92,13 @@
         <p class="mb-3">
           {{ "HOME.BIO" | translate }}
         </p>
-        <button type="button" class="btn default-button" [routerLink]="['bio']">Scopri di più</button>
+        <div>
+          <app-animated-button
+            type="link"
+            [routerLink]="['bio']"
+            [text]="'HOME.FIND_OUT_MORE' | translate"
+          ></app-animated-button>
+        </div>
       </div>
     </div>
     <div
@@ -90,32 +108,46 @@
     </div>
   </div>
 </div>
-
-<!-- Toast Container -->
-<div class="toast-container">
-  <ngb-toast
-    *ngIf="successToast"
-    class="successToast"
-    [autohide]="true"
-    [delay]="5000"
-    (hidden)="chiudiToast()"
-  >
-    <div class="toast-header">
-      <h6 class="me-auto mb-0">{{ toastMessage }}</h6>
-      <button type="button" class="btn-close" (click)="chiudiToast()"></button>
+<div class="contact-section container-fluid">
+  <div class="row row-cols-1 row-cols-md-2 align-items-center">
+    <div class="order-first order-md-last mb-5 mb-md-0">
+      <div class="social-icons d-flex gap-3 justify-content-center">
+        <a
+          href="https://facebook.com/elena.franconi1"
+          target="_blank"
+          class="social-icon d-flex align-items-center justify-content-center"
+        >
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a
+          href="https://www.instagram.com/elena_francon/"
+          target="_blank"
+          class="social-icon d-flex align-items-center justify-content-center"
+        >
+          <i class="fab fa-instagram"></i>
+        </a>
+        <a
+          href="https://www.youtube.com/@elenafranconi"
+          target="_blank"
+          class="social-icon d-flex align-items-center justify-content-center"
+        >
+          <i class="fab fa-youtube"></i>
+        </a>
+        <a
+          href="https://t.me/elenafranconi"
+          target="_blank"
+          class="social-icon d-flex align-items-center justify-content-center"
+        >
+          <i class="fab fa-telegram-plane"></i>
+        </a>
+      </div>
     </div>
-  </ngb-toast>
-
-  <ngb-toast
-    *ngIf="errorToast"
-    class="errorToast"
-    [autohide]="true"
-    [delay]="5000"
-    (hidden)="chiudiToast()"
-  >
-    <div class="toast-header">
-      <h6 class="me-auto mb-0">{{ toastMessage }}</h6>
-      <button type="button" class="btn-close" (click)="chiudiToast()"></button>
+    <div class="order-last order-md-first d-flex justify-content-center">
+      <app-animated-button
+        type="link"
+        [routerLink]="['/contacts']"
+        text="{{ 'BIO.CONTACT_ME' | translate }}"
+      ></app-animated-button>
     </div>
-  </ngb-toast>
+  </div>
 </div>

@@ -11,6 +11,8 @@ import { RouterModule } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LoaderComponent } from './components/loader/loader.component';
+import { ToastComponent } from './components/toast/toast.component';
+import { AnimatedButtonComponent } from './components/animated-button/animated-button.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,8 @@ import { LoaderComponent } from './components/loader/loader.component';
     ProjectCardComponent,
     FooterComponent,
     NavbarComponent,
-    LoaderComponent
+    LoaderComponent,
+    ToastComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +31,8 @@ import { LoaderComponent } from './components/loader/loader.component';
     TranslateModule.forChild(),
     NgbToastModule,
     NewlineToBrPipe,
-    RouterModule
+    RouterModule,
+    AnimatedButtonComponent
   ],
   exports: [
     FormsModule,
@@ -41,7 +45,9 @@ import { LoaderComponent } from './components/loader/loader.component';
     ProjectCardComponent,
     FooterComponent,
     NavbarComponent,
-    LoaderComponent
+    LoaderComponent,
+    ToastComponent,
+    AnimatedButtonComponent
   ],
 })
 export class SharedModule { }

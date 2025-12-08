@@ -62,21 +62,24 @@
       <p class="mb-5">
         {{ "BIO.SECTION_3" | translate }}
       </p>
-      <div class="d-flex justify-content-evenly align-items-center">
-        <a
-          class="btn default-button mb-3 mb-lg-0"
-          href="assets/cv/Elena_Franconi_CV.pdf"
-          download="Elena-Franconi-CV-IT.pdf"
-        >
-          {{ "BIO.DOWNLOAD_CV" | translate }}
-        </a>
-        <button
-          type="button"
-          class="btn default-button mb-3 mb-lg-0"
-          [routerLink]="['/contacts']"
-        >
-          {{ "BIO.CONTACT_ME" | translate }}
-        </button>
+      <div
+        class="d-flex flex-column flex-sm-row flex-md-column flex-xl-row justify-content-around align-items-center"
+      >
+        <div class="mb-5 mb-sm-0 mb-md-5 mb-xl-0">
+          <app-animated-button
+            type="link"
+            href="assets/cv/Elena_Franconi_CV.pdf"
+            download="Elena-Franconi-CV-IT.pdf"
+            text="{{ 'BIO.DOWNLOAD_CV' | translate }}"
+          ></app-animated-button>
+        </div>
+        <div>
+          <app-animated-button
+            type="link"
+            [routerLink]="['/contacts']"
+            text="{{ 'BIO.CONTACT_ME' | translate }}"
+          ></app-animated-button>
+        </div>
       </div>
     </div>
     <div class="bioImageContainer">

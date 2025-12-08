@@ -16,21 +16,22 @@
     height: calc(100vh - ($navbar-height + $footer-height-lg));
   }
 }
-.social-icons {
-  margin-top: 1em;
-  a {
-    background-color: $dark-cyan;
-    color: white;
-    font-size: 1.5em;
-    transition: color 0.3s ease;
 
-    &:hover {
-      background-color: $light-cyan;
-    }
+.contact-container {
+  height: calc(100vh - ($navbar-height + $footer-height-sm));
+  @media (min-width: 768px) {
+    height: calc(100vh - ($navbar-height + $footer-height-md));
+  }
+  @media (min-width: 1200px) {
+    height: calc(100vh - ($navbar-height + $footer-height-lg));
   }
 }
-.social-icon {
-  width: 2em;
-  height: 2em;
-  border-radius: 10%;
+
+.contact-card {
+  border-left: solid 1px $light-cyan-transparent;
+  border-bottom: solid 1px $light-cyan-transparent;
+  border-right: solid 1px $light-cyan-transparent;
+  border-top: none;
+  border-radius: 0%;
 }
+

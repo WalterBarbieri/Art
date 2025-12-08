@@ -1,0 +1,14 @@
+<div class="toast-container">
+  <ngb-toast
+    *ngIf="toast"
+    [class]="toast.type + 'Toast'"
+    [autohide]="true"
+    [delay]="toast.delay || 5000"
+    (hidden)="onHidden()"
+  >
+    <div class="toast-header">
+      <h6 class="me-auto mb-0">{{ toast.message }}</h6>
+      <button type="button" class="btn-close" (click)="onHidden()"></button>
+    </div>
+  </ngb-toast>
+</div>

@@ -5,6 +5,7 @@ import { NgForm } from '@angular/forms';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -14,8 +15,6 @@ import { ProcessedError } from 'src/app/models/processed-error.interface';
 export class LoginComponent implements OnInit {
   error!: string;
   showAlert: boolean = true;
-  showToast: boolean = false;
-  toastMessage: string = '';
   email: string | null = null;
   showPassword: boolean = false;
 
@@ -57,10 +56,6 @@ export class LoginComponent implements OnInit {
     this.showAlert = false;
     this.error = '';
     this.showAlert = true;
-  }
-
-  chiudiToast() {
-    this.showToast = false;
   }
 
   togglePassword() {

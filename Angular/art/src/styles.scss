@@ -168,3 +168,33 @@ li {
     }
   }
 }
+
+.infoToast {
+  background-color: $light-cyan;
+
+  .toast-header {
+    background-color: $light-cyan;
+
+    h6 {
+      color: $dark-gray;
+    }
+  }
+}
+
+.social-icons {
+  a {
+    background-color: $dark-cyan;
+    color: white;
+    font-size: 1.5em;
+    transition: color 0.3s ease;
+
+    &:hover {
+      background-color: $light-cyan;
+    }
+  }
+}
+.social-icon {
+  width: 2em;
+  height: 2em;
+  border-radius: 10%;
+}

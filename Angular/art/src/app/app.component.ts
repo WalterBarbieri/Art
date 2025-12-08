@@ -36,6 +36,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private preloadAssets() {
-    this.staticAssetService.preloadCriticalAssets(['logo', 'fallback_image', 'home_banner']);
+    this.staticAssetService.preloadCriticalAssets(['logo', 'home_banner']);
   }
 }
