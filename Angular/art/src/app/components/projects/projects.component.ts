@@ -106,13 +106,6 @@ export class ProjectsComponent implements OnInit {
       this.filteredProjects.reverse();
     }
   }
-  truncateText(text: string): string {
-    if (text.length > 100) {
-      return text.substring(0, 100) + '...';
-    } else {
-      return text;
-    }
-  }
 
   mostraToast(success: boolean, message: string) {
     this.toastMessage = message;
@@ -131,12 +124,4 @@ export class ProjectsComponent implements OnInit {
     this.toastMessage = '';
   }
 
-  getEventDatesDisplay(eventDates: Date[] | null): { dates: Date[], showDots: boolean } {
-    if (!eventDates || eventDates.length === 0) return { dates: [], showDots: false };
-    const sorted = [...eventDates].sort((a, b) => b.getDate() - a.getDate());
-    if (sorted.length <= 2) {
-      return { dates: sorted, showDots: false };
-    }
-    return { dates: [sorted[0], sorted[sorted.length - 1]], showDots: true };
-  }
 }
