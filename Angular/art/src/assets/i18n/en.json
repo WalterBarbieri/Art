@@ -62,7 +62,8 @@
     "CONTACT_ME": "Contact me"
   },
   "CONTACT": {
-    "TITLE": "Contacts"
+    "TITLE": "Contacts",
+    "SOCIALS": "Social Media"
   },
   "GUARD": {
     "NOT_AUTHORIZED": "You are not authorized to view this content",

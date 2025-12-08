@@ -3,14 +3,23 @@ import { TextareaAutoresizeDirective } from "../directive/textarea-autoresize.di
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
-import { ImageLoaderComponent } from "../components/loader/image-loader/image-loader.component";
+import { ImageLoaderComponent } from './components/image-loader/image-loader.component';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { NewlineToBrPipe } from './pipes/NewlineToBr-pipe';
+import { ProjectCardComponent } from '../components/project-card/project-card.component';
+import { RouterModule } from '@angular/router';
+import { FooterComponent } from './components/footer/footer.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { LoaderComponent } from './components/loader/loader.component';
 
 @NgModule({
   declarations: [
     TextareaAutoresizeDirective,
-    ImageLoaderComponent
+    ImageLoaderComponent,
+    ProjectCardComponent,
+    FooterComponent,
+    NavbarComponent,
+    LoaderComponent
   ],
   imports: [
     CommonModule,
@@ -18,7 +27,8 @@ import { NewlineToBrPipe } from './pipes/NewlineToBr-pipe';
     ReactiveFormsModule,
     TranslateModule.forChild(),
     NgbToastModule,
-    NewlineToBrPipe
+    NewlineToBrPipe,
+    RouterModule
   ],
   exports: [
     FormsModule,
@@ -27,7 +37,11 @@ import { NewlineToBrPipe } from './pipes/NewlineToBr-pipe';
     TextareaAutoresizeDirective,
     ImageLoaderComponent,
     NgbToastModule,
-    NewlineToBrPipe
+    NewlineToBrPipe,
+    ProjectCardComponent,
+    FooterComponent,
+    NavbarComponent,
+    LoaderComponent
   ],
 })
 export class SharedModule { }

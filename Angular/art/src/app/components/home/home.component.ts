@@ -134,7 +134,13 @@ export class HomeComponent implements OnInit, OnDestroy {
           }
         },
         complete: () => {
-          this.loaderService.hide();
+          // Test: commento hide per vedere il loader più a lungo
+          // this.loaderService.hide();
+
+          // Opzionale: nascondi dopo 2 secondi per test
+          setTimeout(() => {
+            this.loaderService.hide();
+          }, 2000);
         },
       });
     }
@@ -185,14 +191,5 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.currentSlide >= this.maxSlides) {
       this.currentSlide = Math.max(0, this.maxSlides - 1);
     }
-  }
-
-  getEventDatesDisplay(eventDates: Date[] | null): { dates: Date[], showDots: boolean } {
-    if (!eventDates || eventDates.length === 0) return { dates: [], showDots: false };
-    const sorted = [...eventDates].sort((a, b) => b.getDate() - a.getDate());
-    if (sorted.length <= 2) {
-      return { dates: sorted, showDots: false };
-    }
-    return { dates: [sorted[0], sorted[sorted.length - 1]], showDots: true };
   }
 }

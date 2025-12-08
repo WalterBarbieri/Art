@@ -61,7 +61,8 @@
     "CONTACT_ME": "Contattami"
   },
   "CONTACT": {
-    "TITLE": "Contatti"
+    "TITLE": "Contatti",
+    "SOCIALS": "Social Media"
   },
   "GUARD": {
     "NOT_AUTHORIZED": "Non sei autorizzato a vedere questo contenuto",

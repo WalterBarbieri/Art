@@ -12,3 +12,8 @@
   align-items: center;
 }
 
+.private-area {
+  @media (max-width: 576px) {
+    font-size: small;
+  }
+}
