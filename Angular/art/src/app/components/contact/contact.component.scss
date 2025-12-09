@@ -1,22 +1,4 @@
 @import 'variables';
-.fluid-container {
-  width: fit-content;
-  height: auto;
-  max-width: 100%;
-  height: calc(100vh - ($navbar-height + $footer-height-sm));
-  margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: start;
-  justify-content: center;
-  @media (min-width: 768px) {
-    height: calc(100vh - ($navbar-height + $footer-height-md));
-  }
-  @media (min-width: 1200px) {
-    height: calc(100vh - ($navbar-height + $footer-height-lg));
-  }
-}
-
 .contact-container {
   height: calc(100vh - ($navbar-height + $footer-height-sm));
   @media (min-width: 768px) {

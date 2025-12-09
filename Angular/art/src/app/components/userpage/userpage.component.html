@@ -1,1 +1,23 @@
-<p>userpage works!</p>
+<div class="container-fluid d-flex justify-content-center align-items-center user-container">
+  <div class="card user-card">
+    <div class="card-header text-center">
+      <h2 class="card-title">{{ 'NAVBAR.MODAL.MY_ACCOUNT' | translate }}</h2>
+    </div>
+    <div class="card-body p-5">
+      <p><span class="fw-bold me-2">Username:</span> {{ user?.username }}</p>
+      <p><span class="fw-bold me-2">{{ 'USER.NAME' | translate }}:</span> {{ user?.name }}</p>
+      <p><span class="fw-bold me-2">{{ 'USER.SURNAME' | translate }}:</span> {{ user?.surname }}</p>
+      <p><span class="fw-bold me-2">Email:</span> {{ user?.email }}</p>
+      <p><span class="fw-bold me-2">{{ 'USER.ROLE' | translate }}:</span> {{ user?.role }}</p>
+    </div>
+    <div class="card-footer">
+      <div class="d-flex justify-content-between">
+        <a class="btn danger-button" [routerLink]="['/']" >
+          {{ 'USER.RESET_PASSWORD' | translate }}
+        </a>
+        <button class="btn danger-button" (click)="logout()">
+          Logout
+        </button>
+    </div>
+  </div>
+</div>

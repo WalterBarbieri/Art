@@ -65,6 +65,12 @@
     "TITLE": "Contacts",
     "SOCIALS": "Social Media"
   },
+  "USER": {
+    "NAME": "Name",
+    "SURNAME": "Surname",
+    "ROLE": "Role",
+    "RESET_PASSWORD": "Reset Password"
+  },
   "GUARD": {
     "NOT_AUTHORIZED": "You are not authorized to view this content",
     "NOT_AUTHENTICATED": "You cannot access this content without logging in"

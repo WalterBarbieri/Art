@@ -1,0 +1,28 @@
+@import 'variables';
+.user-container {
+  height: calc(100vh - ($navbar-height + $footer-height-sm));
+  @media (min-width: 768px) {
+    height: calc(100vh - ($navbar-height + $footer-height-md));
+  }
+  @media (min-width: 1200px) {
+    height: calc(100vh - ($navbar-height + $footer-height-lg));
+  }
+}
+
+.user-card {
+  border-left: solid 1px $light-cyan-transparent;
+  border-bottom: solid 1px $light-cyan-transparent;
+  border-right: solid 1px $light-cyan-transparent;
+  border-top: none;
+  border-radius: 0%;
+
+  .card-header {
+    background-color: $light-cyan-transparent;
+    color: $dark-cyan;
+    border-radius: 0%;
+  }
+
+  .card-body {
+    font-size: large;
+  }
+}

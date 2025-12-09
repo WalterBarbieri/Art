@@ -64,6 +64,12 @@
     "TITLE": "Contatti",
     "SOCIALS": "Social Media"
   },
+  "USER": {
+    "NAME": "Nome",
+    "SURNAME": "Cognome",
+    "ROLE": "Ruolo",
+    "RESET_PASSWORD": "Reimposta Password"
+  },
   "GUARD": {
     "NOT_AUTHORIZED": "Non sei autorizzato a vedere questo contenuto",
     "NOT_AUTHENTICATED": "Non puoi accedere a questo contenuto senza effettuare il login"

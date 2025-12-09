@@ -98,6 +98,26 @@ li {
   }
 }
 
+.danger-button {
+  background-color: #f36464;
+  color: $white;
+  border: none;
+  transition: all 0.2s !important;
+  width: fit-content;
+  height: fit-content;
+  &:disabled {
+      background-color: #f9a9a9;
+      color: $white;
+  }
+  &:hover {
+      background-color: #f36464;
+      color: $white;
+      text-decoration: underline;
+      text-decoration-thickness: 0.1em;
+      text-underline-offset: 0.2em;
+  }
+}
+
 .mySelect {
   background-color: $white;
   color: $dark-gray;
