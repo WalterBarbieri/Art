@@ -40,13 +40,7 @@ export class ProjectsComponent implements OnInit {
     this.imageService.getFullImageUrl(imagePath).subscribe(
       (url) => {
         this.projects[index].coverImagePath = url;
-       // Test: commento hide per vedere il loader più a lungo
-          // this.imageLoading[index] = false;
-
-          // Opzionale: nascondi dopo 2 secondi per test
-          setTimeout(() => {
-            this.imageLoading[index] = false;
-          }, 2000);
+          this.imageLoading[index] = false;
       },
       () => {
           this.imageLoading[index] = false;

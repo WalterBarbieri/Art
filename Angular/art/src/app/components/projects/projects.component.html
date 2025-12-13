@@ -1,10 +1,10 @@
 <div class="container-fluid py-5">
   <!-- Project Title
   <h2 class="text-center">{{ 'PROJECT.TITLE' | translate }}</h2> -->
-  <div *ngIf="filteredProjects.length > 0" class="text-center mb-3">
+  <div *ngIf="projects.length > 0" class="text-center mb-3">
     <button
       type="button"
-      class="btn default-button"
+      class="btn default-button mb-3"
       (click)="showFilters = !showFilters"
     >
       {{ 'PROJECT.FILTER' | translate }}

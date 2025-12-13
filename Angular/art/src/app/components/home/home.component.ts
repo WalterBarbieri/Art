@@ -123,13 +123,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.toastService.showError(message);
       },
       complete: () => {
-        // Test: commento hide per vedere il loader più a lungo
-        // this.loaderService.hide();
-
-        // Opzionale: nascondi dopo 2 secondi per test
-        setTimeout(() => {
-          this.loaderService.hide();
-        }, 2000);
+        this.loaderService.hide();
       },
     });
   }
