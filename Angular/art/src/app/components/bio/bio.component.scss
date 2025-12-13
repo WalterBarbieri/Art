@@ -110,45 +110,4 @@
   }
 }
 
-.hero-content {
-  padding: 2rem;
-  color: $dark-cyan;
-  text-align: center;
-  height: 250px;
-  margin: 2em 0;
 
-  @media (max-width: 768px) {
-    height: 225px;
-  }
-
-  @media (max-width: 480px) {
-    height: 200px;
-  }
-
-  .typed-lines {
-    display: inline-block;
-    font-size: 4em;
-    margin: 0;
-    @include typed("ART\AnATuRa e teATRo",
-      "ART\AnATuRe and theATRe",
-      0.3, // velocità digitazione (sec per lettera)
-      (caret: true,
-        caret-speed: 0.75,
-        caret-width: 3px,
-        caret-color: $dark-cyan,
-        caret-space: 2px,
-        iterations: infinite,
-        delay: 0.1));
-
-    @media (max-width: 768px) {
-      font-size: 3em;
-      height: 225px;
-    }
-
-    @media (max-width: 480px) {
-      font-size: 2em;
-      height: 200px;
-    }
-
-  }
-}
