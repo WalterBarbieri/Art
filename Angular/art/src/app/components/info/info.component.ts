@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { LanguageService } from 'src/app/service/language.service';
+import { MetaService } from 'src/app/service/meta.service';
 import { StaticAssetService } from 'src/app/service/static-asset.service';
 
 @Component({
@@ -6,7 +9,9 @@ import { StaticAssetService } from 'src/app/service/static-asset.service';
   templateUrl: './info.component.html',
   styleUrls: ['./info.component.scss']
 })
-export class InfoComponent implements OnInit {
+export class InfoComponent implements OnInit, OnDestroy {
+
+  private languageSubscription: Subscription = new Subscription();
 
   infoBannerPath: string = '';
   infoArt1Path: string = '';
@@ -15,10 +20,16 @@ export class InfoComponent implements OnInit {
   infoArt4Path: string = '';
   infoArt5Path: string = '';
 
-  constructor(private staticAssetService: StaticAssetService) { }
+  constructor(private staticAssetService: StaticAssetService, private metaService: MetaService, private languageService: LanguageService) { }
 
   ngOnInit(): void {
     this.loadStaticAssets();
+    this.updateMetaTags();
+    this.setupLanguageSubscription();
+  }
+
+  ngOnDestroy(): void {
+    this.languageSubscription.unsubscribe();
   }
 
   loadStaticAssets(): void {
@@ -28,6 +39,16 @@ export class InfoComponent implements OnInit {
     this.infoArt3Path = this.staticAssetService.getAssetPath('info_art_3');
     this.infoArt4Path = this.staticAssetService.getAssetPath('info_art_4');
     this.infoArt5Path = this.staticAssetService.getAssetPath('info_art_5');
+  }
+  private updateMetaTags(): void {
+    this.metaService.updateMetaTagsForComponents('info');
+    this.metaService.updateTitleForComponent('info');
+  }
+
+  private setupLanguageSubscription(): void {
+    this.languageSubscription = this.languageService.language$.subscribe(() => {
+      this.updateMetaTags();
+    });
   }
 
 }

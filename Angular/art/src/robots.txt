@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+Disallow: /login
+Disallow: /userpage
+
+Sitemap: https://artnaturateatro.it/sitemap.xml

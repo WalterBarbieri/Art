@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
+import { Subscription } from 'rxjs';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { Content } from 'src/app/models/content.interface';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
 import { ContentService } from 'src/app/service/content.service';
 import { ImageService } from 'src/app/service/image.service';
+import { LanguageService } from 'src/app/service/language.service';
+import { MetaService } from 'src/app/service/meta.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
@@ -13,7 +16,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss'],
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectsComponent implements OnInit, OnDestroy {
   projects: Content[] = [];
   filteredProjects: Content[] = [];
   imageLoading: boolean[] = [];
@@ -22,17 +25,27 @@ export class ProjectsComponent implements OnInit {
   selectedSortOrder: string = 'default';
   showFilters: boolean = false;
 
+  private languageSubscription: Subscription = new Subscription();
+
   constructor(
     private contentService: ContentService,
     private imageService: ImageService,
     private router: Router,
     private loaderService: LoaderService,
     private translate: TranslateService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private metaService: MetaService,
+    private languageService: LanguageService
   ) {}
 
   ngOnInit(): void {
     this.getAllProjects();
+    this.updateMetaTags();
+    this.setupLanguageSubscription();
+  }
+
+  ngOnDestroy(): void {
+    this.languageSubscription.unsubscribe();
   }
 
   getFullImageUrl(imagePath: string | null, index: number): void {
@@ -97,5 +110,16 @@ export class ProjectsComponent implements OnInit {
     if (this.selectedSortOrder === 'reverse') {
       this.filteredProjects.reverse();
     }
+  }
+
+  private updateMetaTags(): void {
+    this.metaService.updateMetaTagsForComponents('projects');
+    this.metaService.updateTitleForComponent('projects');
+  }
+
+  private setupLanguageSubscription(): void {
+    this.languageSubscription = this.languageService.language$.subscribe(() => {
+      this.updateMetaTags();
+    });
   }
 }
