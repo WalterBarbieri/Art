@@ -101,7 +101,11 @@
   },
   "title": {
     "app": "Art Natura Teatro",
-    "home": "Benvenuti in Art Natura Teatro"
+    "home": "Art Natura Teatro - Home",
+    "info": "Art Natura Teatro - Info",
+    "projects": "Art Natura Teatro - Progetti",
+    "bio": "Art Natura Teatro - Bio",
+    "contact": "Art Natura Teatro - Contatti"
   },
   "meta": {
     "app": {

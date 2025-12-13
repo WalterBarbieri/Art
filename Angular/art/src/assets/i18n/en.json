@@ -102,7 +102,11 @@
   },
   "title": {
     "app": "Art Nature Theatre",
-    "home": "Welcome to Art Nature Theatre"
+    "home": "Art Nature Theatre - Home",
+    "info": "Art Nature Theatre - Info",
+    "projects": "Art Nature Theatre - Projects",
+    "bio": "Art Nature Theatre - Bio",
+    "contact": "Art Nature Theatre - Contacts"
   },
   "meta": {
     "app": {

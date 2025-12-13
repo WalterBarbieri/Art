@@ -23,8 +23,8 @@ export class ContactComponent implements OnInit, OnDestroy {
   }
 
   private updateMetaTags(): void {
-    this.metaService.updateMetaTagsForComponents('app');
-    this.metaService.updateTitleForComponent('app');
+    this.metaService.updateMetaTagsForComponents('contact');
+    this.metaService.updateTitleForComponent('contact');
   }
 
   private setupLanguageSubscription(): void {
