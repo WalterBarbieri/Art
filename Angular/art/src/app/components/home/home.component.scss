@@ -16,8 +16,8 @@
     .typed-lines {
       display: inline-block;
       font-size: 5em;
-      @include typed("ART\AnATuRa e teATRo",
-        "ART\AnATuRe and theATRe",
+      @include typed("ART\AnATuRa teATRo",
+        "ART\AnATuRe theATRe",
         0.5, // velocità digitazione (sec per lettera)
         (caret: true,
           caret-speed: 0.75,

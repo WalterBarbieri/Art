@@ -8,6 +8,7 @@
     }
   },
   "FOOTER": {
+    "TITLE": "Art Natura Teatro",
     "CONTACT": "Contatti",
     "PRIVATE": "Area Riservata",
     "AUTHOR": "Sito web sviluppato da"
@@ -19,10 +20,10 @@
     "PASSWORD_FORGOTTEN": "Password dimenticata?"
   },
   "HOME": {
-    "TITLE": "ART nATuRa e teATRo",
+    "TITLE": "ART nATuRa teATRo",
     "SUBTITLE": "Performance e laboratori di ricerca e sperimentazione teatrale nella natura",
     "FIND_OUT_MORE": "Scopri di più",
-    "BIO": "Attrice e autrice di testi teatrali, conduce laboratori di teatro per ragazzi e adulti. Ideatrice e conduttrice del progetto ART nATuRa e teATRo un laboratorio di ricerca e sperimentazione teatrale nella natura..."
+    "BIO": "Attrice e autrice di testi teatrali, conduce laboratori di teatro per ragazzi e adulti. Ideatrice e conduttrice del progetto ART nATuRa teATRo un laboratorio di ricerca e sperimentazione teatrale nella natura..."
   },
   "PROJECT": {
     "TITLE": "PROGETTI",
@@ -49,7 +50,7 @@
   },
   "BIO": {
     "SUBTITLE": "Attrice e autrice di testi teatrali, conduce laboratori di teatro per ragazzi e adulti.",
-    "SECTION_1": "Ideatrice e conduttrice del progetto ART nATuRa e teATRo un laboratorio di ricerca e sperimentazione teatrale nella natura ispirato alla filosofia del Prof. Stefano Mancuso e al linguaggio della gentilezza con la messa in scena di spettacoli nei boschi. Da sempre impegnata nella divulgazione dell’inclusione sociale, parità di genere e impegno civile, collabora con enti e associazioni nello sviluppo di progetti educativi e sui temi dell’intercultura. Ha condotto un laboratorio sulla narrazione rivolto ai richiedenti asilo, agli immigrati e agli italiani con lo scopo di creare occasioni di conoscenza e scambio fra diverse culture e diversi saperi.",
+    "SECTION_1": "Ideatrice e conduttrice del progetto ART nATuRa teATRo un laboratorio di ricerca e sperimentazione teatrale nella natura ispirato alla filosofia del Prof. Stefano Mancuso e al linguaggio della gentilezza con la messa in scena di spettacoli nei boschi. Da sempre impegnata nella divulgazione dell’inclusione sociale, parità di genere e impegno civile, collabora con enti e associazioni nello sviluppo di progetti educativi e sui temi dell’intercultura. Ha condotto un laboratorio sulla narrazione rivolto ai richiedenti asilo, agli immigrati e agli italiani con lo scopo di creare occasioni di conoscenza e scambio fra diverse culture e diversi saperi.",
     "SECTION_2": "Autrice dei testi teatrali:",
     "SECTION_2_LIST_ITEM_1": "Monologo sulla relazione fra una madre e una figlia adolescente",
     "SECTION_2_LIST_ITEM_2": "Uno spettacolo sul ‘68 e sulla presa di coscienza collettiva e individuale con il coordinamento drammaturgico di Donatella Diamanti",
@@ -99,33 +100,33 @@
     "ALL": "Tutti"
   },
   "title": {
-    "app": "Art Natura e Teatro",
-    "home": "Benvenuti in Art Natura e Teatro"
+    "app": "Art Natura Teatro",
+    "home": "Benvenuti in Art Natura Teatro"
   },
   "meta": {
     "app": {
       "description": "INSERIRE DESCRIZIONE",
       "author": "BWFullStackDeveloper",
-      "ogTitle": "Art Natura e Teatro",
+      "ogTitle": "Art Natura Teatro",
       "ogDescription": "INSERIRE DESCRIZIONE",
       "ogImage": "URL IMMAGINE",
       "ogUrl": "URL SITO",
       "ogType": "website",
       "twitterCard": "summary_large_image",
-      "twitterTitle": "Art Natura e Teatro",
+      "twitterTitle": "Art Natura Teatro",
       "twitterDescription": "INSERIRE DESCRIZIONE",
       "twitterImage": "URL IMMAGINE"
     },
     "home": {
       "description": "INSERIRE DESCRIZIONE",
       "author": "BWFullStackDeveloper",
-      "ogTitle": "Art Natura e Teatro",
+      "ogTitle": "Art Natura Teatro",
       "ogDescription": "INSERIRE DESCRIZIONE",
       "ogImage": "URL IMMAGINE",
       "ogUrl": "URL SITO",
       "ogType": "website",
       "twitterCard": "summary_large_image",
-      "twitterTitle": "Art Natura e Teatro",
+      "twitterTitle": "Art Natura Teatro",
       "twitterDescription": "INSERIRE DESCRIZIONE",
       "twitterImage": "URL IMMAGINE"
     }

@@ -8,6 +8,7 @@
     }
   },
   "FOOTER": {
+    "TITLE": "Art Nature Theatre",
     "CONTACT": "Contacts",
     "PRIVATE": "Private Area",
     "AUTHOR": "Website developed by"
@@ -19,10 +20,10 @@
     "PASSWORD_FORGOTTEN": "Forgot Password?"
   },
   "HOME": {
-    "TITLE": "ART nATuRe and theATRe",
-    "SUBTITLE": "workshop for theatrical research and experimentation in nature and performance",
+    "TITLE": "ART nATuRe theATRe",
+    "SUBTITLE": "Performances and workshops for theatrical research and experimentation in nature",
     "FIND_OUT_MORE": "Find out more",
-    "BIO": "Actress and playwright, she leads theater workshops for children and adults. Creator and director of the ART nATuRe and theATRe project, a laboratory for theatrical research and experimentation in nature..."
+    "BIO": "Actress and playwright, she leads theater workshops for children and adults. Creator and director of the ART nATuRe theATRe project, a laboratory for theatrical research and experimentation in nature..."
 
   },
   "PROJECT": {
@@ -50,7 +51,7 @@
   },
   "BIO": {
     "SUBTITLE": "Actress and playwright, she leads theatre workshops for children and adults.",
-    "SECTION_1": "Creator and leader of the project ART nATuRe and theATRe, a workshop for research and theatrical experimentation in nature inspired by the philosophy of Prof. Stefano Mancuso and the language of gentleness, with performances staged in the woods. Always engaged in promoting social inclusion, gender equality, and civic commitment, she collaborates with organizations and associations on educational projects and intercultural topics. She has conducted a storytelling workshop aimed at asylum seekers, immigrants, and Italians to create opportunities for knowledge exchange between different cultures and knowledges.",
+    "SECTION_1": "Creator and leader of the project ART nATuRe theATRe, a workshop for research and theatrical experimentation in nature inspired by the philosophy of Prof. Stefano Mancuso and the language of gentleness, with performances staged in the woods. Always engaged in promoting social inclusion, gender equality, and civic commitment, she collaborates with organizations and associations on educational projects and intercultural topics. She has conducted a storytelling workshop aimed at asylum seekers, immigrants, and Italians to create opportunities for knowledge exchange between different cultures and knowledges.",
     "SECTION_2": "Author of the theatrical texts:",
     "SECTION_2_LIST_ITEM_1": "Monologue about the relationship between a mother and her teenage daughter",
     "SECTION_2_LIST_ITEM_2": "A performance about '68 and the development of collective and individual awareness, with dramaturgical coordination by Donatella Diamanti",
@@ -100,35 +101,35 @@
     "ALL": "All"
   },
   "title": {
-    "app": "Art Nature and Theatre",
-    "home": "Welcome to Art Nature and Theatre"
+    "app": "Art Nature Theatre",
+    "home": "Welcome to Art Nature Theatre"
   },
   "meta": {
     "app": {
-      "description": "Official website of Art Nature and Theatre - Discover our artistic performances combining nature and theatrical arts",
+      "description": "Official website of Art Nature Theatre - Discover our artistic performances combining nature and theatrical arts",
       "author": "BWFullStackDeveloper",
-      "ogTitle": "Art Nature and Theatre",
-      "ogDescription": "Official website of Art Nature and Theatre - Discover our artistic performances combining nature and theatrical arts",
+      "ogTitle": "Art Nature Theatre",
+      "ogDescription": "Official website of Art Nature Theatre - Discover our artistic performances combining nature and theatrical arts",
       "ogImage": "IMAGE URL",
       "ogUrl": "SITE URL",
       "ogType": "website",
       "twitterCard": "summary_large_image",
-      "twitterTitle": "Art Nature and Theatre",
-      "twitterDescription": "Official website of Art Nature and Theatre - Discover our artistic performances combining nature and theatrical arts",
+      "twitterTitle": "Art Nature Theatre",
+      "twitterDescription": "Official website of Art Nature Theatre - Discover our artistic performances combining nature and theatrical arts",
       "twitterImage": "IMAGE URL"
     },
     "home": {
-      "description": "Welcome to Art Nature and Theatre - Explore our unique artistic world that combines natural beauty with theatrical performances",
+      "description": "Welcome to Art Nature Theatre - Explore our unique artistic world that combines natural beauty with theatrical performances",
       "keywords": "art, nature, theatre, performances, shows, artistic, culture, entertainment",
       "author": "BWFullStackDeveloper",
-      "ogTitle": "Art Nature and Theatre - Home",
-      "ogDescription": "Welcome to Art Nature and Theatre - Explore our unique artistic world that combines natural beauty with theatrical performances",
+      "ogTitle": "Art Nature Theatre - Home",
+      "ogDescription": "Welcome to Art Nature Theatre - Explore our unique artistic world that combines natural beauty with theatrical performances",
       "ogImage": "IMAGE URL",
       "ogUrl": "SITE URL",
       "ogType": "website",
       "twitterCard": "summary_large_image",
-      "twitterTitle": "Art Nature and Theatre - Home",
-      "twitterDescription": "Welcome to Art Nature and Theatre - Explore our unique artistic world that combines natural beauty with theatrical performances",
+      "twitterTitle": "Art Nature Theatre - Home",
+      "twitterDescription": "Welcome to Art Nature Theatre - Explore our unique artistic world that combines natural beauty with theatrical performances",
       "twitterImage": "IMAGE URL"
     }
   }

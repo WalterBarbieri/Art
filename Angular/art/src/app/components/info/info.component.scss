@@ -105,8 +105,8 @@
     display: inline-block;
     font-size: 4em;
     margin: 0;
-    @include typed("ART\AnATuRa e teATRo",
-      "ART\AnATuRe and theATRe",
+    @include typed("ART\AnATuRa teATRo",
+      "ART\AnATuRe theATRe",
       0.3, // velocità digitazione (sec per lettera)
       (caret: true,
         caret-speed: 0.75,
