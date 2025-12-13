@@ -16,6 +16,7 @@ export class AnimatedButtonComponent {
   @Input() type: 'button' | 'link' = 'button';
   @Input() href?: string;
   @Input() routerLink?: string | string[];
+  @Input() download?: string;
   @Input() disabled: boolean = false;
   @Input() customClass: string = '';
 

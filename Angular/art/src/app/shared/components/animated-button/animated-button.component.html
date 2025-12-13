@@ -12,10 +12,21 @@
 </button>
 
 <a
-  *ngIf="type === 'link'"
+  *ngIf="type === 'link' && routerLink"
+  class="animated-button {{ customClass }}"
+  [routerLink]="routerLink"
+>
+  {{ text }}
+  <div class="icon-1" [innerHTML]="icon1"></div>
+  <div class="icon-2" [innerHTML]="icon2"></div>
+  <div class="icon-3" [innerHTML]="icon3"></div>
+</a>
+
+<a
+  *ngIf="type === 'link' && !routerLink"
   class="animated-button {{ customClass }}"
   [href]="href"
-  [routerLink]="routerLink"
+  [download]="download"
 >
   {{ text }}
   <div class="icon-1" [innerHTML]="icon1"></div>
