@@ -67,6 +67,6 @@ public interface ContentRepository extends JpaRepository<Content, UUID> {
 			        WHEN c.contentStatus = 'COMPLETED' THEN c.relevantDate
 			    END DESC
 			""")
-	Page<Content> findActiceContentSortedPaged(Pageable pageable);
+	Page<Content> findActiveContentSortedPaged(Pageable pageable);
 
 }

@@ -42,14 +42,14 @@ public class ContentQueryService {
 
 	@Transactional(readOnly = true)
 	public List<Content> findTop6ActiveContentSorted() {
-		Page<Content> page = contentRepository.findActiceContentSortedPaged(PageRequest.of(0, 6));
+		Page<Content> page = contentRepository.findActiveContentSortedPaged(PageRequest.of(0, 6));
 		return page.getContent();
 	}
 
 	@Transactional(readOnly = true)
 	public Page<Content> findActiveContentSortedPaged(int page, int size) {
 		Pageable pageable = PageRequest.of(page, size);
-		return contentRepository.findActiceContentSortedPaged(pageable);
+		return contentRepository.findActiveContentSortedPaged(pageable);
 	}
 
 }
