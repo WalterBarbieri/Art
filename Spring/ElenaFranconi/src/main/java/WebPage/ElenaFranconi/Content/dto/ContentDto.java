@@ -1,6 +1,7 @@
 package WebPage.ElenaFranconi.Content.dto;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,7 +24,7 @@ public class ContentDto {
 	private ContentStatus contentStatus;
 	private LocalDate dateFrom;
 	private LocalDate dateTo;
-	private List<LocalDate> eventDates = new ArrayList<>();
+	private List<LocalDateTime> eventDates = new ArrayList<>();
 	private String location;
 
 	public ContentDto(UUID id, String title, String description, String contentType, String coverImagePath,

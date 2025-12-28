@@ -1,6 +1,6 @@
 package WebPage.ElenaFranconi.Event.dto;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.lang.Nullable;
@@ -21,7 +21,7 @@ public class EventRequestDto {
 	private String description;
 
 	@NotEmpty(message = "At least one event date is required")
-	private List<LocalDate> eventDates;
+	private List<LocalDateTime> eventDates;
 
 	@Min(value = 1, message = "Maximum participants must be at least 1")
 	private int maxParticipants;

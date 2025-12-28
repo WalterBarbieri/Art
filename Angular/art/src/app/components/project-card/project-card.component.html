@@ -38,10 +38,10 @@
         <div class="w-50">
           <ng-container *ngIf="project.contentType === 'Event'">
             <ng-container *ngIf="getEventDatesDisplay(project.eventDates) as display">
-              <div>{{display.dates[0] | date : "dd/MM/yyyy"}}</div>
+              <div>{{display.dates[0] | date : "dd/MM/yyyy HH:mm"}}</div>
               <div *ngIf="display.showDots" class="text-center my-0">…</div>
               <div *ngIf="display.dates.length > 1">
-                {{display.dates[display.dates.length - 1] | date : "dd/MM/yyyy"}}
+                {{display.dates[display.dates.length - 1] | date : "dd/MM/yyyy HH:mm"}}
               </div>
             </ng-container>
           </ng-container>
@@ -110,27 +110,27 @@
       <div class="w-50">
         <ng-container *ngIf="project.contentType === 'Event'">
           <ng-container *ngIf="getEventDatesDisplay(project.eventDates) as display">
-            <div>{{display.dates[0] | date : "dd/MM/yyyy"}}</div>
+            <div>{{display.dates[0] | date : "dd/MM/yyyy HH:mm"}}</div>
             <div *ngIf="display.showDots" class="text-center my-0">…</div>
             <div *ngIf="display.dates.length > 1">
-              {{display.dates[display.dates.length - 1] | date : "dd/MM/yyyy"}}
+              {{display.dates[display.dates.length - 1] | date : "dd/MM/yyyy HH:mm"}}
             </div>
           </ng-container>
         </ng-container>
         <ng-container *ngIf="project.contentType === 'Course'">
           <div class="row mx-0">
-            <div class="col-3 text-end ps-0 pe-2">
+            <div class="col-4 text-end ps-0 pe-2">
               {{ "GENERIC.FROM" | translate }}
             </div>
-            <div class="col-9 text-start px-0">
+            <div class="col-8 text-start px-0">
               {{ project.dateFrom | date : "dd/MM/yyyy" }}
             </div>
           </div>
           <div class="row mx-0">
-            <div class="col-3 text-end ps-0 pe-2">
+            <div class="col-4 text-end ps-0 pe-2">
               {{ "GENERIC.TO" | translate }}
             </div>
-            <div class="col-9 text-start px-0">
+            <div class="col-8 text-start px-0">
               {{ project.dateTo | date : "dd/MM/yyyy" }}
             </div>
           </div>

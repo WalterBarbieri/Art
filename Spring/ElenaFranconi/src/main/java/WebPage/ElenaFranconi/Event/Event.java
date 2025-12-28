@@ -39,7 +39,7 @@ public class Event extends Content {
 		if (dateSlots == null || dateSlots.isEmpty())
 			return ContentStatus.COMPLETED;
 
-		List<LocalDate> dates = dateSlots.stream().map(EventDateSlot::getDate).toList();
+		List<LocalDate> dates = dateSlots.stream().map(slot -> slot.getDate().toLocalDate()).toList();
 
 		LocalDate now = LocalDate.now();
 		LocalDate earliestDate = dates.stream().min(LocalDate::compareTo).orElse(null);
@@ -59,7 +59,7 @@ public class Event extends Content {
 	public LocalDate calculateRelevantDate() {
 		if (dateSlots == null || dateSlots.isEmpty())
 			return this.getCreatedAt().toLocalDate();
-		return dateSlots.stream().map(EventDateSlot::getDate).min(LocalDate::compareTo)
+		return dateSlots.stream().map(slot -> slot.getDate().toLocalDate()).min(LocalDate::compareTo)
 				.orElse(this.getCreatedAt().toLocalDate());
 	}
 

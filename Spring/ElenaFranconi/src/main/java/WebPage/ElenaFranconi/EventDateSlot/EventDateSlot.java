@@ -1,6 +1,6 @@
 package WebPage.ElenaFranconi.EventDateSlot;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -33,7 +33,7 @@ public class EventDateSlot {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 
-	private LocalDate date;
+	private LocalDateTime date;
 
 	private int maxParticipants;
 

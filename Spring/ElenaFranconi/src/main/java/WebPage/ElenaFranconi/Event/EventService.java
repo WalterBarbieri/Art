@@ -1,6 +1,6 @@
 package WebPage.ElenaFranconi.Event;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -69,7 +69,7 @@ public class EventService extends AbstractContentService<Event> {
 
 	// LOGIC METHODS
 	public Event saveEvent(EventRequestDto body) {
-		List<LocalDate> dates = body.getEventDates();
+		List<LocalDateTime> dates = body.getEventDates();
 		long distinctDatesCount = dates.stream().distinct().count();
 		if (distinctDatesCount != dates.size()) {
 			throw new BadRequestException("Duplicate dates are not allowed.");

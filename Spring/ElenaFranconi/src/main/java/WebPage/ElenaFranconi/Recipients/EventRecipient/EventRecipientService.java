@@ -1,6 +1,6 @@
 package WebPage.ElenaFranconi.Recipients.EventRecipient;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +49,7 @@ public class EventRecipientService {
 			throw new BadRequestException("Privacy policy must be accepted.");
 		}
 		EventDateSlot eventDateSlot = eventDateSlotService.findById(body.getEventDateSlotId());
-		if (eventDateSlot.getDate().isBefore(LocalDate.now())) {
+		if (eventDateSlot.getDate().isBefore(LocalDateTime.now())) {
 			throw new BadRequestException("Cannot register for an event date slot in the past.");
 		}
 		Optional<EventRecipient> existingRecipient = eventDateSlot.getRecipients().stream()
