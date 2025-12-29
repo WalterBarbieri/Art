@@ -36,7 +36,7 @@ const routes: Routes = [
     component: PrivacyComponent
   },
   {
-    path: 'login',
+    path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
   },
   {

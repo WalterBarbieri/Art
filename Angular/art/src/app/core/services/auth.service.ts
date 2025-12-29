@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject, tap } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { AuthData } from '../../auth/auth.interface';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { ResetPassword } from 'src/app/models/reset-password.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -19,12 +20,14 @@ export class AuthService {
   timerLogout: any;
   errorMessage: string = '';
 
-  constructor(private HttpClient: HttpClient, private router: Router) {
+  constructor(private httpClient: HttpClient, private router: Router) {
     this.restore();
   }
 
+  // AUTH METHODS
+
   login(data: { email: string; password: string }) {
-    return this.HttpClient.post<AuthData>(
+    return this.httpClient.post<AuthData>(
       `${this.baseUrl}auth/login`,
       data
     ).pipe(
@@ -70,6 +73,29 @@ export class AuthService {
     this.timerLogout = setTimeout(() => {
       this.logout();
     }, expirationDateMs);
+  }
+
+  // RESET PASSWORD METHODS
+  requestPasswordReset(email: string): Observable<boolean> {
+    return this.httpClient.post<any>(
+      `${this.baseUrl}auth/request-password-reset`,
+      { email }, { responseType: 'text' as 'json' }
+    ).pipe(
+      map(() => true)
+    );
+  }
+
+  resetPassword(resetToken: string, newPassword: string): Observable<boolean> {
+    const body: ResetPassword = {
+      resetToken: resetToken,
+      newPassword: newPassword
+    };
+    return this.httpClient.post<any>(
+      `${this.baseUrl}auth/reset-password`,
+      body, { responseType: 'text' as 'json' }
+    ).pipe(
+      map(() => true)
+    );
   }
 
   // HELPER METHODS

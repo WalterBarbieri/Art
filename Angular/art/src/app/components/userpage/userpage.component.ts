@@ -11,38 +11,47 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 @Component({
   selector: 'app-userpage',
   templateUrl: './userpage.component.html',
-  styleUrls: ['./userpage.component.scss']
+  styleUrls: ['./userpage.component.scss'],
 })
 export class UserpageComponent implements OnInit {
   loggedUser!: AuthData | null;
   user!: User | null;
 
-  constructor(private userService: UserService, private loader: LoaderService, private auth: AuthService, private toast: ToastService, private translate: TranslateService) { }
+  constructor(
+    private userService: UserService,
+    private loader: LoaderService,
+    private auth: AuthService,
+    private toast: ToastService,
+    private translate: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.loader.show();
     this.auth.user$.subscribe((_user) => {
       this.loggedUser = _user;
       if (this.loggedUser) {
-        this.userService.getUserById(this.loggedUser.userTokenResponse.id).subscribe({
-          next: (userData) => {
-            this.user = userData;
-            console.log(this.user);
-
-          },
-          error: (processedError: ProcessedError) => {
-            let message: string;
-        if (processedError.backendMessage) {
-          message = this.translate.instant(processedError.key) + ': ' + processedError.backendMessage;
-        } else {
-          message = this.translate.instant(processedError.key);
-        }
-        this.toast.showError(message);
-          },
-          complete: () => {
-            this.loader.hide();
-          }
-        });
+        this.userService
+          .getUserById(this.loggedUser.userTokenResponse.id)
+          .subscribe({
+            next: (userData) => {
+              this.user = userData;
+            },
+            error: (processedError: ProcessedError) => {
+              let message: string;
+              if (processedError.backendMessage) {
+                message =
+                  this.translate.instant(processedError.key) +
+                  ': ' +
+                  processedError.backendMessage;
+              } else {
+                message = this.translate.instant(processedError.key);
+              }
+              this.toast.showError(message);
+            },
+            complete: () => {
+              this.loader.hide();
+            },
+          });
       }
     });
     this.loader.hide();
@@ -51,5 +60,4 @@ export class UserpageComponent implements OnInit {
   logout() {
     this.auth.logout();
   }
-
 }

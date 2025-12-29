@@ -1,0 +1,12 @@
+<div class="container-fluid py-5 text-center">
+  <h2 class="mb-5">{{ 'PASSWORD.REQUEST.TITLE' | translate }}</h2>
+  <p class="mb-5">{{ 'PASSWORD.REQUEST.SUBTITLE' | translate }}</p>
+  <form [formGroup]="emailForm" (ngSubmit)="onSubmit()">
+    <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
+      <input type="email" class="form-control me-sm-5 mb-3 mb-sm-0 emailInput" placeholder="Email" formControlName="email" />
+      <button class="button btn" type="submit" [disabled]="emailForm.invalid">
+        {{ 'PASSWORD.REQUEST.SEND' | translate }}
+      </button>
+    </div>
+  </form>
+</div>

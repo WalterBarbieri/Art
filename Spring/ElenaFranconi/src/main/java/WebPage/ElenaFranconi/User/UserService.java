@@ -54,6 +54,11 @@ public class UserService {
 		return this.findByUsername(userDetails.getUsername());
 	}
 
+	// PUT METHODS
+	public User updateUser(User user) {
+		return ur.save(user);
+	}
+
 	// DELETE METHODS
 	@Transactional
 	public void deleteUserById(UUID id) {

@@ -25,11 +25,9 @@ public class UserDto {
 
 	private Role role;
 
-	private String logo;
-
 	public static UserDto fromUser(User user) {
 		return new UserDto(user.getId(), user.getUsername(), user.getName(), user.getSurname(), user.getEmail(),
-				user.getRole(), user.getLogo() != null ? user.getLogo() : null);
+				user.getRole());
 	}
 
 }

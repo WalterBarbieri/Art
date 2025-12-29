@@ -71,6 +71,13 @@
     "ROLE": "Ruolo",
     "RESET_PASSWORD": "Reimposta Password"
   },
+  "PASSWORD": {
+    "REQUEST": {
+      "TITLE": "RICHIESTA MODIFICA PASSWORD",
+      "SUBTITLE": "Inserisci la tua email e clicca sul tasto di invio per ricevere una email con un link per modificare la tua password",
+      "SEND": "Invia"
+    }
+  },
   "GUARD": {
     "NOT_AUTHORIZED": "Non sei autorizzato a vedere questo contenuto",
     "NOT_AUTHENTICATED": "Non puoi accedere a questo contenuto senza effettuare il login"

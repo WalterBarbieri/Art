@@ -1,6 +1,7 @@
 package WebPage.ElenaFranconi.User;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -47,7 +48,9 @@ public class User implements UserDetails {
 	@Enumerated(EnumType.STRING)
 	private Role role;
 
-	private String logo;
+	private String resetToken;
+
+	private Date resetTokenExpirationDate;
 
 	public User(String username, String name, String surname, String email, String password, Role role) {
 		super();
@@ -57,7 +60,8 @@ public class User implements UserDetails {
 		this.email = email;
 		this.password = password;
 		this.role = role;
-		this.logo = null;
+		this.resetToken = null;
+		this.resetTokenExpirationDate = null;
 	}
 
 	@Override

@@ -72,6 +72,13 @@
     "ROLE": "Role",
     "RESET_PASSWORD": "Reset Password"
   },
+  "PASSWORD": {
+    "REQUEST": {
+      "TITLE": "PASSWORD RESET REQUEST",
+      "SUBTITLE": "Enter your email and click the send button to receive an email with a link to change your password",
+      "SEND": "Send"
+    }
+  },
   "GUARD": {
     "NOT_AUTHORIZED": "You are not authorized to view this content",
     "NOT_AUTHENTICATED": "You cannot access this content without logging in"
