@@ -34,7 +34,7 @@ public class EmailService {
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 		String toAddress = user.getEmail();
 		String subject = "Art Natura Teatro - Reset your password";
-		String resetLink = frontendUrl + "/auth//reset-password?token=" + resetToken;
+		String resetLink = frontendUrl + "/auth/reset-password?token=" + resetToken;
 		String htmlBody = "<h4>Ciao " + user.getUsername() + "</h4>" + "<br>"
 				+ "<p>Hai richiesto la modifica della tua password.</p>" + "<br>"
 				+ "<p>Clicca il seguente link per proseguire con la procedura di modifica della password:</p>"

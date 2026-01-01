@@ -52,26 +52,30 @@ public class JWTTools {
 	// Reset password token
 
 	public String createResetToken(User user) {
-		Date exipirationDate = new Date(System.currentTimeMillis() + 1000 * 60 * 60);
-		String token = Jwts.builder().setSubject(user.getId().toString())
-				.setIssuedAt(new Date(System.currentTimeMillis())).setExpiration(exipirationDate)
+		Date expirationDate = new Date(System.currentTimeMillis() + 1000 * 60 * 60);
+		String resetTokenPlain = UUID.randomUUID().toString();
+		String hashedToken = passwordEncoder.encode(resetTokenPlain);
+		user.setResetToken(hashedToken);
+		user.setResetTokenExpirationDate(expirationDate);
+		us.updateUser(user);
+
+		String token = Jwts.builder().setSubject(user.getId().toString()).claim("resetToken", resetTokenPlain)
+				.setIssuedAt(new Date(System.currentTimeMillis())).setExpiration(expirationDate)
 				.signWith(Keys.hmacShaKeyFor(secret.getBytes())).compact();
 
-		String hashedToken = passwordEncoder.encode(token);
-		user.setResetToken(hashedToken);
-		user.setResetTokenExpirationDate(exipirationDate);
-		us.updateUser(user);
 		return token;
 	}
 
 	public void verifyResetToken(String token) {
 		try {
-			String userId = Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(secret.getBytes())).build()
-					.parseClaimsJws(token).getBody().getSubject();
+			Claims claims = Jwts.parserBuilder().setSigningKey(Keys.hmacShaKeyFor(secret.getBytes())).build()
+					.parseClaimsJws(token).getBody();
+			String userId = claims.getSubject();
+			String resetTokenPlain = claims.get("resetToken", String.class);
 
 			User user = us.findById(UUID.fromString(userId));
 
-			if (!passwordEncoder.matches(token, user.getResetToken())
+			if (!passwordEncoder.matches(resetTokenPlain, user.getResetToken())
 					|| user.getResetTokenExpirationDate().before(new Date())) {
 				throw new UnauthorizedException("Invalid token, please request a new one");
 			}

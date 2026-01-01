@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class EmailUtils {
-	@Value("${image.logo.directory")
+	@Value("${image.logo.directory}")
 	private String logoDirectory;
 
 	@Value("${app.frontend.url}")
