@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateHttpLoader, TRANSLATE_HTTP_LOADER_CONFIG } from '@ngx-translate/http-loader';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -16,8 +16,8 @@ import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { UserpageComponent } from './components/userpage/userpage.component';
 
-export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
-  return new TranslateHttpLoader(http, '/assets/i18n/', '.json');
+export function HttpLoaderFactory(): TranslateHttpLoader {
+  return new TranslateHttpLoader();
 }
 @NgModule({ declarations: [
         AppComponent,
@@ -35,9 +35,15 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
             loader: {
                 provide: TranslateLoader,
                 useFactory: HttpLoaderFactory,
-                deps: [HttpClient]
+                deps: []
             }
         }),
         SharedModule,
-        CoreModule], providers: [provideHttpClient(withInterceptorsFromDi())] })
+        CoreModule], providers: [
+        {
+            provide: TRANSLATE_HTTP_LOADER_CONFIG,
+            useValue: { prefix: '/assets/i18n/', suffix: '.json' }
+        },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }
