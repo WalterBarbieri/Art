@@ -9,9 +9,10 @@ import { UserService } from 'src/app/service/user.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-  selector: 'app-userpage',
-  templateUrl: './userpage.component.html',
-  styleUrls: ['./userpage.component.scss'],
+    selector: 'app-userpage',
+    templateUrl: './userpage.component.html',
+    styleUrls: ['./userpage.component.scss'],
+    standalone: false
 })
 export class UserpageComponent implements OnInit {
   loggedUser!: AuthData | null;

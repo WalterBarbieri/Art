@@ -1,5 +1,5 @@
-@import 'variables';
-@import 'typed';
+@use 'variables' as *;
+@use 'typed' as *;
 
 .infoImageContainer,
 .infoTextContainer {

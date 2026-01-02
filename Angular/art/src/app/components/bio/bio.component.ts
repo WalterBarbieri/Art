@@ -5,9 +5,10 @@ import { MetaService } from 'src/app/service/meta.service';
 import { StaticAssetService } from 'src/app/service/static-asset.service';
 
 @Component({
-  selector: 'app-bio',
-  templateUrl: './bio.component.html',
-  styleUrls: ['./bio.component.scss']
+    selector: 'app-bio',
+    templateUrl: './bio.component.html',
+    styleUrls: ['./bio.component.scss'],
+    standalone: false
 })
 export class BioComponent implements OnInit, OnDestroy {
 

@@ -17,9 +17,10 @@ import { LanguageService } from 'src/app/service/language.service';
 import { StaticAssetService } from 'src/app/service/static-asset.service';
 
 @Component({
-  selector: 'app-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
+    selector: 'app-navbar',
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.scss'],
+    standalone: false
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   isOpen: boolean = false;

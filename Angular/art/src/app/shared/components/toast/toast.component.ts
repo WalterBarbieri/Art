@@ -3,9 +3,10 @@ import { Subscription } from 'rxjs';
 import { ToastService, Toast } from '../../services/toast.service';
 
 @Component({
-  selector: 'app-toast',
-  templateUrl: './toast.component.html',
-  styleUrls: ['./toast.component.scss']
+    selector: 'app-toast',
+    templateUrl: './toast.component.html',
+    styleUrls: ['./toast.component.scss'],
+    standalone: false
 })
 export class ToastComponent implements OnInit, OnDestroy {
   toast: Toast | null = null;

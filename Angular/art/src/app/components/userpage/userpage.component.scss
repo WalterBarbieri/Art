@@ -1,4 +1,4 @@
-@import 'variables';
+@use 'variables' as *;
 .user-container {
   height: calc(100vh - ($navbar-height + $footer-height-sm));
   @media (min-width: 768px) {

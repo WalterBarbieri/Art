@@ -4,12 +4,11 @@ import { RouterModule } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
-  selector: 'app-animated-button',
-  standalone: true,
-  imports: [CommonModule, RouterModule],
-  templateUrl: './animated-button.component.html',
-  styleUrls: ['./animated-button.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-animated-button',
+    imports: [CommonModule, RouterModule],
+    templateUrl: './animated-button.component.html',
+    styleUrls: ['./animated-button.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class AnimatedButtonComponent {
   @Input() text: string = '';

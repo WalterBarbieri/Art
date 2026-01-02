@@ -1,4 +1,4 @@
-@import 'variables';
+@use 'variables' as *;
 
 .card {
   border: solid 1px $light-cyan-transparent;

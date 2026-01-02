@@ -10,9 +10,10 @@ import { UserService } from 'src/app/service/user.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
-  selector: 'app-request-token',
-  templateUrl: './request-token.component.html',
-  styleUrls: ['./request-token.component.scss']
+    selector: 'app-request-token',
+    templateUrl: './request-token.component.html',
+    styleUrls: ['./request-token.component.scss'],
+    standalone: false
 })
 export class RequestTokenComponent implements OnInit {
   user: User | null = null;

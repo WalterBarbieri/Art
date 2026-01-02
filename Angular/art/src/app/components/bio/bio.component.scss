@@ -1,5 +1,4 @@
-@import 'variables';
-@import 'typed';
+@use 'variables' as *;
 
 .bioImageContainer,
 .bioTextContainer {

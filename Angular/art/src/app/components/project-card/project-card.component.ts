@@ -3,9 +3,10 @@ import { Content } from '../../models/content.interface';
 import { ProjectCardService } from '../../shared/services/project-card.service';
 
 @Component({
-  selector: 'app-project-card',
-  templateUrl: './project-card.component.html',
-  styleUrls: ['./project-card.component.scss']
+    selector: 'app-project-card',
+    templateUrl: './project-card.component.html',
+    styleUrls: ['./project-card.component.scss'],
+    standalone: false
 })
 export class ProjectCardComponent {
   @Input() project!: Content;

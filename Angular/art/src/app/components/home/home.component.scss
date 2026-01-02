@@ -1,5 +1,5 @@
-@import 'variables';
-@import '_typed';
+@use 'variables' as *;
+@use '_typed' as *;
 
 .topSection {
   background-size: cover;
