@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
-export class StaticModeGuard implements CanActivate {
+export class StaticModeGuard  {
   constructor(private router: Router) {}
 
   canActivate(): boolean {
