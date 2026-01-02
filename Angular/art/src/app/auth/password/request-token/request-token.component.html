@@ -1,9 +1,9 @@
-<div class="container-fluid py-5 text-center token-container">
+<div class="container-fluid py-5 d-flex flex-column justify-content-center align-items-center token-container">
   <h2 class="mb-5">{{ 'PASSWORD.REQUEST.TITLE' | translate }}</h2>
   <p class="mb-5">{{ 'PASSWORD.REQUEST.SUBTITLE' | translate }}</p>
   <form [formGroup]="emailForm" (ngSubmit)="onSubmit()">
     <div class="d-flex flex-column flex-sm-row justify-content-center align-items-center">
-      <input type="email" class="form-control me-sm-5 mb-3 mb-sm-0 emailInput" placeholder="Email" formControlName="email" />
+      <input type="email" id="email" name="email" class="form-control me-sm-5 mb-3 mb-sm-0 emailInput" placeholder="Email" formControlName="email" autocomplete="your@email.com" />
       <button class="btn default-button" type="submit" [disabled]="emailForm.invalid">
         {{ 'PASSWORD.REQUEST.SEND' | translate }}
       </button>

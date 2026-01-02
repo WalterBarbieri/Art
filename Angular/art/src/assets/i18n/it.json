@@ -76,6 +76,11 @@
       "TITLE": "RICHIESTA MODIFICA PASSWORD",
       "SUBTITLE": "Inserisci la tua email e clicca sul tasto di invio per ricevere una email con un link per modificare la tua password",
       "SEND": "Invia"
+    },
+    "TOKEN": {
+      "TITLE": "EMAIL DI VERIFICA INVIATA",
+      "TEXT": "Ciao, ti abbiamo inviato una email con un link per reimpostare la tua password.",
+      "SMALL": "Il link ha una scadenza di un ora!"
     }
   },
   "GUARD": {

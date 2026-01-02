@@ -77,6 +77,11 @@
       "TITLE": "PASSWORD RESET REQUEST",
       "SUBTITLE": "Enter your email and click the send button to receive an email with a link to change your password",
       "SEND": "Send"
+    },
+    "TOKEN": {
+      "TITLE": "VERIFICATION EMAIL SENT",
+      "TEXT": "Hi, we've sent you an email with a link to reset your password.",
+      "SMALL": "The link expires in one hour!"
     }
   },
   "GUARD": {
