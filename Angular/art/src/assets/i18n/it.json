@@ -81,6 +81,19 @@
       "TITLE": "EMAIL DI VERIFICA INVIATA",
       "TEXT": "Ciao, ti abbiamo inviato una email con un link per reimpostare la tua password.",
       "SMALL": "Il link ha una scadenza di un ora!"
+    },
+    "RESET": {
+      "SUCCESS": "Password reimpostata con successo",
+      "TITLE": "REIMPOSTA PASSWORD",
+      "SUBTITLE": "Inserisci la tua nuova password",
+      "NEW_PASSWORD": "Nuova Password",
+      "CONFIRM_PASSWORD": "Conferma Password",
+      "PASSWORD_MISMATCH": "Le password non corrispondono",
+      "REQUIRED": "La password è obbligatoria",
+      "MIN_LENGTH": "La password deve essere lunga almeno 8 caratteri",
+      "MAX_LENGTH": "La password deve essere lunga al massimo 20 caratteri",
+      "PATTERN": "La password deve contenere almeno una lettera maiuscola, una minuscola e un numero",
+      "RESET": "Reimposta Password"
     }
   },
   "GUARD": {

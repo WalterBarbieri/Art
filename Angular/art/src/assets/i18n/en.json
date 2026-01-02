@@ -82,6 +82,19 @@
       "TITLE": "VERIFICATION EMAIL SENT",
       "TEXT": "Hi, we've sent you an email with a link to reset your password.",
       "SMALL": "The link expires in one hour!"
+    },
+    "RESET": {
+      "SUCCESS": "Password reset successfully",
+      "TITLE": "RESET PASSWORD",
+      "SUBTITLE": "Enter your new password",
+      "NEW_PASSWORD": "New Password",
+      "CONFIRM_PASSWORD": "Confirm Password",
+      "PASSWORD_MISMATCH": "Passwords do not match",
+      "REQUIRED": "Password is required",
+      "MIN_LENGTH": "Password must be at least 8 characters",
+      "MAX_LENGTH": "Password must be at most 20 characters",
+      "PATTERN": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
+      "RESET": "Reset Password"
     }
   },
   "GUARD": {
