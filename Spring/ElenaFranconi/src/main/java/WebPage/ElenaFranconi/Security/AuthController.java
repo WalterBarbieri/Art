@@ -22,7 +22,6 @@ import WebPage.ElenaFranconi.User.dto.RequestResetToken;
 import WebPage.ElenaFranconi.User.dto.ResetPasswordDto;
 import WebPage.ElenaFranconi.User.dto.UserLoginDto;
 import WebPage.ElenaFranconi.User.dto.UserRequestDto;
-import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 
 @RestController
@@ -80,11 +79,7 @@ public class AuthController {
 		User user = us.findByEmail(body.getEmail());
 
 		if (user != null) {
-			try {
-				sendPasswordResetEmail(user);
-			} catch (MessagingException e) {
-				return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
+			sendPasswordResetEmail(user);
 
 			return new ResponseEntity<>("Password reset email sent", HttpStatus.OK);
 		} else {
@@ -103,6 +98,7 @@ public class AuthController {
 				user.setResetToken(null);
 				user.setResetTokenExpirationDate(null);
 				us.updateUser(user);
+				sendPasswordChangedEmail(user);
 				return new ResponseEntity<>("Password successfully changed", HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>("Invalid token", HttpStatus.UNAUTHORIZED);
@@ -115,10 +111,14 @@ public class AuthController {
 
 	// Helpers
 
-	private void sendPasswordResetEmail(User user) throws MessagingException {
+	private void sendPasswordResetEmail(User user) {
 		String resetToken = jtTools.createResetToken(user);
 
 		es.sendResetPasswordEmail(user, resetToken);
+	}
+
+	private void sendPasswordChangedEmail(User user) {
+		es.sendPasswordChangedEmail(user);
 	}
 
 	private boolean isValidEmail(String email) {

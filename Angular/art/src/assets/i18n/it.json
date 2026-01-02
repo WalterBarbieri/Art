@@ -112,7 +112,8 @@
     "TOKEN_INVALID": "Token non valido o scaduto",
     "GENERIC": "Si è verificato un errore del server",
     "UNKNOWN": "Errore sconosciuto",
-    "CREDENTIAL": "Credenziali non valide, verifica email e password"
+    "CREDENTIAL": "Credenziali non valide, verifica email e password",
+    "EMAIL_SEND_FAILED": "Errore durante l'invio dell'email"
   },
   "VALIDATION": {
     "PRIVACY_REQUIRED": "L'accettazione della privacy policy è obbligatoria",

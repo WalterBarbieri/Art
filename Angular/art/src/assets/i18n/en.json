@@ -113,7 +113,8 @@
     "TOKEN_INVALID": "Invalid or expired token",
     "GENERIC": "A server error occurred",
     "UNKNOWN": "Unknown error",
-    "CREDENTIAL": "Invalid credentials, please check your email and password"
+    "CREDENTIAL": "Invalid credentials, please check your email and password",
+    "EMAIL_SEND_FAILED": "Error sending email"
   },
   "VALIDATION": {
     "PRIVACY_REQUIRED": "Privacy policy acceptance is required",
