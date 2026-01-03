@@ -6,6 +6,14 @@ const routes: Routes = [
   {
     path: '',
     component: ProjectsComponent
+  },
+  {
+    path: 'courses/:id',
+    loadComponent: () => import('./courses/course-detail/course-detail').then(m => m.CourseDetail)
+  },
+  {
+    path: 'events/:id',
+    loadComponent: () => import('./events/event-detail/event-detail').then(m => m.EventDetail)
   }
 ];
 

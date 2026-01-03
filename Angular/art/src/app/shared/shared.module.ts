@@ -3,10 +3,8 @@ import { TextareaAutoresizeDirective } from "../directive/textarea-autoresize.di
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
-import { ImageLoaderComponent } from './components/image-loader/image-loader.component';
 import { NgbToastModule } from '@ng-bootstrap/ng-bootstrap';
 import { NewlineToBrPipe } from './pipes/NewlineToBr-pipe';
-import { ProjectCardComponent } from '../components/project-card/project-card.component';
 import { RouterModule } from '@angular/router';
 import { FooterComponent } from './components/footer/footer.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -17,8 +15,6 @@ import { AnimatedButtonComponent } from './components/animated-button/animated-b
 @NgModule({
   declarations: [
     TextareaAutoresizeDirective,
-    ImageLoaderComponent,
-    ProjectCardComponent,
     FooterComponent,
     NavbarComponent,
     LoaderComponent,
@@ -39,10 +35,8 @@ import { AnimatedButtonComponent } from './components/animated-button/animated-b
     ReactiveFormsModule,
     TranslateModule,
     TextareaAutoresizeDirective,
-    ImageLoaderComponent,
     NgbToastModule,
     NewlineToBrPipe,
-    ProjectCardComponent,
     FooterComponent,
     NavbarComponent,
     LoaderComponent,
