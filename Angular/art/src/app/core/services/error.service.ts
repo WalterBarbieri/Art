@@ -102,7 +102,7 @@ export class ErrorService {
 
   private processInternalServerError(errorMsg: string): ProcessedError {
     if (errorMsg.includes('Email sending failed')) {
-      // Rimuovi il prefisso "Email sending failed: " per mostrare solo il messaggio specifico
+      // Remove technical details from the message
       const cleanMessage = errorMsg.replace('Email sending failed: ', '');
       return {
         key: 'ERROR.EMAIL_SEND_FAILED',
