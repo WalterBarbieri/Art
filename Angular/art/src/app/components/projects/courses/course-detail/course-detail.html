@@ -1,1 +1,32 @@
-<p>course-detail works!</p>
+@if (course$ | async; as course) {
+  <div class="container-fluid">
+    @if (course.coverImagePath) {
+        <img [src]="course.coverImagePath" alt="Cover Image" class="cover-image">
+      }
+    <h1>{{ course.title }}</h1>
+    <div class="w-75">
+      <p class="description">{{ course.description }}</p>
+      <div class="details">
+        <p><strong>Location:</strong> {{ course.location }}</p>
+        <p><strong>From:</strong> {{ course.dateFrom | date }}</p>
+        <p><strong>To:</strong> {{ course.dateTo | date }}</p>
+        <p><strong>Max Participants:</strong> {{ course.maxParticipants }}</p>
+        <p><strong>Confirmed Participants:</strong> {{ course.confirmedParticipants }}</p>
+        <p><strong>Full:</strong> {{ course.full ? 'Yes' : 'No' }}</p>
+        <p><strong>Status:</strong> {{ course.contentStatus }}</p>
+
+      </div>
+    </div>
+
+    @if (course.imagePaths && course.imagePaths.length > 0) {
+      <div class="images">
+        <h2>Images</h2>
+        <div class="image-gallery">
+          @for (image of course.imagePaths; track image) {
+            <img [src]="image" alt="Course Image">
+          }
+        </div>
+      </div>
+    }
+  </div>
+}

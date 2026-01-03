@@ -1,0 +1,56 @@
+@use 'variables' as *;
+
+.container-fluid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  color: $dark-gray;
+  margin-bottom: 10px;
+}
+
+.description {
+  font-size: 1.1em;
+  margin-bottom: 20px;
+  text-align: justify;
+}
+
+.details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+
+  p {
+    margin: 5px 0;
+  }
+}
+
+.cover-image {
+  max-width: 100%;
+  max-height: calc(100vh - $navbar-height);
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.images {
+  margin-top: 20px;
+
+  h2 {
+    margin-bottom: 10px;
+  }
+
+  .image-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    img {
+      max-width: 200px;
+      height: auto;
+    }
+  }
+}

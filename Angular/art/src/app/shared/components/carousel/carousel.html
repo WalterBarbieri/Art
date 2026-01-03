@@ -1,0 +1,41 @@
+<!-- CAROUSEL -->
+<div
+  class="custom-carousel position-relative flex-grow-1"
+  *ngIf="projects.length > 0"
+>
+  <div class="carousel-track-container overflow-hidden">
+    <div
+      class="carousel-track d-flex"
+      [style.transform]="
+        'translateX(-' + currentSlide * cardWidthPercentage + '%)'
+      "
+    >
+      <div
+        class="carousel-card flex-shrink-0"
+        *ngFor="let project of projects; let i = index"
+      >
+        <app-project-card
+          [project]="project"
+          [isImageLoading]="imageLoading[i]"
+          [truncateDescription]="true"
+        ></app-project-card>
+      </div>
+    </div>
+  </div>
+
+  <!-- CAROUSEL CONTROL -->
+  <button
+    class="carousel-btn carousel-prev"
+    (click)="prevSlide()"
+    [disabled]="currentSlide === 0"
+  >
+    <i class="fas fa-chevron-left"></i>
+  </button>
+  <button
+    class="carousel-btn carousel-next"
+    (click)="nextSlide()"
+    [disabled]="currentSlide >= maxSlides - 1"
+  >
+    <i class="fas fa-chevron-right"></i>
+  </button>
+</div>
