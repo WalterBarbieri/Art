@@ -7,7 +7,6 @@ import { ContactComponent } from './components/contact/contact.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { ErrorComponent } from './components/error/error.component';
 import { UserpageComponent } from './components/userpage/userpage.component';
-import { StaticModeGuard } from './core/guards/static-mode.guard';
 
 const routes: Routes = [
   {
@@ -45,8 +44,7 @@ const routes: Routes = [
   },
   {
     path: 'userpage',
-    component: UserpageComponent,
-    canActivate: [StaticModeGuard]
+    component: UserpageComponent
   }
 ];
 
