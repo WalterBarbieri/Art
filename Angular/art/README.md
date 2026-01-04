@@ -2,19 +2,39 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 20.
 
-## Prerequisiti
-Node.js: 20.11.1 o successivo (vedi [Versioni Angular](https://angular.dev/reference/versions))
-npm: versione stabile più recente
+## Prerequisites
+Node.js: 20.11.1 or later (see [Angular Versions](https://angular.dev/reference/versions))
+npm: latest stable version
 Angular CLI: 20.x
 
-## Librerie Esterne
-### NGX TRANSLATE
-npm install @ngx-translate/core@^17.0.0 @ngx-translate/http-loader@^17.0.0
-### JWT
-npm install @auth0/angular-jwt
+## External Libraries
 
+### NGX TRANSLATE
+i18n translation management
+```bash
+npm install @ngx-translate/core@^17.0.0 @ngx-translate/http-loader@^17.0.0
+```
+### JWT
+JSON Web Token authentication
+```bash
+npm install @auth0/angular-jwt
+```
+### Bootstrap & Popper
+UI framework and positioning
+```bash
+npm install @ng-bootstrap/ng-bootstrap@^19.0.0 @popperjs/core@^2.11.8
+```
+### GLightbox
+Image and video gallery with lightbox
+```bash
+npm install glightbox
+```
 ## Running Project
-### Avvia il server di sviluppo
+Start development server
+```bash
 ng s -o
-### Build del progetto in cartella DIST
+```
+Build project to DIST folder
+```bash
 ng build --configuration production
+```
