@@ -1,7 +1,7 @@
 <!-- CAROUSEL -->
+@if (projects.length > 0) {
 <div
   class="custom-carousel position-relative flex-grow-1"
-  *ngIf="projects.length > 0"
 >
   <div class="carousel-track-container overflow-hidden">
     <div
@@ -10,16 +10,15 @@
         'translateX(-' + currentSlide * cardWidthPercentage + '%)'
       "
     >
-      <div
-        class="carousel-card flex-shrink-0"
-        *ngFor="let project of projects; let i = index"
-      >
-        <app-project-card
-          [project]="project"
-          [isImageLoading]="imageLoading[i]"
-          [truncateDescription]="true"
-        ></app-project-card>
-      </div>
+      @for (project of projects; track project.id; let i = $index) {
+        <div class="carousel-card flex-shrink-0">
+          <app-project-card
+            [project]="project"
+            [isImageLoading]="imageLoading[i]"
+            [truncateDescription]="true"
+          ></app-project-card>
+        </div>
+      }
     </div>
   </div>
 
@@ -39,3 +38,5 @@
     <i class="fas fa-chevron-right"></i>
   </button>
 </div>
+}
+

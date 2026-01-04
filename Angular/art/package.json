@@ -24,6 +24,7 @@
     "@ngx-translate/core": "^17.0.0",
     "@ngx-translate/http-loader": "^17.0.0",
     "@popperjs/core": "^2.11.8",
+    "ngx-lightbox": "^3.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.1"

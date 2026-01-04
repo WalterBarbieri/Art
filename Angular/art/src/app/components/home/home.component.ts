@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MetaService } from 'src/app/service/meta.service';
 import { StaticAssetService } from 'src/app/service/static-asset.service';
@@ -23,9 +23,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   currentLanguage: string = 'it';
   projects: Content[] = [];
   imageLoading: boolean[] = [];
-  currentSlide: number = 0;
-  cardWidthPercentage: number = 100;
-  maxSlides: number = 0;
 
   // Static asset paths
   homeBannerPath: string = '';
@@ -109,7 +106,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.projects.forEach((project, index) => {
           this.getFullImageUrl(project.coverImagePath, index);
         });
-        this.initializeCarousel();
       },
       error: (processedError: ProcessedError) => {
         let message: string;
@@ -127,48 +123,5 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.loaderService.hide();
       },
     });
-  }
-
-  private initializeCarousel(): void {
-    this.updateCarouselSettings();
-    this.currentSlide = 0;
-  }
-
-  private updateCarouselSettings(): void {
-    const screenWidth = window.innerWidth;
-
-    if (screenWidth >= 1200) {
-      this.cardWidthPercentage = 25;
-      this.maxSlides = Math.max(0, this.projects.length - 3);
-    } else if (screenWidth >= 992) {
-      this.cardWidthPercentage = 33.333;
-      this.maxSlides = Math.max(0, this.projects.length - 2);
-    } else if (screenWidth >= 576) {
-      this.cardWidthPercentage = 50;
-      this.maxSlides = Math.max(0, this.projects.length - 1);
-    } else {
-      this.cardWidthPercentage = 100;
-      this.maxSlides = this.projects.length;
-    }
-  }
-
-  nextSlide(): void {
-    if (this.currentSlide < this.maxSlides - 1) {
-      this.currentSlide++;
-    }
-  }
-
-  prevSlide(): void {
-    if (this.currentSlide > 0) {
-      this.currentSlide--;
-    }
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any): void {
-    this.updateCarouselSettings();
-    if (this.currentSlide >= this.maxSlides) {
-      this.currentSlide = Math.max(0, this.maxSlides - 1);
-    }
   }
 }

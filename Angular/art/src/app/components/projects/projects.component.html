@@ -71,7 +71,7 @@
   </div>
   <div class="row" *ngIf="filteredProjects.length > 0">
     <div
-      class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2 cardContainer"
+      class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2"
       *ngFor="let project of filteredProjects; let i = index"
     >
       <app-project-card [project]="project" [isImageLoading]="imageLoading[i]" [truncateDescription]="true"></app-project-card>

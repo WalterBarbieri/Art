@@ -9,10 +9,12 @@ import { CourseService } from 'src/app/service/course.service';
 import { ImageService } from 'src/app/service/image.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { AsyncPipe, DatePipe } from '@angular/common';
+import { LightboxModule } from 'ngx-lightbox';
+import { Lightbox } from 'ngx-lightbox';
 
 @Component({
   selector: 'app-course-detail',
-  imports: [AsyncPipe, DatePipe],
+  imports: [AsyncPipe, DatePipe, LightboxModule],
   templateUrl: './course-detail.html',
   styleUrl: './course-detail.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,6 +22,7 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 export class CourseDetail implements OnInit {
   course$!: Observable<Course>;
   courseId!: string;
+  _albums: any[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -28,7 +31,8 @@ export class CourseDetail implements OnInit {
     private translate: TranslateService,
     private toastService: ToastService,
     private cdr: ChangeDetectorRef,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private _lightbox: Lightbox
   ) {}
 
   ngOnInit(): void {
@@ -78,10 +82,23 @@ export class CourseDetail implements OnInit {
         this.imageService.getFullImageUrl(imagePath).subscribe(
           (url) => {
             course.imagePaths[index] = url;
+            this._albums.push({
+              src: url,
+              caption: `${course.title} ${index + 1}`,
+              thumb: url
+            });
             this.cdr.markForCheck();
           }
         );
       });
     }
+  }
+
+  openLightbox(index: number): void {
+    this._lightbox.open(this._albums, index);
+  }
+
+  closeLightbox(): void {
+    this._lightbox.close();
   }
 }
