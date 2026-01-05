@@ -12,6 +12,9 @@ import { AsyncPipe, DatePipe } from '@angular/common';
 import { AnimatedButtonComponent } from "src/app/shared/components/animated-button/animated-button.component";
 import { environment } from 'src/environments/environment';
 import GLightbox from 'glightbox';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DownloadModalComponent } from 'src/app/shared/components/modals/download-modal/download-modal.component';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-course-detail',
@@ -32,7 +35,9 @@ export class CourseDetail implements OnInit, AfterViewInit, OnDestroy {
     private loader: LoaderService,
     private translate: TranslateService,
     private toastService: ToastService,
-    private imageService: ImageService
+    private imageService: ImageService,
+    private modalService: NgbModal,
+    private sanitazier: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -51,8 +56,7 @@ export class CourseDetail implements OnInit, AfterViewInit, OnDestroy {
     this.loader.show();
     this.courseService.getCourseById(this.courseId).subscribe({
       next: (course) => {
-        this.processImages(course);
-        this.processVideos(course);
+        this.processMedia(course);
         this.course$ = of(course);
         console.log('course:', course);
         setTimeout(() => {
@@ -120,6 +124,20 @@ export class CourseDetail implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  private processFiles(course: Course): void {
+    if (course.filePaths && course.filePaths.length > 0) {
+      course.filePaths.forEach((filePath, index) => {
+        course.filePaths[index] = this.imageService.getFullFileUrl(filePath);
+      });
+    }
+  }
+
+  private processMedia(course: Course): void {
+    this.processFiles(course);
+    this.processImages(course);
+    this.processVideos(course);
+  }
+
   private initGallery(): void {
     if (this._galleryItems.length > 0) {
       this.lightbox = GLightbox({
@@ -129,5 +147,43 @@ export class CourseDetail implements OnInit, AfterViewInit, OnDestroy {
         autoplayVideos: false
       });
     }
+  }
+
+  getFileName(filePath: string): string {
+    const fileName = filePath.split('/').pop() || '';
+    return fileName.substring(14);
+  }
+
+  getFileIconClass(filePath: string): string {
+    const extension = filePath.split('.').pop()?.toLowerCase();
+    switch (extension) {
+      case 'pdf':
+        return 'fa fa-file-pdf-o';
+      case 'doc':
+      case 'docx':
+        return 'fa fa-file-word-o';
+      case 'xls':
+      case 'xlsx':
+        return 'fa fa-file-excel-o';
+      case 'ppt':
+      case 'pptx':
+        return 'fa fa-file-powerpoint-o';
+      case 'zip':
+      case 'rar':
+        return 'fa fa-file-archive-o';
+      case 'txt':
+        return 'fa fa-file-text-o';
+      default:
+        return 'fa fa-file-o';
+    }
+  }
+
+  openDownloadModal(fileUrl: string, fileName: string): void {
+    const modalRef = this.modalService.open(DownloadModalComponent, { centered: true });
+    modalRef.componentInstance.fileUrl = fileUrl;
+    modalRef.componentInstance.fileName = fileName;
+  }
+  getSafeUrl(url: string): SafeResourceUrl {
+    return this.sanitazier.bypassSecurityTrustResourceUrl(url);
   }
 }

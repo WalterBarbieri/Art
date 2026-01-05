@@ -113,6 +113,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.modalRef = this.modalService.open(this.navbarModal, {
       backdrop: 'static',
       keyboard: false,
+      windowClass: 'navbar-modal'
     });
     this.modalRef.result.then(
       () => {

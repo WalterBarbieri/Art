@@ -141,11 +141,20 @@ li {
   width: 6em;
 }
 
-.modal-dialog {
+.navbar-modal .modal-dialog {
   position: fixed !important;
   top: 6em;
-  right: 1em;
+  right: 3em;
+
+  @media (min-width: 768px) {
+    right: 5em;
+  }
+
+  @media (min-width: 1200px) {
+    right: 7em;
+  }
 }
+
 .modal-content {
   background-color: $white;
   color: $dark-cyan;

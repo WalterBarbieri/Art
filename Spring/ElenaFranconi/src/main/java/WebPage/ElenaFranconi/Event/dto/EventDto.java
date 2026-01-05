@@ -23,6 +23,8 @@ public class EventDto {
 	private List<String> videoPaths;
 	private List<EventDateSlotDto> eventDateSlots;
 	private String location;
+	private String informations;
+	private String googleMapsLink;
 	private UUID linkedCourseId;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
@@ -43,6 +45,8 @@ public class EventDto {
 		dto.setVideoPaths(event.getVideoPaths());
 		dto.setEventDateSlots(dateSlotDtos);
 		dto.setLocation(event.getLocation());
+		dto.setInformations(event.getInformations());
+		dto.setGoogleMapsLink(event.getGoogleMapsLink());
 		dto.setLinkedCourseId(event.getLinkedCourse() != null ? event.getLinkedCourse().getId() : null);
 		dto.setCreatedAt(event.getCreatedAt());
 		dto.setUpdatedAt(event.getUpdatedAt());

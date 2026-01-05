@@ -23,6 +23,8 @@ public class CourseDto {
 	private LocalDate dateFrom;
 	private LocalDate dateTo;
 	private String location;
+	private String informations;
+	private String googleMapsLink;
 	private int maxParticipants;
 	private long confirmedParticipants;
 	private boolean full;
@@ -48,6 +50,8 @@ public class CourseDto {
 		dto.setDateFrom(course.getDateFrom());
 		dto.setDateTo(course.getDateTo());
 		dto.setLocation(course.getLocation());
+		dto.setInformations(course.getInformations());
+		dto.setGoogleMapsLink(course.getGoogleMapsLink());
 		dto.setMaxParticipants(course.getMaxParticipants());
 		dto.setConfirmedParticipants(confirmedParticipants);
 		dto.setFull(full);

@@ -55,6 +55,11 @@ public abstract class Content {
 
 	private String location;
 
+	@Column(length = 5000)
+	private String informations;
+
+	private String googleMapsLink;
+
 	private int maxParticipants;
 
 	private LocalDateTime createdAt;

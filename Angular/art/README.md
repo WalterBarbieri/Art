@@ -1,11 +1,9 @@
 # Art
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 20.
-
 ## Prerequisites
-Node.js: 20.11.1 or later (see [Angular Versions](https://angular.dev/reference/versions))
-npm: latest stable version
-Angular CLI: 20.x
+- Node.js: 20.11.1 or later (see [Angular Versions](https://angular.dev/reference/versions))
+- npm: latest stable version
+- Angular CLI: 20.x
 
 ## External Libraries
 

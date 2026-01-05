@@ -29,6 +29,12 @@ public class EventRequestDto {
 	@NotBlank(message = "Location is required")
 	private String location;
 
+	@Nullable
+	private String informations;
+
+	@Nullable
+	private String googleMapsLink;
+
 	@NotNull(message = "Cover Image is required")
 	private MultipartFile coverImage;
 

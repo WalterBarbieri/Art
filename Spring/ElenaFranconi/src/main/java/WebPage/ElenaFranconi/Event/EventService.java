@@ -87,6 +87,8 @@ public class EventService extends AbstractContentService<Event> {
 			slot.setDate(date);
 			event.addDateSlot(slot);
 		});
+		event.setInformations(body.getInformations());
+		event.setGoogleMapsLink(body.getGoogleMapsLink());
 
 		prepareContent(event);
 

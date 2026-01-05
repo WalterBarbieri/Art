@@ -11,6 +11,8 @@ export interface Course {
   dateFrom: Date;
   dateTo: Date;
   location: string;
+  informations: string;
+  googleMapsLink: string;
   maxParticipants: number;
   confirmedParticipants: number;
   full: boolean;
