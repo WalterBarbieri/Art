@@ -12,4 +12,8 @@ public interface PressReviewRepository extends JpaRepository<PressReview, UUID> 
 
 	List<PressReview> findByEventId(UUID eventId);
 
+	boolean existsByCourseIdAndUrl(UUID courseId, String url);
+
+	boolean existsByEventIdAndUrl(UUID eventId, String url);
+
 }

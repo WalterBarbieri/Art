@@ -39,7 +39,7 @@ public abstract class Content {
 
 	private String title;
 
-	@Column(length = 5000)
+	@Column(columnDefinition = "text")
 	private String description;
 
 	private String coverImagePath;
@@ -55,9 +55,10 @@ public abstract class Content {
 
 	private String location;
 
-	@Column(length = 5000)
+	@Column(columnDefinition = "text")
 	private String informations;
 
+	@Column(columnDefinition = "text")
 	private String googleMapsLink;
 
 	private int maxParticipants;

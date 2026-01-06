@@ -6,30 +6,35 @@
   <h1>{{ course.title }}</h1>
   <div class="w-75">
     <p class="description">{{ course.description }}</p>
-    <div class="details">
-      <p><strong>Location:</strong> {{ course.location }}</p>
-      <p><strong>From:</strong> {{ course.dateFrom | date }}</p>
-      <p><strong>To:</strong> {{ course.dateTo | date }}</p>
-      <p><strong>Max Participants:</strong> {{ course.maxParticipants }}</p>
-      <p><strong>Status:</strong> {{ course.contentStatus }}</p>
-      @if (isStaticMode){
-      <p>Partecipazione gratuita</p>
-      <p>Iscrizione necessaria</p>
-      <p>
-        Per info e iscrizioni:
-        <a
-          href="mailto: Art Natura Teatro <info@artnaturateatro.it>?subject=Info e Iscrizione Corso {{course.title}}"
-          class="email-anchor"
-          >info&#64;artnaturateatro.it</a
-        >
-      </p>
-      } @else if (course.contentStatus != 'COMPLETED') {
-      <app-animated-button
-        type="link"
-        [routerLink]="['']"
-        [text]="'Soon Available'"
-      ></app-animated-button>
-      }
+    <div class="details row">
+      <div class="col-12 col-md-6">
+        <p><strong>Location:</strong> {{ course.location }}</p>
+        <p><strong>Max Participants:</strong> {{ course.maxParticipants }}</p>
+        @if (course.linkedEventId) {
+        <a [routerLink]="['/projects', 'events', course.linkedEventId]">View Event</a>
+        }
+      </div>
+      <div class="col-12 col-md-6">
+        <p><strong>From:</strong> {{ course.dateFrom | date: "dd/MM/yyyy" }} <strong>To:</strong> {{ course.dateTo | date: "dd/MM/yyyy" }}</p>
+        @if (isStaticMode){
+        <p>Partecipazione gratuita</p>
+        <p>Iscrizione necessaria</p>
+        <p>
+          Per info e iscrizioni:
+          <a
+            href="mailto: Art Natura Teatro <info@artnaturateatro.it>?subject=Info e Iscrizione Corso {{course.title}}"
+            class="email-anchor"
+            >info&#64;artnaturateatro.it</a
+          >
+        </p>
+        } @else if (course.contentStatus != 'COMPLETED') {
+        <app-animated-button
+          type="link"
+          [routerLink]="['']"
+          [text]="'Soon Available'"
+        ></app-animated-button>
+        }
+      </div>
     </div>
   </div>
   @if (course.imagePaths && course.imagePaths.length > 0 || course.videoPaths &&
@@ -57,49 +62,63 @@
       </div>
       }
     </div>
-    @if (course.filePaths && course.filePaths.length > 0) {
-    <div class="files-section text-center">
-      <h2>Files</h2>
-      <div class="d-flex justify-content-center flex-wrap gap-3">
-        @for (file of course.filePaths; track file; let i = $index) {
+  </div>
+  }
+  @if (course.filePaths && course.filePaths.length > 0) {
+  <div class="files-section text-center">
+    <h2>Files</h2>
+    <div class="d-flex justify-content-center flex-wrap gap-3">
+      @for (file of course.filePaths; track file; let i = $index) {
+      <div
+        class="card file-card"
+        (click)="openDownloadModal(file, getFileName(file))"
+      >
         <div
-          class="card file-card"
-          (click)="openDownloadModal(file, getFileName(file))"
+          class="card-body d-flex flex-column align-items-center justify-content-evenly p-1"
         >
-          <div
-            class="card-body d-flex flex-column align-items-center justify-content-evenly p-1"
-          >
-            <i [class]="getFileIconClass(file)" class="file-icon"></i>
-            <h6 class="card-title">{{ getFileName(file) }}</h6>
-          </div>
-        </div>
-        }
-      </div>
-    </div>
-    } @if (course.informations || course.googleMapsLink) {
-    <div class="additional-info row">
-      @if (course.informations) {
-      <div class="col-12 col-md-6">
-        <div class="info-block">
-          <p class="info-text">{{ course.informations }}</p>
-        </div>
-      </div>
-      } @if (course.googleMapsLink) {
-      <div class="col-12 col-md-6">
-        <div class="map-container">
-          <iframe
-            [src]="getSafeUrl(course.googleMapsLink)"
-            width="100%"
-            height="300"
-            style="border: 0"
-            allowfullscreen=""
-            loading="lazy"
-          ></iframe>
+          <i [class]="getFileIconClass(file)" class="file-icon"></i>
+          <h6 class="card-title">{{ getFileName(file) }}</h6>
         </div>
       </div>
       }
     </div>
+  </div>
+  }
+  @if (course.informations || course.googleMapsLink) {
+  <div class="additional-info row">
+    <h2 class="text-center">Info</h2>
+    @if (course.informations) {
+    <div class="col-12 col-md-6">
+      <div class="info-block">
+        <p class="info-text">{{ course.informations }}</p>
+      </div>
+    </div>
+    } @if (course.googleMapsLink) {
+    <div class="col-12 col-md-6">
+      <div class="map-container">
+        <iframe
+          [src]="getSafeUrl(course.googleMapsLink)"
+          width="100%"
+          height="100%"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
     }
+  </div>
+  }
+  @if (course.pressReviews && course.pressReviews.length > 0) {
+  <div class="press-reviews-section text-center">
+    <h2>Press Reviews</h2>
+    <div class="d-flex justify-content-center flex-wrap gap-3">
+      @for (review of course.pressReviews; track review.id) {
+      <div class="card press-review-card" (click)="openUrl(review.url)">
+        <img [src]="review.imagePath" alt="Press Review" class="card-img-top press-review-img">
+      </div>
+      }
+    </div>
   </div>
   }
 </div>

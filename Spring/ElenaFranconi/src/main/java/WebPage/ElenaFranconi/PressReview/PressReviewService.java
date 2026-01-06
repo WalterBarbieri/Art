@@ -15,6 +15,7 @@ import WebPage.ElenaFranconi.Course.Course;
 import WebPage.ElenaFranconi.Event.Event;
 import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
+import WebPage.ElenaFranconi.PressReview.dto.PressReviewRequestDto;
 import WebPage.ElenaFranconi.Storage.FileType;
 import WebPage.ElenaFranconi.Storage.StorageService;
 
@@ -32,21 +33,34 @@ public class PressReviewService {
 	// POST METHODS
 
 	@Transactional
-	public PressReview createPressReview(UUID contentId, String url, MultipartFile image) {
-		if (image == null || image.isEmpty()) {
+	public PressReview createPressReview(PressReviewRequestDto body) {
+		if (body.getImage() == null || body.getImage().isEmpty()) {
 			throw new IllegalArgumentException("Image is required for press review");
 		}
 
-		if (!isValidImage(image)) {
+		if (!isValidImage(body.getImage())) {
 			throw new IllegalArgumentException("Invalid image format for press review");
 		}
 
-		Content content = contentRepository.findById(contentId).orElseThrow(() -> new NotFoundException(contentId));
+		Content content = contentRepository.findById(body.getContentId())
+				.orElseThrow(() -> new NotFoundException(body.getContentId()));
 
-		String path = storageService.storeFile(image, contentId, FileType.PRESS_REVIEW);
+		boolean urlExists = false;
+
+		if (content instanceof Course) {
+			urlExists = pressReviewRepository.existsByCourseIdAndUrl(body.getContentId(), body.getUrl());
+		} else if (content instanceof Event) {
+			urlExists = pressReviewRepository.existsByEventIdAndUrl(body.getContentId(), body.getUrl());
+		}
+
+		if (urlExists) {
+			throw new BadRequestException("A press review with the same URL already exists for this content");
+		}
+
+		String path = storageService.storeFile(body.getImage(), body.getContentId(), FileType.PRESS_REVIEW);
 		PressReview pressReview = new PressReview();
 		pressReview.setImagePath(normalizePath(path));
-		pressReview.setUrl(url);
+		pressReview.setUrl(body.getUrl());
 		if (content instanceof Course course) {
 			pressReview.setCourse(course);
 		} else if (content instanceof Event event) {

@@ -61,7 +61,6 @@ public class CourseDto {
 		dto.setContentStatus(course.getContentStatus());
 		dto.setRelevantDate(course.calculateRelevantDate());
 		dto.setArchived(course.isArchived());
-		dto.setPressReviews(PressReviewDto.fromPressReviewList(course.getPressReviews()));
 
 		return dto;
 	}

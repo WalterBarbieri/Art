@@ -3,7 +3,9 @@ package WebPage.ElenaFranconi.Security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,6 +17,7 @@ import WebPage.ElenaFranconi.Exceptions.CustomAccessDeniedHandler;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 	@Autowired
 	JWTAuthFilter jwtFilter;
@@ -35,8 +38,10 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/user/**").authenticated());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/auth/**").permitAll());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/content/**").permitAll());
-		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/course/**").permitAll());
-		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/event/**").permitAll());
+		http.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET, "/api/course/**").permitAll());
+		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/course/**").authenticated());
+		http.authorizeHttpRequests(auth -> auth.requestMatchers(HttpMethod.GET, "/api/event/**").permitAll());
+		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/event/**").authenticated());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/course-recipients/**").hasAuthority("ADMIN"));
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/event-recipients/**").hasAuthority("ADMIN"));
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/press-review/**").hasAuthority("ADMIN"));

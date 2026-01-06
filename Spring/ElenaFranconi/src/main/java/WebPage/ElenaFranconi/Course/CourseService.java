@@ -11,15 +11,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import WebPage.ElenaFranconi.Content.AbstractContentService;
+import WebPage.ElenaFranconi.Content.ContentLinkService;
 import WebPage.ElenaFranconi.Content.ContentStatus;
+import WebPage.ElenaFranconi.Course.dto.CourseDto;
 import WebPage.ElenaFranconi.Course.dto.CourseRequestDto;
 import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
+import WebPage.ElenaFranconi.PressReview.PressReview;
+import WebPage.ElenaFranconi.PressReview.dto.PressReviewDto;
 
 @Service
 public class CourseService extends AbstractContentService<Course> {
 	@Autowired
 	private CourseRepository courseRepository;
+
+	@Autowired
+	private ContentLinkService contentLinkService;
 
 	// POST METHODS
 
@@ -65,7 +72,53 @@ public class CourseService extends AbstractContentService<Course> {
 		return courseRepository.findActiveCoursesSortedPaged(pageable);
 	}
 
+	// PATCH METHODS
+	@Transactional
+	public Course linkToEvent(UUID courseId, UUID eventId) {
+		contentLinkService.linkCourseAndEvent(courseId, eventId);
+		return findCourseById(courseId);
+	}
+
+	@Transactional
+	public Course unlinkFromEvent(UUID courseId, UUID eventId) {
+		contentLinkService.unlinkCourseAndEvent(courseId, eventId);
+		return findCourseById(courseId);
+	}
+
+	@Transactional
+	public Course patchInformations(UUID courseId, String informations) {
+		Course course = findCourseById(courseId);
+		if (informations != null && !informations.isBlank() && !informations.equals(course.getInformations())) {
+			course.setInformations(informations);
+			courseRepository.save(course);
+		}
+		return course;
+	}
+
+	@Transactional
+	public Course patchGoogleMapsLink(UUID courseId, String googleMapsLink) {
+		Course course = findCourseById(courseId);
+		if (googleMapsLink != null && !googleMapsLink.isBlank() && !googleMapsLink.equals(course.getGoogleMapsLink())) {
+			course.setGoogleMapsLink(googleMapsLink);
+			courseRepository.save(course);
+		}
+		return course;
+	}
+
 	// LOGIC METHODS
+
+	public CourseDto getCourseDto(Course course) {
+		List<PressReview> pressReviews = getCombinedPressReviews(course);
+		CourseDto dto = CourseDto.fromCourse(course);
+		dto.setPressReviews(PressReviewDto.fromPressReviewList(pressReviews));
+		return dto;
+	}
+
+	public CourseDto getCourseDtoById(UUID courseId) {
+		Course course = findCourseById(courseId);
+		return getCourseDto(course);
+	}
+
 	public Course saveCourse(CourseRequestDto body) {
 		if (body.getDateFrom().isAfter(body.getDateTo())) {
 			throw new BadRequestException("The start date must be before or equal the end date.");
@@ -89,4 +142,8 @@ public class CourseService extends AbstractContentService<Course> {
 		return courseRepository.save(course);
 	}
 
+	public List<PressReview> getCombinedPressReviews(UUID courseId) {
+		Course course = findCourseById(courseId);
+		return getCombinedPressReviews(course);
+	}
 }

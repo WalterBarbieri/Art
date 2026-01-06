@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -9,7 +9,7 @@ import { CourseService } from 'src/app/service/course.service';
 import { ImageService } from 'src/app/service/image.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { AsyncPipe, DatePipe } from '@angular/common';
-import { AnimatedButtonComponent } from "src/app/shared/components/animated-button/animated-button.component";
+import { AnimatedButtonComponent } from 'src/app/shared/components/animated-button/animated-button.component';
 import { environment } from 'src/environments/environment';
 import GLightbox from 'glightbox';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -18,9 +18,9 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-course-detail',
-  imports: [AsyncPipe, DatePipe, AnimatedButtonComponent, TranslateModule],
+  imports: [AsyncPipe, DatePipe, AnimatedButtonComponent, TranslateModule, RouterLink],
   templateUrl: './course-detail.html',
-  styleUrl: './course-detail.scss'
+  styleUrl: './course-detail.scss',
 })
 export class CourseDetail implements OnInit, AfterViewInit, OnDestroy {
   isStaticMode: boolean = environment.isStaticMode;
@@ -83,25 +83,30 @@ export class CourseDetail implements OnInit, AfterViewInit, OnDestroy {
 
   private processImages(course: Course): void {
     if (course.coverImagePath) {
-      this.imageService.getFullImageUrl(course.coverImagePath).subscribe(
-        (url) => {
+      this.imageService
+        .getFullImageUrl(course.coverImagePath)
+        .subscribe((url) => {
           course.coverImagePath = url;
-
-        }
-      );
+        });
     }
     if (course.imagePaths && course.imagePaths.length > 0) {
       course.imagePaths.forEach((imagePath, index) => {
-        this.imageService.getFullImageUrl(imagePath).subscribe(
-          (url) => {
-            course.imagePaths[index] = url;
-            this._galleryItems.push({
-              href: url,
-              type: 'image'
-            });
-
-          }
-        );
+        this.imageService.getFullImageUrl(imagePath).subscribe((url) => {
+          course.imagePaths[index] = url;
+          this._galleryItems.push({
+            href: url,
+            type: 'image',
+          });
+        });
+      });
+    }
+    if (course.pressReviews && course.pressReviews.length > 0) {
+      course.pressReviews.forEach((pressReview, index) => {
+        this.imageService
+          .getFullImageUrl(pressReview.imagePath)
+          .subscribe((url) => {
+            course.pressReviews[index].imagePath = url;
+          });
       });
     }
   }
@@ -109,17 +114,14 @@ export class CourseDetail implements OnInit, AfterViewInit, OnDestroy {
   private processVideos(course: Course): void {
     if (course.videoPaths && course.videoPaths.length > 0) {
       course.videoPaths.forEach((videoPath, index) => {
-        this.imageService.getFullVideoUrl(videoPath).subscribe(
-          (url) => {
-            course.videoPaths[index] = url;
-            this._galleryItems.push({
-              href: url,
-              type: 'video',
-              source: 'local'
-            });
-
-          }
-        )
+        this.imageService.getFullVideoUrl(videoPath).subscribe((url) => {
+          course.videoPaths[index] = url;
+          this._galleryItems.push({
+            href: url,
+            type: 'video',
+            source: 'local',
+          });
+        });
       });
     }
   }
@@ -144,7 +146,7 @@ export class CourseDetail implements OnInit, AfterViewInit, OnDestroy {
         elements: this._galleryItems as any,
         touchNavigation: true,
         loop: true,
-        autoplayVideos: false
+        autoplayVideos: false,
       });
     }
   }
@@ -179,11 +181,17 @@ export class CourseDetail implements OnInit, AfterViewInit, OnDestroy {
   }
 
   openDownloadModal(fileUrl: string, fileName: string): void {
-    const modalRef = this.modalService.open(DownloadModalComponent, { centered: true });
+    const modalRef = this.modalService.open(DownloadModalComponent, {
+      centered: true,
+    });
     modalRef.componentInstance.fileUrl = fileUrl;
     modalRef.componentInstance.fileName = fileName;
   }
   getSafeUrl(url: string): SafeResourceUrl {
     return this.sanitazier.bypassSecurityTrustResourceUrl(url);
+  }
+
+  openUrl(url: string): void {
+    window.open(url, '_blank');
   }
 }

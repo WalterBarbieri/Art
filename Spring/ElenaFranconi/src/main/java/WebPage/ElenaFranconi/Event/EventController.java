@@ -9,9 +9,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import WebPage.ElenaFranconi.Event.dto.EventDto;
@@ -29,15 +31,29 @@ public class EventController {
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<EventDto> createEvent(@Valid @ModelAttribute EventRequestDto body) {
 		Event savedEvent = eventService.createEvent(body);
-		EventDto dto = EventDto.fromEvent(savedEvent);
+		EventDto dto = eventService.getEventDto(savedEvent);
 		return ResponseEntity.status(HttpStatus.CREATED).body(dto);
 	}
 
 	// GET METHODS
 	@GetMapping("/{id}")
 	public ResponseEntity<EventDto> getEventById(@PathVariable UUID id) {
-		Event event = eventService.findEventById(id);
-		return ResponseEntity.ok(EventDto.fromEvent(event));
+		return ResponseEntity.ok(eventService.getEventDtoById(id));
+	}
+
+	// PATCH METHODS
+	@PatchMapping("/{eventId}/link-course")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<EventDto> linkToCourse(@PathVariable UUID eventId, @RequestParam UUID courseId) {
+		Event event = eventService.linkToCourse(eventId, courseId);
+		return ResponseEntity.ok(eventService.getEventDto(event));
+	}
+
+	@PatchMapping("/{eventId}/unlink-course")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<EventDto> unlinkFromCourse(@PathVariable UUID eventId, @RequestParam UUID courseId) {
+		Event event = eventService.unlinkFromCourse(eventId, courseId);
+		return ResponseEntity.ok(eventService.getEventDto(event));
 	}
 
 }

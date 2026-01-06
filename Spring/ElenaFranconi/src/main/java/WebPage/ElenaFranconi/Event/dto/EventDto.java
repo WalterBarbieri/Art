@@ -53,7 +53,6 @@ public class EventDto {
 		dto.setContentStatus(event.getContentStatus());
 		dto.setRelevantDate(event.calculateRelevantDate());
 		dto.setArchived(event.isArchived());
-		dto.setPressReviews(PressReviewDto.fromPressReviewList(event.getPressReviews()));
 		return dto;
 	}
 

@@ -12,16 +12,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import WebPage.ElenaFranconi.Content.AbstractContentService;
+import WebPage.ElenaFranconi.Content.ContentLinkService;
 import WebPage.ElenaFranconi.Content.ContentStatus;
+import WebPage.ElenaFranconi.Event.dto.EventDto;
 import WebPage.ElenaFranconi.Event.dto.EventRequestDto;
 import WebPage.ElenaFranconi.EventDateSlot.EventDateSlot;
 import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
+import WebPage.ElenaFranconi.PressReview.PressReview;
+import WebPage.ElenaFranconi.PressReview.dto.PressReviewDto;
 
 @Service
 public class EventService extends AbstractContentService<Event> {
 	@Autowired
 	private EventRepository eventRepository;
+
+	@Autowired
+	private ContentLinkService contentLinkService;
 
 	// POST METHODS
 
@@ -67,7 +74,33 @@ public class EventService extends AbstractContentService<Event> {
 		return eventRepository.findActiveEventsSortedPaged(pageable);
 	}
 
+	// PATCH METHODS
+	@Transactional
+	public Event linkToCourse(UUID eventId, UUID courseId) {
+		contentLinkService.linkCourseAndEvent(courseId, eventId);
+		return findEventById(eventId);
+	}
+
+	@Transactional
+	public Event unlinkFromCourse(UUID eventId, UUID courseId) {
+		contentLinkService.unlinkCourseAndEvent(courseId, eventId);
+		return findEventById(eventId);
+	}
+
 	// LOGIC METHODS
+
+	public EventDto getEventDto(Event event) {
+		List<PressReview> pressReviews = getCombinedPressReviews(event);
+		EventDto dto = EventDto.fromEvent(event);
+		dto.setPressReviews(PressReviewDto.fromPressReviewList(pressReviews));
+		return dto;
+	}
+
+	public EventDto getEventDtoById(UUID eventId) {
+		Event event = findEventById(eventId);
+		return getEventDto(event);
+	}
+
 	public Event saveEvent(EventRequestDto body) {
 		List<LocalDateTime> dates = body.getEventDates();
 		long distinctDatesCount = dates.stream().distinct().count();
@@ -99,4 +132,8 @@ public class EventService extends AbstractContentService<Event> {
 		return eventRepository.save(savedEvent);
 	}
 
+	public List<PressReview> getCombinedPressReviews(UUID eventId) {
+		Event event = findEventById(eventId);
+		return getCombinedPressReviews(event);
+	}
 }

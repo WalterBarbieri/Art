@@ -9,9 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import WebPage.ElenaFranconi.Course.dto.CourseDto;
@@ -29,7 +32,7 @@ public class CourseController {
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public ResponseEntity<CourseDto> createCourse(@Valid @ModelAttribute CourseRequestDto body) {
 		Course savedCourse = courseService.createCourse(body);
-		CourseDto dto = CourseDto.fromCourse(savedCourse);
+		CourseDto dto = courseService.getCourseDto(savedCourse);
 		return ResponseEntity.status(HttpStatus.CREATED).body(dto);
 	}
 
@@ -37,7 +40,36 @@ public class CourseController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<CourseDto> getCourseById(@PathVariable UUID id) {
-		Course course = courseService.findCourseById(id);
-		return ResponseEntity.ok(CourseDto.fromCourse(course));
+		return ResponseEntity.ok(courseService.getCourseDtoById(id));
+	}
+
+	// PATCH METHODS
+	@PatchMapping("/{courseId}/link-event")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<CourseDto> linkToEvent(@PathVariable UUID courseId, @RequestParam UUID eventId) {
+		Course course = courseService.linkToEvent(courseId, eventId);
+		return ResponseEntity.ok(courseService.getCourseDto(course));
+	}
+
+	@PatchMapping("/{courseId}/unlink-event")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<CourseDto> unlinkFromEvent(@PathVariable UUID courseId, @RequestParam UUID eventId) {
+		Course course = courseService.unlinkFromEvent(courseId, eventId);
+		return ResponseEntity.ok(courseService.getCourseDto(course));
+	}
+
+	@PatchMapping("/{courseId}/informations")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<CourseDto> patchInformations(@PathVariable UUID courseId, @RequestBody String informations) {
+		Course course = courseService.patchInformations(courseId, informations);
+		return ResponseEntity.ok(courseService.getCourseDto(course));
+	}
+
+	@PatchMapping("/{courseId}/google-maps-link")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<CourseDto> patchGoogleMapsLink(@PathVariable UUID courseId,
+			@RequestBody String googleMapsLink) {
+		Course course = courseService.patchGoogleMapsLink(courseId, googleMapsLink);
+		return ResponseEntity.ok(courseService.getCourseDto(course));
 	}
 }

@@ -1,5 +1,6 @@
 package WebPage.ElenaFranconi.PressReview;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import WebPage.ElenaFranconi.Course.Course;
@@ -11,6 +12,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,5 +41,21 @@ public class PressReview {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "event_id")
 	private Event event;
+
+	private LocalDateTime createdAt;
+
+	private LocalDateTime updatedAt;
+
+	@PrePersist
+	protected void onCreate() {
+		LocalDateTime now = LocalDateTime.now();
+		createdAt = now;
+		updatedAt = now;
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		updatedAt = LocalDateTime.now();
+	}
 
 }
