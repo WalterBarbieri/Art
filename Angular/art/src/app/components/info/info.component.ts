@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { LanguageService } from 'src/app/service/language.service';
 import { MetaService } from 'src/app/service/meta.service';
 import { StaticAssetService } from 'src/app/service/static-asset.service';
+import { MetaManagedComponent } from 'src/app/shared/classes/meta-managed.component';
 
 @Component({
     selector: 'app-info',
@@ -10,9 +10,7 @@ import { StaticAssetService } from 'src/app/service/static-asset.service';
     styleUrls: ['./info.component.scss'],
     standalone: false
 })
-export class InfoComponent implements OnInit, OnDestroy {
-
-  private languageSubscription: Subscription = new Subscription();
+export class InfoComponent extends MetaManagedComponent implements OnInit, OnDestroy {
 
   infoBannerPath: string = '';
   infoArt1Path: string = '';
@@ -21,16 +19,21 @@ export class InfoComponent implements OnInit, OnDestroy {
   infoArt4Path: string = '';
   infoArt5Path: string = '';
 
-  constructor(private staticAssetService: StaticAssetService, private metaService: MetaService, private languageService: LanguageService) { }
+  constructor(
+    protected override metaService: MetaService,
+    protected override languageService: LanguageService,
+    private staticAssetService: StaticAssetService
+  ) {
+    super(metaService, languageService);
+  }
 
   ngOnInit(): void {
+    this.initializeMetaManagement();
     this.loadStaticAssets();
-    this.updateMetaTags();
-    this.setupLanguageSubscription();
   }
 
   ngOnDestroy(): void {
-    this.languageSubscription.unsubscribe();
+    this.cleanupMetaManagement();
   }
 
   loadStaticAssets(): void {
@@ -41,15 +44,9 @@ export class InfoComponent implements OnInit, OnDestroy {
     this.infoArt4Path = this.staticAssetService.getAssetPath('info_art_4');
     this.infoArt5Path = this.staticAssetService.getAssetPath('info_art_5');
   }
-  private updateMetaTags(): void {
-    this.metaService.updateMetaTagsForComponents('info');
-    this.metaService.updateTitleForComponent('info');
-  }
 
-  private setupLanguageSubscription(): void {
-    this.languageSubscription = this.languageService.language$.subscribe(() => {
-      this.updateMetaTags();
-    });
+  protected getComponentName(): string {
+    return 'info';
   }
 
 }

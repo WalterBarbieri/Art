@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { LanguageService } from 'src/app/service/language.service';
 import { MetaService } from 'src/app/service/meta.service';
+import { MetaManagedComponent } from 'src/app/shared/classes/meta-managed.component';
 
 @Component({
     selector: 'app-contact',
@@ -9,29 +9,24 @@ import { MetaService } from 'src/app/service/meta.service';
     styleUrls: ['./contact.component.scss'],
     standalone: false
 })
-export class ContactComponent implements OnInit, OnDestroy {
+export class ContactComponent extends MetaManagedComponent implements OnInit, OnDestroy {
 
-  private languageSubscription: Subscription = new Subscription();
-
-  constructor(private languageService: LanguageService, private metaService: MetaService) { }
+  constructor(
+    protected override metaService: MetaService,
+    protected override languageService: LanguageService
+  ) {
+    super(metaService, languageService);
+  }
 
   ngOnInit(): void {
-    this.updateMetaTags();
-    this.setupLanguageSubscription();
+    this.initializeMetaManagement();
   }
   ngOnDestroy(): void {
-    this.languageSubscription.unsubscribe();
+    this.cleanupMetaManagement();
   }
 
-  private updateMetaTags(): void {
-    this.metaService.updateMetaTagsForComponents('contact');
-    this.metaService.updateTitleForComponent('contact');
-  }
-
-  private setupLanguageSubscription(): void {
-    this.languageSubscription = this.languageService.language$.subscribe(() => {
-      this.updateMetaTags();
-    });
+  protected getComponentName(): string {
+    return 'contact';
   }
 
 }

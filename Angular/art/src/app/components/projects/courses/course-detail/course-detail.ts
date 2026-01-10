@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
@@ -18,11 +18,17 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-course-detail',
-  imports: [AsyncPipe, DatePipe, AnimatedButtonComponent, TranslateModule, RouterLink],
+  imports: [
+    AsyncPipe,
+    DatePipe,
+    AnimatedButtonComponent,
+    TranslateModule,
+    RouterLink,
+  ],
   templateUrl: './course-detail.html',
   styleUrl: './course-detail.scss',
 })
-export class CourseDetail implements OnInit, AfterViewInit, OnDestroy {
+export class CourseDetail implements OnInit, OnDestroy {
   isStaticMode: boolean = environment.isStaticMode;
   course$!: Observable<Course>;
   courseId!: string;
@@ -44,7 +50,6 @@ export class CourseDetail implements OnInit, AfterViewInit, OnDestroy {
     this.courseId = this.activatedRoute.snapshot.params['id'];
     this.loadCourse();
   }
-  ngAfterViewInit(): void {}
 
   ngOnDestroy(): void {
     if (this.lightbox) {
@@ -87,6 +92,10 @@ export class CourseDetail implements OnInit, AfterViewInit, OnDestroy {
         .getFullImageUrl(course.coverImagePath)
         .subscribe((url) => {
           course.coverImagePath = url;
+          this._galleryItems.push({
+            href: url,
+            type: 'image',
+          });
         });
     }
     if (course.imagePaths && course.imagePaths.length > 0) {

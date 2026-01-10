@@ -1,37 +1,59 @@
 @if (course$ | async; as course) {
 <div class="container-fluid d-flex flex-column align-items-center pb-4">
   @if (course.coverImagePath) {
-  <img [src]="course.coverImagePath" alt="Cover Image" class="cover-image" />
+  <img
+    [src]="course.coverImagePath"
+    alt="Cover Image"
+    class="cover-image"
+    (click)="lightbox.openAt(0)"
+    style="cursor: pointer"
+  />
   }
   <h1>{{ course.title }}</h1>
-  <div class="w-75">
+  <div class="w-75 mb-4">
     <p class="description">{{ course.description }}</p>
     <div class="details row">
-      <div class="col-12 col-md-6">
-        <p><strong>Location:</strong> {{ course.location }}</p>
-        <p><strong>Max Participants:</strong> {{ course.maxParticipants }}</p>
-        @if (course.linkedEventId) {
-        <a [routerLink]="['/projects', 'events', course.linkedEventId]">View Event</a>
+      <div class="col-12 col-md-6 mb-3 mb-md-0 text-md-start">
+        <h5>{{ "PROJECT.TYPE_COURSE" | translate }}</h5>
+        <p>
+          <strong>{{ "PROJECT.DETAILS.LOCATION" | translate }}</strong> {{
+          course.location }}
+        </p>
+        <p>
+          <strong>{{ "PROJECT.DETAILS.MAX_PARTICIPANTS" | translate }}</strong>
+          {{ course.maxParticipants }}
+        </p>
+        @if (course.contentStatus != 'COMPLETED') {
+        <p>{{ "PROJECT.DETAILS.FREE_PARTICIPATION" | translate }}</p>
+        <p>{{ "PROJECT.DETAILS.REGISTRATION_REQUIRED" | translate }}</p>
+        } @if (course.linkedEventId) {
+        <a [routerLink]="['/projects', 'events', course.linkedEventId]"
+          >{{ "PROJECT.DETAILS.VIEW_EVENT" | translate }}</a
+        >
         }
       </div>
-      <div class="col-12 col-md-6">
-        <p><strong>From:</strong> {{ course.dateFrom | date: "dd/MM/yyyy" }} <strong>To:</strong> {{ course.dateTo | date: "dd/MM/yyyy" }}</p>
-        @if (isStaticMode){
-        <p>Partecipazione gratuita</p>
-        <p>Iscrizione necessaria</p>
+      <div class="col-12 col-md-6 text-md-end">
+        <h6 class="mb-0">{{ 'PROJECT.DETAILS.DATE_SLOT' | translate }}</h6>
         <p>
-          Per info e iscrizioni:
-          <a
-            href="mailto: Art Natura Teatro <info@artnaturateatro.it>?subject=Info e Iscrizione Corso {{course.title}}"
-            class="email-anchor"
-            >info&#64;artnaturateatro.it</a
-          >
+          <strong>{{ "PROJECT.DETAILS.FROM" | translate }}</strong> {{
+          course.dateFrom | date: "dd/MM/yyyy" }}
         </p>
+        <p>
+          <strong>{{ "PROJECT.DETAILS.TO" | translate }}</strong> {{
+          course.dateTo | date: "dd/MM/yyyy" }}
+        </p>
+        @if (isStaticMode && course.contentStatus != 'COMPLETED'){
+        <p>{{ "PROJECT.DETAILS.FOR_INFO_AND_REGISTRATIONS" | translate }}</p>
+        <a
+          href="mailto: Art Natura Teatro <info@artnaturateatro.it>?subject=Info e Iscrizione Corso {{course.title}}"
+          class="email-anchor"
+          >info&#64;artnaturateatro.it</a
+        >
         } @else if (course.contentStatus != 'COMPLETED') {
         <app-animated-button
           type="link"
           [routerLink]="['']"
-          [text]="'Soon Available'"
+          [text]="'PROJECT.DETAILS.SOON_AVAILABLE' | translate"
         ></app-animated-button>
         }
       </div>
@@ -39,8 +61,8 @@
   </div>
   @if (course.imagePaths && course.imagePaths.length > 0 || course.videoPaths &&
   course.videoPaths.length > 0) {
-  <div class="gallery text-center" #galleryContainer>
-    <h2>Gallery</h2>
+  <div class="gallery text-center mb-4" #galleryContainer>
+    <h2>{{ "PROJECT.DETAILS.GALLERY" | translate }}</h2>
     <div class="row">
       @for (item of _galleryItems; track $index; let i = $index) {
       <div class="col-6 col-md-4 col-lg-3 mb-2">
@@ -63,10 +85,9 @@
       }
     </div>
   </div>
-  }
-  @if (course.filePaths && course.filePaths.length > 0) {
-  <div class="files-section text-center">
-    <h2>Files</h2>
+  } @if (course.filePaths && course.filePaths.length > 0) {
+  <div class="files-section text-center mb-4">
+    <h2>{{ "PROJECT.DETAILS.FILES" | translate }}</h2>
     <div class="d-flex justify-content-center flex-wrap gap-3">
       @for (file of course.filePaths; track file; let i = $index) {
       <div
@@ -83,10 +104,9 @@
       }
     </div>
   </div>
-  }
-  @if (course.informations || course.googleMapsLink) {
-  <div class="additional-info row">
-    <h2 class="text-center">Info</h2>
+  } @if (course.informations || course.googleMapsLink) {
+  <div class="additional-info row mb-4">
+    <h2 class="text-center">{{ "PROJECT.DETAILS.INFO" | translate }}</h2>
     @if (course.informations) {
     <div class="col-12 col-md-6">
       <div class="info-block">
@@ -108,14 +128,17 @@
     </div>
     }
   </div>
-  }
-  @if (course.pressReviews && course.pressReviews.length > 0) {
-  <div class="press-reviews-section text-center">
-    <h2>Press Reviews</h2>
+  } @if (course.pressReviews && course.pressReviews.length > 0) {
+  <div class="press-reviews-section text-center mb-4">
+    <h2>{{ "PROJECT.DETAILS.PRESS_REVIEWS" | translate }}</h2>
     <div class="d-flex justify-content-center flex-wrap gap-3">
       @for (review of course.pressReviews; track review.id) {
       <div class="card press-review-card" (click)="openUrl(review.url)">
-        <img [src]="review.imagePath" alt="Press Review" class="card-img-top press-review-img">
+        <img
+          [src]="review.imagePath"
+          alt="Press Review"
+          class="card-img-top press-review-img"
+        />
       </div>
       }
     </div>

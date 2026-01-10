@@ -5,7 +5,6 @@ import { NgForm } from '@angular/forms';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
-import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
     selector: 'app-login',

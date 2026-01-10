@@ -38,7 +38,25 @@
     "FILTER_BY_TYPE": "FILTER BY TYPE",
     "ORDER_BY_DATE": "ORDER BY DATE",
     "NEWEST": "More recent",
-    "OLDEST": "Least recent"
+    "OLDEST": "Least recent",
+    "DETAILS": {
+      "LOCATION": "Location:",
+      "MAX_PARTICIPANTS": "Max Participants:",
+      "VIEW_EVENT": "View Event",
+      "VIEW_COURSE": "View Workshop",
+      "DATE_SLOT": "Date",
+      "DATE_SLOTS": "Dates",
+      "FROM": "From",
+      "TO": "To",
+      "FREE_PARTICIPATION": "Free participation",
+      "REGISTRATION_REQUIRED": "Registration required",
+      "FOR_INFO_AND_REGISTRATIONS": "For info and registrations",
+      "GALLERY": "Gallery",
+      "FILES": "Files",
+      "INFO": "Info",
+      "PRESS_REVIEWS": "Press Reviews",
+      "SOON_AVAILABLE": "Soon Available"
+    }
   },
   "INFO": {
     "SUBTITLE": " is a workshop for research \nand theatrical experimentation in nature.\nBorn in 2021 from the desire to cultivate a living relationship \nwith nature, especially with the vegetal world.",
@@ -95,6 +113,14 @@
       "MAX_LENGTH": "Password must be at most 20 characters",
       "PATTERN": "Password must contain at least one uppercase letter, one lowercase letter, and one number",
       "RESET": "Reset Password"
+    }
+  },
+  "MODALS": {
+    "CLOSE": "Close",
+    "DOWNLOAD": {
+      "FILE": "Download File",
+      "CONFIRM": "Do you want to download the file",
+      "DOWNLOAD": "Download"
     }
   },
   "GUARD": {

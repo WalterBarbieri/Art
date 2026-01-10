@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { MetaService } from 'src/app/service/meta.service';
 import { StaticAssetService } from 'src/app/service/static-asset.service';
 import { LanguageService } from 'src/app/service/language.service';
@@ -11,6 +10,7 @@ import { LoaderService } from 'src/app/core/services/loader.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
 import { ToastService } from 'src/app/shared/services/toast.service';
+import { MetaManagedComponent } from 'src/app/shared/classes/meta-managed.component';
 
 @Component({
     selector: 'app-home',
@@ -18,8 +18,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
     styleUrls: ['./home.component.scss'],
     standalone: false
 })
-export class HomeComponent implements OnInit, OnDestroy {
-  private languageSubscription: Subscription = new Subscription();
+export class HomeComponent extends MetaManagedComponent implements OnInit, OnDestroy {
   currentLanguage: string = 'it';
   projects: Content[] = [];
   imageLoading: boolean[] = [];
@@ -30,8 +29,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   homeElenaFranconiPath: string = '';
 
   constructor(
-    private metaService: MetaService,
-    private languageService: LanguageService,
+    protected override metaService: MetaService,
+    protected override languageService: LanguageService,
     private staticAssetService: StaticAssetService,
     private route: ActivatedRoute,
     private imageService: ImageService,
@@ -39,11 +38,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     private loaderService: LoaderService,
     private translate: TranslateService,
     private toastService: ToastService
-  ) {}
+  ) {
+    super(metaService, languageService);
+  }
 
   ngOnInit(): void {
-    this.updateMetaTags();
-    this.setupLanguageSubscription();
+    this.initializeMetaManagement();
     this.loadStaticAssets();
     this.route.queryParams.subscribe((params) => {
       const message = params['message'];
@@ -55,21 +55,20 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.languageSubscription.unsubscribe();
+    this.cleanupMetaManagement();
   }
 
-  private updateMetaTags(): void {
-    this.metaService.updateMetaTagsForComponents('home');
-    this.metaService.updateTitleForComponent('home');
-  }
-
-  private setupLanguageSubscription(): void {
+  protected override setupLanguageSubscription(): void {
     this.languageSubscription = this.languageService.language$.subscribe(
       (language) => {
         this.currentLanguage = language;
         this.updateMetaTags();
       }
     );
+  }
+
+  protected getComponentName(): string {
+    return 'home';
   }
 
   private loadStaticAssets(): void {

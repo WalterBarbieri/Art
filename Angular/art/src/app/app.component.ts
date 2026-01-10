@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { LanguageService } from './service/language.service';
 import { MetaService } from './service/meta.service';
 import { StaticAssetService } from './service/static-asset.service';
+import { MetaManagedComponent } from './shared/classes/meta-managed.component';
 
 @Component({
     selector: 'app-root',
@@ -10,33 +10,30 @@ import { StaticAssetService } from './service/static-asset.service';
     styleUrls: ['./app.component.scss'],
     standalone: false
 })
-export class AppComponent implements OnInit, OnDestroy {
+export class AppComponent extends MetaManagedComponent implements OnInit, OnDestroy {
   title = 'art';
-  private languageSubscription: Subscription = new Subscription();
 
-  constructor(private languageService: LanguageService, private metaService: MetaService, private staticAssetService: StaticAssetService) {}
+  constructor(
+    protected override metaService: MetaService,
+    protected override languageService: LanguageService,
+    private staticAssetService: StaticAssetService
+  ) {
+    super(metaService, languageService);
+  }
 
   ngOnInit(): void {
-    this.updateMetaTags();
-    this.setupLanguageSubscription();
+    this.initializeMetaManagement();
     this.preloadAssets();
   }
   ngOnDestroy(): void {
-    this.languageSubscription.unsubscribe();
+    this.cleanupMetaManagement();
   }
 
-  private updateMetaTags(): void {
-    this.metaService.updateMetaTagsForComponents('app');
-    this.metaService.updateTitleForComponent('app');
-  }
-
-  private setupLanguageSubscription(): void {
-    this.languageSubscription = this.languageService.language$.subscribe(() => {
-      this.updateMetaTags();
-    });
+  protected getComponentName(): string {
+    return 'app';
   }
 
   private preloadAssets() {
-    this.staticAssetService.preloadCriticalAssets(['logo', 'home_banner']);
+    this.staticAssetService.preloadCriticalAssets(['logo']);
   }
 }

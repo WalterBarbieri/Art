@@ -11,6 +11,8 @@ export interface Event {
   videoPaths: string[];
   eventDateSlots: EventDateSlot[];
   location: string;
+  informations: string;
+  googleMapsLink: string;
   linkedCourseId: string | null;
   createdAt: Date;
   updatedAt: Date;

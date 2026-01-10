@@ -31,13 +31,31 @@
     "STATUS_ONGOING": "In corso",
     "STATUS_UPCOMING": "In arrivo",
     "STATUS_COMPLETED": "Concluso",
-    "TYPE_COURSE": "Corso",
+    "TYPE_COURSE": "Laboratorio",
     "TYPE_EVENT": "Performance",
     "FILTER_BY_STATUS": "FILTRA PER STATO",
     "FILTER_BY_TYPE": "FILTRA PER TIPO",
     "ORDER_BY_DATE": "ORDINA PER DATA",
     "NEWEST": "Più recenti",
-    "OLDEST": "Meno recenti"
+    "OLDEST": "Meno recenti",
+    "DETAILS": {
+      "LOCATION": "Luogo:",
+      "MAX_PARTICIPANTS": "Partecipanti Massimi:",
+      "VIEW_EVENT": "Visualizza Evento",
+      "VIEW_COURSE": "Visualizza Laboratorio",
+      "DATE_SLOT": "Data",
+      "DATE_SLOTS": "Date",
+      "FROM": "Dal",
+      "TO": "Al",
+      "FREE_PARTICIPATION": "Partecipazione gratuita",
+      "REGISTRATION_REQUIRED": "Iscrizione necessaria",
+      "FOR_INFO_AND_REGISTRATIONS": "Per info e iscrizioni",
+      "GALLERY": "Galleria",
+      "FILES": "File",
+      "INFO": "Informazioni",
+      "PRESS_REVIEWS": "Recensioni Stampa",
+      "SOON_AVAILABLE": "Presto Disponibile"
+    }
   },
   "INFO": {
     "SUBTITLE": " è un laboratorio di ricerca \ne sperimentazione teatrale nella natura.\nNasce nel 2021 dal desiderio di coltivare una relazione viva \ncon la natura e in particolare con il mondo vegetale.",
@@ -94,6 +112,14 @@
       "MAX_LENGTH": "La password deve essere lunga al massimo 20 caratteri",
       "PATTERN": "La password deve contenere almeno una lettera maiuscola, una minuscola e un numero",
       "RESET": "Reimposta Password"
+    }
+  },
+  "MODALS": {
+    "CLOSE": "Chiudi",
+    "DOWNLOAD": {
+      "FILE": "Scarica File",
+      "CONFIRM": "Vuoi scaricare il file",
+      "DOWNLOAD": "Scarica"
     }
   },
   "GUARD": {

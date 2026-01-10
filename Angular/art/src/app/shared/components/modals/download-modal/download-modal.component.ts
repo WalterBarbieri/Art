@@ -1,9 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-download-modal',
-  imports: [],
+  imports: [TranslateModule],
   templateUrl: './download-modal.component.html',
   styleUrl: './download-modal.component.scss'
 })

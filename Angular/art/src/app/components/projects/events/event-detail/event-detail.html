@@ -1,1 +1,146 @@
-<p>event-detail works!</p>
+@if (event$ | async; as event) {
+<div class="container-fluid d-flex flex-column align-items-center pb-4">
+  @if (event.coverImagePath) {
+  <img
+    [src]="event.coverImagePath"
+    alt="Cover Image"
+    class="cover-image"
+    (click)="lightbox.openAt(0)"
+    style="cursor: pointer"
+  />
+  }
+  <h1>{{ event.title }}</h1>
+  <div class="w-75 mb-4">
+    <p class="description">{{ event.description }}</p>
+    <div class="details row">
+      <div class="col-12 col-md-6 mb-3 mb-md-0 text-md-start">
+        <h5>{{ "PROJECT.TYPE_EVENT" | translate }}</h5>
+        <p>
+          <strong>{{ "PROJECT.DETAILS.LOCATION" | translate }}</strong> {{
+          event.location }}
+        </p>
+        <p>
+          <strong>{{ "PROJECT.DETAILS.MAX_PARTICIPANTS" | translate }}</strong>
+          {{ calculateMaxParticipants(event) }}
+        </p>
+        @if (event.contentStatus != 'COMPLETED') {
+        <p>{{ "PROJECT.DETAILS.FREE_PARTICIPATION" | translate }}</p>
+        <p>{{ "PROJECT.DETAILS.REGISTRATION_REQUIRED" | translate }}</p>
+        } @if (event.linkedCourseId) {
+        <a [routerLink]="['/projects', 'courses', event.linkedCourseId]"
+          >{{ "PROJECT.DETAILS.VIEW_COURSE" | translate }}</a
+        >
+        }
+      </div>
+      <div class="col-12 col-md-6 text-md-end">
+        <h6 class="mb-0">
+          {{ (event.eventDateSlots.length === 1 ? "PROJECT.DETAILS.DATE_SLOT" :
+          "PROJECT.DETAILS.DATE_SLOTS") | translate }}
+        </h6>
+        @for (eventSlot of event.eventDateSlots; track eventSlot; let i =
+        $index) {
+        <p>{{ eventSlot.date| date: "dd/MM/yyyy HH:mm" }}</p>
+        } @if (isStaticMode && event.contentStatus != 'COMPLETED'){
+        <p>{{ "PROJECT.DETAILS.FOR_INFO_AND_REGISTRATIONS" | translate }}</p>
+        <a
+          href="mailto: Art Natura Teatro <info@artnaturateatro.it>?subject=Info e Iscrizione Corso {{event.title}}"
+          class="email-anchor"
+          >info&#64;artnaturateatro.it</a
+        >
+        } @else if (event.contentStatus != 'COMPLETED') {
+        <app-animated-button
+          type="link"
+          [routerLink]="['']"
+          [text]="'PROJECT.DETAILS.SOON_AVAILABLE' | translate"
+        ></app-animated-button>
+        }
+      </div>
+    </div>
+  </div>
+  @if (event.imagePaths && event.imagePaths.length > 0 || event.videoPaths &&
+  event.videoPaths.length > 0) {
+  <div class="gallery text-center mb-4" #galleryContainer>
+    <h2>{{ "PROJECT.DETAILS.GALLERY" | translate }}</h2>
+    <div class="row">
+      @for (item of _galleryItems; track $index; let i = $index) {
+      <div class="col-6 col-md-4 col-lg-3 mb-2">
+        <a
+          (click)="lightbox.openAt(i); $event.preventDefault()"
+          class="gallery-item"
+          style="cursor: pointer"
+        >
+          @if (item.type === 'image') {
+          <img
+            [src]="item.href"
+            [alt]="event.title + ' Image ' + (i + 1)"
+            class="img-fluid event-image"
+          />
+          } @else {
+          <video [src]="item.href" class="video-fluid" controls></video>
+          }
+        </a>
+      </div>
+      }
+    </div>
+  </div>
+  } @if (event.filePaths && event.filePaths.length > 0) {
+  <div class="files-section text-center mb-4">
+    <h2>{{ "PROJECT.DETAILS.FILES" | translate }}</h2>
+    <div class="d-flex justify-content-center flex-wrap gap-3">
+      @for (file of event.filePaths; track file; let i = $index) {
+      <div
+        class="card file-card"
+        (click)="openDownloadModal(file, getFileName(file))"
+      >
+        <div
+          class="card-body d-flex flex-column align-items-center justify-content-evenly p-1"
+        >
+          <i [class]="getFileIconClass(file)" class="file-icon"></i>
+          <h6 class="card-title">{{ getFileName(file) }}</h6>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+  } @if (event.informations || event.googleMapsLink) {
+  <div class="additional-info row mb-4">
+    <h2 class="text-center">{{ "PROJECT.DETAILS.INFO" | translate }}</h2>
+    @if (event.informations) {
+    <div class="col-12 col-md-6">
+      <div class="info-block">
+        <p class="info-text">{{ event.informations }}</p>
+      </div>
+    </div>
+    } @if (event.googleMapsLink) {
+    <div class="col-12 col-md-6">
+      <div class="map-container">
+        <iframe
+          [src]="getSafeUrl(event.googleMapsLink)"
+          width="100%"
+          height="100%"
+          style="border: 0"
+          allowfullscreen=""
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
+    }
+  </div>
+  } @if (event.pressReviews && event.pressReviews.length > 0) {
+  <div class="press-reviews-section text-center mb-4">
+    <h2>{{ "PROJECT.DETAILS.PRESS_REVIEWS" | translate }}</h2>
+    <div class="d-flex justify-content-center flex-wrap gap-3">
+      @for (review of event.pressReviews; track review.id) {
+      <div class="card press-review-card" (click)="openUrl(review.url)">
+        <img
+          [src]="review.imagePath"
+          alt="Press Review"
+          class="card-img-top press-review-img"
+        />
+      </div>
+      }
+    </div>
+  </div>
+  }
+</div>
+}
