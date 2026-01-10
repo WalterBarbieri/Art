@@ -158,7 +158,9 @@
     "info": "Art Nature Theatre - Info",
     "projects": "Art Nature Theatre - Projects",
     "bio": "Art Nature Theatre - Bio",
-    "contact": "Art Nature Theatre - Contacts"
+    "contact": "Art Nature Theatre - Contacts",
+    "course-detail": "Workshop: {title}",
+    "event-detail": "Performance: {title}"
   },
   "meta": {
     "app": {
@@ -244,6 +246,34 @@
       "twitterTitle": "Art Nature Theatre - Contacts",
       "twitterDescription": "Contact Art Nature Theatre: find our email address and social media links for information on theatrical events and workshops in Tuscan nature.",
       "twitterImage": "https://artnaturateatro.it/assets/logo/LOGO_ART_WHITE_BG.png"
+    },
+    "course-detail": {
+      "description": "Join the workshop '{title}': {description}. Discover details, dates, and registration methods for this theatrical course immersed in nature.",
+      "keywords": "workshop {title}, theatre nature course, {title} art nature theatre, theatrical workshop tuscany, immersive nature course, theatre workshop {title}, workshop dates, workshop registration, free participation, theatre woods, theatrical research workshop, nature experimentation, Elena Franconi workshop, cultural theatre tuscany",
+      "author": "BWFullStackDeveloper",
+      "ogTitle": "Workshop: {title}",
+      "ogDescription": "Join the workshop '{title}': {description}. Discover details, dates, and registration methods for this theatrical course immersed in nature.",
+      "ogImage": "{image}",
+      "ogUrl": "https://artnaturateatro.it/projects/courses/{id}",
+      "ogType": "article",
+      "twitterCard": "summary_large_image",
+      "twitterTitle": "Workshop: {title}",
+      "twitterDescription": "Join the workshop '{title}': {description}. Discover details, dates, and registration methods for this theatrical course immersed in nature.",
+      "twitterImage": "{image}"
+    },
+    "event-detail": {
+      "description": "Join the performance '{title}': {description}. Discover details, dates, and registration methods for this theatrical event immersed in nature.",
+      "keywords": "performance {title}, theatre nature event, {title} art nature theatre, theatrical performance tuscany, immersive nature event, theatre performance {title}, performance dates, performance registration, free participation, theatre woods, theatrical research performance, nature experimentation, Elena Franconi performance, cultural theatre tuscany",
+      "author": "BWFullStackDeveloper",
+      "ogTitle": "Performance: {title}",
+      "ogDescription": "Join the performance '{title}': {description}. Discover details, dates, and registration methods for this theatrical event immersed in nature.",
+      "ogImage": "{image}",
+      "ogUrl": "https://artnaturateatro.it/projects/events/{id}",
+      "ogType": "article",
+      "twitterCard": "summary_large_image",
+      "twitterTitle": "Performance: {title}",
+      "twitterDescription": "Join the performance '{title}': {description}. Discover details, dates, and registration methods for this theatrical event immersed in nature.",
+      "twitterImage": "{image}"
     }
   }
 }

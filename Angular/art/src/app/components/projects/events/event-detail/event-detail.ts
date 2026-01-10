@@ -19,6 +19,9 @@ import { AnimatedButtonComponent } from 'src/app/shared/components/animated-butt
 import { DownloadModalComponent } from 'src/app/shared/components/modals/download-modal/download-modal.component';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { environment } from 'src/environments/environment';
+import { ProjectDetailBase } from 'src/app/shared/classes/project-detail-base';
+import { MetaService } from 'src/app/service/meta.service';
+import { LanguageService } from 'src/app/service/language.service';
 
 @Component({
   selector: 'app-event-detail',
@@ -32,33 +35,32 @@ import { environment } from 'src/environments/environment';
   templateUrl: './event-detail.html',
   styleUrl: './event-detail.scss',
 })
-export class EventDetail implements OnInit, OnDestroy {
-  isStaticMode: boolean = environment.isStaticMode;
+export class EventDetail extends ProjectDetailBase implements OnInit, OnDestroy {
   event$!: Observable<Event>;
   eventId!: string;
-  _galleryItems: any[] = [];
-  lightbox: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private eventService: EventService,
-    private loader: LoaderService,
-    private translate: TranslateService,
-    private toastService: ToastService,
-    private imageService: ImageService,
-    private modalService: NgbModal,
-    private sanitazier: DomSanitizer
-  ) {}
+    protected override loader: LoaderService,
+    protected override translate: TranslateService,
+    protected override toastService: ToastService,
+    protected override imageService: ImageService,
+    protected override modalService: NgbModal,
+    protected override sanitazier: DomSanitizer,
+    protected override metaService: MetaService,
+    protected override languageService: LanguageService
+  ) {
+    super(metaService, languageService, loader, translate, toastService, imageService, modalService, sanitazier);
+  }
 
-  ngOnInit(): void {
+  override ngOnInit(): void {
     this.eventId = this.activatedRoute.snapshot.params['id'];
     this.loadEvent();
   }
 
-  ngOnDestroy(): void {
-    if (this.lightbox) {
-      this.lightbox.destroy();
-    }
+  protected getComponentName(): string {
+    return 'event-detail';
   }
 
   private loadEvent(): void {
@@ -67,6 +69,7 @@ export class EventDetail implements OnInit, OnDestroy {
       next: (event) => {
         this.processMedia(event);
         this.event$ = of(event);
+        this.updateMetaTagsForProject(event);
         console.log('event:', event);
         setTimeout(() => {
           this.initGallery();
@@ -88,124 +91,6 @@ export class EventDetail implements OnInit, OnDestroy {
         this.loader.hide();
       },
     });
-  }
-
-  private processImages(event: Event): void {
-    if (event.coverImagePath) {
-      this.imageService
-        .getFullImageUrl(event.coverImagePath)
-        .subscribe((url) => {
-          event.coverImagePath = url;
-          this._galleryItems.push({
-            href: url,
-            type: 'image',
-          });
-        });
-    }
-    if (event.imagePaths && event.imagePaths.length > 0) {
-      event.imagePaths.forEach((imagePath, index) => {
-        this.imageService.getFullImageUrl(imagePath).subscribe((url) => {
-          event.imagePaths[index] = url;
-          this._galleryItems.push({
-            href: url,
-            type: 'image',
-          });
-        });
-      });
-    }
-    if (event.pressReviews && event.pressReviews.length > 0) {
-      event.pressReviews.forEach((pressReview, index) => {
-        this.imageService
-          .getFullImageUrl(pressReview.imagePath)
-          .subscribe((url) => {
-            event.pressReviews[index].imagePath = url;
-          });
-      });
-    }
-  }
-
-  private processVideos(event: Event): void {
-    if (event.videoPaths && event.videoPaths.length > 0) {
-      event.videoPaths.forEach((videoPath, index) => {
-        this.imageService.getFullVideoUrl(videoPath).subscribe((url) => {
-          event.videoPaths[index] = url;
-          this._galleryItems.push({
-            href: url,
-            type: 'video',
-            source: 'local',
-          });
-        });
-      });
-    }
-  }
-
-  private processFiles(event: Event): void {
-    if (event.filePaths && event.filePaths.length > 0) {
-      event.filePaths.forEach((filePath, index) => {
-        event.filePaths[index] = this.imageService.getFullFileUrl(filePath);
-      });
-    }
-  }
-
-  private processMedia(event: Event): void {
-    this.processFiles(event);
-    this.processImages(event);
-    this.processVideos(event);
-  }
-
-  private initGallery(): void {
-    if (this._galleryItems.length > 0) {
-      this.lightbox = GLightbox({
-        elements: this._galleryItems as any,
-        touchNavigation: true,
-        loop: true,
-        autoplayVideos: false,
-      });
-    }
-  }
-
-  getFileName(filePath: string): string {
-    const fileName = filePath.split('/').pop() || '';
-    return fileName.substring(14);
-  }
-
-  getFileIconClass(filePath: string): string {
-    const extension = filePath.split('.').pop()?.toLowerCase();
-    switch (extension) {
-      case 'pdf':
-        return 'fa fa-file-pdf-o';
-      case 'doc':
-      case 'docx':
-        return 'fa fa-file-word-o';
-      case 'xls':
-      case 'xlsx':
-        return 'fa fa-file-excel-o';
-      case 'ppt':
-      case 'pptx':
-        return 'fa fa-file-powerpoint-o';
-      case 'zip':
-      case 'rar':
-        return 'fa fa-file-archive-o';
-      case 'txt':
-        return 'fa fa-file-text-o';
-      default:
-        return 'fa fa-file-o';
-    }
-  }
-
-  openDownloadModal(fileUrl: string, fileName: string): void {
-    const modalRef = this.modalService.open(DownloadModalComponent, {
-      centered: true,
-    });
-    modalRef.componentInstance.fileUrl = fileUrl;
-    modalRef.componentInstance.fileName = fileName;
-  }
-  getSafeUrl(url: string): SafeResourceUrl {
-    return this.sanitazier.bypassSecurityTrustResourceUrl(url);
-  }
-
-  openUrl(url: string): void {
-    window.open(url, '_blank');
   }
 
   calculateMaxParticipants(event: Event): number {

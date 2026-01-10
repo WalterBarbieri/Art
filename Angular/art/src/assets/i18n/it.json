@@ -157,7 +157,9 @@
     "info": "Art Natura Teatro - Info",
     "projects": "Art Natura Teatro - Progetti",
     "bio": "Art Natura Teatro - Bio",
-    "contact": "Art Natura Teatro - Contatti"
+    "contact": "Art Natura Teatro - Contatti",
+    "course-detail": "Laboratorio: {title}",
+    "event-detail": "Performance: {title}"
   },
   "meta": {
     "app": {
@@ -243,6 +245,34 @@
       "twitterTitle": "Art Natura Teatro - Contatti",
       "twitterDescription": "Contatta Art Natura Teatro: trova i nostri recapiti email e collegamenti ai social media per informazioni su eventi teatrali e laboratori nella natura toscana.",
       "twitterImage": "https://artnaturateatro.it/assets/logo/LOGO_ART_WHITE_BG.png"
+    },
+    "course-detail": {
+      "description": "Partecipa al laboratorio '{title}': {description}. Scopri dettagli, date e modalità di iscrizione per questo corso teatrale immerso nella natura.",
+      "keywords": "laboratorio {title}, corso teatro natura, {title} art natura teatro, laboratorio teatrale toscana, corso immersivo natura, teatro laboratorio {title}, date laboratorio, iscrizione laboratorio, partecipazione gratuita, teatro boschi, laboratorio ricerca teatrale, sperimentazione natura, Elena Franconi laboratorio, teatro culturale toscana",
+      "author": "BWFullStackDeveloper",
+      "ogTitle": "Laboratorio: {title}",
+      "ogDescription": "Partecipa al laboratorio '{title}': {description}. Scopri dettagli, date e modalità di iscrizione per questo corso teatrale immerso nella natura.",
+      "ogImage": "{image}",
+      "ogUrl": "https://artnaturateatro.it/projects/courses/{id}",
+      "ogType": "article",
+      "twitterCard": "summary_large_image",
+      "twitterTitle": "Laboratorio: {title}",
+      "twitterDescription": "Partecipa al laboratorio '{title}': {description}. Scopri dettagli, date e modalità di iscrizione per questo corso teatrale immerso nella natura.",
+      "twitterImage": "{image}"
+    },
+    "event-detail": {
+      "description": "Partecipa alla performance '{title}': {description}. Scopri dettagli, date e modalità di iscrizione per questo evento teatrale immerso nella natura.",
+      "keywords": "performance {title}, evento teatro natura, {title} art natura teatro, performance teatrale toscana, evento immersivo natura, teatro performance {title}, date performance, iscrizione performance, partecipazione gratuita, teatro boschi, performance ricerca teatrale, sperimentazione natura, Elena Franconi performance, teatro culturale toscana",
+      "author": "BWFullStackDeveloper",
+      "ogTitle": "Performance: {title}",
+      "ogDescription": "Partecipa alla performance '{title}': {description}. Scopri dettagli, date e modalità di iscrizione per questo evento teatrale immerso nella natura.",
+      "ogImage": "{image}",
+      "ogUrl": "https://artnaturateatro.it/projects/events/{id}",
+      "ogType": "article",
+      "twitterCard": "summary_large_image",
+      "twitterTitle": "Performance: {title}",
+      "twitterDescription": "Partecipa alla performance '{title}': {description}. Scopri dettagli, date e modalità di iscrizione per questo evento teatrale immerso nella natura.",
+      "twitterImage": "{image}"
     }
   }
 }
