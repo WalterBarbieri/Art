@@ -55,6 +55,7 @@ export class EventDetail extends ProjectDetailBase implements OnInit, OnDestroy 
   }
 
   override ngOnInit(): void {
+    super.ngOnInit();
     this.eventId = this.activatedRoute.snapshot.params['id'];
     this.loadEvent();
   }

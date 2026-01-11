@@ -18,6 +18,7 @@ export abstract class ProjectDetailBase extends MetaManagedComponent implements 
   isStaticMode: boolean = environment.isStaticMode;
   _galleryItems: any[] = [];
   lightbox: any;
+  protected currentProject: any;
 
   constructor(
     protected override metaService: MetaService,
@@ -43,9 +44,19 @@ export abstract class ProjectDetailBase extends MetaManagedComponent implements 
     }
   }
 
+  protected override updateMetaTags(): void {
+    if (this.currentProject) {
+      this.metaService.updateMetaTagsForProject(this.getComponentName(), this.currentProject);
+      this.metaService.updateTitleForComponent(this.getComponentName(), { title: this.currentProject.title });
+    } else {
+      this.metaService.updateMetaTagsForComponents(this.getComponentName());
+      this.metaService.updateTitleForComponent(this.getComponentName());
+    }
+  }
+
   protected updateMetaTagsForProject(project: any): void {
-    this.metaService.updateMetaTagsForProject(this.getComponentName(), project);
-    this.metaService.updateTitleForComponent(this.getComponentName(), { title: project.title });
+    this.currentProject = project;
+    this.updateMetaTags();
   }
 
   protected processImages(project: any): void {

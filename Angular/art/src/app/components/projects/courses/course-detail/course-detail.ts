@@ -51,6 +51,7 @@ export class CourseDetail extends ProjectDetailBase implements OnInit, OnDestroy
   }
 
   override ngOnInit(): void {
+    super.ngOnInit();
     this.courseId = this.activatedRoute.snapshot.params['id'];
     this.loadCourse();
   }
