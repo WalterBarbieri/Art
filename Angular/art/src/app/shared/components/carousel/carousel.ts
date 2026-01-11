@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, HostListener, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Content } from 'src/app/models/content.interface';
-import { ProjectCardComponent } from 'src/app/components/project-card/project-card.component';
+import { ProjectCardComponent } from '../project/project-card/project-card.component';
 
 @Component({
   selector: 'app-carousel',

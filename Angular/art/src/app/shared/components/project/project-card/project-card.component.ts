@@ -2,9 +2,9 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { Content } from '../../models/content.interface';
-import { ProjectCardService } from '../../shared/services/project-card.service';
-import { ImageLoaderComponent } from '../../shared/components/image-loader/image-loader.component';
+import { Content } from '../../../../models/content.interface';
+import { ProjectCardService } from '../../../services/project-card.service';
+import { ImageLoaderComponent } from '../../image-loader/image-loader.component';
 
 @Component({
     selector: 'app-project-card',
@@ -22,6 +22,7 @@ export class ProjectCardComponent {
   @Input() project!: Content;
   @Input() isImageLoading: boolean = false;
   @Input() truncateDescription: boolean = false;
+  @Input() adminMode: boolean = false;
 
   constructor(private projectCardService: ProjectCardService) {}
 
@@ -37,11 +38,6 @@ export class ProjectCardComponent {
   }
 
   getDetailRoute(): string[] {
-    if (this.project.contentType === 'Course') {
-      return ['/projects', 'courses', this.project.id];
-    } else if (this.project.contentType === 'Event') {
-      return ['/projects', 'events', this.project.id];
-    }
-    return ['/'];
+    return ['/projects', this.project.contentType.toLowerCase() + 's' , this.project.id];
   }
 }

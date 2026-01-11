@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import {
-  HttpClient,
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
@@ -22,7 +21,6 @@ import { ErrorComponent } from './components/error/error.component';
 import { SharedModule } from './shared/shared.module';
 import { CoreModule } from './core/core.module';
 import { UserpageComponent } from './components/userpage/userpage.component';
-import { ProjectCardComponent } from './components/project-card/project-card.component';
 import { Carousel } from './shared/components/carousel/carousel';
 
 export function HttpLoaderFactory(): TranslateHttpLoader {
@@ -52,7 +50,6 @@ export function HttpLoaderFactory(): TranslateHttpLoader {
     }),
     SharedModule,
     CoreModule,
-    ProjectCardComponent,
     Carousel,
   ],
   providers: [
