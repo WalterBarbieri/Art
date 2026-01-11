@@ -22,7 +22,7 @@ export class ProjectCardComponent {
   @Input() project!: Content;
   @Input() isImageLoading: boolean = false;
   @Input() truncateDescription: boolean = false;
-  @Input() adminMode: boolean = false;
+  @Input() mode: 'view' | 'admin' = 'view';
 
   constructor(private projectCardService: ProjectCardService) {}
 
@@ -38,6 +38,9 @@ export class ProjectCardComponent {
   }
 
   getDetailRoute(): string[] {
+    if (this.mode === 'admin') {
+      return ['/admin/projects', this.project.id, 'edit'];
+    }
     return ['/projects', this.project.contentType.toLowerCase() + 's' , this.project.id];
   }
 }

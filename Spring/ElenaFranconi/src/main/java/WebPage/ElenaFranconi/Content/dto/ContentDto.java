@@ -26,9 +26,10 @@ public class ContentDto {
 	private LocalDate dateTo;
 	private List<LocalDateTime> eventDates = new ArrayList<>();
 	private String location;
+	private boolean archived;
 
 	public ContentDto(UUID id, String title, String description, String contentType, String coverImagePath,
-			ContentStatus contentStatus, String location) {
+			ContentStatus contentStatus, String location, boolean archived) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
@@ -36,12 +37,13 @@ public class ContentDto {
 		this.coverImagePath = coverImagePath;
 		this.contentStatus = contentStatus;
 		this.location = location;
+		this.archived = archived;
 	}
 
 	public static ContentDto fromContent(Content content) {
 		ContentDto dto = new ContentDto(content.getId(), content.getTitle(), content.getDescription(),
 				content.getClass().getSimpleName(), content.getCoverImagePath(), content.getContentStatus(),
-				content.getLocation());
+				content.getLocation(), content.isArchived());
 		if (content instanceof Course) {
 			Course course = (Course) content;
 			dto.setDateFrom(course.getDateFrom());

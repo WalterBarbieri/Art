@@ -4,6 +4,7 @@ import { ProjectsComponent } from './projects.component';
 import { SharedModule } from '../../shared/shared.module';
 import { ProjectsRoutingModule } from './projects-routing.module';
 import { ProjectCardComponent } from 'src/app/shared/components/project/project-card/project-card.component';
+import { ProjectFiltersComponent } from 'src/app/shared/components/project/project-filters/project-filters.component';
 
 
 @NgModule({
@@ -14,7 +15,8 @@ import { ProjectCardComponent } from 'src/app/shared/components/project/project-
     CommonModule,
     SharedModule,
     ProjectsRoutingModule,
-    ProjectCardComponent
+    ProjectCardComponent,
+    ProjectFiltersComponent
 ]
 })
 export class ProjectsModule { }

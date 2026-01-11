@@ -11,4 +11,5 @@ export interface Content {
   dateTo: Date | null;
   eventDates: Date[] | null;
   location: string;
+  archived: boolean;
 }

@@ -67,4 +67,9 @@
     background: $light-yellow;
     color: $dark-gray;
   }
+
+  &.archived {
+    background: $light-red;
+    color: $dark-gray;
+  }
 }

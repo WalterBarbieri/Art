@@ -10,6 +10,7 @@ import { LanguageService } from 'src/app/service/language.service';
 import { MetaService } from 'src/app/service/meta.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { MetaManagedComponent } from 'src/app/shared/classes/meta-managed.component';
+import { FilterValues } from 'src/app/shared/components/project/project-filters/project-filters.component';
 
 @Component({
     selector: 'app-projects',
@@ -21,10 +22,6 @@ export class ProjectsComponent extends MetaManagedComponent implements OnInit, O
   projects: Content[] = [];
   filteredProjects: Content[] = [];
   imageLoading: boolean[] = [];
-  selectedStatusFilter: string = 'all';
-  selectedTypeFilter: string = 'all';
-  selectedSortOrder: string = 'default';
-  showFilters: boolean = false;
 
   constructor(
     protected override metaService: MetaService,
@@ -72,7 +69,7 @@ export class ProjectsComponent extends MetaManagedComponent implements OnInit, O
         this.projects.forEach((project, index) => {
           this.getFullImageUrl(project.coverImagePath, index);
         });
-        this.applyFilters();
+        this.filteredProjects = [...this.projects];
       },
       error: (processedError: ProcessedError) => {
         let message: string;
@@ -89,24 +86,20 @@ export class ProjectsComponent extends MetaManagedComponent implements OnInit, O
     });
   }
 
-  applyFilters(): void {
+  onFiltersChanged(filters: FilterValues): void {
     this.filteredProjects = this.projects.filter((project) => {
       const statusMatch =
-        this.selectedStatusFilter === 'all' ||
-        project.contentStatus === this.selectedStatusFilter;
+        filters.status === 'all' ||
+        project.contentStatus === filters.status;
 
       const typeMatch =
-        this.selectedTypeFilter === 'all' ||
-        project.contentType === this.selectedTypeFilter;
+        filters.type === 'all' ||
+        project.contentType === filters.type;
 
       return statusMatch && typeMatch;
     });
 
-    this.applySorting();
-  }
-
-  applySorting(): void {
-    if (this.selectedSortOrder === 'reverse') {
+    if (filters.sortOrder === 'reverse') {
       this.filteredProjects.reverse();
     }
   }

@@ -23,6 +23,11 @@
           <i class="fas fa-seedling me-1"></i>{{ "PROJECT.STATUS_UPCOMING" | translate }}
         </span>
       }
+      @if (project.archived) {
+        <span class="status-badge-overlay archived">
+          <i class="fas fa-archive me-1"></i>Archiviato
+        </span>
+      }
     </div>
     <div class="card-body text-center">
       <div class="card-title">{{ project.title }}</div>
