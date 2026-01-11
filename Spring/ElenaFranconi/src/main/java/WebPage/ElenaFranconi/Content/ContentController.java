@@ -21,8 +21,8 @@ public class ContentController {
 	// READ ONLY CONTROLLER
 
 	@GetMapping("/all")
-	public List<ContentDto> getAllActiveContent() {
-		List<Content> contents = contentQueryService.findAllActiveContent();
+	public List<ContentDto> getAllContentSorted() {
+		List<Content> contents = contentQueryService.findAllContentSorted();
 		List<ContentDto> dtos = ContentDto.fromContentList(contents);
 		return dtos;
 	}

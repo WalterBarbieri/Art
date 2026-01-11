@@ -7,6 +7,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { ErrorComponent } from './components/error/error.component';
 import { UserpageComponent } from './components/userpage/userpage.component';
+import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -45,6 +46,12 @@ const routes: Routes = [
   {
     path: 'userpage',
     component: UserpageComponent
+  },
+  {
+    path: 'admin',
+    loadChildren: () => import('./admin/admin.routes').then(m => m.adminRoutes),
+    canActivate: [AuthGuard],
+    data: { roles: ['ADMIN'] }
   }
 ];
 

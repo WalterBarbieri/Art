@@ -31,6 +31,11 @@ public class ContentQueryService {
 	}
 
 	@Transactional(readOnly = true)
+	public List<Content> findAllContentSorted() {
+		return contentRepository.findAllContentSorted();
+	}
+
+	@Transactional(readOnly = true)
 	public List<Content> findAllActiveContentSorted() {
 		return contentRepository.findAllActiveContentSorted();
 	}

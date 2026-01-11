@@ -82,6 +82,18 @@
               {{ 'NAVBAR.CONTACT' | translate }}
             </a>
           </li>
+          @if (user) {
+           <li class="nav-item">
+            <a
+              [routerLink]="['/admin']"
+              routerLinkActive="active"
+              class="nav-link navItem"
+              (click)="toggleHamburgerMenu()"
+            >
+              ADMIN
+            </a>
+          </li>
+          }
         </ul>
       </div>
     </div>

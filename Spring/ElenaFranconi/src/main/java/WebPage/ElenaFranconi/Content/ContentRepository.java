@@ -17,6 +17,23 @@ public interface ContentRepository extends JpaRepository<Content, UUID> {
 
 	@Query("""
 			SELECT c FROM Content c
+			ORDER BY
+			    CASE
+			        WHEN c.contentStatus = 'ONGOING' THEN 1
+			        WHEN c.contentStatus = 'UPCOMING' THEN 2
+			        WHEN c.contentStatus = 'COMPLETED' THEN 3
+			    END,
+			    CASE
+			        WHEN c.contentStatus IN ('ONGOING', 'UPCOMING') THEN c.relevantDate
+			    END ASC,
+			    CASE
+			        WHEN c.contentStatus = 'COMPLETED' THEN c.relevantDate
+			    END DESC
+			""")
+	List<Content> findAllContentSorted();
+
+	@Query("""
+			SELECT c FROM Content c
 			WHERE c.archived = false
 			ORDER BY
 			    CASE

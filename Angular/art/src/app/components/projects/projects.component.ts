@@ -62,7 +62,7 @@ export class ProjectsComponent extends MetaManagedComponent implements OnInit, O
 
   getAllProjects(): void {
     this.loaderService.show();
-    this.contentService.getAllSorted().subscribe({
+    this.contentService.getAllActiveSorted().subscribe({
       next: (data: Content[]) => {
         this.projects = data.map(project => ({
             ...project,

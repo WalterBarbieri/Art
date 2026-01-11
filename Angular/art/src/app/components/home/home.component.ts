@@ -93,7 +93,7 @@ export class HomeComponent extends MetaManagedComponent implements OnInit, OnDes
   }
   getAllProjects(): void {
     this.loaderService.show();
-    this.contentService.getTopSorted().subscribe({
+    this.contentService.getTopActiveSorted().subscribe({
       next: (data: Content[]) => {
         this.projects = data.map((project) => ({
           ...project,
