@@ -54,73 +54,17 @@
   </div>
   @if (event.imagePaths && event.imagePaths.length > 0 || event.videoPaths &&
   event.videoPaths.length > 0) {
-  <div class="gallery text-center mb-4" #galleryContainer>
-    <h2>{{ "PROJECT.DETAILS.GALLERY" | translate }}</h2>
-    <div class="row">
-      @for (item of _galleryItems; track $index; let i = $index) {
-      <div class="col-6 col-md-4 col-lg-3 mb-2">
-        <a
-          (click)="lightbox.openAt(i); $event.preventDefault()"
-          class="gallery-item"
-          style="cursor: pointer"
-        >
-          @if (item.type === 'image') {
-          <img
-            [src]="item.href"
-            [alt]="event.title + ' Image ' + (i + 1)"
-            class="img-fluid event-image"
-          />
-          } @else {
-          <video [src]="item.href" class="video-fluid" controls></video>
-          }
-        </a>
-      </div>
-      }
-    </div>
-  </div>
+  <app-project-gallery [galleryItems]="_galleryItems"></app-project-gallery>
   } @if (event.filePaths && event.filePaths.length > 0) {
-  <div class="files-section text-center mb-4">
-    <h2>{{ "PROJECT.DETAILS.FILES" | translate }}</h2>
-    <div class="d-flex justify-content-center flex-wrap gap-3">
-      @for (file of event.filePaths; track file; let i = $index) {
-      <div
-        class="card file-card"
-        (click)="openDownloadModal(file, getFileName(file))"
-      >
-        <div
-          class="card-body d-flex flex-column align-items-center justify-content-evenly p-1"
-        >
-          <i [class]="getFileIconClass(file)" class="file-icon"></i>
-          <h6 class="card-title">{{ getFileName(file) }}</h6>
-        </div>
-      </div>
-      }
-    </div>
-  </div>
+  <app-project-files
+    [filePaths]="event.filePaths"
+    (fileClick)="openDownloadModal($event.file, $event.fileName)">
+  </app-project-files>
   } @if (event.informations || event.googleMapsLink) {
-  <div class="additional-info row mb-4">
-    <h2 class="text-center">{{ "PROJECT.DETAILS.INFO" | translate }}</h2>
-    @if (event.informations) {
-    <div class="col-12 col-md-6">
-      <div class="info-block">
-        <p class="info-text">{{ event.informations }}</p>
-      </div>
-    </div>
-    } @if (event.googleMapsLink) {
-    <div class="col-12 col-md-6">
-      <div class="map-container">
-        <iframe
-          [src]="getSafeUrl(event.googleMapsLink)"
-          width="100%"
-          height="100%"
-          style="border: 0"
-          allowfullscreen=""
-          loading="lazy"
-        ></iframe>
-      </div>
-    </div>
-    }
-  </div>
+  <app-project-info
+    [informations]="event.informations"
+    [googleMapsLink]="event.googleMapsLink">
+  </app-project-info>
   } @if (event.pressReviews && event.pressReviews.length > 0) {
   <div class="press-reviews-section text-center mb-4">
     <h2>{{ "PROJECT.DETAILS.PRESS_REVIEWS" | translate }}</h2>

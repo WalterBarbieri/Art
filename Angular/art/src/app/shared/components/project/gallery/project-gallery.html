@@ -1,0 +1,30 @@
+@if (galleryItems.length > 0) {
+<div class="gallery text-center mb-4">
+  <h2 class="mb-5">{{ "PROJECT.DETAILS.GALLERY" | translate }}</h2>
+  <div class="row">
+    @for (item of galleryItems; track $index; let i = $index) {
+    <div class="col-6 col-md-4 col-lg-3 mb-2">
+      <a
+        (click)="openLightbox(i); $event.preventDefault()"
+        class="gallery-item"
+        style="cursor: pointer"
+      >
+        @if (item.type === 'image') {
+        <img
+          [src]="item.href"
+          [alt]="item.alt || 'Gallery item'"
+          class="img-fluid gallery-image"
+        />
+        } @else {
+        <video
+          [src]="item.href"
+          class="gallery-video"
+          controls
+        ></video>
+        }
+      </a>
+    </div>
+    }
+  </div>
+</div>
+}

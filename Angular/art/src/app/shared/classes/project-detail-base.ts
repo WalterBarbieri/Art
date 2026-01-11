@@ -1,5 +1,4 @@
 import { OnDestroy, OnInit, Directive } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import GLightbox from 'glightbox';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -26,8 +25,7 @@ export abstract class ProjectDetailBase extends MetaManagedComponent implements 
     protected translate: TranslateService,
     protected toastService: ToastService,
     protected imageService: ImageService,
-    protected modalService: NgbModal,
-    protected sanitazier: DomSanitizer
+    protected modalService: NgbModal
   ) {
     super(metaService, languageService);
   }
@@ -132,45 +130,12 @@ export abstract class ProjectDetailBase extends MetaManagedComponent implements 
     }
   }
 
-  getFileName(filePath: string): string {
-    const fileName = filePath.split('/').pop() || '';
-    return fileName.substring(14);
-  }
-
-  getFileIconClass(filePath: string): string {
-    const extension = filePath.split('.').pop()?.toLowerCase();
-    switch (extension) {
-      case 'pdf':
-        return 'fa fa-file-pdf-o';
-      case 'doc':
-      case 'docx':
-        return 'fa fa-file-word-o';
-      case 'xls':
-      case 'xlsx':
-        return 'fa fa-file-excel-o';
-      case 'ppt':
-      case 'pptx':
-        return 'fa fa-file-powerpoint-o';
-      case 'zip':
-      case 'rar':
-        return 'fa fa-file-archive-o';
-      case 'txt':
-        return 'fa fa-file-text-o';
-      default:
-        return 'fa fa-file-o';
-    }
-  }
-
   openDownloadModal(fileUrl: string, fileName: string): void {
     const modalRef = this.modalService.open(DownloadModalComponent, {
       centered: true,
     });
     modalRef.componentInstance.fileUrl = fileUrl;
     modalRef.componentInstance.fileName = fileName;
-  }
-
-  getSafeUrl(url: string): SafeResourceUrl {
-    return this.sanitazier.bypassSecurityTrustResourceUrl(url);
   }
 
   openUrl(url: string): void {

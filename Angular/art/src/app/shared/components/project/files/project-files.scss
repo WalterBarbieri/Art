@@ -1,0 +1,40 @@
+@use 'variables' as *;
+
+.files-section {
+  margin-top: 20px;
+  width: 100%;
+
+  .file-card {
+    cursor: pointer;
+    transition: transform 0.5s ease;
+    border: solid 1px $light-cyan-transparent;
+    width: 150px;
+    height: 150px;
+
+    .file-icon {
+      font-size: 2em;
+    }
+
+    h6 {
+      font-size: smaller;
+    }
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    }
+
+    @media (min-width: 768px) {
+      width: 200px;
+      height: 200px;
+
+      .file-icon {
+        font-size: 3em;
+      }
+
+      h6 {
+        font-size: medium;
+      }
+    }
+  }
+}

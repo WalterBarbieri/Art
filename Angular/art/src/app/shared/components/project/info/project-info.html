@@ -1,0 +1,25 @@
+@if (informations || googleMapsLink) {
+<div class="additional-info row mb-4">
+  <h2 class="text-center">{{ "PROJECT.DETAILS.INFO" | translate }}</h2>
+  @if (informations) {
+  <div class="col-12 col-md-6">
+    <div class="info-block">
+      <p class="info-text">{{ informations }}</p>
+    </div>
+  </div>
+  } @if (googleMapsLink) {
+  <div class="col-12 col-md-6">
+    <div class="map-container">
+      <iframe
+        [src]="getSafeUrl(googleMapsLink)"
+        width="100%"
+        height="100%"
+        style="border: 0"
+        allowfullscreen=""
+        loading="lazy"
+      ></iframe>
+    </div>
+  </div>
+  }
+</div>
+}

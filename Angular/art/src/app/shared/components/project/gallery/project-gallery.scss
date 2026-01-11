@@ -1,0 +1,14 @@
+@use 'variables' as *;
+
+.gallery {
+  margin-top: 20px;
+  width: 100%;
+
+  .gallery-image,
+  .gallery-video {
+    height: calc((100vh - $navbar-height)/2);
+    object-fit: contain;
+    width: 100%;
+    cursor: pointer;
+  }
+}

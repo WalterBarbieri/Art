@@ -4,7 +4,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -16,6 +15,9 @@ import { EventService } from 'src/app/service/event.service';
 import { ImageService } from 'src/app/service/image.service';
 import { AnimatedButtonComponent } from 'src/app/shared/components/animated-button/animated-button.component';
 import { ProjectCoverComponent } from 'src/app/shared/components/project/cover/project-cover';
+import { ProjectGalleryComponent } from 'src/app/shared/components/project/gallery/project-gallery';
+import { ProjectFilesComponent } from 'src/app/shared/components/project/files/project-files';
+import { ProjectInfoComponent } from 'src/app/shared/components/project/info/project-info';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { ProjectDetailBase } from 'src/app/shared/classes/project-detail-base';
 import { MetaService } from 'src/app/service/meta.service';
@@ -28,6 +30,9 @@ import { LanguageService } from 'src/app/service/language.service';
     DatePipe,
     AnimatedButtonComponent,
     ProjectCoverComponent,
+    ProjectGalleryComponent,
+    ProjectFilesComponent,
+    ProjectInfoComponent,
     TranslateModule,
     RouterLink,
   ],
@@ -46,11 +51,10 @@ export class EventDetail extends ProjectDetailBase implements OnInit, OnDestroy 
     protected override toastService: ToastService,
     protected override imageService: ImageService,
     protected override modalService: NgbModal,
-    protected override sanitazier: DomSanitizer,
     protected override metaService: MetaService,
     protected override languageService: LanguageService
   ) {
-    super(metaService, languageService, loader, translate, toastService, imageService, modalService, sanitazier);
+    super(metaService, languageService, loader, translate, toastService, imageService, modalService);
   }
 
   override ngOnInit(): void {
