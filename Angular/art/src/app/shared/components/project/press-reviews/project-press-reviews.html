@@ -1,0 +1,16 @@
+@if (pressReviews && pressReviews.length > 0) {
+<div class="press-reviews-section text-center mb-4">
+  <h2 class="mb-5">{{ "PROJECT.DETAILS.PRESS_REVIEWS" | translate }}</h2>
+  <div class="d-flex justify-content-center flex-wrap gap-3">
+    @for (review of pressReviews; track review.id) {
+    <div class="card press-review-card" (click)="onReviewClick(review.url)">
+      <img
+        [src]="review.imagePath"
+        alt="Press Review"
+        class="card-img-top press-review-img"
+      />
+    </div>
+    }
+  </div>
+</div>
+}

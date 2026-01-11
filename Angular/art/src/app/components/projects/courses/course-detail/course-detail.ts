@@ -14,6 +14,7 @@ import { ProjectCoverComponent } from 'src/app/shared/components/project/cover/p
 import { ProjectGalleryComponent } from 'src/app/shared/components/project/gallery/project-gallery';
 import { ProjectFilesComponent } from 'src/app/shared/components/project/files/project-files';
 import { ProjectInfoComponent } from 'src/app/shared/components/project/info/project-info';
+import { ProjectPressReviewsComponent } from 'src/app/shared/components/project/press-reviews/project-press-reviews';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ProjectDetailBase } from 'src/app/shared/classes/project-detail-base';
 import { MetaService } from 'src/app/service/meta.service';
@@ -29,6 +30,7 @@ import { LanguageService } from 'src/app/service/language.service';
     ProjectGalleryComponent,
     ProjectFilesComponent,
     ProjectInfoComponent,
+    ProjectPressReviewsComponent,
     TranslateModule,
     RouterLink,
   ],

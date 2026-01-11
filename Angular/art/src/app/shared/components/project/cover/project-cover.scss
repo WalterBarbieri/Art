@@ -1,5 +1,10 @@
 @use 'variables' as *;
 
+:host {
+  display: block;
+  width: 100%;
+}
+
 .project-cover {
   display: flex;
   flex-direction: column;

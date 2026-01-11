@@ -4,8 +4,10 @@
     [coverImagePath]="event.coverImagePath"
     [title]="event.title"
     [description]="event.description"
-    (imageClick)="lightbox.openAt(0)">
+    (imageClick)="lightbox.openAt(0)"
+  >
   </app-project-cover>
+
   <div class="w-75 mb-4">
     <div class="details row">
       <div class="col-12 col-md-6 mb-3 mb-md-0 text-md-start">
@@ -52,34 +54,25 @@
       </div>
     </div>
   </div>
-  @if (event.imagePaths && event.imagePaths.length > 0 || event.videoPaths &&
-  event.videoPaths.length > 0) {
-  <app-project-gallery [galleryItems]="_galleryItems"></app-project-gallery>
-  } @if (event.filePaths && event.filePaths.length > 0) {
+
+  <app-project-gallery [galleryItems]="_galleryItems"> </app-project-gallery>
+
   <app-project-files
     [filePaths]="event.filePaths"
-    (fileClick)="openDownloadModal($event.file, $event.fileName)">
+    (fileClick)="openDownloadModal($event.file, $event.fileName)"
+  >
   </app-project-files>
-  } @if (event.informations || event.googleMapsLink) {
+
   <app-project-info
     [informations]="event.informations"
-    [googleMapsLink]="event.googleMapsLink">
+    [googleMapsLink]="event.googleMapsLink"
+  >
   </app-project-info>
-  } @if (event.pressReviews && event.pressReviews.length > 0) {
-  <div class="press-reviews-section text-center mb-4">
-    <h2>{{ "PROJECT.DETAILS.PRESS_REVIEWS" | translate }}</h2>
-    <div class="d-flex justify-content-center flex-wrap gap-3">
-      @for (review of event.pressReviews; track review.id) {
-      <div class="card press-review-card" (click)="openUrl(review.url)">
-        <img
-          [src]="review.imagePath"
-          alt="Press Review"
-          class="card-img-top press-review-img"
-        />
-      </div>
-      }
-    </div>
-  </div>
-  }
+
+  <app-project-press-reviews
+    [pressReviews]="event.pressReviews"
+    (reviewClick)="openUrl($event)"
+  >
+  </app-project-press-reviews>
 </div>
 }

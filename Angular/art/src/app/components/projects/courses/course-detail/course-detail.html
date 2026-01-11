@@ -4,8 +4,10 @@
     [coverImagePath]="course.coverImagePath"
     [title]="course.title"
     [description]="course.description"
-    (imageClick)="lightbox.openAt(0)">
+    (imageClick)="lightbox.openAt(0)"
+  >
   </app-project-cover>
+
   <div class="w-75 mb-4">
     <div class="details row">
       <div class="col-12 col-md-6 mb-3 mb-md-0 text-md-start">
@@ -54,34 +56,25 @@
       </div>
     </div>
   </div>
-  @if (course.imagePaths && course.imagePaths.length > 0 || course.videoPaths &&
-  course.videoPaths.length > 0) {
+
   <app-project-gallery [galleryItems]="_galleryItems"></app-project-gallery>
-  } @if (course.filePaths && course.filePaths.length > 0) {
+
   <app-project-files
     [filePaths]="course.filePaths"
-    (fileClick)="openDownloadModal($event.file, $event.fileName)">
+    (fileClick)="openDownloadModal($event.file, $event.fileName)"
+  >
   </app-project-files>
-  } @if (course.informations || course.googleMapsLink) {
+
   <app-project-info
     [informations]="course.informations"
-    [googleMapsLink]="course.googleMapsLink">
+    [googleMapsLink]="course.googleMapsLink"
+  >
   </app-project-info>
-  } @if (course.pressReviews && course.pressReviews.length > 0) {
-  <div class="press-reviews-section text-center mb-4">
-    <h2>{{ "PROJECT.DETAILS.PRESS_REVIEWS" | translate }}</h2>
-    <div class="d-flex justify-content-center flex-wrap gap-3">
-      @for (review of course.pressReviews; track review.id) {
-      <div class="card press-review-card" (click)="openUrl(review.url)">
-        <img
-          [src]="review.imagePath"
-          alt="Press Review"
-          class="card-img-top press-review-img"
-        />
-      </div>
-      }
-    </div>
-  </div>
-  }
+
+  <app-project-press-reviews
+    [pressReviews]="course.pressReviews"
+    (reviewClick)="openUrl($event)"
+  >
+  </app-project-press-reviews>
 </div>
 }
