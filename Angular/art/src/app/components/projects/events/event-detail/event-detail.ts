@@ -15,6 +15,7 @@ import { ProcessedError } from 'src/app/models/processed-error.interface';
 import { EventService } from 'src/app/service/event.service';
 import { ImageService } from 'src/app/service/image.service';
 import { AnimatedButtonComponent } from 'src/app/shared/components/animated-button/animated-button.component';
+import { ProjectCoverComponent } from 'src/app/shared/components/project/cover/project-cover';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { ProjectDetailBase } from 'src/app/shared/classes/project-detail-base';
 import { MetaService } from 'src/app/service/meta.service';
@@ -26,6 +27,7 @@ import { LanguageService } from 'src/app/service/language.service';
     AsyncPipe,
     DatePipe,
     AnimatedButtonComponent,
+    ProjectCoverComponent,
     TranslateModule,
     RouterLink,
   ],

@@ -10,6 +10,7 @@ import { ImageService } from 'src/app/service/image.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { AnimatedButtonComponent } from 'src/app/shared/components/animated-button/animated-button.component';
+import { ProjectCoverComponent } from 'src/app/shared/components/project/cover/project-cover';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ProjectDetailBase } from 'src/app/shared/classes/project-detail-base';
@@ -22,6 +23,7 @@ import { LanguageService } from 'src/app/service/language.service';
     AsyncPipe,
     DatePipe,
     AnimatedButtonComponent,
+    ProjectCoverComponent,
     TranslateModule,
     RouterLink,
   ],

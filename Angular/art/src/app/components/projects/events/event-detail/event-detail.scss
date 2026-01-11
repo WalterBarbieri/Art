@@ -1,17 +1,7 @@
 @use 'variables' as *;
 
-h1 {
-  color: $dark-gray;
-  margin-bottom: 1em;
-}
-
 h2 {
   margin-bottom: 2em;
-}
-.description {
-  font-size: 1.1em;
-  margin-bottom: 20px;
-  text-align: justify;
 }
 
 .details {

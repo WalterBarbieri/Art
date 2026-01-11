@@ -1,17 +1,12 @@
 @if (course$ | async; as course) {
 <div class="container-fluid d-flex flex-column align-items-center pb-4">
-  @if (course.coverImagePath) {
-  <img
-    [src]="course.coverImagePath"
-    alt="Cover Image"
-    class="cover-image"
-    (click)="lightbox.openAt(0)"
-    style="cursor: pointer"
-  />
-  }
-  <h1>{{ course.title }}</h1>
+  <app-project-cover
+    [coverImagePath]="course.coverImagePath"
+    [title]="course.title"
+    [description]="course.description"
+    (imageClick)="lightbox.openAt(0)">
+  </app-project-cover>
   <div class="w-75 mb-4">
-    <p class="description">{{ course.description }}</p>
     <div class="details row">
       <div class="col-12 col-md-6 mb-3 mb-md-0 text-md-start">
         <h5>{{ "PROJECT.TYPE_COURSE" | translate }}</h5>
