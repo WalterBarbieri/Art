@@ -11,6 +11,9 @@
   background-color: $white;
 }
 
+::ng-deep ngb-modal-window {
+  z-index: 1100 !important;
+}
 
 .navbarIcon {
   width: 6em;
@@ -98,10 +101,10 @@ a.select {
 
 .custom-navbar-collapse {
   position: fixed;
-  top: 7em;
+  top: 8em;
   left: 0.5em;
   background-color: white;
-  z-index: 10;
+  z-index: 1100;
   border: solid;
   border-color: rgb(64, 176, 196, 0.175);
   border-width: 0.1rem;

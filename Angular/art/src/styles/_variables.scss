@@ -10,6 +10,10 @@ $light-yellow: rgb(255, 218, 108, 0.95);
 
 // DIMENSION VARIABLES
 $navbar-height: 172.13px;
-$footer-height-sm: 88px;
-$footer-height-md: 80px;
-$footer-height-lg: 48px;
+
+// Footer heights per breakpoint
+$footer-height-default: 127px;  // < 372px
+$footer-height-372: 112px;      // >= 372px
+$footer-height-393: 88px;       // >= 393px
+$footer-height-576: 80px;       // >= 576px (sm)
+$footer-height-992: 48px;       // >= 992px (lg)

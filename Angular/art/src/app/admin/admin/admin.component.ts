@@ -9,5 +9,11 @@ import { RouterModule } from '@angular/router';
   styleUrl: './admin.component.scss'
 })
 export class AdminComponent {
+  isSidebarOpen = false;
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+    console.log('Sidebar State: ' + this.isSidebarOpen);
+  }
 
 }
