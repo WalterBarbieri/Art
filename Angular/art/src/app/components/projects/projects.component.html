@@ -1,18 +1,17 @@
 <div class="container-fluid py-5">
-  <!-- Project Title
-  <h2 class="text-center">{{ 'PROJECT.TITLE' | translate }}</h2> -->
-  <div *ngIf="projects.length > 0" class="text-center mb-3">
+  @if (projects && projects.length > 0) {
+  <div class="text-center mb-3">
     <button
       type="button"
       class="btn default-button mb-3"
       (click)="showFilters = !showFilters"
     >
-      {{ 'PROJECT.FILTER' | translate }}
+      {{ "PROJECT.FILTER" | translate }}
     </button>
 
+    @if (showFilters) {
     <div
       class="d-flex flex-column flex-sm-row mb-3 justify-content-center align-items-center"
-      *ngIf="showFilters"
     >
       <div class="selectContainer me-sm-3">
         <label for="selectedStatusFilter" class="ps-2">
@@ -68,13 +67,23 @@
         </select>
       </div>
     </div>
+    }
   </div>
-  <div class="row" *ngIf="filteredProjects.length > 0">
+  }
+
+  @if (filteredProjects.length > 0) {
+  <div class="row">
+    @for (project of filteredProjects; track project.id; let i = $index) {
     <div
       class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2"
-      *ngFor="let project of filteredProjects; let i = index"
     >
-      <app-project-card [project]="project" [isImageLoading]="imageLoading[i]" [truncateDescription]="true"></app-project-card>
+      <app-project-card
+        [project]="project"
+        [isImageLoading]="imageLoading[i]"
+        [truncateDescription]="true"
+      ></app-project-card>
     </div>
+    }
   </div>
+  }
 </div>
