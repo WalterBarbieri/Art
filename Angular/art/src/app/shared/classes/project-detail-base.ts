@@ -1,8 +1,7 @@
-import { Component, OnDestroy, OnInit, Directive } from '@angular/core';
+import { OnDestroy, OnInit, Directive } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import GLightbox from 'glightbox';
-import { Observable } from 'rxjs';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ImageService } from 'src/app/service/image.service';
 import { DownloadModalComponent } from 'src/app/shared/components/modals/download-modal/download-modal.component';

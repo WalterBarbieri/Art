@@ -4,11 +4,10 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import GLightbox from 'glightbox';
 import { Observable, of } from 'rxjs';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { Event } from 'src/app/models/event.interface';
@@ -16,9 +15,7 @@ import { ProcessedError } from 'src/app/models/processed-error.interface';
 import { EventService } from 'src/app/service/event.service';
 import { ImageService } from 'src/app/service/image.service';
 import { AnimatedButtonComponent } from 'src/app/shared/components/animated-button/animated-button.component';
-import { DownloadModalComponent } from 'src/app/shared/components/modals/download-modal/download-modal.component';
 import { ToastService } from 'src/app/shared/services/toast.service';
-import { environment } from 'src/environments/environment';
 import { ProjectDetailBase } from 'src/app/shared/classes/project-detail-base';
 import { MetaService } from 'src/app/service/meta.service';
 import { LanguageService } from 'src/app/service/language.service';
