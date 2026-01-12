@@ -1,5 +1,4 @@
 import { NgModule } from "@angular/core";
-import { TextareaAutoresizeDirective } from "../directive/textarea-autoresize.directive";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { TranslateModule } from "@ngx-translate/core";
@@ -14,7 +13,6 @@ import { AnimatedButtonComponent } from './components/animated-button/animated-b
 
 @NgModule({
   declarations: [
-    TextareaAutoresizeDirective,
     FooterComponent,
     NavbarComponent,
     LoaderComponent,
@@ -34,7 +32,6 @@ import { AnimatedButtonComponent } from './components/animated-button/animated-b
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
-    TextareaAutoresizeDirective,
     NgbToastModule,
     NewlineToBrPipe,
     FooterComponent,

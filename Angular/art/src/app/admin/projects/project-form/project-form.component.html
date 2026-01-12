@@ -1,1 +1,279 @@
-<p>project-form works!</p>
+<div class="container-fluid py-4">
+  <div class="row">
+    <!-- FORM SECTION -->
+    <div class="col-12 col-lg-6">
+      <div class="form-container">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h2 class="mb-0">
+            {{ isEditMode ? 'Modifica' : 'Crea' }} {{ projectType === 'COURSE' ? 'Corso' : 'Evento' }}
+          </h2>
+          <button type="button" class="btn danger-button" (click)="onCancel()">
+            <i class="fas fa-times me-2"></i>Annulla
+          </button>
+        </div>
+
+        <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
+          <!-- Title -->
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="title"
+              formControlName="title"
+              placeholder="Titolo"
+              [class.is-invalid]="projectForm.get('title')?.invalid && projectForm.get('title')?.touched"
+            >
+            <label for="title">Titolo *</label>
+            @if (projectForm.get('title')?.invalid && projectForm.get('title')?.touched) {
+              <div class="invalid-feedback">Il titolo è obbligatorio</div>
+            }
+          </div>
+
+          <!-- Description -->
+          <div class="mb-3">
+            <label for="description" class="form-label fw-bold">Descrizione *</label>
+            <quill-editor
+              formControlName="description"
+              [modules]="quillModules"
+              placeholder="Inserisci la descrizione del progetto..."
+              [class.is-invalid]="projectForm.get('description')?.invalid && projectForm.get('description')?.touched"
+            ></quill-editor>
+            @if (projectForm.get('description')?.invalid && projectForm.get('description')?.touched) {
+              <div class="invalid-feedback d-block">La descrizione è obbligatoria</div>
+            }
+          </div>
+
+          <!-- Date Fields - COURSE -->
+          @if (projectType === 'COURSE') {
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-floating mb-3">
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="dateFrom"
+                    formControlName="dateFrom"
+                    placeholder="Data inizio"
+                    [class.is-invalid]="projectForm.get('dateFrom')?.invalid && projectForm.get('dateFrom')?.touched"
+                  >
+                  <label for="dateFrom">Data Inizio *</label>
+                  @if (projectForm.get('dateFrom')?.invalid && projectForm.get('dateFrom')?.touched) {
+                    <div class="invalid-feedback">La data di inizio è obbligatoria</div>
+                  }
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating mb-3">
+                  <input
+                    type="date"
+                    class="form-control"
+                    id="dateTo"
+                    formControlName="dateTo"
+                    placeholder="Data fine"
+                    [class.is-invalid]="projectForm.get('dateTo')?.invalid && projectForm.get('dateTo')?.touched"
+                  >
+                  <label for="dateTo">Data Fine *</label>
+                  @if (projectForm.get('dateTo')?.invalid && projectForm.get('dateTo')?.touched) {
+                    <div class="invalid-feedback">La data di fine è obbligatoria</div>
+                  }
+                </div>
+              </div>
+            </div>
+          }
+
+          <!-- Event Dates - EVENT -->
+          @if (projectType === 'EVENT') {
+            <div class="mb-3">
+              <label class="form-label fw-bold">Date e Orari Evento *</label>
+              <div formArrayName="eventDates">
+                @for (control of eventDates.controls; track $index; let i = $index) {
+                  <div class="input-group mb-2">
+                    <input
+                      type="datetime-local"
+                      class="form-control"
+                      [formControlName]="i"
+                      [class.is-invalid]="eventDates.at(i).invalid && eventDates.at(i).touched"
+                    >
+                    @if (eventDates.length > 1) {
+                      <button
+                        type="button"
+                        class="btn btn-outline-danger"
+                        (click)="removeEventDate(i)"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    }
+                  </div>
+                }
+              </div>
+              <button
+                type="button"
+                class="btn btn-outline-primary btn-sm"
+                (click)="addEventDate()"
+              >
+                <i class="fas fa-plus me-2"></i>Aggiungi Data/Orario
+              </button>
+            </div>
+          }
+
+          <!-- Location -->
+          <div class="form-floating mb-3">
+            <input
+              type="text"
+              class="form-control"
+              id="location"
+              formControlName="location"
+              placeholder="Luogo"
+              [class.is-invalid]="projectForm.get('location')?.invalid && projectForm.get('location')?.touched"
+            >
+            <label for="location">Luogo *</label>
+            @if (projectForm.get('location')?.invalid && projectForm.get('location')?.touched) {
+              <div class="invalid-feedback">Il luogo è obbligatorio</div>
+            }
+          </div>
+
+          <!-- Max Participants -->
+          <div class="form-floating mb-3">
+            <input
+              type="number"
+              class="form-control"
+              id="maxParticipants"
+              formControlName="maxParticipants"
+              placeholder="Numero massimo partecipanti"
+              min="1"
+              [class.is-invalid]="projectForm.get('maxParticipants')?.invalid && projectForm.get('maxParticipants')?.touched"
+            >
+            <label for="maxParticipants">Numero Massimo Partecipanti *</label>
+            @if (projectForm.get('maxParticipants')?.invalid && projectForm.get('maxParticipants')?.touched) {
+              <div class="invalid-feedback">Deve essere almeno 1</div>
+            }
+          </div>
+
+          <!-- Google Maps Link -->
+          <div class="form-floating mb-3">
+            <input
+              type="url"
+              class="form-control"
+              id="googleMapsLink"
+              formControlName="googleMapsLink"
+              placeholder="Link Google Maps"
+            >
+            <label for="googleMapsLink">Link Google Maps</label>
+          </div>
+
+          <!-- Informations -->
+          <div class="mb-3">
+            <label for="informations" class="form-label fw-bold">Informazioni Aggiuntive</label>
+            <quill-editor
+              formControlName="informations"
+              [modules]="quillModules"
+              placeholder="Inserisci informazioni aggiuntive..."
+            ></quill-editor>
+          </div>
+
+          <!-- Cover Image Upload -->
+          <div class="mb-3">
+            <label for="coverImage" class="form-label fw-bold">Immagine di Copertina *</label>
+            <input
+              type="file"
+              class="form-control"
+              id="coverImage"
+              accept="image/*"
+              (change)="onCoverImageChange($event)"
+              [class.is-invalid]="!coverImageFile && projectForm.touched"
+            >
+            @if (coverImagePreview) {
+              <div class="mt-2">
+                <img [src]="coverImagePreview" alt="Cover preview" class="img-thumbnail" style="max-height: 200px;">
+              </div>
+            }
+            @if (!coverImageFile && projectForm.touched) {
+              <div class="text-danger small mt-1">L'immagine di copertina è obbligatoria</div>
+            }
+          </div>
+
+          <!-- Gallery Images Upload -->
+          <div class="mb-3">
+            <label for="images" class="form-label fw-bold">Immagini Galleria</label>
+            <input
+              type="file"
+              class="form-control"
+              id="images"
+              accept="image/*"
+              multiple
+              (change)="onImagesChange($event)"
+            >
+            @if (imagesPreviews.length > 0) {
+              <div class="mt-2 d-flex flex-wrap gap-2">
+                @for (preview of imagesPreviews; track $index) {
+                  <img [src]="preview" alt="Preview" class="img-thumbnail" style="max-height: 100px;">
+                }
+              </div>
+            }
+          </div>
+
+          <!-- Files Upload -->
+          <div class="mb-3">
+            <label for="files" class="form-label fw-bold">File Allegati</label>
+            <input
+              type="file"
+              class="form-control"
+              id="files"
+              multiple
+              (change)="onFilesChange($event)"
+            >
+            @if (filesFiles.length > 0) {
+              <div class="mt-2">
+                <small class="text-muted">{{ filesFiles.length }} file selezionati</small>
+              </div>
+            }
+          </div>
+
+          <!-- Videos Upload -->
+          <div class="mb-3">
+            <label for="videos" class="form-label fw-bold">Video</label>
+            <input
+              type="file"
+              class="form-control"
+              id="videos"
+              accept="video/*"
+              multiple
+              (change)="onVideosChange($event)"
+            >
+            @if (videosFiles.length > 0) {
+              <div class="mt-2">
+                <small class="text-muted">{{ videosFiles.length }} video selezionati</small>
+              </div>
+            }
+          </div>
+
+          <!-- Submit Button -->
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn danger-button" (click)="onCancel()">
+              Annulla
+            </button>
+            <button
+              type="submit"
+              class="btn default-button"
+              [disabled]="projectForm.invalid || !coverImageFile"
+            >
+              <i class="fas fa-save me-2"></i>{{ isEditMode ? 'Salva Modifiche' : 'Crea Progetto' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- PREVIEW SECTION -->
+    <div class="col-12 col-lg-6">
+      <div class="preview-container">
+        <h3 class="mb-3">Anteprima</h3>
+        <div class="alert alert-info">
+          <i class="fas fa-info-circle me-2"></i>
+          La preview verrà implementata nel prossimo step usando i componenti esistenti
+        </div>
+        <!-- TODO: Integrare componenti project-cover, project-gallery, etc. -->
+      </div>
+    </div>
+  </div>
+</div>

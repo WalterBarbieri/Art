@@ -2,7 +2,7 @@ import {Directive, ElementRef, HostListener, OnInit, AfterViewInit} from '@angul
 
 @Directive({
     selector: '[appTextareaAutoresize]',
-    standalone: false
+    standalone: true
 })
 export class TextareaAutoresizeDirective implements AfterViewInit {
 
