@@ -109,7 +109,7 @@
     position: fixed;
     top: $navbar-height;
     left: -280px;
-    min-height: var(--content-height);
+    height: calc(100vh - $navbar-height);
     z-index: 910;
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
     overflow-y: auto;
@@ -126,6 +126,6 @@
 
   .sidebar-backdrop {
     top: $navbar-height;
-    min-height: var(--content-height);
+    height: calc(100vh - $navbar-height);
   }
 }
