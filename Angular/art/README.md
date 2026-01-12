@@ -6,10 +6,10 @@
 This site is a Single Page Application (SPA) for an artist who conducts projects (workshops and performances) in nature. Through this site, the administrator can create and modify projects, manage a newsletter, and an email system for course subscribers. Users can subscribe to the newsletter and projects without authentication.
 
 ## Prerequisites
-- Angular: 20.0.0
+- Angular: 20.3.16
 - Node.js: 20.11.1 or later (see [Angular Versions](https://angular.dev/reference/versions))
 - npm: latest stable version
-- Angular CLI: 20.x
+- Angular CLI: 20.3.13
 
 ## Installation
 1. Clone the repository:
@@ -46,6 +46,11 @@ npm install @ng-bootstrap/ng-bootstrap@^19.0.0 @popperjs/core@^2.11.8
 Image and video gallery with lightbox
 ```bash
 npm install glightbox
+```
+### Quill & NGX-Quill
+Rich text editor for admin forms
+```bash
+npm install quill@2.0.2 ngx-quill@28.0.0
 ```
 ## Usage
 
