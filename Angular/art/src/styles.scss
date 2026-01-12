@@ -1,5 +1,6 @@
 @use 'variables' as *;
 @use 'glightbox/dist/css/glightbox.css';
+@use 'sass:color';
 
 // CSS Custom Property for content height calculation
 :root {
@@ -112,11 +113,8 @@ li {
       color: $white;
   }
   &:hover {
-      background-color: $dark-cyan;
+      background-color: color.adjust($dark-cyan, $lightness: -10%);
       color: $white;
-      text-decoration: underline;
-      text-decoration-thickness: 0.1em;
-      text-underline-offset: 0.2em;
   }
 }
 
@@ -132,11 +130,8 @@ li {
       color: $white;
   }
   &:hover {
-      background-color: #f36464;
+      background-color: color.adjust(#f36464, $lightness: -10%);
       color: $white;
-      text-decoration: underline;
-      text-decoration-thickness: 0.1em;
-      text-underline-offset: 0.2em;
   }
 }
 

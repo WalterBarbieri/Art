@@ -1,0 +1,11 @@
+@use 'variables' as *;
+
+.coming-soon-icon {
+  color: $dark-cyan;
+  font-size: 2.5rem;
+  margin-right: 1rem;
+}
+
+.coming-soon-text {
+  color: $dark-cyan;
+}

@@ -17,5 +17,15 @@
     </div>
     }
   </div>
+  }@else if (projects.length === 0) {
+    <div class="alert alert-info alert-constrained text-center mt-4 mx-auto">
+      <i class="fas fa-info-circle me-2"></i>
+      {{ "PROJECT.NO_PROJECTS" | translate }}
+    </div>
+  } @else {
+    <div class="alert alert-warning alert-constrained text-center mt-4 mx-auto">
+      <i class="fas fa-filter me-2"></i>
+      {{ "PROJECT.NO_PROJECTS_FILTER" | translate }}
+    </div>
   }
 </div>

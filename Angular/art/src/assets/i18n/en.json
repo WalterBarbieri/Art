@@ -39,6 +39,8 @@
     "ORDER_BY_DATE": "ORDER BY DATE",
     "NEWEST": "More recent",
     "OLDEST": "Least recent",
+    "NO_PROJECTS": "No projects available.",
+    "NO_PROJECTS_FILTER": "No projects match the selected filters.",
     "DETAILS": {
       "LOCATION": "Location:",
       "MAX_PARTICIPANTS": "Max Participants:",

@@ -1,1 +1,60 @@
-<p>projects works!</p>
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4 mt-3 mt-lg-0">
+    <h2 class="mb-0">Gestione Progetti</h2>
+    <div class="dropdown">
+      <button
+        class="btn default-button dropdown-toggle"
+        type="button"
+        id="createProjectDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        <i class="fas fa-plus me-2"></i>Nuovo Progetto
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="createProjectDropdown">
+        <li>
+          <a class="dropdown-item" [routerLink]="['/admin/projects/create', 'COURSE']">
+            <i class="fas fa-graduation-cap me-2"></i>Corso
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" [routerLink]="['/admin/projects/create', 'EVENT']">
+            <i class="fas fa-calendar-alt me-2"></i>Evento
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  @if (projects && projects.length > 0) {
+    <app-project-filters
+      [showArchiveFilter]="true"
+      (filtersChanged)="onFiltersChanged($event)"
+    ></app-project-filters>
+  }
+
+  @if (filteredProjects.length > 0) {
+    <div class="row">
+      @for (project of filteredProjects; track project.id; let i = $index) {
+        <div class="col-12 col-md-6 col-xl-4 col-xxl-3 mb-2">
+          <app-project-card
+            [project]="project"
+            [isImageLoading]="imageLoading[i]"
+            [truncateDescription]="true"
+            [mode]="'admin'"
+          ></app-project-card>
+        </div>
+      }
+    </div>
+  } @else if (projects.length === 0) {
+    <div class="alert alert-info alert-constrained text-center mt-4 mx-auto">
+      <i class="fas fa-info-circle me-2"></i>
+      Nessun progetto disponibile. Inizia creandone uno nuovo!
+    </div>
+  } @else {
+    <div class="alert alert-warning alert-constrained text-center mt-4 mx-auto">
+      <i class="fas fa-filter me-2"></i>
+      Nessun progetto corrisponde ai filtri selezionati.
+    </div>
+  }
+</div>

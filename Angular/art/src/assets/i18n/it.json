@@ -38,6 +38,8 @@
     "ORDER_BY_DATE": "ORDINA PER DATA",
     "NEWEST": "Più recenti",
     "OLDEST": "Meno recenti",
+    "NO_PROJECTS": "Nessun progetto disponibile.",
+    "NO_PROJECTS_FILTER": "Nessun progetto corrisponde ai filtri selezionati.",
     "DETAILS": {
       "LOCATION": "Luogo:",
       "MAX_PARTICIPANTS": "Partecipanti Massimi:",
