@@ -81,15 +81,15 @@ export class HomeComponent extends MetaManagedComponent implements OnInit, OnDes
 
   getFullImageUrl(imagePath: string | null, index: number): void {
     this.imageLoading[index] = true;
-    this.imageService.getFullImageUrl(imagePath).subscribe(
-      (url) => {
+    this.imageService.getFullImageUrl(imagePath).subscribe({
+      next: (url) => {
         this.projects[index].coverImagePath = url;
         this.imageLoading[index] = false;
       },
-      () => {
+      error: () => {
         this.imageLoading[index] = false;
       }
-    );
+    });
   }
   getAllProjects(): void {
     this.loaderService.show();
