@@ -3,12 +3,17 @@ import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProjectPreview } from './project-form.interface';
-import { TextareaAutoresizeDirective } from 'src/app/directive/textarea-autoresize.directive';
 import { QuillModule } from 'ngx-quill';
+import { AdminCourseService } from '../../services/admin-course.service';
+import { AdminEventService } from '../../services/admin-event.service';
+import { LoaderService } from 'src/app/core/services/loader.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
+import { ProcessedError } from 'src/app/models/processed-error.interface';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-project-form',
-  imports: [CommonModule, ReactiveFormsModule, TextareaAutoresizeDirective, QuillModule],
+  imports: [CommonModule, ReactiveFormsModule, QuillModule],
   templateUrl: './project-form.component.html',
   styleUrl: './project-form.component.scss'
 })
@@ -40,7 +45,12 @@ export class ProjectFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private adminCourseService: AdminCourseService,
+    private adminEventService: AdminEventService,
+    private loaderService: LoaderService,
+    private toastService: ToastService,
+    private translate: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -180,19 +190,96 @@ export class ProjectFormComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.projectForm.invalid) {
+    if (this.projectForm.invalid || !this.coverImageFile) {
       this.projectForm.markAllAsTouched();
       return;
     }
 
-    // TODO: Costruire FormData e chiamare service
-    console.log('Form valido:', this.projectForm.value);
-    console.log('Files:', {
-      coverImage: this.coverImageFile,
-      images: this.imagesFiles,
-      files: this.filesFiles,
-      videos: this.videosFiles
+    const formData = this.buildFormData();
+    this.loaderService.show();
+
+    if (this.projectType === 'COURSE') {
+      this.adminCourseService.create(formData).subscribe({
+        next: (response) => {
+          this.loaderService.hide();
+          this.toastService.showSuccess('Corso creato con successo!');
+          this.router.navigate(['/admin/projects']);
+        },
+        error: (processedError: ProcessedError) => {
+          this.handleError(processedError);
+        }
+      });
+    } else {
+      this.adminEventService.create(formData).subscribe({
+        next: (response) => {
+          this.loaderService.hide();
+          this.toastService.showSuccess('Evento creato con successo!');
+          this.router.navigate(['/admin/projects']);
+        },
+        error: (processedError: ProcessedError) => {
+          this.handleError(processedError);
+        }
+      });
+    }
+  }
+
+  private handleError(processedError: ProcessedError): void {
+    this.loaderService.hide();
+    let message: string;
+    if (processedError.backendMessage) {
+      message = this.translate.instant(processedError.key) + ': ' + processedError.backendMessage;
+    } else {
+      message = this.translate.instant(processedError.key);
+    }
+    this.toastService.showError(message);
+  }
+
+  private buildFormData(): FormData {
+    const formData = new FormData();
+    const formValue = this.projectForm.value;
+
+    // Campi comuni
+    formData.append('title', formValue.title);
+    formData.append('description', formValue.description);
+    formData.append('location', formValue.location);
+    formData.append('maxParticipants', formValue.maxParticipants.toString());
+
+    if (formValue.informations) {
+      formData.append('informations', formValue.informations);
+    }
+    if (formValue.googleMapsLink) {
+      formData.append('googleMapsLink', formValue.googleMapsLink);
+    }
+
+    // Campi specifici per tipo
+    if (this.projectType === 'COURSE') {
+      formData.append('dateFrom', formValue.dateFrom);
+      formData.append('dateTo', formValue.dateTo);
+    } else {
+      // EVENT: array di date
+      formValue.eventDates?.forEach((date: string) => {
+        formData.append('eventDates', date);
+      });
+    }
+
+    // Files
+    if (this.coverImageFile) {
+      formData.append('coverImage', this.coverImageFile);
+    }
+
+    this.imagesFiles.forEach((file) => {
+      formData.append('images', file);
     });
+
+    this.filesFiles.forEach((file) => {
+      formData.append('files', file);
+    });
+
+    this.videosFiles.forEach((file) => {
+      formData.append('videos', file);
+    });
+
+    return formData;
   }
 
   onCancel(): void {

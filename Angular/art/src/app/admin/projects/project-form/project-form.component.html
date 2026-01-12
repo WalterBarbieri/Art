@@ -31,7 +31,7 @@
 
           <!-- Description -->
           <div class="mb-3">
-            <label for="description" class="form-label fw-bold">Descrizione *</label>
+            <label class="form-label fw-bold">Descrizione *</label>
             <quill-editor
               formControlName="description"
               [modules]="quillModules"
@@ -84,7 +84,7 @@
           <!-- Event Dates - EVENT -->
           @if (projectType === 'EVENT') {
             <div class="mb-3">
-              <label class="form-label fw-bold">Date e Orari Evento *</label>
+              <label id="eventDatesLabel" class="form-label fw-bold">Date e Orari Evento *</label>
               <div formArrayName="eventDates">
                 @for (control of eventDates.controls; track $index; let i = $index) {
                   <div class="input-group mb-2">
@@ -163,7 +163,7 @@
 
           <!-- Informations -->
           <div class="mb-3">
-            <label for="informations" class="form-label fw-bold">Informazioni Aggiuntive</label>
+            <label class="form-label fw-bold">Informazioni Aggiuntive</label>
             <quill-editor
               formControlName="informations"
               [modules]="quillModules"
