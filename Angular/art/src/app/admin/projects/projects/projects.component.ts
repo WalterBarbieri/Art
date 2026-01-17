@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { Content } from 'src/app/models/content.interface';
 import { ImageService } from 'src/app/service/image.service';
-import { ToastService } from 'src/app/shared/services/toast.service';
 import { AdminContentService } from '../../services/admin-content.service';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
 import { FilterValues, ProjectFiltersComponent } from 'src/app/shared/components/project/project-filters/project-filters.component';
 import { RouterModule } from '@angular/router';
 import { ProjectCardComponent } from 'src/app/shared/components/project/project-card/project-card.component';
+import { ErrorService } from 'src/app/core/services/error.service';
 
 @Component({
   selector: 'app-projects',
@@ -25,8 +25,7 @@ export class ProjectsComponent implements OnInit {
     private adminContentService: AdminContentService,
     private imageService: ImageService,
     private loaderService: LoaderService,
-    private translate: TranslateService,
-    private toastService: ToastService
+    private errorService: ErrorService
   ) {}
 
   ngOnInit(): void {
@@ -59,17 +58,10 @@ export class ProjectsComponent implements OnInit {
           this.getFullImageUrl(project.coverImagePath, index);
         });
         this.filteredProjects = [...this.projects];
-        console.log(this.projects);
 
       },
       error: (processedError: ProcessedError) => {
-        let message: string;
-        if (processedError.backendMessage) {
-          message = this.translate.instant(processedError.key) + ': ' + processedError.backendMessage;
-        } else {
-          message = this.translate.instant(processedError.key);
-        }
-        this.toastService.showError(message);
+        this.errorService.handleProcessedError(processedError);
       },
       complete: () => {
         this.loaderService.hide();

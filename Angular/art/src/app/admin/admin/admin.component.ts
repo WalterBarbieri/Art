@@ -13,7 +13,6 @@ export class AdminComponent {
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
-    console.log('Sidebar State: ' + this.isSidebarOpen);
   }
 
 }

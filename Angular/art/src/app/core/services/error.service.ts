@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProcessedError } from '../../models/processed-error.interface';
+import { TranslateService } from '@ngx-translate/core';
+import { ToastService } from '../../shared/services/toast.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +12,10 @@ export class ErrorService {
   private errorMessageSubject = new BehaviorSubject<string | null>(null);
   errorMessage$ = this.errorMessageSubject.asObservable();
 
-  constructor() {}
+  constructor(
+    private translate: TranslateService,
+    private toastService: ToastService
+  ) {}
 
   // UNIFIED METHOD
 
@@ -127,6 +132,24 @@ export class ErrorService {
       key: 'ERROR.GENERIC',
       backendMessage: errorMsg,
     };
+  }
+
+  // UNIFIED ERROR HANDLING METHOD
+
+  /**
+   * Handles ProcessedError by building the message and showing it via toast
+   * This centralizes the repetitive error handling pattern used throughout the app
+   */
+  handleProcessedError(processedError: ProcessedError): void {
+    let message: string;
+
+    if (processedError.backendMessage) {
+      message = this.translate.instant(processedError.key) + ': ' + processedError.backendMessage;
+    } else {
+      message = this.translate.instant(processedError.key);
+    }
+
+    this.toastService.showError(message);
   }
 
   // METHODS FOR GLOBAL ERROR COMPONENT

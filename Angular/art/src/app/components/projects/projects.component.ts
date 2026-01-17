@@ -1,6 +1,4 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { Content } from 'src/app/models/content.interface';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
@@ -8,9 +6,9 @@ import { ContentService } from 'src/app/service/content.service';
 import { ImageService } from 'src/app/service/image.service';
 import { LanguageService } from 'src/app/service/language.service';
 import { MetaService } from 'src/app/service/meta.service';
-import { ToastService } from 'src/app/shared/services/toast.service';
 import { MetaManagedComponent } from 'src/app/shared/classes/meta-managed.component';
 import { FilterValues } from 'src/app/shared/components/project/project-filters/project-filters.component';
+import { ErrorService } from 'src/app/core/services/error.service';
 
 @Component({
     selector: 'app-projects',
@@ -29,8 +27,7 @@ export class ProjectsComponent extends MetaManagedComponent implements OnInit, O
     private contentService: ContentService,
     private imageService: ImageService,
     private loaderService: LoaderService,
-    private translate: TranslateService,
-    private toastService: ToastService
+    private errorService: ErrorService
   ) {
     super(metaService, languageService);
   }
@@ -72,13 +69,7 @@ export class ProjectsComponent extends MetaManagedComponent implements OnInit, O
         this.filteredProjects = [...this.projects];
       },
       error: (processedError: ProcessedError) => {
-        let message: string;
-        if (processedError.backendMessage) {
-          message = this.translate.instant(processedError.key) + ': ' + processedError.backendMessage;
-        } else {
-          message = this.translate.instant(processedError.key);
-        }
-        this.toastService.showError(message);
+        this.errorService.handleProcessedError(processedError);
       },
       complete: () => {
         this.loaderService.hide();

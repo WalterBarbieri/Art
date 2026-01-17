@@ -149,8 +149,16 @@
         "ERROR_FILES_TOO_LARGE": "{{count}} file superano la dimensione massima di {{max}}",
         "ERROR_REQUEST_TOO_LARGE": "Dimensione totale ({{total}} MB) supera il limite di {{max}} MB. Rimuovi alcuni file.",
         "ERROR_UPLOAD_SIZE_EXCEEDED": "La dimensione dei file caricati supera il limite del server. Riduci i file o le loro dimensioni.",
+        "DATE_RANGE_INVALID": "La data di inizio deve essere precedente o uguale alla data di fine",
+        "DUPLICATE_DATES": "Non sono ammesse date duplicate",
         "SUCCESS_COURSE_CREATED": "Corso creato con successo!",
-        "SUCCESS_EVENT_CREATED": "Evento creato con successo!"
+        "SUCCESS_EVENT_CREATED": "Evento creato con successo!",
+        "DEFAULT_TITLE": "Titolo del progetto",
+        "DEFAULT_DESCRIPTION": "Descrizione del progetto",
+        "DEFAULT_LOCATION": "Luogo",
+        "REMOVE_IMAGE": "Rimuovi immagine",
+        "REMOVE_FILE": "Rimuovi file",
+        "REMOVE_VIDEO": "Rimuovi video"
       }
     }
   },

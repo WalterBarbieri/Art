@@ -150,8 +150,16 @@
         "ERROR_FILES_TOO_LARGE": "{{count}} files exceed maximum size of {{max}}",
         "ERROR_REQUEST_TOO_LARGE": "Total size ({{total}} MB) exceeds limit of {{max}} MB. Remove some files.",
         "ERROR_UPLOAD_SIZE_EXCEEDED": "Uploaded files size exceeds server limit. Reduce files or their sizes.",
+        "DATE_RANGE_INVALID": "Start date must be before or equal to end date",
+        "DUPLICATE_DATES": "Duplicate dates are not allowed",
         "SUCCESS_COURSE_CREATED": "Course created successfully!",
-        "SUCCESS_EVENT_CREATED": "Event created successfully!"
+        "SUCCESS_EVENT_CREATED": "Event created successfully!",
+        "DEFAULT_TITLE": "Project Title",
+        "DEFAULT_DESCRIPTION": "Project Description",
+        "DEFAULT_LOCATION": "Location",
+        "REMOVE_IMAGE": "Remove image",
+        "REMOVE_FILE": "Remove file",
+        "REMOVE_VIDEO": "Remove video"
       }
     }
   },

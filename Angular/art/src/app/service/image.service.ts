@@ -2,10 +2,23 @@ import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+export interface FileValidationResult {
+  valid: File[];
+  invalid: File[];
+  oversized: File[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class ImageService {
+  // File size constants
+  private readonly MB = 1024 * 1024;
+
+  // File size limits (in bytes)
+  readonly MAX_FILE_SIZE = 50 * this.MB; // 50MB per single file
+  readonly MAX_REQUEST_SIZE = 200 * this.MB; // 200MB total
+
   baseUrl = environment.baseURL;
   private fallBackImage = environment.fallBackImage;
 
@@ -99,5 +112,61 @@ export class ImageService {
       "video/ogg"
     ];
     return allowedTypes.includes(file.type);
+  }
+
+  /**
+   * Validates an array of files against type and size constraints
+   * @param files Array of files to validate
+   * @param typeValidationFn Function to validate file type (e.g., isValidImage)
+   * @returns Object with valid, invalid, and oversized file arrays
+   */
+  validateFiles(
+    files: File[],
+    typeValidationFn: (file: File) => boolean
+  ): FileValidationResult {
+    const result: FileValidationResult = {
+      valid: [],
+      invalid: [],
+      oversized: []
+    };
+
+    files.forEach(file => {
+      if (!typeValidationFn(file)) {
+        result.invalid.push(file);
+      } else if (file.size > this.MAX_FILE_SIZE) {
+        result.oversized.push(file);
+      } else {
+        result.valid.push(file);
+      }
+    });
+
+    return result;
+  }
+
+  /**
+   * Calculates total size of all provided files
+   * @param files Array of files to calculate total size
+   * @returns Total size in bytes
+   */
+  calculateTotalSize(files: File[]): number {
+    return files.reduce((total, file) => total + file.size, 0);
+  }
+
+  /**
+   * Formats bytes to human-readable string
+   * @param bytes Size in bytes
+   * @param decimals Number of decimal places
+   * @returns Formatted string (e.g., "50.00 MB")
+   */
+  formatBytes(bytes: number, decimals: number = 2): string {
+    if (bytes === 0) return '0 Bytes';
+
+    const k = 1024;
+    const dm = decimals < 0 ? 0 : decimals;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
 }

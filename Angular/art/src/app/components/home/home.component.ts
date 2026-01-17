@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { MetaManagedComponent } from 'src/app/shared/classes/meta-managed.component';
+import { ErrorService } from 'src/app/core/services/error.service';
 
 @Component({
     selector: 'app-home',
@@ -36,8 +37,8 @@ export class HomeComponent extends MetaManagedComponent implements OnInit, OnDes
     private imageService: ImageService,
     private contentService: ContentService,
     private loaderService: LoaderService,
-    private translate: TranslateService,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private errorService: ErrorService
   ) {
     super(metaService, languageService);
   }
@@ -107,16 +108,7 @@ export class HomeComponent extends MetaManagedComponent implements OnInit, OnDes
         });
       },
       error: (processedError: ProcessedError) => {
-        let message: string;
-        if (processedError.backendMessage) {
-          message =
-            this.translate.instant(processedError.key) +
-            ': ' +
-            processedError.backendMessage;
-        } else {
-          message = this.translate.instant(processedError.key);
-        }
-        this.toastService.showError(message);
+        this.errorService.handleProcessedError(processedError);
       },
       complete: () => {
         this.loaderService.hide();

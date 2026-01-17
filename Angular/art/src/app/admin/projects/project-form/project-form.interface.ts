@@ -7,11 +7,11 @@ export interface ProjectFormPreview {
   informations: string | null;
   googleMapsLink: string | null;
   contentType: 'COURSE' | 'EVENT';
-  
+
   // Preview images (URL locali da FileReader)
   coverImagePreview: string | null;
   imagesPreviews: string[];
-  
+
   // File names per preview
   filesNames: string[];
   videosNames: string[];
@@ -30,6 +30,19 @@ export interface EventFormPreview extends ProjectFormPreview {
 
 // Type union per gestire entrambi
 export type ProjectPreview = CourseFormPreview | EventFormPreview;
+
+// Interfaccia per il valore del form (tipizzato)
+export interface ProjectFormValue {
+  title: string;
+  description: string;
+  location: string;
+  maxParticipants: number;
+  informations?: string;
+  googleMapsLink?: string;
+  dateFrom?: string;
+  dateTo?: string;
+  eventDates?: string[];
+}
 
 // Payload per il backend (da costruire in FormData)
 export interface CourseFormPayload {

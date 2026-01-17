@@ -77,6 +77,9 @@
                 </div>
               </div>
             </div>
+            @if (projectForm.errors?.['dateRangeInvalid']) {
+              <div class="text-danger small">{{ "ADMIN.PROJECTS.FORM.DATE_RANGE_INVALID" | translate }}</div>
+            }
           }
 
           <!-- Event Dates - EVENT -->
@@ -109,6 +112,9 @@
                 (click)="addEventDate()">
                 <i class="fas fa-plus me-2"></i>{{ "ADMIN.PROJECTS.FORM.ADD_DATE" | translate }}
               </button>
+              @if (eventDates.errors?.['duplicateDates']) {
+                <div class="text-danger small mt-2">{{ "ADMIN.PROJECTS.FORM.DUPLICATE_DATES" | translate }}</div>
+              }
             </div>
           }
 
@@ -180,12 +186,12 @@
             >
             @if (coverImagePreview) {
               <div class="mt-2 position-relative d-inline-block">
-                <img [src]="coverImagePreview" alt="Cover preview" class="img-thumbnail" style="max-height: 200px;">
+                <img [src]="coverImagePreview" alt="Cover preview" class="img-thumbnail cover-preview">
                 <button
                   type="button"
                   class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
                   (click)="removeCoverImage()"
-                  title="Rimuovi immagine">
+                  [title]="'ADMIN.PROJECTS.FORM.REMOVE_IMAGE' | translate">
                   <i class="fas fa-times"></i>
                 </button>
               </div>
@@ -210,12 +216,12 @@
               <div class="mt-2 d-flex flex-wrap gap-2">
                 @for (preview of imagesPreviews; track $index; let i = $index) {
                   <div class="position-relative">
-                    <img [src]="preview" alt="Preview" class="img-thumbnail" style="max-height: 100px;">
+                    <img [src]="preview" alt="Preview" class="img-thumbnail gallery-preview">
                     <button
                       type="button"
                       class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
                       (click)="removeImage(i)"
-                      title="Rimuovi immagine">
+                      [title]="'ADMIN.PROJECTS.FORM.REMOVE_IMAGE' | translate">
                       <i class="fas fa-times"></i>
                     </button>
                   </div>
@@ -247,7 +253,7 @@
                         type="button"
                         class="btn btn-danger btn-sm flex-shrink-0"
                         (click)="removeFile(i)"
-                        title="Rimuovi file">
+                        [title]="'ADMIN.PROJECTS.FORM.REMOVE_FILE' | translate">
                         <i class="fas fa-trash"></i>
                       </button>
                     </li>
@@ -281,7 +287,7 @@
                         type="button"
                         class="btn btn-danger btn-sm flex-shrink-0"
                         (click)="removeVideo(i)"
-                        title="Rimuovi video">
+                        [title]="'ADMIN.PROJECTS.FORM.REMOVE_VIDEO' | translate">
                         <i class="fas fa-trash"></i>
                       </button>
                     </li>

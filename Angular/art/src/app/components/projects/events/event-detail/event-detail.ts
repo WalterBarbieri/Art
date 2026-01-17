@@ -23,6 +23,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { ProjectDetailBase } from 'src/app/shared/classes/project-detail-base';
 import { MetaService } from 'src/app/service/meta.service';
 import { LanguageService } from 'src/app/service/language.service';
+import { ErrorService } from 'src/app/core/services/error.service';
 
 @Component({
   selector: 'app-event-detail',
@@ -54,7 +55,8 @@ export class EventDetail extends ProjectDetailBase implements OnInit, OnDestroy 
     protected override imageService: ImageService,
     protected override modalService: NgbModal,
     protected override metaService: MetaService,
-    protected override languageService: LanguageService
+    protected override languageService: LanguageService,
+    private errorService: ErrorService
   ) {
     super(metaService, languageService, loader, translate, toastService, imageService, modalService);
   }
@@ -76,22 +78,12 @@ export class EventDetail extends ProjectDetailBase implements OnInit, OnDestroy 
         this.processMedia(event);
         this.event$ = of(event);
         this.updateMetaTagsForProject(event);
-        console.log('event:', event);
         setTimeout(() => {
           this.initGallery();
         }, 500);
       },
       error: (processedError: ProcessedError) => {
-        let message: string;
-        if (processedError.backendMessage) {
-          message =
-            this.translate.instant(processedError.key) +
-            ': ' +
-            processedError.backendMessage;
-        } else {
-          message = this.translate.instant(processedError.key);
-        }
-        this.toastService.showError(message);
+        this.errorService.handleProcessedError(processedError);
       },
       complete: () => {
         this.loader.hide();

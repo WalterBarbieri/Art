@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
 import { AuthData } from 'src/app/auth/auth.interface';
 import { AuthService } from 'src/app/core/services/auth.service';
+import { ErrorService } from 'src/app/core/services/error.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
 import { User } from 'src/app/models/user.interface';
 import { UserService } from 'src/app/service/user.service';
-import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
     selector: 'app-userpage',
@@ -22,8 +21,7 @@ export class UserpageComponent implements OnInit {
     private userService: UserService,
     private loader: LoaderService,
     private auth: AuthService,
-    private toast: ToastService,
-    private translate: TranslateService
+    private errorService: ErrorService
   ) {}
 
   ngOnInit(): void {
@@ -38,16 +36,7 @@ export class UserpageComponent implements OnInit {
               this.user = userData;
             },
             error: (processedError: ProcessedError) => {
-              let message: string;
-              if (processedError.backendMessage) {
-                message =
-                  this.translate.instant(processedError.key) +
-                  ': ' +
-                  processedError.backendMessage;
-              } else {
-                message = this.translate.instant(processedError.key);
-              }
-              this.toast.showError(message);
+              this.errorService.handleProcessedError(processedError);
             },
             complete: () => {
               this.loader.hide();
