@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
+import { SafeHtmlPipe } from '../../../pipes/safe-html.pipe';
 
 @Component({
   selector: 'app-project-cover',
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, SafeHtmlPipe],
   templateUrl: './project-cover.html',
   styleUrls: ['./project-cover.scss']
 })

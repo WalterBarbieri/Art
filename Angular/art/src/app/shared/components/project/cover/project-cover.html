@@ -4,6 +4,6 @@
   </div>
   <div class="cover-content">
     <h1 class="project-title">{{ title }}</h1>
-    <p class="project-description">{{ description }}</p>
+    <div class="project-description" [innerHTML]="description | safeHtml"></div>
   </div>
 </div>

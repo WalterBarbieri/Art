@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { Content } from '../../../../models/content.interface';
 import { ProjectCardService } from '../../../services/project-card.service';
 import { ImageLoaderComponent } from '../../image-loader/image-loader.component';
+import { SafeHtmlPipe } from '../../../pipes/safe-html.pipe';
 
 @Component({
     selector: 'app-project-card',
@@ -13,7 +14,8 @@ import { ImageLoaderComponent } from '../../image-loader/image-loader.component'
     CommonModule,
     RouterModule,
     TranslateModule,
-    ImageLoaderComponent
+    ImageLoaderComponent,
+    SafeHtmlPipe
   ],
     templateUrl: './project-card.component.html',
     styleUrls: ['./project-card.component.scss']
@@ -30,7 +32,12 @@ export class ProjectCardComponent {
     return this.projectCardService.getEventDatesDisplay(eventDates);
   }
 
-  truncateText(text: string): string {
+  truncateText(html: string): string {
+    // Estrae il testo senza tag HTML
+    const tmp = document.createElement('div');
+    tmp.innerHTML = html;
+    const text = tmp.textContent || tmp.innerText || '';
+
     if (text.length > 100) {
       return text.substring(0, 100) + '...';
     }

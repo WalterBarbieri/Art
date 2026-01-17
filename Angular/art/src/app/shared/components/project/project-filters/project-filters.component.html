@@ -62,7 +62,7 @@
     </div>
     @if (showArchiveFilter) {
     <div class="selectContainer me-sm-3">
-      <label for="selectedArchiveFilter" class="ps-2">Stato Archivio</label>
+      <label for="selectedArchiveFilter" class="ps-2">FILTRA PER ARCHIVIATO</label>
       <select
         id="selectedArchiveFilter"
         class="form-select"
@@ -70,8 +70,8 @@
         (change)="onFilterChange()"
       >
         <option value="all">Tutti</option>
-        <option value="active">Solo Attivi</option>
-        <option value="archived">Solo Archiviati</option>
+        <option value="active">Attivi</option>
+        <option value="archived">Archiviati</option>
       </select>
     </div>
     }

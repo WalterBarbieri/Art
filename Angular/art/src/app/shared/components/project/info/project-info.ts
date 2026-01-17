@@ -2,10 +2,11 @@ import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
+import { SafeHtmlPipe } from '../../../pipes/safe-html.pipe';
 
 @Component({
   selector: 'app-project-info',
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, SafeHtmlPipe],
   templateUrl: './project-info.html',
   styleUrls: ['./project-info.scss']
 })

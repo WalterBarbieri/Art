@@ -31,7 +31,7 @@
     </div>
     <div class="card-body text-center">
       <div class="card-title">{{ project.title }}</div>
-      <div class="card-text">{{ truncateDescription ? truncateText(project.description) : project.description }}</div>
+      <div class="card-text" [innerHTML]="(truncateDescription ? truncateText(project.description) : project.description) | safeHtml"></div>
     </div>
     <div class="card-footer d-flex align-items-center justify-content-center text-center">
       <div class="w-50">

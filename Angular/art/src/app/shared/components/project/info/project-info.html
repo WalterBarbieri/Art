@@ -4,7 +4,7 @@
   @if (informations) {
   <div class="col-12 col-md-6">
     <div class="info-block">
-      <p class="info-text">{{ informations }}</p>
+      <div class="info-text" [innerHTML]="informations | safeHtml"></div>
     </div>
   </div>
   } @if (googleMapsLink) {
