@@ -48,6 +48,21 @@
         <option value="Event">{{ "PROJECT.TYPE_EVENT" | translate }}</option>
       </select>
     </div>
+    @if (showArchiveFilter) {
+    <div class="selectContainer me-sm-3">
+      <label for="selectedArchiveFilter" class="ps-2">{{ "PROJECT.FILTER_BY_ARCHIVED" | translate }}</label>
+      <select
+        id="selectedArchiveFilter"
+        class="form-select"
+        [(ngModel)]="selectedArchiveFilter"
+        (change)="onFilterChange()"
+      >
+        <option value="all">{{ "GENERIC.ALL" | translate }}</option>
+        <option value="active">{{ "PROJECT.ACTIVE" | translate }}</option>
+        <option value="archived">{{ "PROJECT.ARCHIVED" | translate }}</option>
+      </select>
+    </div>
+    }
     <div class="selectContainer me-sm-3">
       <label for="selectedSortOrder" class="ps-2">{{ "PROJECT.ORDER_BY_DATE" | translate }}</label>
       <select
@@ -60,21 +75,6 @@
         <option value="reverse">{{ "PROJECT.OLDEST" | translate }}</option>
       </select>
     </div>
-    @if (showArchiveFilter) {
-    <div class="selectContainer me-sm-3">
-      <label for="selectedArchiveFilter" class="ps-2">FILTRA PER ARCHIVIATO</label>
-      <select
-        id="selectedArchiveFilter"
-        class="form-select"
-        [(ngModel)]="selectedArchiveFilter"
-        (change)="onFilterChange()"
-      >
-        <option value="all">Tutti</option>
-        <option value="active">Attivi</option>
-        <option value="archived">Archiviati</option>
-      </select>
-    </div>
-    }
   </div>
   }
 </div>

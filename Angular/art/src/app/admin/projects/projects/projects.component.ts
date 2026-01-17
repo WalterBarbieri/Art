@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { Content } from 'src/app/models/content.interface';
 import { ImageService } from 'src/app/service/image.service';
@@ -12,7 +12,7 @@ import { ProjectCardComponent } from 'src/app/shared/components/project/project-
 
 @Component({
   selector: 'app-projects',
-  imports: [RouterModule, ProjectFiltersComponent, ProjectCardComponent],
+  imports: [RouterModule, ProjectFiltersComponent, ProjectCardComponent, TranslateModule],
   templateUrl: './projects.component.html',
   styleUrl: './projects.component.scss'
 })

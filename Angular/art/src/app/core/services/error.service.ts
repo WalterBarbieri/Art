@@ -15,14 +15,24 @@ export class ErrorService {
   // UNIFIED METHOD
 
   processHttpError(error: any): ProcessedError {
-    const errorMsg = error.error?.message || error.error || error.message || '';
+    let errorMsg = '';
+
+    // Assicura che errorMsg sia sempre una stringa
+    if (typeof error.error === 'string') {
+      errorMsg = error.error;
+    } else if (error.error?.message) {
+      errorMsg = error.error.message;
+    } else if (error.message) {
+      errorMsg = error.message;
+    }
 
     if (!(error instanceof HttpErrorResponse)) {
       return { key: 'ERROR.UNKNOWN', backendMessage: 'Unknown error' };
     }
     switch (error.status) {
       case 0:
-        return { key: 'ERROR.NETWORK' };
+        // Errore di connessione - probabilmente timeout durante upload
+        return { key: 'ERROR.UPLOAD_TIMEOUT' };
 
       case 400:
         return this.processBadRequestError(errorMsg);
@@ -35,6 +45,9 @@ export class ErrorService {
 
       case 404:
         return this.processNotFoundError(errorMsg);
+
+      case 413:
+        return { key: 'ADMIN.PROJECTS.FORM.ERROR_UPLOAD_SIZE_EXCEEDED' };
 
       case 422:
         return { key: 'ERROR.VALIDATION', backendMessage: errorMsg };

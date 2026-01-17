@@ -1,6 +1,6 @@
 <div class="container-fluid py-4">
   <div class="d-flex justify-content-between align-items-center mb-4 mt-3 mt-lg-0">
-    <h2 class="mb-0">Gestione Progetti</h2>
+    <h2 class="mb-0">{{ "ADMIN.PROJECTS.TITLE" | translate }}</h2>
     <div class="dropdown">
       <button
         class="btn default-button dropdown-toggle"
@@ -9,17 +9,19 @@
         data-bs-toggle="dropdown"
         aria-expanded="false"
       >
-        <i class="fas fa-plus me-2"></i>Nuovo Progetto
+        <i class="fas fa-plus me-2"></i>
+        <span class="d-inline d-sm-none">{{ "ADMIN.PROJECTS.NEW" | translate }}</span>
+        <span class="d-none d-sm-inline">{{ "ADMIN.PROJECTS.NEW_PROJECT" | translate }}</span>
       </button>
       <ul class="dropdown-menu" aria-labelledby="createProjectDropdown">
         <li>
           <a class="dropdown-item" [routerLink]="['/admin/projects/create', 'COURSE']">
-            <i class="fas fa-graduation-cap me-2"></i>Corso
+            <i class="fas fa-graduation-cap me-2"></i>{{ "ADMIN.PROJECTS.WORKSHOP" | translate }}
           </a>
         </li>
         <li>
           <a class="dropdown-item" [routerLink]="['/admin/projects/create', 'EVENT']">
-            <i class="fas fa-calendar-alt me-2"></i>Evento
+            <i class="fas fa-calendar-alt me-2"></i>{{ "ADMIN.PROJECTS.PERFORMANCE" | translate }}
           </a>
         </li>
       </ul>
@@ -49,12 +51,12 @@
   } @else if (projects.length === 0) {
     <div class="alert alert-info alert-constrained text-center mt-4 mx-auto">
       <i class="fas fa-info-circle me-2"></i>
-      Nessun progetto disponibile. Inizia creandone uno nuovo!
+      {{ "ADMIN.PROJECTS.NO_PROJECTS" | translate }}
     </div>
   } @else {
     <div class="alert alert-warning alert-constrained text-center mt-4 mx-auto">
       <i class="fas fa-filter me-2"></i>
-      Nessun progetto corrisponde ai filtri selezionati.
+      {{ "PROJECT.NO_PROJECTS_FILTER" | translate }}
     </div>
   }
 </div>

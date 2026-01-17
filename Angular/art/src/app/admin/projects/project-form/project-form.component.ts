@@ -9,15 +9,20 @@ import { AdminEventService } from '../../services/admin-event.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { ImageService } from 'src/app/service/image.service';
 
 @Component({
   selector: 'app-project-form',
-  imports: [CommonModule, ReactiveFormsModule, QuillModule],
+  imports: [CommonModule, ReactiveFormsModule, QuillModule, TranslateModule],
   templateUrl: './project-form.component.html',
   styleUrl: './project-form.component.scss'
 })
 export class ProjectFormComponent implements OnInit {
+  // File size limits (in bytes)
+  private readonly MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB per singolo file
+  private readonly MAX_REQUEST_SIZE = 200 * 1024 * 1024; // 200MB totale
+
   projectForm!: FormGroup;
   projectType: 'COURSE' | 'EVENT' = 'COURSE';
   isEditMode: boolean = false;
@@ -38,6 +43,17 @@ export class ProjectFormComponent implements OnInit {
   quillModules = {
     toolbar: [
       ['bold', 'italic', 'underline'],
+      [{
+        'color': [
+          '#212B31', // dark-gray: rgb(33, 43, 49)
+          '#40B0C4', // dark-cyan: rgb(64, 176, 196)
+          '#7FCBD8', // light-cyan: rgb(127, 203, 216)
+          '#8E400F', // brown: rgb(142, 64, 15)
+          '#5DD479', // light-green: rgba(93, 212, 121, 0.95)
+          '#FFDA6C', // light-yellow: rgb(255, 218, 108, 0.95)
+          '#F36464'  // light-red: rgb(243, 100, 100, 0.95)
+        ]
+      }],
       [{ 'list': 'ordered'}, { 'list': 'bullet' }]
     ]
   };
@@ -50,7 +66,8 @@ export class ProjectFormComponent implements OnInit {
     private adminEventService: AdminEventService,
     private loaderService: LoaderService,
     private toastService: ToastService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private imageService: ImageService
   ) {}
 
   ngOnInit(): void {
@@ -115,6 +132,21 @@ export class ProjectFormComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
       const file = input.files[0];
+
+      // Validazione tipo file
+      if (!this.imageService.isValidImage(file)) {
+        this.toastService.showError(this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_INVALID_IMAGE'));
+        input.value = ''; // Reset input
+        return;
+      }
+
+      // Validazione dimensione singolo file
+      if (file.size > this.MAX_FILE_SIZE) {
+        this.toastService.showError(this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_FILE_TOO_LARGE', { max: '50MB' }));
+        input.value = '';
+        return;
+      }
+
       this.coverImageFile = file;
 
       const reader = new FileReader();
@@ -126,13 +158,39 @@ export class ProjectFormComponent implements OnInit {
     }
   }
 
+  removeCoverImage(): void {
+    this.coverImageFile = null;
+    this.coverImagePreview = null;
+    const input = document.getElementById('coverImage') as HTMLInputElement;
+    if (input) input.value = '';
+    this.updatePreview();
+  }
+
   onImagesChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {
-      this.imagesFiles = Array.from(input.files);
-      this.imagesPreviews = [];
+      const filesArray = Array.from(input.files);
 
-      Array.from(input.files).forEach(file => {
+      // Validazione tipo file
+      const invalidFiles = filesArray.filter(file => !this.imageService.isValidImage(file));
+      if (invalidFiles.length > 0) {
+        this.toastService.showError(`${invalidFiles.length} ${this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_INVALID_IMAGES')}`);
+        input.value = ''; // Reset input
+        return;
+      }
+
+      // Validazione dimensione singoli file
+      const oversizedFiles = filesArray.filter(file => file.size > this.MAX_FILE_SIZE);
+      if (oversizedFiles.length > 0) {
+        this.toastService.showError(this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_FILES_TOO_LARGE', { count: oversizedFiles.length, max: '50MB' }));
+        input.value = '';
+        return;
+      }
+
+      // Append invece di sovrascrivere
+      filesArray.forEach(file => {
+        this.imagesFiles.push(file);
+
         const reader = new FileReader();
         reader.onload = (e) => {
           this.imagesPreviews.push(e.target?.result as string);
@@ -140,21 +198,82 @@ export class ProjectFormComponent implements OnInit {
         };
         reader.readAsDataURL(file);
       });
+
+      // Reset input per permettere ricaricamento stesso file
+      input.value = '';
     }
+  }
+
+  removeImage(index: number): void {
+    this.imagesFiles.splice(index, 1);
+    this.imagesPreviews.splice(index, 1);
+    this.updatePreview();
   }
 
   onFilesChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {
-      this.filesFiles = Array.from(input.files);
+      const filesArray = Array.from(input.files);
+
+      // Validazione tipo file
+      const invalidFiles = filesArray.filter(file => !this.imageService.isValidFile(file));
+      if (invalidFiles.length > 0) {
+        this.toastService.showError(`${invalidFiles.length} ${this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_INVALID_FILES')}`);
+        input.value = ''; // Reset input
+        return;
+      }
+
+      // Validazione dimensione singoli file
+      const oversizedFiles = filesArray.filter(file => file.size > this.MAX_FILE_SIZE);
+      if (oversizedFiles.length > 0) {
+        this.toastService.showError(this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_FILES_TOO_LARGE', { count: oversizedFiles.length, max: '50MB' }));
+        input.value = '';
+        return;
+      }
+
+      // Append invece di sovrascrivere
+      this.filesFiles.push(...filesArray);
+
+      // Reset input per permettere ricaricamento stesso file
+      input.value = '';
     }
+  }
+
+  removeFile(index: number): void {
+    this.filesFiles.splice(index, 1);
   }
 
   onVideosChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files) {
-      this.videosFiles = Array.from(input.files);
+      const filesArray = Array.from(input.files);
+
+      // Validazione tipo video
+      const invalidFiles = filesArray.filter(file => !this.imageService.isValidVideo(file));
+      if (invalidFiles.length > 0) {
+        this.toastService.showError(`${invalidFiles.length} ${this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_INVALID_VIDEOS')}`);
+        input.value = ''; // Reset input
+        return;
+      }
+
+      // Validazione dimensione singoli file
+      const oversizedFiles = filesArray.filter(file => file.size > this.MAX_FILE_SIZE);
+      if (oversizedFiles.length > 0) {
+        this.toastService.showError(this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_FILES_TOO_LARGE', { count: oversizedFiles.length, max: '50MB' }));
+        input.value = '';
+        return;
+      }
+
+      // Append invece di sovrascrivere
+      this.videosFiles.push(...filesArray);
+
+      // Reset input per permettere ricaricamento stesso file
+      input.value = '';
     }
+  }
+
+  removeVideo(index: number): void {
+    this.videosFiles.splice(index, 1);
   }
 
   updatePreview(): void {
@@ -195,6 +314,17 @@ export class ProjectFormComponent implements OnInit {
       return;
     }
 
+    // Validazione dimensione totale prima di inviare
+    const totalSize = this.calculateTotalSize();
+    console.log('Calculated Size' + totalSize);
+
+    if (totalSize > this.MAX_REQUEST_SIZE) {
+      const totalSizeMB = (totalSize / (1024 * 1024)).toFixed(2);
+      const maxSizeMB = (this.MAX_REQUEST_SIZE / (1024 * 1024)).toFixed(0);
+      this.toastService.showError(this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_REQUEST_TOO_LARGE', { total: totalSizeMB, max: maxSizeMB }));
+      return;
+    }
+
     const formData = this.buildFormData();
     this.loaderService.show();
 
@@ -202,7 +332,7 @@ export class ProjectFormComponent implements OnInit {
       this.adminCourseService.create(formData).subscribe({
         next: (response) => {
           this.loaderService.hide();
-          this.toastService.showSuccess('Corso creato con successo!');
+          this.toastService.showSuccess(this.translate.instant('ADMIN.PROJECTS.FORM.SUCCESS_COURSE_CREATED'));
           this.router.navigate(['/admin/projects']);
         },
         error: (processedError: ProcessedError) => {
@@ -213,7 +343,7 @@ export class ProjectFormComponent implements OnInit {
       this.adminEventService.create(formData).subscribe({
         next: (response) => {
           this.loaderService.hide();
-          this.toastService.showSuccess('Evento creato con successo!');
+          this.toastService.showSuccess(this.translate.instant('ADMIN.PROJECTS.FORM.SUCCESS_EVENT_CREATED'));
           this.router.navigate(['/admin/projects']);
         },
         error: (processedError: ProcessedError) => {
@@ -223,9 +353,21 @@ export class ProjectFormComponent implements OnInit {
     }
   }
 
+  private calculateTotalSize(): number {
+    let total = 0;
+    if (this.coverImageFile) {
+      total += this.coverImageFile.size;
+    }
+    this.imagesFiles.forEach(file => total += file.size);
+    this.filesFiles.forEach(file => total += file.size);
+    this.videosFiles.forEach(file => total += file.size);
+    return total;
+  }
+
   private handleError(processedError: ProcessedError): void {
     this.loaderService.hide();
     let message: string;
+
     if (processedError.backendMessage) {
       message = this.translate.instant(processedError.key) + ': ' + processedError.backendMessage;
     } else {
@@ -234,18 +376,42 @@ export class ProjectFormComponent implements OnInit {
     this.toastService.showError(message);
   }
 
+  private sanitizeHtml(html: string): string {
+    if (!html) return html;
+
+    // Rimuove background-color: rgb(255, 255, 255) (bianco)
+    html = html.replace(/background-color:\s*rgb\(255,\s*255,\s*255\);?\s*/gi, '');
+
+    // Rimuove color: rgb(0, 0, 0) (nero)
+    html = html.replace(/color:\s*rgb\(0,\s*0,\s*0\);?\s*/gi, '');
+
+    // Rimuove color: rgb(33, 43, 49) (dark-gray - colore di default)
+    html = html.replace(/color:\s*rgb\(33,\s*43,\s*49\);?\s*/gi, '');
+
+    // Rimuove attributi style vuoti o con solo spazi/punto e virgola
+    html = html.replace(/\s*style="\s*;?\s*"/gi, '');
+
+    // Rimuove span senza attributi: <span>testo</span> -> testo
+    html = html.replace(/<span>(.*?)<\/span>/gi, '$1');
+
+    // Rimuove strong senza attributi: <strong>testo</strong> rimane strong ma senza style
+    html = html.replace(/<(strong|em|u|i|b)\s+>([^<]*)<\/\1>/gi, '<$1>$2</$1>');
+
+    return html;
+  }
+
   private buildFormData(): FormData {
     const formData = new FormData();
     const formValue = this.projectForm.value;
 
     // Campi comuni
     formData.append('title', formValue.title);
-    formData.append('description', formValue.description);
+    formData.append('description', this.sanitizeHtml(formValue.description));
     formData.append('location', formValue.location);
     formData.append('maxParticipants', formValue.maxParticipants.toString());
 
     if (formValue.informations) {
-      formData.append('informations', formValue.informations);
+      formData.append('informations', this.sanitizeHtml(formValue.informations));
     }
     if (formValue.googleMapsLink) {
       formData.append('googleMapsLink', formValue.googleMapsLink);

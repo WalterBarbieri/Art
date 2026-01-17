@@ -5,11 +5,9 @@
       <div class="form-container">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2 class="mb-0">
-            {{ isEditMode ? 'Modifica' : 'Crea' }} {{ projectType === 'COURSE' ? 'Corso' : 'Evento' }}
+            {{ (isEditMode ? "ADMIN.PROJECTS.FORM.EDIT" : "ADMIN.PROJECTS.FORM.CREATE") | translate }}
+            {{ (projectType === "COURSE" ? "ADMIN.PROJECTS.WORKSHOP" : "ADMIN.PROJECTS.PERFORMANCE") | translate }}
           </h2>
-          <button type="button" class="btn danger-button" (click)="onCancel()">
-            <i class="fas fa-times me-2"></i>Annulla
-          </button>
         </div>
 
         <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
@@ -20,26 +18,26 @@
               class="form-control"
               id="title"
               formControlName="title"
-              placeholder="Titolo"
+              [placeholder]="'ADMIN.PROJECTS.FORM.TITLE_PLACEHOLDER' | translate"
               [class.is-invalid]="projectForm.get('title')?.invalid && projectForm.get('title')?.touched"
             >
-            <label for="title">Titolo *</label>
+            <label for="title">{{ "ADMIN.PROJECTS.FORM.TITLE_LABEL" | translate }}</label>
             @if (projectForm.get('title')?.invalid && projectForm.get('title')?.touched) {
-              <div class="invalid-feedback">Il titolo è obbligatorio</div>
+              <div class="invalid-feedback">{{ "ADMIN.PROJECTS.FORM.TITLE_REQUIRED" | translate }}</div>
             }
           </div>
 
           <!-- Description -->
           <div class="mb-3">
-            <label class="form-label fw-bold">Descrizione *</label>
+            <label class="form-label fw-bold">{{ "ADMIN.PROJECTS.FORM.DESCRIPTION_LABEL" | translate }}</label>
             <quill-editor
               formControlName="description"
               [modules]="quillModules"
-              placeholder="Inserisci la descrizione del progetto..."
+              [placeholder]="'ADMIN.PROJECTS.FORM.DESCRIPTION_PLACEHOLDER' | translate"
               [class.is-invalid]="projectForm.get('description')?.invalid && projectForm.get('description')?.touched"
             ></quill-editor>
             @if (projectForm.get('description')?.invalid && projectForm.get('description')?.touched) {
-              <div class="invalid-feedback d-block">La descrizione è obbligatoria</div>
+              <div class="invalid-feedback d-block">{{ "ADMIN.PROJECTS.FORM.DESCRIPTION_REQUIRED" | translate }}</div>
             }
           </div>
 
@@ -53,12 +51,12 @@
                     class="form-control"
                     id="dateFrom"
                     formControlName="dateFrom"
-                    placeholder="Data inizio"
+                    [placeholder]="'ADMIN.PROJECTS.FORM.DATE_FROM_PLACEHOLDER' | translate"
                     [class.is-invalid]="projectForm.get('dateFrom')?.invalid && projectForm.get('dateFrom')?.touched"
                   >
-                  <label for="dateFrom">Data Inizio *</label>
+                  <label for="dateFrom">{{ "ADMIN.PROJECTS.FORM.DATE_FROM_LABEL" | translate }}</label>
                   @if (projectForm.get('dateFrom')?.invalid && projectForm.get('dateFrom')?.touched) {
-                    <div class="invalid-feedback">La data di inizio è obbligatoria</div>
+                    <div class="invalid-feedback">{{ "ADMIN.PROJECTS.FORM.DATE_FROM_REQUIRED" | translate }}</div>
                   }
                 </div>
               </div>
@@ -69,12 +67,12 @@
                     class="form-control"
                     id="dateTo"
                     formControlName="dateTo"
-                    placeholder="Data fine"
+                    [placeholder]="'ADMIN.PROJECTS.FORM.DATE_TO_PLACEHOLDER' | translate"
                     [class.is-invalid]="projectForm.get('dateTo')?.invalid && projectForm.get('dateTo')?.touched"
                   >
-                  <label for="dateTo">Data Fine *</label>
+                  <label for="dateTo">{{ "ADMIN.PROJECTS.FORM.DATE_TO_LABEL" | translate }}</label>
                   @if (projectForm.get('dateTo')?.invalid && projectForm.get('dateTo')?.touched) {
-                    <div class="invalid-feedback">La data di fine è obbligatoria</div>
+                    <div class="invalid-feedback">{{ "ADMIN.PROJECTS.FORM.DATE_TO_REQUIRED" | translate }}</div>
                   }
                 </div>
               </div>
@@ -84,7 +82,7 @@
           <!-- Event Dates - EVENT -->
           @if (projectType === 'EVENT') {
             <div class="mb-3">
-              <label id="eventDatesLabel" class="form-label fw-bold">Date e Orari Evento *</label>
+              <label id="eventDatesLabel" class="form-label fw-bold">{{ "ADMIN.PROJECTS.FORM.EVENT_DATES_LABEL" | translate }}</label>
               <div formArrayName="eventDates">
                 @for (control of eventDates.controls; track $index; let i = $index) {
                   <div class="input-group mb-2">
@@ -97,10 +95,9 @@
                     @if (eventDates.length > 1) {
                       <button
                         type="button"
-                        class="btn btn-outline-danger"
-                        (click)="removeEventDate(i)"
-                      >
-                        <i class="fas fa-trash"></i>
+                        class="btn"
+                        (click)="removeEventDate(i)">
+                        <i class="fas fa-trash text-danger"></i>
                       </button>
                     }
                   </div>
@@ -108,10 +105,9 @@
               </div>
               <button
                 type="button"
-                class="btn btn-outline-primary btn-sm"
-                (click)="addEventDate()"
-              >
-                <i class="fas fa-plus me-2"></i>Aggiungi Data/Orario
+                class="btn default-button btn-sm"
+                (click)="addEventDate()">
+                <i class="fas fa-plus me-2"></i>{{ "ADMIN.PROJECTS.FORM.ADD_DATE" | translate }}
               </button>
             </div>
           }
@@ -123,12 +119,12 @@
               class="form-control"
               id="location"
               formControlName="location"
-              placeholder="Luogo"
+              [placeholder]="'ADMIN.PROJECTS.FORM.LOCATION_PLACEHOLDER' | translate"
               [class.is-invalid]="projectForm.get('location')?.invalid && projectForm.get('location')?.touched"
             >
-            <label for="location">Luogo *</label>
+            <label for="location">{{ "ADMIN.PROJECTS.FORM.LOCATION_LABEL" | translate }}</label>
             @if (projectForm.get('location')?.invalid && projectForm.get('location')?.touched) {
-              <div class="invalid-feedback">Il luogo è obbligatorio</div>
+              <div class="invalid-feedback">{{ "ADMIN.PROJECTS.FORM.LOCATION_REQUIRED" | translate }}</div>
             }
           </div>
 
@@ -139,13 +135,13 @@
               class="form-control"
               id="maxParticipants"
               formControlName="maxParticipants"
-              placeholder="Numero massimo partecipanti"
+              [placeholder]="'ADMIN.PROJECTS.FORM.MAX_PARTICIPANTS_PLACEHOLDER' | translate"
               min="1"
               [class.is-invalid]="projectForm.get('maxParticipants')?.invalid && projectForm.get('maxParticipants')?.touched"
             >
-            <label for="maxParticipants">Numero Massimo Partecipanti *</label>
+            <label for="maxParticipants">{{ "ADMIN.PROJECTS.FORM.MAX_PARTICIPANTS_LABEL" | translate }}</label>
             @if (projectForm.get('maxParticipants')?.invalid && projectForm.get('maxParticipants')?.touched) {
-              <div class="invalid-feedback">Deve essere almeno 1</div>
+              <div class="invalid-feedback">{{ "ADMIN.PROJECTS.FORM.MAX_PARTICIPANTS_REQUIRED" | translate }}</div>
             }
           </div>
 
@@ -156,24 +152,24 @@
               class="form-control"
               id="googleMapsLink"
               formControlName="googleMapsLink"
-              placeholder="Link Google Maps"
+              [placeholder]="'ADMIN.PROJECTS.FORM.GOOGLE_MAPS_PLACEHOLDER' | translate"
             >
-            <label for="googleMapsLink">Link Google Maps</label>
+            <label for="googleMapsLink">{{ "ADMIN.PROJECTS.FORM.GOOGLE_MAPS_LABEL" | translate }}</label>
           </div>
 
           <!-- Informations -->
           <div class="mb-3">
-            <label class="form-label fw-bold">Informazioni Aggiuntive</label>
+            <label class="form-label fw-bold">{{ "ADMIN.PROJECTS.FORM.INFORMATIONS_LABEL" | translate }}</label>
             <quill-editor
               formControlName="informations"
               [modules]="quillModules"
-              placeholder="Inserisci informazioni aggiuntive..."
+              [placeholder]="'ADMIN.PROJECTS.FORM.INFORMATIONS_PLACEHOLDER' | translate"
             ></quill-editor>
           </div>
 
           <!-- Cover Image Upload -->
           <div class="mb-3">
-            <label for="coverImage" class="form-label fw-bold">Immagine di Copertina *</label>
+            <label for="coverImage" class="form-label fw-bold">{{ "ADMIN.PROJECTS.FORM.COVER_IMAGE_LABEL" | translate }}</label>
             <input
               type="file"
               class="form-control"
@@ -183,18 +179,25 @@
               [class.is-invalid]="!coverImageFile && projectForm.touched"
             >
             @if (coverImagePreview) {
-              <div class="mt-2">
+              <div class="mt-2 position-relative d-inline-block">
                 <img [src]="coverImagePreview" alt="Cover preview" class="img-thumbnail" style="max-height: 200px;">
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+                  (click)="removeCoverImage()"
+                  title="Rimuovi immagine">
+                  <i class="fas fa-times"></i>
+                </button>
               </div>
             }
             @if (!coverImageFile && projectForm.touched) {
-              <div class="text-danger small mt-1">L'immagine di copertina è obbligatoria</div>
+              <div class="text-danger small mt-1">{{ "ADMIN.PROJECTS.FORM.COVER_IMAGE_REQUIRED" | translate }}</div>
             }
           </div>
 
           <!-- Gallery Images Upload -->
           <div class="mb-3">
-            <label for="images" class="form-label fw-bold">Immagini Galleria</label>
+            <label for="images" class="form-label fw-bold">{{ "ADMIN.PROJECTS.FORM.GALLERY_IMAGES_LABEL" | translate }}</label>
             <input
               type="file"
               class="form-control"
@@ -205,8 +208,17 @@
             >
             @if (imagesPreviews.length > 0) {
               <div class="mt-2 d-flex flex-wrap gap-2">
-                @for (preview of imagesPreviews; track $index) {
-                  <img [src]="preview" alt="Preview" class="img-thumbnail" style="max-height: 100px;">
+                @for (preview of imagesPreviews; track $index; let i = $index) {
+                  <div class="position-relative">
+                    <img [src]="preview" alt="Preview" class="img-thumbnail" style="max-height: 100px;">
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+                      (click)="removeImage(i)"
+                      title="Rimuovi immagine">
+                      <i class="fas fa-times"></i>
+                    </button>
+                  </div>
                 }
               </div>
             }
@@ -214,7 +226,7 @@
 
           <!-- Files Upload -->
           <div class="mb-3">
-            <label for="files" class="form-label fw-bold">File Allegati</label>
+            <label for="files" class="form-label fw-bold">{{ "ADMIN.PROJECTS.FORM.FILES_LABEL" | translate }}</label>
             <input
               type="file"
               class="form-control"
@@ -224,14 +236,30 @@
             >
             @if (filesFiles.length > 0) {
               <div class="mt-2">
-                <small class="text-muted">{{ filesFiles.length }} file selezionati</small>
+                <ul class="list-group">
+                  @for (file of filesFiles; track $index; let i = $index) {
+                    <li class="list-group-item d-flex justify-content-between align-items-center gap-2">
+                      <span class="flex-grow-1" style="min-width: 0; word-break: break-word;">
+                        <i class="fas fa-file me-2"></i>{{ file.name }}
+                        <small class="text-muted ms-2 text-nowrap">({{ (file.size / 1024).toFixed(2) }} KB)</small>
+                      </span>
+                      <button
+                        type="button"
+                        class="btn btn-danger btn-sm flex-shrink-0"
+                        (click)="removeFile(i)"
+                        title="Rimuovi file">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </li>
+                  }
+                </ul>
               </div>
             }
           </div>
 
           <!-- Videos Upload -->
           <div class="mb-3">
-            <label for="videos" class="form-label fw-bold">Video</label>
+            <label for="videos" class="form-label fw-bold">{{ "ADMIN.PROJECTS.FORM.VIDEOS_LABEL" | translate }}</label>
             <input
               type="file"
               class="form-control"
@@ -242,7 +270,23 @@
             >
             @if (videosFiles.length > 0) {
               <div class="mt-2">
-                <small class="text-muted">{{ videosFiles.length }} video selezionati</small>
+                <ul class="list-group">
+                  @for (video of videosFiles; track $index; let i = $index) {
+                    <li class="list-group-item d-flex justify-content-between align-items-center gap-2">
+                      <span class="flex-grow-1" style="min-width: 0; word-break: break-word;">
+                        <i class="fas fa-video me-2"></i>{{ video.name }}
+                        <small class="text-muted ms-2 text-nowrap">({{ (video.size / 1024 / 1024).toFixed(2) }} MB)</small>
+                      </span>
+                      <button
+                        type="button"
+                        class="btn btn-danger btn-sm flex-shrink-0"
+                        (click)="removeVideo(i)"
+                        title="Rimuovi video">
+                        <i class="fas fa-trash"></i>
+                      </button>
+                    </li>
+                  }
+                </ul>
               </div>
             }
           </div>
@@ -250,14 +294,14 @@
           <!-- Submit Button -->
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <button type="button" class="btn danger-button" (click)="onCancel()">
-              Annulla
+              {{ "ADMIN.PROJECTS.FORM.CANCEL" | translate }}
             </button>
             <button
               type="submit"
               class="btn default-button"
               [disabled]="projectForm.invalid || !coverImageFile"
             >
-              <i class="fas fa-save me-2"></i>{{ isEditMode ? 'Salva Modifiche' : 'Crea Progetto' }}
+              <i class="fas fa-save me-2"></i>{{ (isEditMode ? "ADMIN.PROJECTS.FORM.SAVE" : "ADMIN.PROJECTS.FORM.CREATE_PROJECT") | translate }}
             </button>
           </div>
         </form>
@@ -267,10 +311,10 @@
     <!-- PREVIEW SECTION -->
     <div class="col-12 col-lg-6">
       <div class="preview-container">
-        <h3 class="mb-3">Anteprima</h3>
+        <h3 class="mb-3">{{ "ADMIN.PROJECTS.FORM.PREVIEW_TITLE" | translate }}</h3>
         <div class="alert alert-info">
           <i class="fas fa-info-circle me-2"></i>
-          La preview verrà implementata nel prossimo step usando i componenti esistenti
+          {{ "ADMIN.PROJECTS.FORM.PREVIEW_INFO" | translate }}
         </div>
         <!-- TODO: Integrare componenti project-cover, project-gallery, etc. -->
       </div>

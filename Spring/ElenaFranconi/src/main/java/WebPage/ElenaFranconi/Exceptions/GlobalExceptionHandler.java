@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -38,6 +39,12 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(MessagingException.class)
 	public ResponseEntity<String> handleMessagingException(MessagingException ex) {
 		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Email sending failed: " + ex.getMessage());
+	}
+
+	@ExceptionHandler(MaxUploadSizeExceededException.class)
+	public ResponseEntity<String> handleMaxUploadSizeExceeded(MaxUploadSizeExceededException ex) {
+		return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE)
+				.body("File size exceeds maximum limit. Max file size: 50MB, Max request size: 200MB");
 	}
 
 }
