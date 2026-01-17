@@ -31,8 +31,8 @@
       </div>
       <div class="col-12 col-md-6 text-md-end">
         <h6 class="mb-0">
-          {{ (event.eventDateSlots.length === 1 ? "PROJECT.DETAILS.DATE_SLOT" :
-          "PROJECT.DETAILS.DATE_SLOTS") | translate }}
+          {{ (event.eventDateSlots.length === 1 ? "PROJECT.DETAILS.DATE_EVENT" :
+          "PROJECT.DETAILS.DATE_EVENTS") | translate }}
         </h6>
         @for (eventSlot of event.eventDateSlots; track eventSlot; let i =
         $index) {

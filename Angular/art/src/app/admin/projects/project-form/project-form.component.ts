@@ -15,10 +15,15 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ErrorService } from 'src/app/core/services/error.service';
+import { ProjectCoverComponent } from 'src/app/shared/components/project/cover/project-cover';
+import { ProjectGalleryComponent } from 'src/app/shared/components/project/gallery/project-gallery';
+import { ProjectInfoComponent } from 'src/app/shared/components/project/info/project-info';
+import { ProjectFilesComponent } from 'src/app/shared/components/project/files/project-files';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-project-form',
-  imports: [CommonModule, ReactiveFormsModule, QuillModule, TranslateModule],
+  imports: [CommonModule, ReactiveFormsModule, QuillModule, TranslateModule, ProjectCoverComponent, ProjectGalleryComponent, ProjectInfoComponent, ProjectFilesComponent],
   templateUrl: './project-form.component.html',
   styleUrl: './project-form.component.scss'
 })
@@ -42,6 +47,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   // Preview object for reusable components
   previewContent: ProjectPreview | null = null;
+
+  fallbackImage: string = environment.fallBackImage;
 
   // Quill editor configuration
   quillModules = {
@@ -271,5 +278,30 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   onCancel(): void {
     this.router.navigate(['/admin/projects']);
+  }
+
+  // Preview data preparation methods
+  get previewGalleryItems(): any[] {
+    if (!this.previewContent?.imagesPreviews) return [];
+    return this.previewContent.imagesPreviews.map(preview => ({
+      href: preview,
+      type: 'image'
+    }));
+  }
+
+  get previewFilePaths(): string[] {
+    if (!this.previewContent) return [];
+    return [
+      ...this.previewContent.filesNames,
+      ...this.previewContent.videosNames
+    ];
+  }
+
+  onPreviewImageClick(): void {
+    // Placeholder for lightbox functionality in preview
+  }
+
+  onPreviewFileClick(event: {file: string, fileName: string}): void {
+    // Placeholder for file download in preview
   }
 }

@@ -322,7 +322,71 @@
           <i class="fas fa-info-circle me-2"></i>
           {{ "ADMIN.PROJECTS.FORM.PREVIEW_INFO" | translate }}
         </div>
-        <!-- TODO: Integrare componenti project-cover, project-gallery, etc. -->
+
+        @if (previewContent) {
+          <!-- Project Cover Preview -->
+          <app-project-cover
+            [coverImagePath]="previewContent.coverImagePreview || fallbackImage"
+            [title]="previewContent.title"
+            [description]="previewContent.description"
+            (imageClick)="onPreviewImageClick()"
+          ></app-project-cover>
+
+          <!-- Project Details Preview -->
+          <div class="w-75 mx-auto mb-4">
+            <div class="details row">
+              <div class="col-12 col-md-6 mb-3 mb-md-0 text-md-start">
+                <h5>{{ (previewContent.contentType === 'COURSE' ? "PROJECT.TYPE_COURSE" : "PROJECT.TYPE_EVENT") | translate }}</h5>
+                <p>
+                  <strong>{{ "PROJECT.DETAILS.LOCATION" | translate }}</strong> {{ previewContent.location }}
+                </p>
+                <p>
+                  <strong>{{ "PROJECT.DETAILS.MAX_PARTICIPANTS" | translate }}</strong> {{ previewContent.maxParticipants }}
+                </p>
+              </div>
+              <div class="col-12 col-md-6 text-md-end">
+                @if (previewContent.contentType === 'COURSE') {
+                  <h6 class="mb-0">{{ 'PROJECT.DETAILS.DATE_COURSE' | translate }}</h6>
+                  <p>
+                    <strong>{{ "PROJECT.DETAILS.FROM" | translate }}</strong> {{ previewContent.dateFrom | date: "dd/MM/yyyy" }}
+                  </p>
+                  <p>
+                    <strong>{{ "PROJECT.DETAILS.TO" | translate }}</strong> {{ previewContent.dateTo | date: "dd/MM/yyyy" }}
+                  </p>
+                } @else {
+                  <h6 class="mb-0">{{ 'PROJECT.DETAILS.DATE_EVENTS' | translate }}</h6>
+                  @for (eventDate of previewContent.eventDates; track eventDate) {
+                    <p>{{ eventDate | date: "dd/MM/yyyy HH:mm" }}</p>
+                  }
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Project Gallery Preview -->
+          @if (previewGalleryItems.length > 0) {
+            <app-project-gallery [galleryItems]="previewGalleryItems"></app-project-gallery>
+          }
+
+          <!-- Project Files Preview -->
+          @if (previewFilePaths.length > 0) {
+            <app-project-files
+              [filePaths]="previewFilePaths"
+              (fileClick)="onPreviewFileClick($event)"
+            ></app-project-files>
+          }
+
+          <!-- Project Info Preview -->
+          <app-project-info
+            [informations]="previewContent.informations || ''"
+            [googleMapsLink]="previewContent.googleMapsLink || ''"
+          ></app-project-info>
+        } @else {
+          <div class="text-center text-muted mt-5">
+            <i class="fas fa-eye fa-3x mb-3"></i>
+            <p>{{ "ADMIN.PROJECTS.FORM.PREVIEW_EMPTY" | translate }}</p>
+          </div>
+        }
       </div>
     </div>
   </div>
