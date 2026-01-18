@@ -15,6 +15,7 @@ import { EventService } from 'src/app/service/event.service';
 import { ImageService } from 'src/app/service/image.service';
 import { AnimatedButtonComponent } from 'src/app/shared/components/animated-button/animated-button.component';
 import { ProjectCoverComponent } from 'src/app/shared/components/project/cover/project-cover';
+import { ProjectDetailsInfoComponent } from 'src/app/shared/components/project/details-info/project-details-info.component';
 import { ProjectGalleryComponent } from 'src/app/shared/components/project/gallery/project-gallery';
 import { ProjectFilesComponent } from 'src/app/shared/components/project/files/project-files';
 import { ProjectInfoComponent } from 'src/app/shared/components/project/info/project-info';
@@ -32,6 +33,7 @@ import { ErrorService } from 'src/app/core/services/error.service';
     DatePipe,
     AnimatedButtonComponent,
     ProjectCoverComponent,
+    ProjectDetailsInfoComponent,
     ProjectGalleryComponent,
     ProjectFilesComponent,
     ProjectInfoComponent,
@@ -89,9 +91,5 @@ export class EventDetail extends ProjectDetailBase implements OnInit, OnDestroy 
         this.loader.hide();
       },
     });
-  }
-
-  calculateMaxParticipants(event: Event): number {
-    return Math.max(...event.eventDateSlots.map(slot => slot.maxParticipants));
   }
 }

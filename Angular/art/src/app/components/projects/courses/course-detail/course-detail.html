@@ -10,25 +10,12 @@
 
   <div class="w-75 mb-4">
     <div class="details row">
-      <div class="col-12 col-md-6 mb-3 mb-md-0 text-md-start">
-        <h5>{{ "PROJECT.TYPE_COURSE" | translate }}</h5>
-        <p>
-          <strong>{{ "PROJECT.DETAILS.LOCATION" | translate }}</strong> {{
-          course.location }}
-        </p>
-        <p>
-          <strong>{{ "PROJECT.DETAILS.MAX_PARTICIPANTS" | translate }}</strong>
-          {{ course.maxParticipants }}
-        </p>
-        @if (course.contentStatus != 'COMPLETED') {
-        <p>{{ "PROJECT.DETAILS.FREE_PARTICIPATION" | translate }}</p>
-        <p>{{ "PROJECT.DETAILS.REGISTRATION_REQUIRED" | translate }}</p>
-        } @if (course.linkedEventId) {
-        <a [routerLink]="['/projects', 'events', course.linkedEventId]"
-          >{{ "PROJECT.DETAILS.VIEW_EVENT" | translate }}</a
-        >
-        }
-      </div>
+      <app-project-details-info
+        class="col-12 col-md-6 mb-3 mb-md-0 text-md-start"
+        [projectType]="'course'"
+        [project]="course">
+      </app-project-details-info>
+
       <div class="col-12 col-md-6 text-md-end">
         <h6 class="mb-0">{{ 'PROJECT.DETAILS.DATE_COURSE' | translate }}</h6>
         <p>

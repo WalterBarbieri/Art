@@ -11,6 +11,7 @@ import { ToastService } from 'src/app/shared/services/toast.service';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { AnimatedButtonComponent } from 'src/app/shared/components/animated-button/animated-button.component';
 import { ProjectCoverComponent } from 'src/app/shared/components/project/cover/project-cover';
+import { ProjectDetailsInfoComponent } from 'src/app/shared/components/project/details-info/project-details-info.component';
 import { ProjectGalleryComponent } from 'src/app/shared/components/project/gallery/project-gallery';
 import { ProjectFilesComponent } from 'src/app/shared/components/project/files/project-files';
 import { ProjectInfoComponent } from 'src/app/shared/components/project/info/project-info';
@@ -28,6 +29,7 @@ import { ErrorService } from 'src/app/core/services/error.service';
     DatePipe,
     AnimatedButtonComponent,
     ProjectCoverComponent,
+    ProjectDetailsInfoComponent,
     ProjectGalleryComponent,
     ProjectFilesComponent,
     ProjectInfoComponent,
