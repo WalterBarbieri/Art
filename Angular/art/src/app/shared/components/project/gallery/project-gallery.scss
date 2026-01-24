@@ -9,11 +9,17 @@
   margin-top: 20px;
   width: 100%;
 
-  .gallery-image,
-  .gallery-video {
+  .gallery-item {
+    border-radius: 8px;
+    transition: transform 0.5s ease;
+    width: auto;
     height: calc((100vh - $navbar-height)/2);
-    object-fit: contain;
-    width: 100%;
+    overflow: hidden;
     cursor: pointer;
+
+    &:hover {
+      transform: scale(1.05);
+    }
   }
+
 }
