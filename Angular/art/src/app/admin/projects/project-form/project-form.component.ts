@@ -20,6 +20,8 @@ import { ProjectGalleryComponent } from 'src/app/shared/components/project/galle
 import { ProjectInfoComponent } from 'src/app/shared/components/project/info/project-info';
 import { ProjectFilesComponent } from 'src/app/shared/components/project/files/project-files';
 import { environment } from 'src/environments/environment';
+import { Course } from 'src/app/models/course.interface';
+import { ProjectEvent } from 'src/app/models/event.interface';
 
 @Component({
   selector: 'app-project-form',
@@ -87,15 +89,16 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Determine if we are in create or edit mode
     this.route.params.subscribe(params => {
-      if (params['type']) {
+      if (params['type'] && !params['id']) {
         // Create mode: /admin/projects/create/:type
         this.projectType = params['type'] as 'COURSE' | 'EVENT';
         this.isEditMode = false;
-      } else if (params['id']) {
-        // Edit mode: /admin/projects/:id/edit
+      } else if (params['type'] && params['id']) {
+        // Edit mode: /admin/projects/:type/:id/edit
+        this.projectType = params['type'].toUpperCase() as 'COURSE' | 'EVENT';
         this.projectId = params['id'];
         this.isEditMode = true;
-        // TODO: load existing project data
+        this.loadExistingProject();
       }
       this.initializeForm();
     });
@@ -118,6 +121,41 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     });
 
     this.updatePreview();
+  }
+
+  loadExistingProject(): void {
+    if (!this.projectId || !this.projectType) return;
+
+    this.loaderService.show();
+    if (this.projectType === 'COURSE') {
+      this.adminCourseService.getById(this.projectId).subscribe({
+        next: (project: Course) => {
+          console.log('Existing project data:', project);
+          this.formService.populateForm(this.projectForm, project, this.projectType);
+          this.loaderService.hide();
+        },
+        error: (processedError: ProcessedError) => {
+          this.errorService.handleProcessedError(processedError);
+        },
+        complete: () => {
+          this.loaderService.hide();
+        }
+      });
+    } else {
+      this.adminEventService.getById(this.projectId).subscribe({
+        next: (project: ProjectEvent) => {
+          console.log('Existing project data:', project);
+          this.formService.populateForm(this.projectForm, project, this.projectType);
+          this.loaderService.hide();
+        },
+        error: (processedError: ProcessedError) => {
+          this.errorService.handleProcessedError(processedError);
+        },
+        complete: () => {
+          this.loaderService.hide();
+        }
+      });
+    }
   }
 
   get eventDates(): FormArray {

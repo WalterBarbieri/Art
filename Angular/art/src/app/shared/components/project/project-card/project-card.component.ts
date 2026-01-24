@@ -46,7 +46,7 @@ export class ProjectCardComponent {
 
   getDetailRoute(): string[] {
     if (this.mode === 'admin') {
-      return ['/admin/projects', this.project.id, 'edit'];
+      return ['/admin/projects', this.project.contentType.toLowerCase(), this.project.id, 'edit'];
     }
     return ['/projects', this.project.contentType.toLowerCase() + 's' , this.project.id];
   }

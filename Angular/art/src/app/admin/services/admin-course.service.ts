@@ -16,4 +16,8 @@ export class AdminCourseService {
     return this.http.post<Course>(this.baseUrl, formData);
   }
 
+  getById(id: string): Observable<Course> {
+    return this.http.get<Course>(`${this.baseUrl}/${id}`);
+  }
+
 }

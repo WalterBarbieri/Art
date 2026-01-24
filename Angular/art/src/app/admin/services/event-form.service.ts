@@ -11,9 +11,9 @@ export class EventFormService {
   /**
    * Add event date to form
    */
-  addEventDateToForm(form: FormGroup<any>): void {
+  addEventDateToForm(form: FormGroup<any>, initialValue?: any): void {
     const eventDates = form.get('eventDates') as FormArray;
-    eventDates.push(this.fb.control('', [])); // No validators here, handled at form level
+    eventDates.push(this.fb.control(initialValue || '', [])); // No validators here, handled at form level
   }
 
   /**

@@ -9,7 +9,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { Observable, of } from 'rxjs';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { Event } from 'src/app/models/event.interface';
+import { ProjectEvent } from 'src/app/models/event.interface';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
 import { EventService } from 'src/app/service/event.service';
 import { ImageService } from 'src/app/service/image.service';
@@ -45,7 +45,7 @@ import { ErrorService } from 'src/app/core/services/error.service';
   styleUrl: './event-detail.scss',
 })
 export class EventDetail extends ProjectDetailBase implements OnInit, OnDestroy {
-  event$!: Observable<Event>;
+  event$!: Observable<ProjectEvent>;
   eventId!: string;
 
   constructor(

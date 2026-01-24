@@ -1,7 +1,7 @@
 import { EventDateSlot } from './event-date-slot.interface';
 import { PressReview } from './press-review.interface';
 
-export interface Event {
+export interface ProjectEvent {
   id: string;
   title: string;
   description: string;

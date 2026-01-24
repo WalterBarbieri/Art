@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Event } from '../models/event.interface';
+import { ProjectEvent } from '../models/event.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +12,8 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  getEventById(id: string): Observable<Event> {
-    return this.http.get<Event>(`${this.baseUrl}api/event/${id}`);
+  getEventById(id: string): Observable<ProjectEvent> {
+    return this.http.get<ProjectEvent>(`${this.baseUrl}api/event/${id}`);
   }
 
 }

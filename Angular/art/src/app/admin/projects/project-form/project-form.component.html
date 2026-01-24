@@ -355,7 +355,7 @@
                   </p>
                 } @else {
                   <h6 class="mb-0">{{ 'PROJECT.DETAILS.DATE_EVENTS' | translate }}</h6>
-                  @for (eventDate of previewContent.eventDates; track eventDate) {
+                  @for (eventDate of previewContent.eventDates; track $index) {
                     <p>{{ eventDate | date: "dd/MM/yyyy HH:mm" }}</p>
                   }
                 }

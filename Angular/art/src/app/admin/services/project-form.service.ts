@@ -78,7 +78,7 @@ export class ProjectFormService {
       return {
         ...basePreview,
         contentType: 'EVENT',
-        eventDates: formValue.eventDates?.map((d) => new Date(d)) || []
+        eventDates: formValue.eventDates?.filter(d => d && !isNaN(new Date(d).getTime())).map((d) => new Date(d)) || []
       };
     }
   }
@@ -133,10 +133,41 @@ export class ProjectFormService {
     return formData;
   }
 
-  /**
+   /**
    * Check if form value is for COURSE
    */
   private isCourseForm(formValue: ProjectFormValue): formValue is ProjectFormValue & { dateFrom: string; dateTo: string } {
     return 'dateFrom' in formValue && 'dateTo' in formValue;
+  }
+
+  /**
+   * Populate form with existing project data
+   */
+  populateForm(form: FormGroup, project: any, projectType: 'COURSE' | 'EVENT'): void {
+    form.patchValue({
+      title: project.title,
+      description: project.description,
+      location: project.location,
+      maxParticipants: project.maxParticipants,
+      informations: project.informations || '',
+      googleMapsLink: project.googleMapsLink || ''
+    });
+
+    if (projectType === 'COURSE') {
+      form.patchValue({
+        dateFrom: project.dateFrom,
+        dateTo: project.dateTo
+      });
+    } else {
+      // Clear existing event dates
+      const eventDatesArray = form.get('eventDates') as FormArray;
+      while (eventDatesArray.length) {
+        eventDatesArray.removeAt(0);
+      }
+      // Add existing dates
+      project.eventDates?.forEach((dateSlot: any) => {
+        this.eventFormService.addEventDateToForm(form, dateSlot);
+      });
+    }
   }
 }
