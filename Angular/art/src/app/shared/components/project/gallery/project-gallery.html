@@ -3,6 +3,23 @@
   <h2 class="mb-5">{{ "PROJECT.DETAILS.GALLERY" | translate }}</h2>
   <div class="d-flex flex-wrap gap-2 justify-content-center">
     @for (item of galleryItems; track $index; let i = $index) {
+    @if (isPreviewMode) {
+    <div class="gallery-item flex-shrink-0">
+      @if (item.type === 'image') {
+      <img
+        [src]="item.href"
+        [alt]="item.alt || 'Gallery item'"
+        class="img-fluid h-100 w-auto object-fit-contain"
+      />
+      } @else {
+      <video
+        [src]="item.href"
+        class="gallery-video h-100 w-auto object-fit-contain"
+        controls
+      ></video>
+      }
+    </div>
+    } @else {
     <a
       (click)="openLightbox(i); $event.preventDefault()"
       class="gallery-item flex-shrink-0"
@@ -21,6 +38,7 @@
       ></video>
       }
     </a>
+    }
     }
   </div>
 </div>

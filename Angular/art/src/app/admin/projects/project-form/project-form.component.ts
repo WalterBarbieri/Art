@@ -282,11 +282,20 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   // Preview data preparation methods
   get previewGalleryItems(): any[] {
-    if (!this.previewContent?.imagesPreviews) return [];
-    return this.previewContent.imagesPreviews.map(preview => ({
-      href: preview,
-      type: 'image'
-    }));
+    const items: any[] = [];
+    if (this.previewContent?.coverImagePreview) {
+      items.push({
+        href: this.previewContent.coverImagePreview,
+        type: 'image'
+      });
+    }
+    if (this.previewContent?.imagesPreviews) {
+      items.push(...this.previewContent.imagesPreviews.map(preview => ({
+        href: preview,
+        type: 'image'
+      })));
+    }
+    return items;
   }
 
   get previewFilePaths(): string[] {
@@ -295,13 +304,5 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       ...this.previewContent.filesNames,
       ...this.previewContent.videosNames
     ];
-  }
-
-  onPreviewImageClick(): void {
-    // Placeholder for lightbox functionality in preview
-  }
-
-  onPreviewFileClick(event: {file: string, fileName: string}): void {
-    // Placeholder for file download in preview
   }
 }

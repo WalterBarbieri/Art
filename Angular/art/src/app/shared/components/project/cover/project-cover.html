@@ -1,6 +1,6 @@
 <div class="project-cover">
   <div class="cover-image-container">
-    <img [src]="coverImagePath" [alt]="title" class="cover-image" (click)="onImageClick()" />
+    <img [src]="coverImagePath" [alt]="title" class="cover-image" [class.clickable]="!isPreviewMode" (click)="isPreviewMode ? null : onImageClick()" />
   </div>
   <div class="cover-content">
     <h1 class="project-title">{{ title }}</h1>

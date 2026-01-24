@@ -10,10 +10,13 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class ProjectFilesComponent {
   @Input() filePaths: string[] = [];
+  @Input() isPreviewMode: boolean = false;
   @Output() fileClick = new EventEmitter<{file: string, fileName: string}>();
 
   onFileClick(file: string): void {
-    this.fileClick.emit({ file, fileName: this.getFileName(file) });
+    if (!this.isPreviewMode) {
+      this.fileClick.emit({ file, fileName: this.getFileName(file) });
+    }
   }
 
   getFileName(filePath: string): string {

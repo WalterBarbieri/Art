@@ -13,9 +13,12 @@ export class ProjectCoverComponent {
   @Input() coverImagePath!: string;
   @Input() title!: string;
   @Input() description!: string;
+  @Input() isPreviewMode: boolean = false;
   @Output() imageClick = new EventEmitter<void>();
 
   onImageClick(): void {
-    this.imageClick.emit();
+    if (!this.isPreviewMode) {
+      this.imageClick.emit();
+    }
   }
 }

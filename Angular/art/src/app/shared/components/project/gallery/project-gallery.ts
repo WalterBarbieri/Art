@@ -11,10 +11,13 @@ import GLightbox from 'glightbox';
 })
 export class ProjectGalleryComponent implements OnInit, OnDestroy {
   @Input() galleryItems: any[] = [];
+  @Input() isPreviewMode: boolean = false;
   lightbox: any;
 
   ngOnInit(): void {
-    this.initGallery();
+    if (!this.isPreviewMode) {
+      this.initGallery();
+    }
   }
 
   ngOnDestroy(): void {
@@ -35,7 +38,7 @@ export class ProjectGalleryComponent implements OnInit, OnDestroy {
   }
 
   openLightbox(index: number): void {
-    if (this.lightbox) {
+    if (!this.isPreviewMode && this.lightbox) {
       this.lightbox.openAt(index);
     }
   }

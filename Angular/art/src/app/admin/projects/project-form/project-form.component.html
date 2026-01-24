@@ -329,7 +329,7 @@
             [coverImagePath]="previewContent.coverImagePreview || fallbackImage"
             [title]="previewContent.title"
             [description]="previewContent.description"
-            (imageClick)="onPreviewImageClick()"
+            [isPreviewMode]="true"
           ></app-project-cover>
 
           <!-- Project Details Preview -->
@@ -365,14 +365,14 @@
 
           <!-- Project Gallery Preview -->
           @if (previewGalleryItems.length > 0) {
-            <app-project-gallery [galleryItems]="previewGalleryItems"></app-project-gallery>
+            <app-project-gallery [galleryItems]="previewGalleryItems" [isPreviewMode]="true"></app-project-gallery>
           }
 
           <!-- Project Files Preview -->
           @if (previewFilePaths.length > 0) {
             <app-project-files
               [filePaths]="previewFilePaths"
-              (fileClick)="onPreviewFileClick($event)"
+              [isPreviewMode]="true"
             ></app-project-files>
           }
 
