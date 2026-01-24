@@ -98,6 +98,8 @@ export class ProjectFileService {
       throw new Error('Files too large');
     }
 
+    input.value = '';
+
     return from(validation.valid).pipe(
       mergeMap(file => this.createFilePreview(file)),
       toArray(),
@@ -139,6 +141,8 @@ export class ProjectFileService {
       throw new Error('Files too large');
     }
 
+    input.value = '';
+
     return new Observable(observer => {
       observer.next(validation.valid);
       observer.complete();
@@ -175,6 +179,8 @@ export class ProjectFileService {
       );
       throw new Error('Files too large');
     }
+
+    input.value = '';
 
     return new Observable(observer => {
       observer.next(validation.valid);

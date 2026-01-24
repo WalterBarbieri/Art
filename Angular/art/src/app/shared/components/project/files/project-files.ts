@@ -20,8 +20,11 @@ export class ProjectFilesComponent {
   }
 
   getFileName(filePath: string): string {
+    if (filePath.startsWith('http')) {
     const fileName = filePath.split('/').pop() || '';
     return fileName.substring(14);
+    }
+    return filePath;
   }
 
   getFileIconClass(filePath: string): string {

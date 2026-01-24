@@ -44,6 +44,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   imagesPreviews: string[] = [];
   filesFiles: File[] = [];
   videosFiles: File[] = [];
+  videosPreviews: string[] = [];
 
   // Preview object for reusable components
   previewContent: ProjectPreview | null = null;
@@ -104,6 +105,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.valueChangesSub?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
+    // Clean up blob URLs
+    this.videosPreviews.forEach(url => URL.revokeObjectURL(url));
   }
 
   initializeForm(): void {
@@ -171,6 +174,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.fileService.handleFilesChange(event).subscribe({
       next: (files) => {
         this.filesFiles.push(...files);
+        this.updatePreview();
       },
       error: () => {
         // Error already handled in service
@@ -180,12 +184,15 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   removeFile(index: number): void {
     this.fileService.removeFileFromArray(this.filesFiles, index);
+    this.updatePreview();
   }
 
   onVideosChange(event: Event): void {
     this.fileService.handleVideosChange(event).subscribe({
       next: (files) => {
         this.videosFiles.push(...files);
+        this.videosPreviews.push(...files.map(file => URL.createObjectURL(file)));
+        this.updatePreview();
       },
       error: () => {
         // Error already handled in service
@@ -194,10 +201,13 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   removeVideo(index: number): void {
+    if (this.videosPreviews[index]) {
+      URL.revokeObjectURL(this.videosPreviews[index]);
+    }
     this.fileService.removeFileFromArray(this.videosFiles, index);
+    this.videosPreviews.splice(index, 1);
+    this.updatePreview();
   }
-
-
 
   updatePreview(): void {
     const formValue: ProjectFormValue = this.projectForm.value;
@@ -295,14 +305,19 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         type: 'image'
       })));
     }
+    if (this.videosPreviews) {
+      items.push(...this.videosPreviews.map(preview => ({
+        href: preview,
+        type: 'video'
+      })));
+    }
     return items;
   }
 
   get previewFilePaths(): string[] {
     if (!this.previewContent) return [];
     return [
-      ...this.previewContent.filesNames,
-      ...this.previewContent.videosNames
+      ...this.previewContent.filesNames
     ];
   }
 }
