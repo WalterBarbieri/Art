@@ -1,1 +1,5 @@
-/* Stili specifici per project-details-info se necessario */
+@use 'variables' as *;
+
+a {
+    color: $dark-cyan;
+  }

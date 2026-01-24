@@ -11,12 +11,12 @@
       <img
         [src]="item.href"
         [alt]="item.alt || 'Gallery item'"
-        class="img-fluid h-100 w-auto object-fit-cover"
+        class="img-fluid h-100 w-auto object-fit-contain"
       />
       } @else {
       <video
         [src]="item.href"
-        class="gallery-video h-100 w-auto object-fit-cover"
+        class="gallery-video h-100 w-auto object-fit-contain"
         controls
       ></video>
       }
