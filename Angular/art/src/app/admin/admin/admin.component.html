@@ -1,19 +1,17 @@
 <div class="admin-layout">
-  <button class="sidebar-toggle d-lg-none" [class.open]="isSidebarOpen" (click)="toggleSidebar()" aria-label="Toggle sidebar">
-    <i class="fa-solid fa-wind"></i>
-  </button>
-  <nav class="admin-sidebar" [class.open]="isSidebarOpen">
+  <nav class="admin-navbar">
     <h3 class="admin-title">Admin Panel</h3>
-    <a routerLink="/admin/projects" routerLinkActive="active" class="nav-link" (click)="isSidebarOpen = false">
-      <i class="fa-solid fa-leaf"></i>
-       Project Manager
-    </a>
-    <a routerLink="/admin/newsletter" routerLinkActive="active" class="nav-link" (click)="isSidebarOpen = false">
-      <i class="fa-solid fa-feather-pointed"></i>
-       Newsletter Manager
-    </a>
+    <div class="nav-links">
+      <a routerLink="/admin/projects" routerLinkActive="active" class="nav-link">
+        <i class="fa-solid fa-leaf"></i>
+         Project Manager
+      </a>
+      <a routerLink="/admin/newsletter" routerLinkActive="active" class="nav-link">
+        <i class="fa-solid fa-feather-pointed"></i>
+         Newsletter Manager
+      </a>
+    </div>
   </nav>
-  <div class="sidebar-backdrop d-lg-none" [class.show]="isSidebarOpen" (click)="isSidebarOpen = false"></div>
   <main class="admin-content">
     <router-outlet></router-outlet>
   </main>

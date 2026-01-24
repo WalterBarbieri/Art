@@ -38,7 +38,7 @@
   @if (filteredProjects.length > 0) {
     <div class="row">
       @for (project of filteredProjects; track project.id; let i = $index) {
-        <div class="col-12 col-md-6 col-xl-4 col-xxl-3 mb-2">
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
           <app-project-card
             [project]="project"
             [isImageLoading]="imageLoading[i]"

@@ -10,6 +10,8 @@ $light-yellow: rgb(255, 218, 108, 0.95);
 $light-red: rgb(243, 100, 100, 0.95);
 
 // DIMENSION VARIABLES
+
+// Navbar height
 $navbar-height: 172.13px;
 
 // Footer heights for breakpoints
@@ -18,3 +20,8 @@ $footer-height-372: 112px;      // >= 372px
 $footer-height-393: 88px;       // >= 393px
 $footer-height-576: 80px;       // >= 576px (sm)
 $footer-height-992: 48px;       // >= 992px (lg)
+
+// Admin Navbar heights for breakpoints
+$admin-navbar-height-default: 174.17px;  // < 416px
+$admin-navbar-height-416: 112.56px;      // >= 416px
+$admin-navbar-height-769: 89px;          // >= 769px

@@ -1,5 +1,8 @@
 @use 'variables' as *;
 
+.newsletter-container {
+  min-height: var(--admin-content-height);
+}
 .coming-soon-icon {
   color: $dark-cyan;
   font-size: 2.5rem;
