@@ -129,6 +129,7 @@
         "MAX_PARTICIPANTS_REQUIRED": "Must be at least 1",
         "GOOGLE_MAPS_LABEL": "Google Maps Link",
         "GOOGLE_MAPS_PLACEHOLDER": "Google Maps Link",
+        "GOOGLE_MAPS_INVALID": "Invalid Google Maps URL. Please provide a valid embed URL from Google Maps.",
         "INFORMATIONS_LABEL": "Additional Information",
         "INFORMATIONS_PLACEHOLDER": "Enter additional information...",
         "COVER_IMAGE_LABEL": "Cover Image *",

@@ -159,8 +159,12 @@
               id="googleMapsLink"
               formControlName="googleMapsLink"
               [placeholder]="'ADMIN.PROJECTS.FORM.GOOGLE_MAPS_PLACEHOLDER' | translate"
+              [class.is-invalid]="projectForm.get('googleMapsLink')?.invalid && projectForm.get('googleMapsLink')?.touched"
             >
             <label for="googleMapsLink">{{ "ADMIN.PROJECTS.FORM.GOOGLE_MAPS_LABEL" | translate }}</label>
+            @if (projectForm.get('googleMapsLink')?.invalid && projectForm.get('googleMapsLink')?.touched) {
+              <div class="invalid-feedback">{{ "ADMIN.PROJECTS.FORM.GOOGLE_MAPS_INVALID" | translate }}</div>
+            }
           </div>
 
           <!-- Informations -->
