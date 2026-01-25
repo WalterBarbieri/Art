@@ -15,6 +15,10 @@ export interface ProjectFormPreview {
   // File names per preview
   filesNames: string[];
   videosNames: string[];
+
+  // Gallery items for preview
+  galleryItems?: any[];
+  filePaths?: string[];
 }
 
 export interface CourseFormPreview extends ProjectFormPreview {

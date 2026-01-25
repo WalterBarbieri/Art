@@ -244,14 +244,16 @@
               multiple
               (change)="onFilesChange($event)"
             >
-            @if (filesFiles.length > 0) {
+            @if (fileNames.length > 0) {
               <div class="mt-2">
                 <ul class="list-group">
-                  @for (file of filesFiles; track $index; let i = $index) {
+                  @for (file of fileNames; track $index; let i = $index) {
                     <li class="list-group-item d-flex justify-content-between align-items-center gap-2">
                       <span class="flex-grow-1" style="min-width: 0; word-break: break-word;">
                         <i class="fas fa-file me-2"></i>{{ file.name }}
-                        <small class="text-muted ms-2 text-nowrap">({{ (file.size / 1024).toFixed(2) }} KB)</small>
+                        @if (file.size) {
+                          <small class="text-muted ms-2 text-nowrap">({{ (file.size / 1024).toFixed(2) }} KB)</small>
+                        }
                       </span>
                       <button
                         type="button"
@@ -278,14 +280,16 @@
               multiple
               (change)="onVideosChange($event)"
             >
-            @if (videosFiles.length > 0) {
+            @if (videoNames.length > 0) {
               <div class="mt-2">
                 <ul class="list-group">
-                  @for (video of videosFiles; track $index; let i = $index) {
+                  @for (video of videoNames; track $index; let i = $index) {
                     <li class="list-group-item d-flex justify-content-between align-items-center gap-2">
                       <span class="flex-grow-1" style="min-width: 0; word-break: break-word;">
                         <i class="fas fa-video me-2"></i>{{ video.name }}
-                        <small class="text-muted ms-2 text-nowrap">({{ (video.size / 1024 / 1024).toFixed(2) }} MB)</small>
+                        @if (video.size) {
+                          <small class="text-muted ms-2 text-nowrap">({{ (video.size / 1024 / 1024).toFixed(2) }} MB)</small>
+                        }
                       </span>
                       <button
                         type="button"

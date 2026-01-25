@@ -22,6 +22,7 @@ import { ProjectFilesComponent } from 'src/app/shared/components/project/files/p
 import { environment } from 'src/environments/environment';
 import { Course } from 'src/app/models/course.interface';
 import { ProjectEvent } from 'src/app/models/event.interface';
+import { ImageService } from 'src/app/service/image.service';
 
 @Component({
   selector: 'app-project-form',
@@ -47,6 +48,12 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   filesFiles: File[] = [];
   videosFiles: File[] = [];
   videosPreviews: string[] = [];
+
+  // Existing media from DB
+  existingCoverImage: string | null = null;
+  existingImages: string[] = [];
+  existingVideos: { name: string; size?: number }[] = [];
+  existingFiles: { name: string; size?: number }[] = [];
 
   // Preview object for reusable components
   previewContent: ProjectPreview | null = null;
@@ -83,7 +90,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     private fileService: ProjectFileService,
     private formService: ProjectFormService,
     private eventFormService: EventFormService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private imageService: ImageService,
   ) {}
 
   ngOnInit(): void {
@@ -132,6 +140,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         next: (project: Course) => {
           console.log('Existing project data:', project);
           this.formService.populateForm(this.projectForm, project, this.projectType);
+          this.processMediaForEdit(project);
           this.loaderService.hide();
         },
         error: (processedError: ProcessedError) => {
@@ -146,6 +155,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         next: (project: ProjectEvent) => {
           console.log('Existing project data:', project);
           this.formService.populateForm(this.projectForm, project, this.projectType);
+          this.processMediaForEdit(project);
           this.loaderService.hide();
         },
         error: (processedError: ProcessedError) => {
@@ -154,6 +164,43 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         complete: () => {
           this.loaderService.hide();
         }
+      });
+    }
+  }
+
+  processMediaForEdit(project: any): void {
+    // Cover image
+    if (project.coverImagePath) {
+      this.imageService.getFullImageUrl(project.coverImagePath).subscribe(url => {
+        this.existingCoverImage = url;
+        this.coverImagePreview = url;
+      });
+    }
+
+    // Images
+    if (project.imagePaths && project.imagePaths.length > 0) {
+      project.imagePaths.forEach((path: string) => {
+        this.imageService.getFullImageUrl(path).subscribe(url => {
+          this.existingImages.push(url);
+          this.imagesPreviews.push(url);
+        });
+      });
+    }
+
+    // Videos
+    if (project.videoPaths && project.videoPaths.length > 0) {
+      project.videoPaths.forEach((path: string) => {
+        this.imageService.getFullVideoUrl(path).subscribe(url => {
+          this.existingVideos.push({ name: path.split('/').pop() || 'Video' });
+          this.videosPreviews.push(url);
+        });
+      });
+    }
+
+    // Files
+    if (project.filePaths && project.filePaths.length > 0) {
+      project.filePaths.forEach((path: string) => {
+        this.existingFiles.push({ name: path.split('/').pop() || 'File' });
       });
     }
   }
@@ -168,6 +215,14 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   removeEventDate(index: number): void {
     this.eventFormService.removeEventDateFromForm(this.projectForm, index);
+  }
+
+  get videoNames(): { name: string; size?: number }[] {
+    return [...this.existingVideos, ...this.videosFiles.map(f => ({ name: f.name, size: f.size }))];
+  }
+
+  get fileNames(): { name: string; size?: number }[] {
+    return [...this.existingFiles, ...this.filesFiles.map(f => ({ name: f.name, size: f.size }))];
   }
 
   onCoverImageChange(event: Event): void {
@@ -186,6 +241,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   removeCoverImage(): void {
     this.coverImageFile = null;
     this.coverImagePreview = null;
+    this.existingCoverImage = null;
     this.fileService.clearCoverImage();
     this.updatePreview();
   }
@@ -204,7 +260,15 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   removeImage(index: number): void {
-    this.fileService.removeFileFromArray(this.imagesFiles, index, this.imagesPreviews, index);
+    if (index < this.existingImages.length) {
+      // Remove existing image
+      this.existingImages.splice(index, 1);
+      this.imagesPreviews.splice(index, 1);
+    } else {
+      // Remove new image
+      const newIndex = index - this.existingImages.length;
+      this.fileService.removeFileFromArray(this.imagesFiles, newIndex, this.imagesPreviews, index);
+    }
     this.updatePreview();
   }
 
@@ -221,7 +285,14 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   removeFile(index: number): void {
-    this.fileService.removeFileFromArray(this.filesFiles, index);
+    if (index < this.existingFiles.length) {
+      // Remove existing file
+      this.existingFiles.splice(index, 1);
+    } else {
+      // Remove new file
+      const newIndex = index - this.existingFiles.length;
+      this.fileService.removeFileFromArray(this.filesFiles, newIndex);
+    }
     this.updatePreview();
   }
 
@@ -239,11 +310,22 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   removeVideo(index: number): void {
-    if (this.videosPreviews[index]) {
-      URL.revokeObjectURL(this.videosPreviews[index]);
+    if (index < this.existingVideos.length) {
+      // Remove existing video
+      this.existingVideos.splice(index, 1);
+      if (this.videosPreviews[index]) {
+        URL.revokeObjectURL(this.videosPreviews[index]);
+      }
+      this.videosPreviews.splice(index, 1);
+    } else {
+      // Remove new video
+      const newIndex = index - this.existingVideos.length;
+      if (this.videosPreviews[index]) {
+        URL.revokeObjectURL(this.videosPreviews[index]);
+      }
+      this.fileService.removeFileFromArray(this.videosFiles, newIndex);
+      this.videosPreviews.splice(index, 1);
     }
-    this.fileService.removeFileFromArray(this.videosFiles, index);
-    this.videosPreviews.splice(index, 1);
     this.updatePreview();
   }
 
@@ -261,6 +343,13 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     if (this.previewContent) {
       this.previewContent.coverImagePreview = this.coverImagePreview;
       this.previewContent.imagesPreviews = this.imagesPreviews;
+      // Add existing media to gallery
+      this.previewContent.galleryItems = [
+        ...this.existingImages.map(url => ({ href: url, type: 'image' as const })),
+        ...this.imagesPreviews.slice(this.existingImages.length).map(url => ({ href: url, type: 'image' as const })),
+        ...this.videosPreviews.map(url => ({ href: url, type: 'video' as const, source: 'local' as const }))
+      ];
+      this.previewContent.filePaths = [...this.existingFiles.map(f => f.name), ...this.filesFiles.map(f => f.name)];
     }
   }
 

@@ -80,7 +80,6 @@ export class ProjectFormService {
         'eventDates',
         this.fb.array([], [Validators.required, duplicateDatesValidator]),
       );
-      this.eventFormService.addEventDateToForm(form); // Add at least one initial date
     }
 
     return form;
@@ -220,7 +219,7 @@ export class ProjectFormService {
       title: project.title,
       description: project.description,
       location: project.location,
-      maxParticipants: project.maxParticipants,
+      maxParticipants: projectType === 'COURSE' ? project.maxParticipants : Math.min(...project.eventDateSlots.map((s: any) => s.maxParticipants)),
       informations: project.informations || '',
       googleMapsLink: sanitizedGoogleMapsLink,
     });
@@ -233,13 +232,17 @@ export class ProjectFormService {
     } else {
       // Clear existing event dates
       const eventDatesArray = form.get('eventDates') as FormArray;
-      while (eventDatesArray.length) {
-        eventDatesArray.removeAt(0);
+      eventDatesArray.clear();
+      // Add existing dates from eventDateSlots
+      if (project.eventDateSlots && project.eventDateSlots.length > 0) {
+        project.eventDateSlots.forEach((dateSlot: any) => {
+          const dateString = dateSlot.date.slice(0, 16); // YYYY-MM-DDTHH:MM
+          this.eventFormService.addEventDateToForm(form, dateString);
+        });
+      } else {
+        // Add at least one empty date for new events
+        this.eventFormService.addEventDateToForm(form);
       }
-      // Add existing dates
-      project.eventDates?.forEach((dateSlot: any) => {
-        this.eventFormService.addEventDateToForm(form, dateSlot);
-      });
     }
   }
 
