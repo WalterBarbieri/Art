@@ -15,7 +15,6 @@ export class ProjectDetailsInfoComponent {
   @Input() project!: any;
 
   calculateMaxParticipants(project: any): number {
-    // Copia la logica da event-detail, assumendo sia simile
     if (project.eventDateSlots && project.eventDateSlots.length > 0) {
       return Math.min(...project.eventDateSlots.map((slot: any) => slot.maxParticipants));
     }
