@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import {
   ProjectPreview,
@@ -64,7 +64,9 @@ export class ProjectFormService {
   createPreview(formValue: ProjectFormValue, files: FormFiles): ProjectPreview {
     let sanitizedGoogleMapsLink: string | null = null;
     try {
-      sanitizedGoogleMapsLink = AdminUtilsService.sanitizeGoogleMapsUrl(formValue.googleMapsLink || '');
+      sanitizedGoogleMapsLink = AdminUtilsService.sanitizeGoogleMapsUrl(
+        formValue.googleMapsLink || '',
+      );
     } catch {
       // If invalid, keep null
     }
@@ -129,7 +131,9 @@ export class ProjectFormService {
       );
     }
     if (formValue.googleMapsLink) {
-      const sanitizedLink = AdminUtilsService.sanitizeGoogleMapsUrl(formValue.googleMapsLink);
+      const sanitizedLink = AdminUtilsService.sanitizeGoogleMapsUrl(
+        formValue.googleMapsLink,
+      );
       formData.append('googleMapsLink', sanitizedLink);
     }
 
@@ -165,15 +169,6 @@ export class ProjectFormService {
   }
 
   /**
-   * Check if form value is for COURSE
-   */
-  private isCourseForm(
-    formValue: ProjectFormValue,
-  ): formValue is ProjectFormValue & { dateFrom: string; dateTo: string } {
-    return 'dateFrom' in formValue && 'dateTo' in formValue;
-  }
-
-  /**
    * Populate form with existing project data
    */
   populateForm(
@@ -183,7 +178,9 @@ export class ProjectFormService {
   ): void {
     let sanitizedGoogleMapsLink = '';
     try {
-      sanitizedGoogleMapsLink = AdminUtilsService.sanitizeGoogleMapsUrl(project.googleMapsLink || '');
+      sanitizedGoogleMapsLink = AdminUtilsService.sanitizeGoogleMapsUrl(
+        project.googleMapsLink || '',
+      );
     } catch {
       // If invalid, keep empty
     }
@@ -192,7 +189,12 @@ export class ProjectFormService {
       title: project.title,
       description: project.description,
       location: project.location,
-      maxParticipants: projectType === 'COURSE' ? project.maxParticipants : Math.min(...project.eventDateSlots.map((s: any) => s.maxParticipants)),
+      maxParticipants:
+        projectType === 'COURSE'
+          ? project.maxParticipants
+          : Math.min(
+              ...project.eventDateSlots.map((s: any) => s.maxParticipants),
+            ),
       informations: project.informations || '',
       googleMapsLink: sanitizedGoogleMapsLink,
     });
@@ -217,5 +219,14 @@ export class ProjectFormService {
         this.eventFormService.addEventDateToForm(form);
       }
     }
+  }
+
+  /**
+   * Check if form value is for COURSE
+   */
+  private isCourseForm(
+    formValue: ProjectFormValue,
+  ): formValue is ProjectFormValue & { dateFrom: string; dateTo: string } {
+    return 'dateFrom' in formValue && 'dateTo' in formValue;
   }
 }

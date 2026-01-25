@@ -200,7 +200,7 @@
                 </button>
               </div>
             }
-            @if (!coverImageFile && projectForm.touched) {
+            @if (!coverImageFile && !existingCoverImage && projectForm.touched) {
               <div class="text-danger small mt-1">{{ "ADMIN.PROJECTS.FORM.COVER_IMAGE_REQUIRED" | translate }}</div>
             }
           </div>
@@ -313,7 +313,7 @@
             <button
               type="submit"
               class="btn default-button"
-              [disabled]="projectForm.invalid || !coverImageFile"
+              [disabled]="projectForm.invalid || (!coverImageFile && !existingCoverImage)"
             >
               <i class="fas fa-save me-2"></i>{{ (isEditMode ? "ADMIN.PROJECTS.FORM.SAVE" : "ADMIN.PROJECTS.FORM.CREATE_PROJECT") | translate }}
             </button>

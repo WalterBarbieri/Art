@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventFormService {
-
   constructor(private fb: FormBuilder) {}
 
   /**
@@ -53,7 +52,7 @@ export class EventFormService {
     }
 
     // Add new dates
-    dates.forEach(date => {
+    dates.forEach((date) => {
       eventDates.push(this.fb.control(date, []));
     });
 

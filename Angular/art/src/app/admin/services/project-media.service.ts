@@ -13,15 +13,14 @@ export interface ExistingMedia {
   providedIn: 'root',
 })
 export class ProjectMediaService {
-
-  constructor(private imageService: ImageService) { }
+  constructor(private imageService: ImageService) {}
 
   loadExistingMedia(project: any): Observable<ExistingMedia> {
     const media: ExistingMedia = {
       coverImage: null,
       images: [],
       videos: [],
-      files: []
+      files: [],
     };
 
     const observables: Observable<any>[] = [];
@@ -29,9 +28,9 @@ export class ProjectMediaService {
     // Cover image
     if (project.coverImagePath) {
       observables.push(
-        this.imageService.getFullImageUrl(project.coverImagePath).pipe(
-          map(url => media.coverImage = url)
-        )
+        this.imageService
+          .getFullImageUrl(project.coverImagePath)
+          .pipe(map((url) => (media.coverImage = url))),
       );
     }
 
@@ -39,9 +38,9 @@ export class ProjectMediaService {
     if (project.imagePaths && project.imagePaths.length > 0) {
       project.imagePaths.forEach((path: string) => {
         observables.push(
-          this.imageService.getFullImageUrl(path).pipe(
-            map(url => media.images.push(url))
-          )
+          this.imageService
+            .getFullImageUrl(path)
+            .pipe(map((url) => media.images.push(url))),
         );
       });
     }
@@ -50,9 +49,16 @@ export class ProjectMediaService {
     if (project.videoPaths && project.videoPaths.length > 0) {
       project.videoPaths.forEach((path: string) => {
         observables.push(
-          this.imageService.getFullVideoUrl(path).pipe(
-            map(url => media.videos.push({ name: path.split('/').pop() || 'Video', url }))
-          )
+          this.imageService
+            .getFullVideoUrl(path)
+            .pipe(
+              map((url) =>
+                media.videos.push({
+                  name: path.split('/').pop() || 'Video',
+                  url,
+                }),
+              ),
+            ),
         );
       });
     }
@@ -65,11 +71,9 @@ export class ProjectMediaService {
     }
 
     if (observables.length > 0) {
-      return forkJoin(observables).pipe(
-        map(() => media)
-      );
+      return forkJoin(observables).pipe(map(() => media));
     } else {
-      return new Observable(subscriber => {
+      return new Observable((subscriber) => {
         subscriber.next(media);
         subscriber.complete();
       });

@@ -21,14 +21,13 @@ export interface ImagesResult {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProjectFileService {
-
   constructor(
     private translate: TranslateService,
     private toastService: ToastService,
-    private imageService: ImageService
+    private imageService: ImageService,
   ) {}
 
   /**
@@ -41,11 +40,15 @@ export class ProjectFileService {
     }
 
     const file = input.files[0];
-    const validation = this.imageService.validateFiles([file], (f) => this.imageService.isValidImage(f));
+    const validation = this.imageService.validateFiles([file], (f) =>
+      this.imageService.isValidImage(f),
+    );
 
     if (validation.invalid.length > 0) {
       input.value = '';
-      this.toastService.showError(this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_INVALID_IMAGE'));
+      this.toastService.showError(
+        this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_INVALID_IMAGE'),
+      );
       throw new Error('Invalid image file');
     }
 
@@ -53,17 +56,17 @@ export class ProjectFileService {
       input.value = '';
       this.toastService.showError(
         this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_FILE_TOO_LARGE', {
-          max: this.imageService.formatBytes(this.imageService.MAX_FILE_SIZE)
-        })
+          max: this.imageService.formatBytes(this.imageService.MAX_FILE_SIZE),
+        }),
       );
       throw new Error('File too large');
     }
 
     return this.createFilePreview(file).pipe(
-      map(preview => ({
+      map((preview) => ({
         file,
-        preview
-      }))
+        preview,
+      })),
     );
   }
 
@@ -77,12 +80,14 @@ export class ProjectFileService {
     }
 
     const filesArray = Array.from(input.files);
-    const validation = this.imageService.validateFiles(filesArray, (f) => this.imageService.isValidImage(f));
+    const validation = this.imageService.validateFiles(filesArray, (f) =>
+      this.imageService.isValidImage(f),
+    );
 
     if (validation.invalid.length > 0) {
       input.value = '';
       this.toastService.showError(
-        `${validation.invalid.length} ${this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_INVALID_IMAGES')}`
+        `${validation.invalid.length} ${this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_INVALID_IMAGES')}`,
       );
       throw new Error('Invalid image files');
     }
@@ -92,8 +97,8 @@ export class ProjectFileService {
       this.toastService.showError(
         this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_FILES_TOO_LARGE', {
           count: validation.oversized.length,
-          max: this.imageService.formatBytes(this.imageService.MAX_FILE_SIZE)
-        })
+          max: this.imageService.formatBytes(this.imageService.MAX_FILE_SIZE),
+        }),
       );
       throw new Error('Files too large');
     }
@@ -101,12 +106,12 @@ export class ProjectFileService {
     input.value = '';
 
     return from(validation.valid).pipe(
-      mergeMap(file => this.createFilePreview(file)),
+      mergeMap((file) => this.createFilePreview(file)),
       toArray(),
-      map(previews => ({
+      map((previews) => ({
         files: validation.valid,
-        previews
-      }))
+        previews,
+      })),
     );
   }
 
@@ -120,12 +125,14 @@ export class ProjectFileService {
     }
 
     const filesArray = Array.from(input.files);
-    const validation = this.imageService.validateFiles(filesArray, (f) => this.imageService.isValidFile(f));
+    const validation = this.imageService.validateFiles(filesArray, (f) =>
+      this.imageService.isValidFile(f),
+    );
 
     if (validation.invalid.length > 0) {
       input.value = '';
       this.toastService.showError(
-        `${validation.invalid.length} ${this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_INVALID_FILES')}`
+        `${validation.invalid.length} ${this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_INVALID_FILES')}`,
       );
       throw new Error('Invalid files');
     }
@@ -135,15 +142,15 @@ export class ProjectFileService {
       this.toastService.showError(
         this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_FILES_TOO_LARGE', {
           count: validation.oversized.length,
-          max: this.imageService.formatBytes(this.imageService.MAX_FILE_SIZE)
-        })
+          max: this.imageService.formatBytes(this.imageService.MAX_FILE_SIZE),
+        }),
       );
       throw new Error('Files too large');
     }
 
     input.value = '';
 
-    return new Observable(observer => {
+    return new Observable((observer) => {
       observer.next(validation.valid);
       observer.complete();
     });
@@ -159,12 +166,14 @@ export class ProjectFileService {
     }
 
     const filesArray = Array.from(input.files);
-    const validation = this.imageService.validateFiles(filesArray, (f) => this.imageService.isValidVideo(f));
+    const validation = this.imageService.validateFiles(filesArray, (f) =>
+      this.imageService.isValidVideo(f),
+    );
 
     if (validation.invalid.length > 0) {
       input.value = '';
       this.toastService.showError(
-        `${validation.invalid.length} ${this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_INVALID_VIDEOS')}`
+        `${validation.invalid.length} ${this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_INVALID_VIDEOS')}`,
       );
       throw new Error('Invalid video files');
     }
@@ -174,15 +183,15 @@ export class ProjectFileService {
       this.toastService.showError(
         this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_FILES_TOO_LARGE', {
           count: validation.oversized.length,
-          max: this.imageService.formatBytes(this.imageService.MAX_FILE_SIZE)
-        })
+          max: this.imageService.formatBytes(this.imageService.MAX_FILE_SIZE),
+        }),
       );
       throw new Error('Files too large');
     }
 
     input.value = '';
 
-    return new Observable(observer => {
+    return new Observable((observer) => {
       observer.next(validation.valid);
       observer.complete();
     });
@@ -192,7 +201,7 @@ export class ProjectFileService {
    * Create file preview using FileReader
    */
   private createFilePreview(file: File): Observable<string> {
-    return new Observable(observer => {
+    return new Observable((observer) => {
       const reader = new FileReader();
       reader.onload = (e) => {
         observer.next(e.target?.result as string);
@@ -212,14 +221,18 @@ export class ProjectFileService {
     fileArray: File[],
     fileIndex: number,
     previewArray?: string[],
-    previewIndex?: number
+    previewIndex?: number,
   ): void {
     if (fileIndex >= 0 && fileIndex < fileArray.length) {
       fileArray.splice(fileIndex, 1);
 
       // Remove from preview array if provided
-      if (previewArray && previewIndex !== undefined &&
-          previewIndex >= 0 && previewIndex < previewArray.length) {
+      if (
+        previewArray &&
+        previewIndex !== undefined &&
+        previewIndex >= 0 &&
+        previewIndex < previewArray.length
+      ) {
         previewArray.splice(previewIndex, 1);
       }
     }
@@ -235,8 +248,10 @@ export class ProjectFileService {
       this.toastService.showError(
         this.translate.instant('ADMIN.PROJECTS.FORM.ERROR_REQUEST_TOO_LARGE', {
           total: this.imageService.formatBytes(totalSize),
-          max: this.imageService.formatBytes(this.imageService.MAX_REQUEST_SIZE)
-        })
+          max: this.imageService.formatBytes(
+            this.imageService.MAX_REQUEST_SIZE,
+          ),
+        }),
       );
       return false;
     }

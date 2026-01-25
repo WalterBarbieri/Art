@@ -22,8 +22,8 @@ import { ProjectFilesComponent } from 'src/app/shared/components/project/files/p
 import { environment } from 'src/environments/environment';
 import { Course } from 'src/app/models/course.interface';
 import { ProjectEvent } from 'src/app/models/event.interface';
-import { ImageService } from 'src/app/service/image.service';
 import { ProjectMediaService } from '../../services/project-media.service';
+import { ProjectSubmitService } from '../../services/project-submit.service';
 
 @Component({
   selector: 'app-project-form',
@@ -92,8 +92,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     private formService: ProjectFormService,
     private eventFormService: EventFormService,
     private errorService: ErrorService,
-    private imageService: ImageService,
     private projectMediaService: ProjectMediaService,
+    private projectSubmitService: ProjectSubmitService,
   ) {}
 
   ngOnInit(): void {
@@ -337,7 +337,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.projectForm.invalid || !this.coverImageFile) {
+    if (this.projectForm.invalid || (!this.coverImageFile && !this.existingCoverImage)) {
       this.projectForm.markAllAsTouched();
       return;
     }
@@ -362,38 +362,29 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       videos: this.videosFiles
     };
 
-    const formData = this.formService.buildFormData(formValue, files);
     this.loaderService.show();
 
-    if (this.projectType === 'COURSE') {
-      this.adminCourseService.create(formData).subscribe({
-        next: (response) => {
-          this.loaderService.hide();
-          this.toastService.showSuccess(this.translate.instant('ADMIN.PROJECTS.FORM.SUCCESS_COURSE_CREATED'));
-          this.router.navigate(['/admin/projects']);
-        },
-        error: (processedError: ProcessedError) => {
-          this.errorService.handleProcessedError(processedError);
-        },
-        complete: () => {
-          this.loaderService.hide();
+    this.projectSubmitService.submit(this.projectType, formValue, files, this.isEditMode, this.projectId).subscribe({
+      next: (response) => {
+        this.loaderService.hide();
+        const successMessage = this.projectType === 'COURSE'
+          ? 'ADMIN.PROJECTS.FORM.SUCCESS_COURSE_CREATED'
+          : 'ADMIN.PROJECTS.FORM.SUCCESS_EVENT_CREATED';
+        this.toastService.showSuccess(this.translate.instant(successMessage));
+        this.router.navigate(['/admin/projects']);
+      },
+      error: (error) => {
+        this.loaderService.hide();
+        if (error instanceof Error) {
+          this.toastService.showError(error.message);
+        } else {
+          this.errorService.handleProcessedError(error);
         }
-      });
-    } else {
-      this.adminEventService.create(formData).subscribe({
-        next: (response) => {
-          this.loaderService.hide();
-          this.toastService.showSuccess(this.translate.instant('ADMIN.PROJECTS.FORM.SUCCESS_EVENT_CREATED'));
-          this.router.navigate(['/admin/projects']);
-        },
-        error: (processedError: ProcessedError) => {
-          this.errorService.handleProcessedError(processedError);
-        },
-        complete: () => {
-          this.loaderService.hide();
-        }
-      });
-    }
+      },
+      complete: () => {
+        this.loaderService.hide();
+      }
+    });
   }
 
   onCancel(): void {
