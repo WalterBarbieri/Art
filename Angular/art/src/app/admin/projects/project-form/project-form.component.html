@@ -377,9 +377,9 @@
           }
 
           <!-- Project Files Preview -->
-          @if (previewFilePaths.length > 0) {
+          @if (previewContent.filePaths && previewContent.filePaths.length > 0) {
             <app-project-files
-              [filePaths]="previewFilePaths"
+              [filePaths]="previewContent.filePaths"
               [isPreviewMode]="true"
             ></app-project-files>
           }

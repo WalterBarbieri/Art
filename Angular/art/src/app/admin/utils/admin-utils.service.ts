@@ -38,4 +38,32 @@ export class AdminUtilsService {
 
     return html;
   }
+
+  /**
+   * Sanitize and validate Google Maps embed URL
+   * Accepts either the full iframe HTML or just the URL
+   */
+  static sanitizeGoogleMapsUrl(input: string): string {
+    if (!input || input.trim() === '') {
+      return '';
+    }
+
+    let url = input.trim();
+
+    // If input is full iframe, extract src
+    const iframeMatch = input.match(/<iframe[^>]*src="([^"]*)"/i);
+    if (iframeMatch) {
+      url = iframeMatch[1];
+    }
+
+    // Validate URL format
+    const googleMapsRegex = /^https:\/\/www\.google\.com\/maps\/embed\?pb=/;
+    if (!googleMapsRegex.test(url)) {
+      throw new Error(
+        'Invalid Google Maps embed URL. Please provide a valid embed URL from Google Maps.',
+      );
+    }
+
+    return url;
+  }
 }

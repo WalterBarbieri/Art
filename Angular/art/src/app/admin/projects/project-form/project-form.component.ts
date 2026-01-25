@@ -23,6 +23,7 @@ import { environment } from 'src/environments/environment';
 import { Course } from 'src/app/models/course.interface';
 import { ProjectEvent } from 'src/app/models/event.interface';
 import { ImageService } from 'src/app/service/image.service';
+import { ProjectMediaService } from '../../services/project-media.service';
 
 @Component({
   selector: 'app-project-form',
@@ -92,6 +93,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     private eventFormService: EventFormService,
     private errorService: ErrorService,
     private imageService: ImageService,
+    private projectMediaService: ProjectMediaService,
   ) {}
 
   ngOnInit(): void {
@@ -140,14 +142,23 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         next: (project: Course) => {
           console.log('Existing project data:', project);
           this.formService.populateForm(this.projectForm, project, this.projectType);
-          this.processMediaForEdit(project);
-          this.loaderService.hide();
+          this.projectMediaService.loadExistingMedia(project).subscribe(media => {
+            this.existingCoverImage = media.coverImage;
+            this.existingImages = media.images;
+            this.existingVideos = media.videos;
+            this.existingFiles = media.files;
+            this.coverImagePreview = media.coverImage;
+            this.imagesPreviews = [...media.images];
+            this.videosPreviews = media.videos.map(v => v.url);
+            this.updatePreview();
+            this.loaderService.hide();
+          });
         },
         error: (processedError: ProcessedError) => {
           this.errorService.handleProcessedError(processedError);
         },
         complete: () => {
-          this.loaderService.hide();
+          // Loader hide is now inside the media subscribe
         }
       });
     } else {
@@ -155,52 +166,24 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         next: (project: ProjectEvent) => {
           console.log('Existing project data:', project);
           this.formService.populateForm(this.projectForm, project, this.projectType);
-          this.processMediaForEdit(project);
-          this.loaderService.hide();
+          this.projectMediaService.loadExistingMedia(project).subscribe(media => {
+            this.existingCoverImage = media.coverImage;
+            this.existingImages = media.images;
+            this.existingVideos = media.videos;
+            this.existingFiles = media.files;
+            this.coverImagePreview = media.coverImage;
+            this.imagesPreviews = [...media.images];
+            this.videosPreviews = media.videos.map(v => v.url);
+            this.updatePreview();
+            this.loaderService.hide();
+          });
         },
         error: (processedError: ProcessedError) => {
           this.errorService.handleProcessedError(processedError);
         },
         complete: () => {
-          this.loaderService.hide();
+          // Loader hide is now inside the media subscribe
         }
-      });
-    }
-  }
-
-  processMediaForEdit(project: any): void {
-    // Cover image
-    if (project.coverImagePath) {
-      this.imageService.getFullImageUrl(project.coverImagePath).subscribe(url => {
-        this.existingCoverImage = url;
-        this.coverImagePreview = url;
-      });
-    }
-
-    // Images
-    if (project.imagePaths && project.imagePaths.length > 0) {
-      project.imagePaths.forEach((path: string) => {
-        this.imageService.getFullImageUrl(path).subscribe(url => {
-          this.existingImages.push(url);
-          this.imagesPreviews.push(url);
-        });
-      });
-    }
-
-    // Videos
-    if (project.videoPaths && project.videoPaths.length > 0) {
-      project.videoPaths.forEach((path: string) => {
-        this.imageService.getFullVideoUrl(path).subscribe(url => {
-          this.existingVideos.push({ name: path.split('/').pop() || 'Video' });
-          this.videosPreviews.push(url);
-        });
-      });
-    }
-
-    // Files
-    if (project.filePaths && project.filePaths.length > 0) {
-      project.filePaths.forEach((path: string) => {
-        this.existingFiles.push({ name: path.split('/').pop() || 'File' });
       });
     }
   }

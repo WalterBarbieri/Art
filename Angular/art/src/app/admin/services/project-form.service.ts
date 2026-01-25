@@ -8,37 +8,10 @@ import {
 import {
   dateRangeValidator,
   duplicateDatesValidator,
+  googleMapsLinkValidator,
 } from '../projects/project-form/project-form.validators';
 import { AdminUtilsService } from '../utils/admin-utils.service';
 import { EventFormService } from './event-form.service';
-
-/**
- * Validator for Google Maps embed URL
- */
-export function googleMapsLinkValidator(control: AbstractControl): ValidationErrors | null {
-  const value = control.value;
-  if (!value || value.trim() === '') {
-    return null; // Optional field
-  }
-
-  let url = value.trim();
-
-  // If input is full iframe, extract src
-  const iframeMatch = value.match(/<iframe[^>]*src="([^"]*)"/i);
-  if (iframeMatch) {
-    url = iframeMatch[1];
-  }
-
-  // Validate URL format
-  const googleMapsRegex = /^https:\/\/www\.google\.com\/maps\/embed\?pb=/;
-  if (!googleMapsRegex.test(url)) {
-    console.log(googleMapsRegex.test(url));
-
-    return { invalidGoogleMapsUrl: true };
-  }
-
-  return null;
-}
 
 export interface FormFiles {
   coverImage: File | null;
@@ -91,7 +64,7 @@ export class ProjectFormService {
   createPreview(formValue: ProjectFormValue, files: FormFiles): ProjectPreview {
     let sanitizedGoogleMapsLink: string | null = null;
     try {
-      sanitizedGoogleMapsLink = this.sanitizeGoogleMapsUrl(formValue.googleMapsLink || '');
+      sanitizedGoogleMapsLink = AdminUtilsService.sanitizeGoogleMapsUrl(formValue.googleMapsLink || '');
     } catch {
       // If invalid, keep null
     }
@@ -156,7 +129,7 @@ export class ProjectFormService {
       );
     }
     if (formValue.googleMapsLink) {
-      const sanitizedLink = this.sanitizeGoogleMapsUrl(formValue.googleMapsLink);
+      const sanitizedLink = AdminUtilsService.sanitizeGoogleMapsUrl(formValue.googleMapsLink);
       formData.append('googleMapsLink', sanitizedLink);
     }
 
@@ -210,7 +183,7 @@ export class ProjectFormService {
   ): void {
     let sanitizedGoogleMapsLink = '';
     try {
-      sanitizedGoogleMapsLink = this.sanitizeGoogleMapsUrl(project.googleMapsLink || '');
+      sanitizedGoogleMapsLink = AdminUtilsService.sanitizeGoogleMapsUrl(project.googleMapsLink || '');
     } catch {
       // If invalid, keep empty
     }
@@ -244,33 +217,5 @@ export class ProjectFormService {
         this.eventFormService.addEventDateToForm(form);
       }
     }
-  }
-
-  /**
-   * Sanitize and validate Google Maps embed URL
-   * Accepts either the full iframe HTML or just the URL
-   */
-  sanitizeGoogleMapsUrl(input: string): string {
-    if (!input || input.trim() === '') {
-      return '';
-    }
-
-    let url = input.trim();
-
-    // If input is full iframe, extract src
-    const iframeMatch = input.match(/<iframe[^>]*src="([^"]*)"/i);
-    if (iframeMatch) {
-      url = iframeMatch[1];
-    }
-
-    // Validate URL format
-    const googleMapsRegex = /^https:\/\/www\.google\.com\/maps\/embed\?pb=/;
-    if (!googleMapsRegex.test(url)) {
-      throw new Error(
-        'Invalid Google Maps embed URL. Please provide a valid embed URL from Google Maps.',
-      );
-    }
-
-    return url;
   }
 }

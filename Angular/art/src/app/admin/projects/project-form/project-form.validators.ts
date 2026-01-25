@@ -36,3 +36,29 @@ export function duplicateDatesValidator(control: AbstractControl): ValidationErr
 
   return null;
 }
+
+/**
+ * Validator for Google Maps embed URL
+ */
+export function googleMapsLinkValidator(control: AbstractControl): ValidationErrors | null {
+  const value = control.value;
+  if (!value || value.trim() === '') {
+    return null; // Optional field
+  }
+
+  let url = value.trim();
+
+  // If input is full iframe, extract src
+  const iframeMatch = value.match(/<iframe[^>]*src="([^"]*)"/i);
+  if (iframeMatch) {
+    url = iframeMatch[1];
+  }
+
+  // Validate URL format
+  const googleMapsRegex = /^https:\/\/www\.google\.com\/maps\/embed\?pb=/;
+  if (!googleMapsRegex.test(url)) {
+    return { invalidGoogleMapsUrl: true };
+  }
+
+  return null;
+}
