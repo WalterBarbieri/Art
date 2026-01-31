@@ -110,7 +110,7 @@ public class CourseService extends AbstractContentService<Course> {
 	public CourseDto getCourseDto(Course course) {
 		List<PressReview> pressReviews = getCombinedPressReviews(course);
 		CourseDto dto = CourseDto.fromCourse(course);
-		dto.setPressReviews(PressReviewDto.fromPressReviewList(pressReviews));
+		dto.setPressReviews(PressReviewDto.fromPressReviewList(pressReviews, course.getId()));
 		return dto;
 	}
 

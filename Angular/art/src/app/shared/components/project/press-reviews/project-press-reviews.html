@@ -3,12 +3,17 @@
   <h2 class="mb-5">{{ "PROJECT.DETAILS.PRESS_REVIEWS" | translate }}</h2>
   <div class="d-flex justify-content-center flex-wrap gap-3">
     @for (review of pressReviews; track review.id) {
-    <div class="card press-review-card" (click)="onReviewClick(review.url)">
+    <div class="card press-review-card position-relative" (click)="onReviewClick(review.url)">
       <img
         [src]="review.imagePath"
         alt="Press Review"
         class="card-img-top press-review-img"
       />
+      @if (isPreviewMode && !review.own) {
+        <span class="status-badge-overlay linked">
+          <i class="fas fa-link me-1"></i>Linked
+        </span>
+      }
     </div>
     }
   </div>

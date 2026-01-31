@@ -4,4 +4,5 @@ export interface PressReview {
   imagePath: string;
   createdAt: Date;
   updatedAt: Date;
+  own: boolean;
 }

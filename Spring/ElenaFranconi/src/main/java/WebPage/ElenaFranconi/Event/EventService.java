@@ -92,7 +92,7 @@ public class EventService extends AbstractContentService<Event> {
 	public EventDto getEventDto(Event event) {
 		List<PressReview> pressReviews = getCombinedPressReviews(event);
 		EventDto dto = EventDto.fromEvent(event);
-		dto.setPressReviews(PressReviewDto.fromPressReviewList(pressReviews));
+		dto.setPressReviews(PressReviewDto.fromPressReviewList(pressReviews, event.getId()));
 		return dto;
 	}
 

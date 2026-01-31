@@ -1,4 +1,6 @@
 // Interfacce per la preview del form (prima di inviare al backend)
+import { PressReview } from '../../../models/press-review.interface';
+
 export interface ProjectFormPreview {
   title: string;
   description: string;
@@ -22,6 +24,9 @@ export interface ProjectFormPreview {
   // Gallery items for preview
   galleryItems?: any[];
   filePaths?: string[];
+
+  // Press reviews
+  pressReviews?: PressReview[];
 }
 
 export interface CourseFormPreview extends ProjectFormPreview {

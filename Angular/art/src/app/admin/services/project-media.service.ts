@@ -7,6 +7,7 @@ export interface ExistingMedia {
   images: string[];
   videos: { name: string; url: string }[];
   files: { name: string }[];
+  pressReviews: any[];
 }
 
 @Injectable({
@@ -21,6 +22,7 @@ export class ProjectMediaService {
       images: [],
       videos: [],
       files: [],
+      pressReviews: [],
     };
 
     const observables: Observable<any>[] = [];
@@ -72,6 +74,22 @@ export class ProjectMediaService {
         const parsedName = fullName.substring(14); // Remove timestamp prefix
         media.files.push({ name: parsedName });
       });
+    }
+
+    // Press reviews
+    if (project.pressReviews && project.pressReviews.length > 0) {
+      project.pressReviews.forEach((review: any, index: number) => {
+        observables.push(
+          this.imageService
+            .getFullImageUrl(review.imagePath)
+            .pipe(
+              map((url) => {
+                project.pressReviews[index].imagePath = url;
+              }),
+            ),
+        );
+      });
+      media.pressReviews = project.pressReviews;
     }
 
     if (observables.length > 0) {

@@ -27,19 +27,19 @@ public class PressReviewController {
 
 	@GetMapping("/course/{courseId}")
 	public List<PressReviewDto> getByCourse(@PathVariable UUID courseId) {
-		return PressReviewDto.fromPressReviewList(pressReviewService.findPressReviewByCourseId(courseId));
+		return PressReviewDto.fromPressReviewList(pressReviewService.findPressReviewByCourseId(courseId), courseId);
 	}
 
 	@GetMapping("/event/{eventId}")
 	public List<PressReviewDto> getByEvent(@PathVariable UUID eventId) {
-		return PressReviewDto.fromPressReviewList(pressReviewService.findPressReviewByEventId(eventId));
+		return PressReviewDto.fromPressReviewList(pressReviewService.findPressReviewByEventId(eventId), eventId);
 	}
 
 	// POST METHODS
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	public PressReviewDto createPressReview(@Valid @ModelAttribute PressReviewRequestDto body) {
 		PressReview pressReview = pressReviewService.createPressReview(body);
-		return PressReviewDto.fromPressReview(pressReview);
+		return PressReviewDto.fromPressReview(pressReview, body.getContentId());
 	}
 
 }

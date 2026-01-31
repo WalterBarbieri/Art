@@ -10,6 +10,7 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class ProjectPressReviewsComponent {
   @Input() pressReviews: any[] = [];
+  @Input() isPreviewMode: boolean = false;
   @Output() reviewClick = new EventEmitter<string>();
 
   onReviewClick(url: string): void {

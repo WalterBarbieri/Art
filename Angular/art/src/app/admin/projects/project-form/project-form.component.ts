@@ -20,6 +20,7 @@ import { ProjectGalleryComponent } from 'src/app/shared/components/project/galle
 import { ProjectInfoComponent } from 'src/app/shared/components/project/info/project-info';
 import { ProjectFilesComponent } from 'src/app/shared/components/project/files/project-files';
 import { AnimatedButtonComponent } from 'src/app/shared/components/animated-button/animated-button.component';
+import { ProjectPressReviewsComponent } from 'src/app/shared/components/project/press-reviews/project-press-reviews';
 
 import { environment } from 'src/environments/environment';
 import { Course } from 'src/app/models/course.interface';
@@ -30,7 +31,7 @@ import { ProjectDetailsInfoComponent } from 'src/app/shared/components/project/d
 
 @Component({
   selector: 'app-project-form',
-  imports: [CommonModule, ReactiveFormsModule, QuillModule, TranslateModule, ProjectCoverComponent, ProjectGalleryComponent, ProjectInfoComponent, ProjectFilesComponent, ProjectDetailsInfoComponent, AnimatedButtonComponent],
+  imports: [CommonModule, ReactiveFormsModule, QuillModule, TranslateModule, ProjectCoverComponent, ProjectGalleryComponent, ProjectInfoComponent, ProjectFilesComponent, ProjectDetailsInfoComponent, AnimatedButtonComponent, ProjectPressReviewsComponent],
   templateUrl: './project-form.component.html',
   styleUrl: './project-form.component.scss'
 })
@@ -156,6 +157,10 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
             this.coverImagePreview = media.coverImage;
             this.imagesPreviews = [...media.images];
             this.videosPreviews = media.videos.map(v => v.url);
+            // Assegna press reviews alla preview
+            if (this.previewContent) {
+              this.previewContent.pressReviews = media.pressReviews;
+            }
             this.updatePreview();
             this.loaderService.hide();
           });
@@ -181,6 +186,10 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
             this.coverImagePreview = media.coverImage;
             this.imagesPreviews = [...media.images];
             this.videosPreviews = media.videos.map(v => v.url);
+            // Assegna press reviews alla preview
+            if (this.previewContent) {
+              this.previewContent.pressReviews = media.pressReviews;
+            }
             this.updatePreview();
             this.loaderService.hide();
           });
@@ -340,6 +349,10 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         ...this.videosPreviews.map(url => ({ href: url, type: 'video' as const, source: 'local' as const }))
       ];
       this.previewContent.filePaths = [...this.existingFiles.map(f => f.name), ...this.filesFiles.map(f => f.name)];
+      // Preserva press reviews
+      if (this.originalProject?.pressReviews) {
+        this.previewContent.pressReviews = this.originalProject.pressReviews;
+      }
     }
   }
 
@@ -396,6 +409,21 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   onCancel(): void {
     this.router.navigate(['/admin/projects']);
+  }
+
+  openUrl(url: string): void {
+    window.open(url, '_blank');
+  }
+
+  // Press review management methods
+  editPressReview(review: any): void {
+    // TODO: Implement edit press review
+    console.log('Edit press review:', review);
+  }
+
+  deletePressReview(review: any): void {
+    // TODO: Implement delete press review
+    console.log('Delete press review:', review);
   }
 
   // Preview data preparation methods
