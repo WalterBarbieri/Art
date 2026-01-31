@@ -19,15 +19,18 @@ import { ProjectCoverComponent } from 'src/app/shared/components/project/cover/p
 import { ProjectGalleryComponent } from 'src/app/shared/components/project/gallery/project-gallery';
 import { ProjectInfoComponent } from 'src/app/shared/components/project/info/project-info';
 import { ProjectFilesComponent } from 'src/app/shared/components/project/files/project-files';
+import { AnimatedButtonComponent } from 'src/app/shared/components/animated-button/animated-button.component';
+
 import { environment } from 'src/environments/environment';
 import { Course } from 'src/app/models/course.interface';
 import { ProjectEvent } from 'src/app/models/event.interface';
 import { ProjectMediaService } from '../../services/project-media.service';
 import { ProjectSubmitService } from '../../services/project-submit.service';
+import { ProjectDetailsInfoComponent } from 'src/app/shared/components/project/details-info/project-details-info.component';
 
 @Component({
   selector: 'app-project-form',
-  imports: [CommonModule, ReactiveFormsModule, QuillModule, TranslateModule, ProjectCoverComponent, ProjectGalleryComponent, ProjectInfoComponent, ProjectFilesComponent],
+  imports: [CommonModule, ReactiveFormsModule, QuillModule, TranslateModule, ProjectCoverComponent, ProjectGalleryComponent, ProjectInfoComponent, ProjectFilesComponent, ProjectDetailsInfoComponent, AnimatedButtonComponent],
   templateUrl: './project-form.component.html',
   styleUrl: './project-form.component.scss'
 })
@@ -36,6 +39,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   projectType: 'COURSE' | 'EVENT' = 'COURSE';
   isEditMode: boolean = false;
   projectId?: string;
+  originalProject?: Course | ProjectEvent;
+  isStaticMode: boolean = environment.isStaticMode;
 
   // Memory leak prevention
   private destroy$ = new Subject<void>();
@@ -141,6 +146,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       this.adminCourseService.getById(this.projectId).subscribe({
         next: (project: Course) => {
           console.log('Existing project data:', project);
+          this.originalProject = project;
           this.formService.populateForm(this.projectForm, project, this.projectType);
           this.projectMediaService.loadExistingMedia(project).subscribe(media => {
             this.existingCoverImage = media.coverImage;
@@ -165,6 +171,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       this.adminEventService.getById(this.projectId).subscribe({
         next: (project: ProjectEvent) => {
           console.log('Existing project data:', project);
+          this.originalProject = project;
           this.formService.populateForm(this.projectForm, project, this.projectType);
           this.projectMediaService.loadExistingMedia(project).subscribe(media => {
             this.existingCoverImage = media.coverImage;
@@ -321,7 +328,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       videos: this.videosFiles
     };
 
-    this.previewContent = this.formService.createPreview(formValue, files);
+    this.previewContent = this.formService.createPreview(formValue, files, this.originalProject);
     // Override with component state for previews
     if (this.previewContent) {
       this.previewContent.coverImagePreview = this.coverImagePreview;

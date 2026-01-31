@@ -61,7 +61,7 @@ export class ProjectFormService {
   /**
    * Create preview object from form value and files
    */
-  createPreview(formValue: ProjectFormValue, files: FormFiles): ProjectPreview {
+  createPreview(formValue: ProjectFormValue, files: FormFiles, project?: any): ProjectPreview {
     let sanitizedGoogleMapsLink: string | null = null;
     try {
       sanitizedGoogleMapsLink = AdminUtilsService.sanitizeGoogleMapsUrl(
@@ -84,6 +84,9 @@ export class ProjectFormService {
       maxParticipants: formValue.maxParticipants || 1,
       informations: formValue.informations || null,
       googleMapsLink: sanitizedGoogleMapsLink,
+      contentStatus: project?.contentStatus || 'UPCOMING',
+      linkedEventId: project?.linkedEventId,
+      linkedCourseId: project?.linkedCourseId,
       coverImagePreview: null, // Will be set from component state
       imagesPreviews: [], // Will be set from component state
       filesNames: files.files.map((f) => f.name),

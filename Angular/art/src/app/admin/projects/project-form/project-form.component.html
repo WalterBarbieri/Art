@@ -343,15 +343,11 @@
           <!-- Project Details Preview -->
           <div class="w-75 mx-auto mb-4">
             <div class="details row">
-              <div class="col-12 col-md-6 mb-3 mb-md-0 text-md-start">
-                <h5>{{ (previewContent.contentType === 'COURSE' ? "PROJECT.TYPE_COURSE" : "PROJECT.TYPE_EVENT") | translate }}</h5>
-                <p>
-                  <strong>{{ "PROJECT.DETAILS.LOCATION" | translate }}</strong> {{ previewContent.location }}
-                </p>
-                <p>
-                  <strong>{{ "PROJECT.DETAILS.MAX_PARTICIPANTS" | translate }}</strong> {{ previewContent.maxParticipants }}
-                </p>
-              </div>
+              <app-project-details-info
+                class="col-12 col-md-6 mb-3 mb-md-0 text-md-start"
+                [projectType]="previewContent.contentType === 'COURSE' ? 'course' : 'event'"
+                [project]="previewContent">
+              </app-project-details-info>
               <div class="col-12 col-md-6 text-md-end">
                 @if (previewContent.contentType === 'COURSE') {
                   <h6 class="mb-0">{{ 'PROJECT.DETAILS.DATE_COURSE' | translate }}</h6>
@@ -366,6 +362,20 @@
                   @for (eventDate of previewContent.eventDates; track $index) {
                     <p>{{ eventDate | date: "dd/MM/yyyy HH:mm" }}</p>
                   }
+                }
+                @if (isStaticMode && previewContent.contentStatus != 'COMPLETED'){
+                <p>{{ "PROJECT.DETAILS.FOR_INFO_AND_REGISTRATIONS" | translate }}</p>
+                <a
+                  href="mailto: Art Natura Teatro <info@artnaturateatro.it>?subject=Info e Iscrizione {{previewContent.contentType === 'COURSE' ? 'Corso' : 'Evento'}} {{previewContent.title}}"
+                  class="email-anchor"
+                  >info&#64;artnaturateatro.it</a
+                >
+                } @else if (previewContent.contentStatus != 'COMPLETED') {
+                <app-animated-button
+                  type="link"
+                  [routerLink]="['']"
+                  [text]="'PROJECT.DETAILS.SOON_AVAILABLE' | translate"
+                ></app-animated-button>
                 }
               </div>
             </div>

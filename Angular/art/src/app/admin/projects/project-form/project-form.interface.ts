@@ -7,6 +7,9 @@ export interface ProjectFormPreview {
   informations: string | null;
   googleMapsLink: string | null;
   contentType: 'COURSE' | 'EVENT';
+  contentStatus?: string;
+  linkedEventId?: string;
+  linkedCourseId?: string;
 
   // Preview images (URL locali da FileReader)
   coverImagePreview: string | null;
