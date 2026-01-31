@@ -1,7 +1,7 @@
 <div class="container-fluid py-4">
   <div class="row">
     <!-- FORM SECTION -->
-    <div class="col-12 col-lg-6">
+    <div class="col-12 col-lg-6 mb-4 mb-lg-0">
       <div class="form-container">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2 class="mb-0">
@@ -21,32 +21,34 @@
         </div>
 
         <!-- Tab Navigation -->
-        <ul class="nav nav-tabs mb-4">
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              [class.active]="activeTab === 'info'"
-              [style.pointer-events]="activeTab === 'info' ? 'none' : 'auto'"
-              (click)="setActiveTab('info')"
-              href="javascript:void(0)"
-            >
-              {{ "ADMIN.PROJECTS.FORM.TABS.INFO" | translate }}
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link"
-              [class.active]="activeTab === 'press-reviews'"
-              [style.pointer-events]="
-                activeTab === 'press-reviews' ? 'none' : 'auto'
-              "
-              (click)="setActiveTab('press-reviews')"
-              href="javascript:void(0)"
-            >
-              {{ "ADMIN.PROJECTS.FORM.TABS.PRESS_REVIEWS" | translate }}
-            </a>
-          </li>
-        </ul>
+        @if (isEditMode) {
+          <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [class.active]="activeTab === 'info'"
+                [style.pointer-events]="activeTab === 'info' ? 'none' : 'auto'"
+                (click)="setActiveTab('info')"
+                href="javascript:void(0)"
+              >
+                {{ "ADMIN.PROJECTS.FORM.TABS.INFO" | translate }}
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                [class.active]="activeTab === 'press-reviews'"
+                [style.pointer-events]="
+                  activeTab === 'press-reviews' ? 'none' : 'auto'
+                "
+                (click)="setActiveTab('press-reviews')"
+                href="javascript:void(0)"
+              >
+                {{ "ADMIN.PROJECTS.FORM.TABS.PRESS_REVIEWS" | translate }}
+              </a>
+            </li>
+          </ul>
+        }
 
         <!-- Tab Content -->
         @if (activeTab === "info") {
@@ -81,7 +83,12 @@
         }
 
         @if (activeTab === "press-reviews") {
-          <app-project-press-reviews-form></app-project-press-reviews-form>
+          <app-project-press-reviews-form
+            [pressReviews]="previewContent?.pressReviews || []"
+            [projectType]="projectType"
+            [isEditMode]="isEditMode"
+            (pressReviewsChange)="onPressReviewsChange($event)"
+          ></app-project-press-reviews-form>
         }
       </div>
     </div>

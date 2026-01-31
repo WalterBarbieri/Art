@@ -24,6 +24,7 @@ import { ProjectPressReviewsComponent } from 'src/app/shared/components/project/
 import { environment } from 'src/environments/environment';
 import { Course } from 'src/app/models/course.interface';
 import { ProjectEvent } from 'src/app/models/event.interface';
+import { PressReview } from 'src/app/models/press-review.interface';
 import { ProjectMediaService } from '../../services/project-media.service';
 import { ProjectSubmitService } from '../../services/project-submit.service';
 import { ProjectDetailsInfoComponent } from 'src/app/shared/components/project/details-info/project-details-info.component';
@@ -342,8 +343,10 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         ...this.videosPreviews.map(url => ({ href: url, type: 'video' as const, source: 'local' as const }))
       ];
       preview.filePaths = [...this.existingFiles.map(f => f.name), ...this.filesFiles.map(f => f.name)];
-      // Preserva press reviews
-      if (this.originalProject?.pressReviews) {
+      // Use current press reviews from previewContent if available, otherwise original
+      if (this.previewContent?.pressReviews) {
+        preview.pressReviews = this.previewContent.pressReviews;
+      } else if (this.originalProject?.pressReviews) {
         preview.pressReviews = this.originalProject.pressReviews;
       }
     }
@@ -405,6 +408,16 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  addPressReview(data: { url: string; image: File }): void {
+    // TODO: Implement press review addition logic
+    console.log('Adding press review:', data);
+  }
+
+  removePressReview(index: number): void {
+    // TODO: Implement press review removal logic
+    console.log('Removing press review at index:', index);
+  }
+
   onCancel(): void {
     this.router.navigate(['/admin/projects']);
   }
@@ -442,5 +455,12 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     return [
       ...this.previewContent.filesNames
     ];
+  }
+
+  onPressReviewsChange(pressReviews: PressReview[]): void {
+    if (this.previewContent) {
+      this.previewContent.pressReviews = pressReviews;
+      this.updatePreview();
+    }
   }
 }

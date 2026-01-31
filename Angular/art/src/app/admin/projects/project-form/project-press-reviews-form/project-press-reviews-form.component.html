@@ -1,1 +1,96 @@
-<p>project-press-reviews-form works!</p>
+<form (ngSubmit)="onSubmit()">
+  <!-- Press Reviews List -->
+  <div class="mb-4">
+    <h4 class="mb-3">{{ "ADMIN.PROJECTS.FORM.PRESS_REVIEWS_LABEL" | translate }}</h4>
+
+    @for (review of workingPressReviews; track review.id; let i = $index) {
+      <div class="press-review-item mb-4 p-3 border rounded">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="mb-0">{{ "ADMIN.PROJECTS.FORM.PRESS_REVIEW_ITEM" | translate }} {{ i + 1 }}</h5>
+          <button
+            type="button"
+            class="btn btn-danger btn-sm"
+            (click)="removePressReview(i)"
+            [title]="'ADMIN.PROJECTS.FORM.REMOVE_PRESS_REVIEW' | translate"
+          >
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+
+        <div class="row">
+          <!-- URL Field -->
+          <div class="col-md-6">
+            <div class="form-floating mb-3 mb-md-0">
+              <input
+                type="url"
+                class="form-control mb-md-0"
+                [id]="'pressReviewUrl-' + i"
+                [(ngModel)]="review.url"
+                [ngModelOptions]="{standalone: true}"
+                [placeholder]="'ADMIN.PROJECTS.FORM.PRESS_REVIEW_URL_PLACEHOLDER' | translate"
+                (ngModelChange)="onUrlChange(i)"
+              />
+              <label [for]="'pressReviewUrl-' + i">{{ "ADMIN.PROJECTS.FORM.PRESS_REVIEW_URL_LABEL" | translate }}</label>
+            </div>
+          </div>
+
+          <!-- Image Upload -->
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label [for]="'pressReviewImage-' + i" class="form-label fw-bold">
+                {{ "ADMIN.PROJECTS.FORM.PRESS_REVIEW_IMAGE_LABEL" | translate }}
+              </label>
+              <input
+                type="file"
+                class="form-control"
+                [id]="'pressReviewImage-' + i"
+                accept="image/*"
+                (change)="onImageChange($event, i)"
+              />
+              @if (review.imagePath) {
+                <div class="mt-2 position-relative d-inline-block">
+                  <img
+                    [src]="review.imagePath"
+                    alt="Press review preview"
+                    class="img-thumbnail press-review-preview"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-danger btn-sm position-absolute top-0 end-0 m-1"
+                    (click)="removeImage(i)"
+                    [title]="'ADMIN.PROJECTS.FORM.REMOVE_IMAGE' | translate"
+                  >
+                    <i class="fas fa-times"></i>
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+
+    <!-- Add New Press Review Button -->
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4">
+      <button
+        type="button"
+        class="btn default-button btn-sm"
+        (click)="addPressReview()"
+      >
+        <i class="fas fa-plus me-2"></i>
+        {{ "ADMIN.PROJECTS.FORM.ADD_PRESS_REVIEW_BUTTON" | translate }}
+      </button>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <button
+        type="submit"
+        class="btn default-button"
+      >
+        <i class="fas fa-save me-2"></i>
+        {{ "ADMIN.PROJECTS.FORM.SAVE_PRESS_REVIEWS" | translate }}
+      </button>
+    </div>
+  </div>
+</form>

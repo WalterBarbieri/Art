@@ -144,10 +144,11 @@
             @if (eventDates.length > 1) {
               <button
                 type="button"
-                class="btn"
+                class="btn btn-danger btn-sm rounded event-date-remove-button"
                 (click)="removeEventDate(i)"
+                [title]="'ADMIN.PROJECTS.FORM.REMOVE_DATE' | translate"
               >
-                <i class="fas fa-trash text-danger"></i>
+                <i class="fas fa-trash"></i>
               </button>
             }
           </div>
