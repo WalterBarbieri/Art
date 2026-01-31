@@ -7,3 +7,55 @@
 .gallery-preview {
   max-height: 100px;
 }
+
+// Quill editor styling per allineamento con Bootstrap form-control
+::ng-deep {
+  quill-editor {
+    display: block;
+    width: 100%;
+
+    .ql-container {
+      border-bottom-left-radius: 0.375rem;
+      border-bottom-right-radius: 0.375rem;
+      font-family: inherit;
+      font-size: 1rem;
+      min-height: 150px;
+
+      .ql-editor {
+        min-height: 150px;
+        line-height: 1.5;
+        color: $dark-gray; // Colore testo di default
+        background-color: transparent; // Background trasparente
+
+        &.ql-blank::before {
+          color: #6c757d;
+          font-style: normal;
+        }
+      }
+    }
+
+    .ql-toolbar {
+      border-top-left-radius: 0.375rem;
+      border-top-right-radius: 0.375rem;
+      background-color: #f8f9fa;
+      border-color: #ced4da;
+    }
+
+    // Color picker - trasforma quadratini in cerchi
+    .ql-color-picker .ql-picker-item {
+      border-radius: 50%;
+    }
+
+    .ql-container {
+      border-color: #ced4da;
+    }
+
+    // Stato invalid
+    &.is-invalid {
+      .ql-toolbar,
+      .ql-container {
+        border-color: #dc3545;
+      }
+    }
+  }
+}

@@ -413,17 +413,6 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     window.open(url, '_blank');
   }
 
-  // Press review management methods
-  editPressReview(review: any): void {
-    // TODO: Implement edit press review
-    console.log('Edit press review:', review);
-  }
-
-  deletePressReview(review: any): void {
-    // TODO: Implement delete press review
-    console.log('Delete press review:', review);
-  }
-
   // Preview data preparation methods
   get previewGalleryItems(): any[] {
     const items: any[] = [];
