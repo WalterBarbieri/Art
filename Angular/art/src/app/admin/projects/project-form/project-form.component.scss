@@ -79,10 +79,19 @@
 }
 
 .nav-item {
+  .nav-link {
+    font-size: small;
+  }
   .nav-link:not(.active) {
     color: $dark-gray;
   }
   .nav-link.active {
     color: $dark-cyan;
+  }
+
+  @media (min-width: 400px) {
+    .nav-link {
+      font-size: medium;
+    }
   }
 }
