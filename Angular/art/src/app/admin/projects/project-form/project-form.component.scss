@@ -77,3 +77,12 @@
 .gallery-preview {
   max-height: 100px;
 }
+
+.nav-item {
+  .nav-link:not(.active) {
+    color: $dark-gray;
+  }
+  .nav-link.active {
+    color: $dark-cyan;
+  }
+}

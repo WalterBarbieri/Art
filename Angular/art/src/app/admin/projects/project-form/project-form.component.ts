@@ -69,6 +69,9 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   fallbackImage: string = environment.fallBackImage;
 
+  // Tab management
+  activeTab: 'info' | 'press-reviews' = 'info';
+
   // Quill editor configuration
   quillModules = {
     toolbar: [
@@ -363,6 +366,10 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       }
     }
     this.previewService.setPreview(preview);
+  }
+
+  setActiveTab(tab: 'info' | 'press-reviews'): void {
+    this.activeTab = tab;
   }
 
   onSubmit(): void {

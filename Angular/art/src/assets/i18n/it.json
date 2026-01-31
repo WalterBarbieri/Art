@@ -161,7 +161,11 @@
         "DEFAULT_LOCATION": "Luogo",
         "REMOVE_IMAGE": "Rimuovi immagine",
         "REMOVE_FILE": "Rimuovi file",
-        "REMOVE_VIDEO": "Rimuovi video"
+        "REMOVE_VIDEO": "Rimuovi video",
+        "TABS": {
+          "INFO": "Informazioni",
+          "PRESS_REVIEWS": "Recensioni Stampa"
+        }
       }
     }
   },

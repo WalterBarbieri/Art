@@ -20,6 +20,20 @@
           </h2>
         </div>
 
+        <!-- Tab Navigation -->
+        <ul class="nav nav-tabs mb-4">
+          <li class="nav-item">
+            <a class="nav-link" [class.active]="activeTab === 'info'" [style.pointer-events]="activeTab === 'info' ? 'none' : 'auto'" (click)="setActiveTab('info')" href="javascript:void(0)">
+              {{ "ADMIN.PROJECTS.FORM.TABS.INFO" | translate }}
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [class.active]="activeTab === 'press-reviews'" [style.pointer-events]="activeTab === 'press-reviews' ? 'none' : 'auto'" (click)="setActiveTab('press-reviews')" href="javascript:void(0)">
+              {{ "ADMIN.PROJECTS.FORM.TABS.PRESS_REVIEWS" | translate }}
+            </a>
+          </li>
+        </ul>
+
         <form [formGroup]="projectForm" (ngSubmit)="onSubmit()">
           <!-- Title -->
           <div class="form-floating mb-3">
