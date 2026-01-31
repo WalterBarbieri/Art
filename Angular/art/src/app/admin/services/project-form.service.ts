@@ -4,6 +4,9 @@ import { TranslateService } from '@ngx-translate/core';
 import {
   ProjectPreview,
   ProjectFormValue,
+  ProjectFormPreview,
+  CourseFormPreview,
+  EventFormPreview,
 } from '../projects/project-form/project-form.interface';
 import {
   dateRangeValidator,
@@ -71,7 +74,9 @@ export class ProjectFormService {
       // If invalid, keep null
     }
 
-    const basePreview = {
+    const pressReviews = formValue.pressReviews || [];
+
+    const basePreview: Omit<ProjectFormPreview, 'contentType' | 'dateFrom' | 'dateTo' | 'eventDates'> = {
       title:
         formValue.title ||
         this.translate.instant('ADMIN.PROJECTS.FORM.DEFAULT_TITLE'),
@@ -96,19 +101,21 @@ export class ProjectFormService {
     if (this.isCourseForm(formValue)) {
       return {
         ...basePreview,
-        contentType: 'COURSE',
+        contentType: 'COURSE' as const,
         dateFrom: formValue.dateFrom ? new Date(formValue.dateFrom) : null,
         dateTo: formValue.dateTo ? new Date(formValue.dateTo) : null,
-      };
+        pressReviews: pressReviews,
+      } as CourseFormPreview;
     } else {
       return {
         ...basePreview,
-        contentType: 'EVENT',
+        contentType: 'EVENT' as const,
         eventDates:
           formValue.eventDates
             ?.filter((d) => d && !isNaN(new Date(d).getTime()))
             .map((d) => new Date(d)) || [],
-      };
+        pressReviews: pressReviews,
+      } as EventFormPreview;
     }
   }
 

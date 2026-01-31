@@ -28,6 +28,7 @@ import { ProjectEvent } from 'src/app/models/event.interface';
 import { ProjectMediaService } from '../../services/project-media.service';
 import { ProjectSubmitService } from '../../services/project-submit.service';
 import { ProjectDetailsInfoComponent } from 'src/app/shared/components/project/details-info/project-details-info.component';
+import { ProjectPreviewService } from '../../services/project-preview.service';
 
 @Component({
   selector: 'app-project-form',
@@ -63,6 +64,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   existingFiles: { name: string; size?: number }[] = [];
 
   // Preview object for reusable components
+  previewContent$ = this.previewService.preview$;
   previewContent: ProjectPreview | null = null;
 
   fallbackImage: string = environment.fallBackImage;
@@ -100,6 +102,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     private errorService: ErrorService,
     private projectMediaService: ProjectMediaService,
     private projectSubmitService: ProjectSubmitService,
+    private previewService: ProjectPreviewService,
   ) {}
 
   ngOnInit(): void {
@@ -117,6 +120,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         this.loadExistingProject();
       }
       this.initializeForm();
+    });
+
+    // Subscribe to preview updates
+    this.previewContent$.subscribe(preview => {
+      this.previewContent = preview;
     });
   }
 
@@ -337,23 +345,24 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       videos: this.videosFiles
     };
 
-    this.previewContent = this.formService.createPreview(formValue, files, this.originalProject);
+    const preview = this.formService.createPreview(formValue, files, this.originalProject);
     // Override with component state for previews
-    if (this.previewContent) {
-      this.previewContent.coverImagePreview = this.coverImagePreview;
-      this.previewContent.imagesPreviews = this.imagesPreviews;
+    if (preview) {
+      preview.coverImagePreview = this.coverImagePreview;
+      preview.imagesPreviews = this.imagesPreviews;
       // Add existing media to gallery
-      this.previewContent.galleryItems = [
+      preview.galleryItems = [
         ...this.existingImages.map(url => ({ href: url, type: 'image' as const })),
         ...this.imagesPreviews.slice(this.existingImages.length).map(url => ({ href: url, type: 'image' as const })),
         ...this.videosPreviews.map(url => ({ href: url, type: 'video' as const, source: 'local' as const }))
       ];
-      this.previewContent.filePaths = [...this.existingFiles.map(f => f.name), ...this.filesFiles.map(f => f.name)];
+      preview.filePaths = [...this.existingFiles.map(f => f.name), ...this.filesFiles.map(f => f.name)];
       // Preserva press reviews
       if (this.originalProject?.pressReviews) {
-        this.previewContent.pressReviews = this.originalProject.pressReviews;
+        preview.pressReviews = this.originalProject.pressReviews;
       }
     }
+    this.previewService.setPreview(preview);
   }
 
   onSubmit(): void {

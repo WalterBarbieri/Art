@@ -54,6 +54,7 @@ export interface ProjectFormValue {
   dateFrom?: string;
   dateTo?: string;
   eventDates?: string[];
+  pressReviews?: PressReview[];
 }
 
 // Payload per il backend (da costruire in FormData)
