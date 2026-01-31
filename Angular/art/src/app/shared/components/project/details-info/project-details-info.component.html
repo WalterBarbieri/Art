@@ -1,23 +1,51 @@
-<h5>{{ (projectType === 'course' ? "PROJECT.TYPE_COURSE" : "PROJECT.TYPE_EVENT") | translate }}</h5>
+<h5>
+  {{
+    (projectType === "course" ? "PROJECT.TYPE_COURSE" : "PROJECT.TYPE_EVENT")
+      | translate
+  }}
+</h5>
 <p>
-  <strong>{{ "PROJECT.DETAILS.LOCATION" | translate }}</strong> {{
-  project.location }}
+  <strong>{{ "PROJECT.DETAILS.LOCATION" | translate }}</strong>
+  {{ project.location }}
 </p>
 <p>
   <strong>{{ "PROJECT.DETAILS.MAX_PARTICIPANTS" | translate }}</strong>
-  {{ projectType === 'event' ? calculateMaxParticipants(project) : project.maxParticipants }}
+  {{
+    projectType === "event"
+      ? calculateMaxParticipants(project)
+      : project.maxParticipants
+  }}
 </p>
-@if (project.contentStatus != 'COMPLETED') {
-<p>{{ "PROJECT.DETAILS.FREE_PARTICIPATION" | translate }}</p>
-<p>{{ "PROJECT.DETAILS.REGISTRATION_REQUIRED" | translate }}</p>
+@if (project.contentStatus != "COMPLETED") {
+  <p>{{ "PROJECT.DETAILS.FREE_PARTICIPATION" | translate }}</p>
+  <p>{{ "PROJECT.DETAILS.REGISTRATION_REQUIRED" | translate }}</p>
 }
-@if (projectType === 'course' && project.linkedEventId) {
-<a [routerLink]="['/projects', 'events', project.linkedEventId]"
-  >{{ "PROJECT.DETAILS.VIEW_EVENT" | translate }}</a
->
+@if (projectType === "course" && project.linkedEventId) {
+  @if (!isPreviewMode) {
+    <a [routerLink]="['/projects', 'events', project.linkedEventId]">{{
+      "PROJECT.DETAILS.VIEW_EVENT" | translate
+    }}</a>
+  } @else {
+    <a
+      [routerLink]="['/admin/projects', 'event', project.linkedEventId, 'edit']"
+      >{{ "PROJECT.DETAILS.VIEW_EVENT" | translate }}</a
+    >
+  }
 }
-@if (projectType === 'event' && project.linkedCourseId) {
-<a [routerLink]="['/projects', 'courses', project.linkedCourseId]"
-  >{{ "PROJECT.DETAILS.VIEW_COURSE" | translate }}</a
->
+@if (projectType === "event" && project.linkedCourseId) {
+  @if (!isPreviewMode) {
+    <a [routerLink]="['/projects', 'courses', project.linkedCourseId]">{{
+      "PROJECT.DETAILS.VIEW_COURSE" | translate
+    }}</a>
+  } @else {
+    <a
+      [routerLink]="[
+        '/admin/projects',
+        'course',
+        project.linkedCourseId,
+        'edit',
+      ]"
+      >{{ "PROJECT.DETAILS.VIEW_COURSE" | translate }}</a
+    >
+  }
 }

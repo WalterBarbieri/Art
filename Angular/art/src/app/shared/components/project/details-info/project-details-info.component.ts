@@ -8,15 +8,18 @@ import { TranslateModule } from '@ngx-translate/core';
   standalone: true,
   imports: [CommonModule, RouterModule, TranslateModule],
   templateUrl: './project-details-info.component.html',
-  styleUrls: ['./project-details-info.component.scss']
+  styleUrls: ['./project-details-info.component.scss'],
 })
 export class ProjectDetailsInfoComponent {
   @Input() projectType!: 'course' | 'event';
   @Input() project!: any;
+  @Input() isPreviewMode: boolean = false;
 
   calculateMaxParticipants(project: any): number {
     if (project.eventDateSlots && project.eventDateSlots.length > 0) {
-      return Math.min(...project.eventDateSlots.map((slot: any) => slot.maxParticipants));
+      return Math.min(
+        ...project.eventDateSlots.map((slot: any) => slot.maxParticipants),
+      );
     }
     return project.maxParticipants || 0;
   }

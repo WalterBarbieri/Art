@@ -23,19 +23,33 @@
         <!-- Tab Navigation -->
         <ul class="nav nav-tabs mb-4">
           <li class="nav-item">
-            <a class="nav-link" [class.active]="activeTab === 'info'" [style.pointer-events]="activeTab === 'info' ? 'none' : 'auto'" (click)="setActiveTab('info')" href="javascript:void(0)">
+            <a
+              class="nav-link"
+              [class.active]="activeTab === 'info'"
+              [style.pointer-events]="activeTab === 'info' ? 'none' : 'auto'"
+              (click)="setActiveTab('info')"
+              href="javascript:void(0)"
+            >
               {{ "ADMIN.PROJECTS.FORM.TABS.INFO" | translate }}
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" [class.active]="activeTab === 'press-reviews'" [style.pointer-events]="activeTab === 'press-reviews' ? 'none' : 'auto'" (click)="setActiveTab('press-reviews')" href="javascript:void(0)">
+            <a
+              class="nav-link"
+              [class.active]="activeTab === 'press-reviews'"
+              [style.pointer-events]="
+                activeTab === 'press-reviews' ? 'none' : 'auto'
+              "
+              (click)="setActiveTab('press-reviews')"
+              href="javascript:void(0)"
+            >
               {{ "ADMIN.PROJECTS.FORM.TABS.PRESS_REVIEWS" | translate }}
             </a>
           </li>
         </ul>
 
         <!-- Tab Content -->
-        @if (activeTab === 'info') {
+        @if (activeTab === "info") {
           <app-project-main-form
             [projectForm]="projectForm"
             [projectType]="projectType"
@@ -61,11 +75,12 @@
             (removeVideoEvent)="removeVideo($event)"
             (removeFileEvent)="removeFile($event)"
             (addEventDateEvent)="addEventDate()"
-            (removeEventDateEvent)="removeEventDate($event)">
+            (removeEventDateEvent)="removeEventDate($event)"
+          >
           </app-project-main-form>
         }
 
-        @if (activeTab === 'press-reviews') {
+        @if (activeTab === "press-reviews") {
           <app-project-press-reviews-form></app-project-press-reviews-form>
         }
       </div>
@@ -100,6 +115,7 @@
                   previewContent.contentType === 'COURSE' ? 'course' : 'event'
                 "
                 [project]="previewContent"
+                [isPreviewMode]="true"
               >
               </app-project-details-info>
               <div class="col-12 col-md-6 text-md-end">
@@ -195,4 +211,4 @@
       </div>
     </div>
   </div>
-
+</div>
