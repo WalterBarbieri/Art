@@ -4,7 +4,6 @@ import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
 import { ProjectPreview, ProjectFormValue } from './project-form.interface';
-import { QuillModule } from 'ngx-quill';
 import { AdminCourseService } from '../../services/admin-course.service';
 import { AdminEventService } from '../../services/admin-event.service';
 import { ProjectFileService } from '../../services/project-file.service';
@@ -29,10 +28,12 @@ import { ProjectMediaService } from '../../services/project-media.service';
 import { ProjectSubmitService } from '../../services/project-submit.service';
 import { ProjectDetailsInfoComponent } from 'src/app/shared/components/project/details-info/project-details-info.component';
 import { ProjectPreviewService } from '../../services/project-preview.service';
+import { ProjectMainFormComponent } from './project-main-form/project-main-form.component';
+import { ProjectPressReviewsFormComponent } from './project-press-reviews-form/project-press-reviews-form.component';
 
 @Component({
   selector: 'app-project-form',
-  imports: [CommonModule, ReactiveFormsModule, QuillModule, TranslateModule, ProjectCoverComponent, ProjectGalleryComponent, ProjectInfoComponent, ProjectFilesComponent, ProjectDetailsInfoComponent, AnimatedButtonComponent, ProjectPressReviewsComponent],
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, ProjectCoverComponent, ProjectGalleryComponent, ProjectInfoComponent, ProjectFilesComponent, ProjectDetailsInfoComponent, AnimatedButtonComponent, ProjectPressReviewsComponent, ProjectMainFormComponent, ProjectPressReviewsFormComponent],
   templateUrl: './project-form.component.html',
   styleUrl: './project-form.component.scss'
 })
@@ -71,25 +72,6 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   // Tab management
   activeTab: 'info' | 'press-reviews' = 'info';
-
-  // Quill editor configuration
-  quillModules = {
-    toolbar: [
-      ['bold', 'italic', 'underline'],
-      [{
-        'color': [
-          '#212B31', // dark-gray: rgb(33, 43, 49)
-          '#40B0C4', // dark-cyan: rgb(64, 176, 196)
-          '#7FCBD8', // light-cyan: rgb(127, 203, 216)
-          '#8E400F', // brown: rgb(142, 64, 15)
-          '#5DD479', // light-green: rgba(93, 212, 121, 0.95)
-          '#FFDA6C', // light-yellow: rgb(255, 218, 108, 0.95)
-          '#F36464'  // light-red: rgb(243, 100, 100, 0.95)
-        ]
-      }],
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }]
-    ]
-  };
 
   constructor(
     private route: ActivatedRoute,
