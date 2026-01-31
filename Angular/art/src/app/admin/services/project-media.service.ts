@@ -52,12 +52,14 @@ export class ProjectMediaService {
           this.imageService
             .getFullVideoUrl(path)
             .pipe(
-              map((url) =>
+              map((url) => {
+                const fullName = path.split('/').pop() || '';
+                const parsedName = fullName.substring(14); // Remove timestamp prefix
                 media.videos.push({
-                  name: path.split('/').pop() || 'Video',
+                  name: parsedName,
                   url,
-                }),
-              ),
+                });
+              }),
             ),
         );
       });
@@ -66,7 +68,9 @@ export class ProjectMediaService {
     // Files (no URL needed, just names)
     if (project.filePaths && project.filePaths.length > 0) {
       project.filePaths.forEach((path: string) => {
-        media.files.push({ name: path.split('/').pop() || 'File' });
+        const fullName = path.split('/').pop() || '';
+        const parsedName = fullName.substring(14); // Remove timestamp prefix
+        media.files.push({ name: parsedName });
       });
     }
 
