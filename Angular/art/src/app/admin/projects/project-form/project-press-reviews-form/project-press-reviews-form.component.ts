@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -11,7 +11,7 @@ import { PressReview } from 'src/app/models/press-review.interface';
   templateUrl: './project-press-reviews-form.component.html',
   styleUrl: './project-press-reviews-form.component.scss',
 })
-export class ProjectPressReviewsFormComponent implements OnInit, OnDestroy, OnChanges {
+export class ProjectPressReviewsFormComponent implements OnInit, OnDestroy {
   @Input() pressReviews: PressReview[] = [];
   @Input() projectType: 'COURSE' | 'EVENT' = 'COURSE';
   @Input() isEditMode: boolean = false;
@@ -28,12 +28,6 @@ export class ProjectPressReviewsFormComponent implements OnInit, OnDestroy, OnCh
 
   ngOnInit(): void {
     this.initializeWorkingCopy();
-  }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes['pressReviews'] && !changes['pressReviews'].firstChange) {
-      this.initializeWorkingCopy();
-    }
   }
 
   ngOnDestroy(): void {
@@ -59,7 +53,7 @@ export class ProjectPressReviewsFormComponent implements OnInit, OnDestroy, OnCh
     };
 
     this.workingPressReviews.push(newReview);
-    // Don't emit immediately to avoid UI issues
+    this.emitPressReviewsChange();
   }
 
   removePressReview(index: number): void {
@@ -77,7 +71,6 @@ export class ProjectPressReviewsFormComponent implements OnInit, OnDestroy, OnCh
         ...this.workingPressReviews[index],
         imagePath: URL.createObjectURL(file)
       };
-
       this.emitPressReviewsChange();
     }
   }
@@ -99,26 +92,19 @@ export class ProjectPressReviewsFormComponent implements OnInit, OnDestroy, OnCh
   }
 
   onUrlChange(index: number): void {
-    // ngModel has already updated workingPressReviews[index].url
-    // Don't emit to avoid UI issues for now
-    // this.emitPressReviewsChange();
+    this.emitPressReviewsChange();
   }
 
   private emitPressReviewsChange(): void {
-    // Combine original press reviews with modified ones
-    // Keep all original reviews (including those with own: false)
-    // Replace those with own: true with the modified versions from workingPressReviews
+    // Create a map of modified/added reviews for quick lookup
     const modifiedReviewsMap = new Map(this.workingPressReviews.map(review => [review.id, review]));
 
-    const combinedPressReviews = this.pressReviews.map(originalReview => {
-      if (originalReview.own && modifiedReviewsMap.has(originalReview.id)) {
-        // Use the modified version
-        return modifiedReviewsMap.get(originalReview.id)!;
-      } else {
-        // Keep the original
-        return originalReview;
-      }
-    });
+    // Combine: keep all original reviews that are NOT own (external reviews)
+    // Plus all reviews from workingPressReviews (modified/added/own reviews)
+    const combinedPressReviews = [
+      ...this.pressReviews.filter(review => !review.own), // Keep external reviews
+      ...this.workingPressReviews // Add all working copy reviews (modified/added)
+    ];
 
     this.pressReviewsChange.emit(combinedPressReviews);
   }
