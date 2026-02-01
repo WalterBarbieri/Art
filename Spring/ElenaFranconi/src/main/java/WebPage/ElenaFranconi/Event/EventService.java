@@ -87,6 +87,13 @@ public class EventService extends AbstractContentService<Event> {
 		return findEventById(eventId);
 	}
 
+	@Transactional
+	public Event patchArchived(UUID eventId) {
+		Event event = findEventById(eventId);
+		event.setArchived(!event.isArchived());
+		return eventRepository.save(event);
+	}
+
 	// LOGIC METHODS
 
 	public EventDto getEventDto(Event event) {

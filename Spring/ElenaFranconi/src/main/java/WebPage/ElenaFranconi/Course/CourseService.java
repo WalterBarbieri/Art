@@ -105,6 +105,13 @@ public class CourseService extends AbstractContentService<Course> {
 		return course;
 	}
 
+	@Transactional
+	public Course patchArchived(UUID courseId) {
+		Course course = findCourseById(courseId);
+		course.setArchived(!course.isArchived());
+		return courseRepository.save(course);
+	}
+
 	// LOGIC METHODS
 
 	public CourseDto getCourseDto(Course course) {

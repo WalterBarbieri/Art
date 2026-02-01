@@ -29,6 +29,7 @@
   "PROJECT": {
     "TITLE": "PROJECTS",
     "FILTER": "Filters",
+    "CLEAR_FILTERS": "Clear Filters",
     "STATUS_ONGOING": "Ongoing",
     "STATUS_UPCOMING": "Upcoming",
     "STATUS_COMPLETED": "Completed",

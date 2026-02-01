@@ -37,13 +37,36 @@
   @if (filteredProjects.length > 0) {
     <div class="row">
       @for (project of filteredProjects; track project.id; let i = $index) {
-        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-2">
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 mb-5">
           <app-project-card
             [project]="project"
             [isImageLoading]="imageLoading[i]"
             [truncateDescription]="true"
             [mode]="'admin'"
           ></app-project-card>
+          <div class="d-flex justify-content-center gap-2 mt-2">
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-primary"
+              title="Subscribers"
+            >
+              <i class="fas fa-users"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-secondary"
+              title="Link"
+            >
+              <i class="fas fa-link"></i>
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-outline-warning"
+              title="Archive"
+            >
+              <i class="fas fa-archive"></i>
+            </button>
+          </div>
         </div>
       }
     </div>

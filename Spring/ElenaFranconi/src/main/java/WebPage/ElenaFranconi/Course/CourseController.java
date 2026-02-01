@@ -72,4 +72,11 @@ public class CourseController {
 		Course course = courseService.patchGoogleMapsLink(courseId, googleMapsLink);
 		return ResponseEntity.ok(courseService.getCourseDto(course));
 	}
+
+	@PatchMapping("/{courseId}/archive")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<CourseDto> archiveCourse(@PathVariable UUID courseId) {
+		Course course = courseService.patchArchived(courseId);
+		return ResponseEntity.ok(courseService.getCourseDto(course));
+	}
 }

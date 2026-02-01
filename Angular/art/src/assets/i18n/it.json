@@ -27,8 +27,7 @@
   },
   "PROJECT": {
     "TITLE": "PROGETTI",
-    "FILTER": "Filtri",
-    "STATUS_ONGOING": "In corso",
+    "FILTER": "Filtri",    "CLEAR_FILTERS": "Cancella Filtri",    "STATUS_ONGOING": "In corso",
     "STATUS_UPCOMING": "In arrivo",
     "STATUS_COMPLETED": "Concluso",
     "TYPE_COURSE": "Laboratorio",

@@ -56,4 +56,11 @@ public class EventController {
 		return ResponseEntity.ok(eventService.getEventDto(event));
 	}
 
+	@PatchMapping("/{eventId}/archive")
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<EventDto> archiveEvent(@PathVariable UUID eventId) {
+		Event event = eventService.patchArchived(eventId);
+		return ResponseEntity.ok(eventService.getEventDto(event));
+	}
+
 }
