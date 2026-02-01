@@ -9,6 +9,8 @@ import { FilterValues, ProjectFiltersComponent } from 'src/app/shared/components
 import { RouterModule } from '@angular/router';
 import { ProjectCardComponent } from 'src/app/shared/components/project/project-card/project-card.component';
 import { ErrorService } from 'src/app/core/services/error.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ArchiveModalComponent } from 'src/app/shared/components/modals/archive-modal/archive-modal.component';
 
 @Component({
   selector: 'app-projects',
@@ -25,7 +27,8 @@ export class ProjectsComponent implements OnInit {
     private adminContentService: AdminContentService,
     private imageService: ImageService,
     private loaderService: LoaderService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {
@@ -91,5 +94,23 @@ export class ProjectsComponent implements OnInit {
         this.filteredProjects.reverse();
       }
     }
+
+  openArchiveModal(project: Content): void {
+    const modalRef = this.modalService.open(ArchiveModalComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.contentId = project.id;
+    modalRef.componentInstance.contentTitle = project.title;
+    modalRef.componentInstance.contentType = project.contentType;
+
+    modalRef.result.then(result => {
+      if (result) {
+        // Qui implementeremo la logica di archiviazione
+        console.log('Archive confirmed for:', result);
+      }
+    }).catch(() => {
+      // Modal dismissed
+    });
+  }
 
 }

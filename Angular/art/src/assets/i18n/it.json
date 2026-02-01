@@ -101,7 +101,6 @@
       "NEW_PROJECT": "Nuovo Progetto",
       "WORKSHOP": "Laboratorio",
       "PERFORMANCE": "Performance",
-      "NO_PROJECTS": "Nessun progetto disponibile. Inizia creandone uno nuovo!",
       "FORM": {
         "CREATE": "Crea",
         "EDIT": "Modifica",
@@ -212,6 +211,11 @@
       "FILE": "Scarica File",
       "CONFIRM": "Vuoi scaricare il file",
       "DOWNLOAD": "Scarica"
+    },
+    "ARCHIVE": {
+      "ARCHIVE_MODAL_TITLE": "Archivia Progetto",
+      "ARCHIVE_MODAL_MESSAGE": "Sei sicuro di voler archiviare il {{type}} '{{title}}'?",
+      "ARCHIVE_CONFIRM": "Archivia"
     }
   },
   "GUARD": {

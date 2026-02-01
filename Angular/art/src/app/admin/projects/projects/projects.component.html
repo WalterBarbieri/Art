@@ -44,7 +44,7 @@
             [truncateDescription]="true"
             [mode]="'admin'"
           ></app-project-card>
-          <div class="d-flex justify-content-center gap-2 mt-2">
+          <div class="d-flex justify-content-center gap-2 mt-2 pb-1 border-bottom border-start border-end rounded-bottom">
             <button
               type="button"
               class="btn btn-sm btn-outline-primary"
@@ -63,6 +63,7 @@
               type="button"
               class="btn btn-sm btn-outline-warning"
               title="Archive"
+              (click)="openArchiveModal(project)"
             >
               <i class="fas fa-archive"></i>
             </button>

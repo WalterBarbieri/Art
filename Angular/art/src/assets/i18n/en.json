@@ -104,7 +104,9 @@
       "NEW_PROJECT": "New Project",
       "WORKSHOP": "Workshop",
       "PERFORMANCE": "Performance",
-      "NO_PROJECTS": "No projects available. Start by creating a new one!",
+      "ARCHIVE_MODAL_TITLE": "Archive Project",
+      "ARCHIVE_MODAL_MESSAGE": "Are you sure you want to archive the {{type}} '{{title}}'?",
+      "ARCHIVE_CONFIRM": "Archive",
       "FORM": {
         "CREATE": "Create",
         "EDIT": "Edit",
