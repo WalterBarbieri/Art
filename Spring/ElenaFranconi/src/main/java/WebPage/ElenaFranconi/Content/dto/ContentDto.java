@@ -27,6 +27,8 @@ public class ContentDto {
 	private List<LocalDateTime> eventDates = new ArrayList<>();
 	private String location;
 	private boolean archived;
+	private UUID linkedEventId;
+	private UUID linkedCourseId;
 
 	public ContentDto(UUID id, String title, String description, String contentType, String coverImagePath,
 			ContentStatus contentStatus, String location, boolean archived) {
@@ -48,10 +50,12 @@ public class ContentDto {
 			Course course = (Course) content;
 			dto.setDateFrom(course.getDateFrom());
 			dto.setDateTo(course.getDateTo());
+			dto.setLinkedEventId(course.getLinkedEvent() != null ? course.getLinkedEvent().getId() : null);
 		}
 		if (content instanceof Event) {
 			Event event = (Event) content;
 			dto.setEventDates(event.getDateSlots().stream().map(EventDateSlot::getDate).toList());
+			dto.setLinkedCourseId(event.getLinkedCourse() != null ? event.getLinkedCourse().getId() : null);
 		}
 		return dto;
 	}

@@ -11,6 +11,10 @@ import { ProjectCardComponent } from 'src/app/shared/components/project/project-
 import { ErrorService } from 'src/app/core/services/error.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArchiveModalComponent } from 'src/app/shared/components/modals/archive-modal/archive-modal.component';
+import { ToastService } from 'src/app/shared/services/toast.service';
+import { TranslateService } from '@ngx-translate/core';
+import { StorageService } from 'src/app/shared/services/storage.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-projects',
@@ -22,13 +26,17 @@ export class ProjectsComponent implements OnInit {
   projects: Content[] = [];
   filteredProjects: Content[] = [];
   imageLoading: boolean[] = [];
+  isStaticMode: boolean = environment.isStaticMode;
 
   constructor(
     private adminContentService: AdminContentService,
     private imageService: ImageService,
     private loaderService: LoaderService,
     private errorService: ErrorService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private toastService: ToastService,
+    private translate: TranslateService,
+    private storageService: StorageService
   ) {}
 
   ngOnInit(): void {
@@ -52,6 +60,8 @@ export class ProjectsComponent implements OnInit {
     this.loaderService.show();
     this.adminContentService.getAllSorted().subscribe({
       next: (data: Content[]) => {
+        console.log('Loaded Content:', data);
+
         this.projects = data.map(project => ({
           ...project,
           eventDates: project.eventDates ? project.eventDates.map(d => new Date(d)) : []
@@ -73,27 +83,31 @@ export class ProjectsComponent implements OnInit {
   }
 
   onFiltersChanged(filters: FilterValues): void {
-      this.filteredProjects = this.projects.filter((project) => {
-        const statusMatch =
-          filters.status === 'all' ||
-          project.contentStatus === filters.status;
+    this.applyFilters(filters);
+  }
 
-        const typeMatch =
-          filters.type === 'all' ||
-          project.contentType === filters.type;
+  private applyFilters(filters: FilterValues): void {
+    this.filteredProjects = this.projects.filter((project) => {
+      const statusMatch =
+        filters.status === 'all' ||
+        project.contentStatus === filters.status;
 
-        const archivedMatch =
-          !filters.archived ||
-          filters.archived === 'all' ||
-          (filters.archived === 'archived' ? project.archived === true : project.archived !== true);
+      const typeMatch =
+        filters.type === 'all' ||
+        project.contentType === filters.type;
 
-        return statusMatch && typeMatch && archivedMatch;
-      });
+      const archivedMatch =
+        !filters.archived ||
+        filters.archived === 'all' ||
+        (filters.archived === 'archived' ? project.archived === true : project.archived !== true);
 
-      if (filters.sortOrder === 'reverse') {
-        this.filteredProjects.reverse();
-      }
+      return statusMatch && typeMatch && archivedMatch;
+    });
+
+    if (filters.sortOrder === 'reverse') {
+      this.filteredProjects.reverse();
     }
+  }
 
   openArchiveModal(project: Content): void {
     const modalRef = this.modalService.open(ArchiveModalComponent, {
@@ -105,11 +119,46 @@ export class ProjectsComponent implements OnInit {
 
     modalRef.result.then(result => {
       if (result) {
-        // Qui implementeremo la logica di archiviazione
-        console.log('Archive confirmed for:', result);
+        this.archiveProject(result.contentId, result.contentType);
       }
     }).catch(() => {
       // Modal dismissed
+    });
+  }
+
+  private archiveProject(contentId: string, contentType: string): void {
+    this.loaderService.show();
+    this.adminContentService.patchArchive(contentId, contentType).subscribe({
+      next: (updatedProject: Content) => {
+        // Aggiorna il progetto nella lista
+        const index = this.projects.findIndex(p => p.id === contentId);
+        if (index !== -1) {
+          this.projects[index] = {
+            ...updatedProject,
+            contentType: contentType, // Preserva il contentType originale
+            eventDates: updatedProject.eventDates ? updatedProject.eventDates.map(d => new Date(d)) : []
+          };
+          // Ricarica l'immagine se necessario
+          this.getFullImageUrl(this.projects[index].coverImagePath, index);
+        }
+        // Aggiorna anche filteredProjects ri-applicando i filtri dal session storage
+        const currentFilters = this.storageService.getProjectFilters(true); // true perché siamo in admin
+        if (currentFilters) {
+          this.applyFilters(currentFilters);
+        } else {
+          // Fallback: copia tutti i progetti se non ci sono filtri salvati
+          this.filteredProjects = [...this.projects];
+        }
+        this.translate.get('MODALS.ARCHIVE.SUCCESS').subscribe(message => {
+          this.toastService.showSuccess(message);
+        });
+      },
+      error: (processedError: ProcessedError) => {
+        this.errorService.handleProcessedError(processedError);
+      },
+      complete: () => {
+        this.loaderService.hide();
+      }
     });
   }
 

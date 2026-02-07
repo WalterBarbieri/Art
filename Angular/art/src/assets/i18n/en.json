@@ -33,6 +33,7 @@
     "STATUS_ONGOING": "Ongoing",
     "STATUS_UPCOMING": "Upcoming",
     "STATUS_COMPLETED": "Completed",
+    "STATUS_ARCHIVED": "Archived",
     "TYPE_COURSE": "Workshop",
     "TYPE_EVENT": "Performance",
     "FILTER_BY_STATUS": "FILTER BY STATUS",
@@ -104,9 +105,6 @@
       "NEW_PROJECT": "New Project",
       "WORKSHOP": "Workshop",
       "PERFORMANCE": "Performance",
-      "ARCHIVE_MODAL_TITLE": "Archive Project",
-      "ARCHIVE_MODAL_MESSAGE": "Are you sure you want to archive the {{type}} '{{title}}'?",
-      "ARCHIVE_CONFIRM": "Archive",
       "FORM": {
         "CREATE": "Create",
         "EDIT": "Edit",
@@ -214,9 +212,16 @@
   "MODALS": {
     "CLOSE": "Close",
     "DOWNLOAD": {
-      "FILE": "Download File",
-      "CONFIRM": "Do you want to download the file",
+      "TITLE": "Download File",
+      "MESSAGE": "Do you want to download the file",
       "DOWNLOAD": "Download"
+    },
+    "ARCHIVE":{
+      "TITLE": "Archive Project",
+      "MESSAGE": "Are you sure you want to archive",
+      "WARNING": "Warning: the archived project will no longer be visible on the public site.",
+      "ARCHIVE": "Archive",
+      "SUCCESS": "Project archived successfully"
     }
   },
   "GUARD": {
@@ -247,7 +252,9 @@
   "GENERIC": {
     "FROM": "from",
     "TO": "to",
-    "ALL": "All"
+    "ALL": "All",
+    "ARTICLE_MALE": "the",
+    "ARTICLE_FEMALE": "the"
   },
   "title": {
     "app": "Art Nature Theatre",

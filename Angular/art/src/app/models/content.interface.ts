@@ -12,4 +12,6 @@ export interface Content {
   eventDates: Date[] | null;
   location: string;
   archived: boolean;
+  linkedCourseId: string | null;
+  linkedEventId: string | null;
 }

@@ -1,17 +1,18 @@
 <div class="modal-header">
-  <h5 class="modal-title">{{ 'ADMIN.PROJECTS.ARCHIVE_MODAL_TITLE' | translate }}</h5>
+  <h5 class="modal-title">{{ 'MODALS.ARCHIVE.TITLE' | translate }}</h5>
   <button type="button" class="btn-close" (click)="activeModal.dismiss()" aria-label="Close"></button>
 </div>
 <div class="modal-body">
   <p class="text-black">
-    {{ 'ADMIN.PROJECTS.ARCHIVE_MODAL_MESSAGE' | translate:{title: contentTitle, type: contentType} }}
+    {{ 'MODALS.ARCHIVE.MESSAGE' | translate }} {{ contentType == 'Course' ? ('GENERIC.ARTICLE_MALE' | translate) + ' ' + ('PROJECT.TYPE_COURSE' | translate) : ('GENERIC.ARTICLE_FEMALE' | translate) + ' ' + ('PROJECT.TYPE_EVENT' | translate) }} '{{ contentTitle }}'?
   </p>
+  <small class="text-danger">{{ 'MODALS.ARCHIVE.WARNING' | translate }}</small>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">
     {{ 'MODALS.CLOSE' | translate }}
   </button>
-  <button type="button" class="btn btn-warning" (click)="confirmArchive()">
-    {{ 'ADMIN.PROJECTS.ARCHIVE_CONFIRM' | translate }}
+  <button type="button" class="btn danger-button" (click)="confirmArchive()">
+    {{ 'MODALS.ARCHIVE.ARCHIVE' | translate }}
   </button>
 </div>

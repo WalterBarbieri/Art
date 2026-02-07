@@ -9,7 +9,7 @@ import { TranslateModule } from '@ngx-translate/core';
   styleUrl: './archive-modal.component.scss'
 })
 export class ArchiveModalComponent {
-  @Input() contentId!: number;
+  @Input() contentId!: string;
   @Input() contentTitle!: string;
   @Input() contentType!: string;
 

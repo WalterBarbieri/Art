@@ -15,4 +15,9 @@ export class AdminContentService {
   getAllSorted(): Observable<Content[]> {
     return this.http.get<Content[]>(`${this.baseUrl}content/all`);
   }
+
+  patchArchive(id: string, contentType: string): Observable<Content> {
+    const endpoint = contentType === 'Course' ? 'course' : 'event';
+    return this.http.patch<Content>(`${this.baseUrl}api/${endpoint}/${id}/archive`, {});
+  }
 }

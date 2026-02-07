@@ -30,6 +30,7 @@
     "FILTER": "Filtri",    "CLEAR_FILTERS": "Cancella Filtri",    "STATUS_ONGOING": "In corso",
     "STATUS_UPCOMING": "In arrivo",
     "STATUS_COMPLETED": "Concluso",
+    "STATUS_ARCHIVED": "Archiviato",
     "TYPE_COURSE": "Laboratorio",
     "TYPE_EVENT": "Performance",
     "FILTER_BY_STATUS": "FILTRA PER STATO",
@@ -208,14 +209,16 @@
   "MODALS": {
     "CLOSE": "Chiudi",
     "DOWNLOAD": {
-      "FILE": "Scarica File",
-      "CONFIRM": "Vuoi scaricare il file",
+      "TITLE": "Scarica File",
+      "MESSAGE": "Vuoi scaricare il file",
       "DOWNLOAD": "Scarica"
     },
     "ARCHIVE": {
-      "ARCHIVE_MODAL_TITLE": "Archivia Progetto",
-      "ARCHIVE_MODAL_MESSAGE": "Sei sicuro di voler archiviare il {{type}} '{{title}}'?",
-      "ARCHIVE_CONFIRM": "Archivia"
+      "TITLE": "Archivia Progetto",
+      "MESSAGE": "Sei sicura di voler archiviare",
+      "WARNING": "Attenzione: il progetto archiviato non sarà più visibile nel sito pubblico.",
+      "ARCHIVE": "Archivia",
+      "SUCCESS": "Progetto archiviato con successo"
     }
   },
   "GUARD": {
@@ -246,7 +249,9 @@
   "GENERIC": {
     "FROM": "dal",
     "TO": "al",
-    "ALL": "Tutti"
+    "ALL": "Tutti",
+    "ARTICLE_MALE": "il",
+    "ARTICLE_FEMALE": "la"
   },
   "title": {
     "app": "Art Natura Teatro",
