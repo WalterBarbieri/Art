@@ -29,13 +29,16 @@
           " " +
           ("PROJECT.TYPE_EVENT" | translate)
     }}
-    '{{ contentTitle }}'?
+    <span class="fw-bold">{{ contentTitle }}</span>?
   </p>
-  <small class="text-danger">{{
-    isArchived
-      ? ("MODALS.ARCHIVE.WARNING_UNARCHIVE" | translate)
-      : ("MODALS.ARCHIVE.WARNING" | translate)
-  }}</small>
+  <div class="alert alert-warning mt-2">
+    <i class="fas fa-exclamation-triangle me-2"></i>
+    {{
+      isArchived
+        ? ("MODALS.ARCHIVE.WARNING_UNARCHIVE" | translate)
+        : ("MODALS.ARCHIVE.WARNING" | translate)
+    }}
+  </div>
 </div>
 <div class="modal-footer">
   <button
