@@ -27,7 +27,9 @@
   },
   "PROJECT": {
     "TITLE": "PROGETTI",
-    "FILTER": "Filtri",    "CLEAR_FILTERS": "Cancella Filtri",    "STATUS_ONGOING": "In corso",
+    "FILTER": "Filtri",
+    "CLEAR_FILTERS": "Cancella Filtri",
+    "STATUS_ONGOING": "In corso",
     "STATUS_UPCOMING": "In arrivo",
     "STATUS_COMPLETED": "Concluso",
     "STATUS_ARCHIVED": "Archiviato",
@@ -241,7 +243,8 @@
       "LINK": "Collega",
       "UNLINK": "Scollega",
       "SUCCESS_LINK": "Progetti collegati con successo",
-      "SUCCESS_UNLINK": "Collegamento rimosso con successo"
+      "SUCCESS_UNLINK": "Collegamento rimosso con successo",
+      "ARCHIVED_WARNING": "I progetti archiviati non possono essere collegati. Se vuoi collegare un progetto archiviato, devi prima riattivarlo."
     },
     "CANCEL": "Annulla"
   },

@@ -1,18 +1,55 @@
 <div class="modal-header">
-  <h5 class="modal-title">{{ isArchived ? ('MODALS.ARCHIVE.TITLE_UNARCHIVE' | translate) : ('MODALS.ARCHIVE.TITLE' | translate) }}</h5>
-  <button type="button" class="btn-close" (click)="activeModal.dismiss()" aria-label="Close"></button>
+  <h5 class="modal-title">
+    {{
+      isArchived
+        ? ("MODALS.ARCHIVE.TITLE_UNARCHIVE" | translate)
+        : ("MODALS.ARCHIVE.TITLE" | translate)
+    }}
+  </h5>
+  <button
+    type="button"
+    class="btn-close"
+    (click)="activeModal.dismiss()"
+    aria-label="Close"
+  ></button>
 </div>
 <div class="modal-body">
   <p class="text-black">
-    {{ isArchived ? ('MODALS.ARCHIVE.MESSAGE_UNARCHIVE' | translate) : ('MODALS.ARCHIVE.MESSAGE' | translate) }} {{ contentType == 'Course' ? ('GENERIC.ARTICLE_MALE' | translate) + ' ' + ('PROJECT.TYPE_COURSE' | translate) : ('GENERIC.ARTICLE_FEMALE' | translate) + ' ' + ('PROJECT.TYPE_EVENT' | translate) }} '{{ contentTitle }}'?
+    {{
+      isArchived
+        ? ("MODALS.ARCHIVE.MESSAGE_UNARCHIVE" | translate)
+        : ("MODALS.ARCHIVE.MESSAGE" | translate)
+    }}
+    {{
+      contentType == "Course"
+        ? ("GENERIC.ARTICLE_MALE" | translate) +
+          " " +
+          ("PROJECT.TYPE_COURSE" | translate)
+        : ("GENERIC.ARTICLE_FEMALE" | translate) +
+          " " +
+          ("PROJECT.TYPE_EVENT" | translate)
+    }}
+    '{{ contentTitle }}'?
   </p>
-  <small class="text-danger">{{ isArchived ? ('MODALS.ARCHIVE.WARNING_UNARCHIVE' | translate) : ('MODALS.ARCHIVE.WARNING' | translate) }}</small>
+  <small class="text-danger">{{
+    isArchived
+      ? ("MODALS.ARCHIVE.WARNING_UNARCHIVE" | translate)
+      : ("MODALS.ARCHIVE.WARNING" | translate)
+  }}</small>
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="activeModal.dismiss()">
-    {{ 'MODALS.CLOSE' | translate }}
+  <button
+    type="button"
+    class="btn btn-secondary"
+    (click)="activeModal.dismiss()"
+  >
+    {{ "MODALS.CLOSE" | translate }}
   </button>
   <button type="button" class="btn danger-button" (click)="confirmArchive()">
-    {{ isArchived ? ('MODALS.ARCHIVE.UNARCHIVE' | translate) : ('MODALS.ARCHIVE.ARCHIVE' | translate) }}
+    {{
+      isArchived
+        ? ("MODALS.ARCHIVE.UNARCHIVE" | translate)
+        : ("MODALS.ARCHIVE.ARCHIVE" | translate)
+    }}
   </button>
 </div>

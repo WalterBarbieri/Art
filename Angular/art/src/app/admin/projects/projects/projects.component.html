@@ -9,18 +9,30 @@
         aria-expanded="false"
       >
         <i class="fas fa-plus me-2"></i>
-        <span class="d-inline d-sm-none">{{ "ADMIN.PROJECTS.NEW" | translate }}</span>
-        <span class="d-none d-sm-inline">{{ "ADMIN.PROJECTS.NEW_PROJECT" | translate }}</span>
+        <span class="d-inline d-sm-none">{{
+          "ADMIN.PROJECTS.NEW" | translate
+        }}</span>
+        <span class="d-none d-sm-inline">{{
+          "ADMIN.PROJECTS.NEW_PROJECT" | translate
+        }}</span>
       </button>
       <ul class="dropdown-menu" aria-labelledby="createProjectDropdown">
         <li>
-          <a class="dropdown-item" [routerLink]="['/admin/projects/create', 'COURSE']">
-            <i class="fas fa-graduation-cap me-2"></i>{{ "ADMIN.PROJECTS.WORKSHOP" | translate }}
+          <a
+            class="dropdown-item"
+            [routerLink]="['/admin/projects/create', 'COURSE']"
+          >
+            <i class="fas fa-graduation-cap me-2"></i
+            >{{ "ADMIN.PROJECTS.WORKSHOP" | translate }}
           </a>
         </li>
         <li>
-          <a class="dropdown-item" [routerLink]="['/admin/projects/create', 'EVENT']">
-            <i class="fas fa-calendar-alt me-2"></i>{{ "ADMIN.PROJECTS.PERFORMANCE" | translate }}
+          <a
+            class="dropdown-item"
+            [routerLink]="['/admin/projects/create', 'EVENT']"
+          >
+            <i class="fas fa-calendar-alt me-2"></i
+            >{{ "ADMIN.PROJECTS.PERFORMANCE" | translate }}
           </a>
         </li>
       </ul>
@@ -44,21 +56,27 @@
             [truncateDescription]="true"
             [mode]="'admin'"
           ></app-project-card>
-          <div class="d-flex justify-content-center gap-2 mt-2 pb-1 border-bottom border-start border-end rounded-bottom">
+          <div
+            class="d-flex justify-content-center gap-2 mt-2 pb-1 border-bottom border-start border-end rounded-bottom"
+          >
             @if (!isStaticMode) {
-            <button
-              type="button"
-              class="btn btn-sm btn-outline-primary"
-              title="Subscribers"
-            >
-              <i class="fas fa-users"></i>
-            </button>
-          }
+              <button
+                type="button"
+                class="btn btn-sm btn-outline-primary"
+                title="Subscribers"
+              >
+                <i class="fas fa-users"></i>
+              </button>
+            }
             <button
               type="button"
               class="btn btn-sm"
-              [class.btn-secondary]="project.linkedCourseId || project.linkedEventId"
-              [class.btn-outline-secondary]="!project.linkedCourseId && !project.linkedEventId"
+              [class.btn-secondary]="
+                project.linkedCourseId || project.linkedEventId
+              "
+              [class.btn-outline-secondary]="
+                !project.linkedCourseId && !project.linkedEventId
+              "
               title="Link"
               (click)="openLinkModal(project)"
             >
@@ -69,7 +87,11 @@
               class="btn btn-sm"
               [class.btn-secondary]="project.archived"
               [class.btn-outline-secondary]="!project.archived"
-              [title]="project.archived ? ('MODALS.ARCHIVE.UNARCHIVE' | translate) : ('MODALS.ARCHIVE.ARCHIVE' | translate)"
+              [title]="
+                project.archived
+                  ? ('MODALS.ARCHIVE.UNARCHIVE' | translate)
+                  : ('MODALS.ARCHIVE.ARCHIVE' | translate)
+              "
               (click)="openArchiveModal(project)"
             >
               <i class="fas fa-archive"></i>

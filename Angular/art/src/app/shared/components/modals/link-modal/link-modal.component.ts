@@ -25,15 +25,15 @@ export class LinkModalComponent {
   constructor(
     private activeModal: NgbActiveModal,
     private adminContentService: AdminContentService,
-    private errorService: ErrorService
+    private errorService: ErrorService,
   ) {}
 
-  // Helper: verifica se il contenuto è già collegato
+  // Helper: check if the content is already linked
   isLinked(): boolean {
     return !!this.linkedContent;
   }
 
-  // Helper: ottiene il contenuto collegato
+  // Helper: get the linked content
   getLinkedContent(): Content | null {
     return this.linkedContent;
   }
@@ -42,31 +42,52 @@ export class LinkModalComponent {
     if (!this.selectedTargetId) return;
 
     this.isLoading = true;
-    this.adminContentService.linkContent(this.content.id, this.selectedTargetId, this.content.contentType).subscribe({
-      next: (updatedContent: Content) => {
-        this.activeModal.close({ action: 'link', updatedContent, targetId: this.selectedTargetId });
-      },
-      error: (processedError: ProcessedError) => {
-        this.errorService.handleProcessedError(processedError);
-        this.isLoading = false;
-      }
-    });
+    this.adminContentService
+      .linkContent(
+        this.content.id,
+        this.selectedTargetId,
+        this.content.contentType,
+      )
+      .subscribe({
+        next: (updatedContent: Content) => {
+          this.activeModal.close({
+            action: 'link',
+            updatedContent,
+            targetId: this.selectedTargetId,
+          });
+        },
+        error: (processedError: ProcessedError) => {
+          this.errorService.handleProcessedError(processedError);
+          this.isLoading = false;
+        },
+      });
   }
 
   unlink(): void {
     if (!this.linkedContent) return;
 
     this.isLoading = true;
-    this.adminContentService.unlinkContent(this.content.id, this.linkedContent.id, this.content.contentType).subscribe({
-      next: (updatedContent: Content) => {
-        // Chiudi e lascia che il parent riapra il modale con dati aggiornati
-        this.activeModal.close({ action: 'unlink', updatedContent, targetId: this.linkedContent!.id, shouldReopen: true });
-      },
-      error: (processedError: ProcessedError) => {
-        this.errorService.handleProcessedError(processedError);
-        this.isLoading = false;
-      }
-    });
+    this.adminContentService
+      .unlinkContent(
+        this.content.id,
+        this.linkedContent.id,
+        this.content.contentType,
+      )
+      .subscribe({
+        next: (updatedContent: Content) => {
+          // Close and let the parent reopen the modal with updated data
+          this.activeModal.close({
+            action: 'unlink',
+            updatedContent,
+            targetId: this.linkedContent!.id,
+            shouldReopen: true,
+          });
+        },
+        error: (processedError: ProcessedError) => {
+          this.errorService.handleProcessedError(processedError);
+          this.isLoading = false;
+        },
+      });
   }
 
   dismiss(): void {

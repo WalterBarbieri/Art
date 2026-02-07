@@ -1,8 +1,8 @@
-{"NAVBAR": {
+{
+  "NAVBAR": {
     "PROJECT": "PROJECTS",
     "CONTACT": "CONTACTS",
-    "MODAL":
-    {
+    "MODAL": {
       "TITLE": "Welcome",
       "MY_ACCOUNT": "My Account"
     }
@@ -24,7 +24,6 @@
     "SUBTITLE": "Performances and workshops for theatrical research and experimentation in nature",
     "FIND_OUT_MORE": "Find out more",
     "BIO": "Actress and playwright, she leads theater workshops for children and adults. Creator and director of the ART nATuRe theATRe project, a laboratory for theatrical research and experimentation in nature..."
-
   },
   "PROJECT": {
     "TITLE": "PROJECTS",
@@ -68,7 +67,7 @@
   },
   "INFO": {
     "SUBTITLE": " is a workshop for research \nand theatrical experimentation in nature.\nBorn in 2021 from the desire to cultivate a living relationship \nwith nature, especially with the vegetal world.",
-    "SUBTITLE_2":" draws inspiration \nfrom the gentle language of poets such as \nChristian Bobin, Chandra Livia Candiani and Mariangela Gualtieri;\nfrom the symbolic language of authors like Francesco Boer;\nand from the scientific insight of Stefano Mancuso.",
+    "SUBTITLE_2": " draws inspiration \nfrom the gentle language of poets such as \nChristian Bobin, Chandra Livia Candiani and Mariangela Gualtieri;\nfrom the symbolic language of authors like Francesco Boer;\nand from the scientific insight of Stefano Mancuso.",
     "SECTION_1": " is about living poetically in nature and in places.\nIt honours the land and takes inspiration from the vegetal world\nto explore new human and social perspectives.",
     "SECTION_2": " is a meeting of identities:\nplant, animal, artificial.\nIt is listening and connecting with the spirit and history of the place.",
     "SECTION_3": " seeks to mend the painful fracture\nbetween the Artificial and the Natural.\nThrough symbolic language, it invites a return to original wholeness\nand brings unity and fullness.",
@@ -216,7 +215,7 @@
       "MESSAGE": "Do you want to download the file",
       "DOWNLOAD": "Download"
     },
-    "ARCHIVE":{
+    "ARCHIVE": {
       "TITLE": "Archive Project",
       "TITLE_UNARCHIVE": "Unarchive Project",
       "MESSAGE": "Are you sure you want to archive",
@@ -244,7 +243,8 @@
       "LINK": "Link",
       "UNLINK": "Unlink",
       "SUCCESS_LINK": "Projects linked successfully",
-      "SUCCESS_UNLINK": "Link removed successfully"
+      "SUCCESS_UNLINK": "Link removed successfully",
+      "ARCHIVED_WARNING": "Archived projects cannot be linked. If you want to link an archived project, you must first unarchive it."
     },
     "CANCEL": "Cancel"
   },

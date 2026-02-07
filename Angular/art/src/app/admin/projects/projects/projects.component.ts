@@ -110,34 +110,34 @@ export class ProjectsComponent implements OnInit {
     modalRef.result
       .then((result) => {
         if (result && result.updatedContent) {
-          // Aggiorna il progetto source nella lista
+          // Update the source project in the list
           const sourceIndex = this.projects.findIndex(
             (p) => p.id === result.updatedContent.id,
           );
           if (sourceIndex !== -1) {
             this.projects[sourceIndex] = {
               ...result.updatedContent,
-              contentType: this.projects[sourceIndex].contentType, // Preserva il contentType originale
+              contentType: this.projects[sourceIndex].contentType, // Preserve the original contentType
               eventDates: result.updatedContent.eventDates
                 ? result.updatedContent.eventDates.map(
                     (d: string | Date) => new Date(d),
                   )
                 : [],
             };
-            // Ricarica l'immagine per il source
+            // Reload the image for the source
             this.getFullImageUrl(
               this.projects[sourceIndex].coverImagePath,
               sourceIndex,
             );
           }
 
-          // Aggiorna anche il progetto target se presente nella lista
+          // Also update the target project if present in the list
           if (result.action === 'link' && result.targetId) {
             const targetIndex = this.projects.findIndex(
               (p) => p.id === result.targetId,
             );
             if (targetIndex !== -1) {
-              // Imposta il link opposto nel target
+              // Set the opposite link in the target
               if (result.updatedContent.contentType === 'Course') {
                 this.projects[targetIndex].linkedCourseId =
                   result.updatedContent.id;
@@ -145,14 +145,14 @@ export class ProjectsComponent implements OnInit {
                 this.projects[targetIndex].linkedEventId =
                   result.updatedContent.id;
               }
-              // Ricarica l'immagine per il target (potrebbe essere cambiata)
+              // Reload the image for the target (it might have changed)
               this.getFullImageUrl(
                 this.projects[targetIndex].coverImagePath,
                 targetIndex,
               );
             }
           } else if (result.action === 'unlink') {
-            // Rimuovi il link da entrambi i progetti
+            // Remove the link from both projects
             if (result.targetId) {
               const targetIndex = this.projects.findIndex(
                 (p) => p.id === result.targetId,
@@ -160,7 +160,7 @@ export class ProjectsComponent implements OnInit {
               if (targetIndex !== -1) {
                 this.projects[targetIndex].linkedCourseId = null;
                 this.projects[targetIndex].linkedEventId = null;
-                // Ricarica l'immagine per il target
+                // Reload the image for the target
                 this.getFullImageUrl(
                   this.projects[targetIndex].coverImagePath,
                   targetIndex,
@@ -169,7 +169,7 @@ export class ProjectsComponent implements OnInit {
             }
           }
 
-          // Aggiorna filteredProjects ri-applicando i filtri
+          // Update filteredProjects by re-applying filters
           const currentFilters = this.storageService.getProjectFilters(true);
           if (currentFilters) {
             this.applyFilters(currentFilters);
@@ -177,7 +177,7 @@ export class ProjectsComponent implements OnInit {
             this.filteredProjects = [...this.projects];
           }
 
-          // Mostra il messaggio di successo
+          // Show the success message
           const successKey =
             result.action === 'link'
               ? 'MODALS.LINK.SUCCESS_LINK'
@@ -186,7 +186,7 @@ export class ProjectsComponent implements OnInit {
             this.toastService.showSuccess(message);
           });
 
-          // Se è un unlink e deve riaprirsi, riapri il modale con dati aggiornati
+          // If it's an unlink and should reopen, reopen the modal with updated data
           if (result.action === 'unlink' && result.shouldReopen) {
             setTimeout(() => {
               this.openLinkModal(this.projects[sourceIndex]);
@@ -245,16 +245,16 @@ export class ProjectsComponent implements OnInit {
 
   private getAvailableTargetsFor(content: Content): Content[] {
     return this.projects.filter((project) => {
-      // Escludi il contenuto stesso
+      // Exclude the content itself
       if (project.id === content.id) return false;
 
-      // Solo contenuti non archiviati
+      // Only non-archived content
       if (project.archived) return false;
 
-      // Solo contenuti non già collegati
+      // Only content not already linked
       if (project.linkedCourseId || project.linkedEventId) return false;
 
-      // Filtra per tipo: Course può collegarsi solo a Event, e viceversa
+      // Filter by type: Course can only link to Event, and vice versa
       if (content.contentType === 'Course') {
         return project.contentType === 'Event';
       } else if (content.contentType === 'Event') {
@@ -276,28 +276,28 @@ export class ProjectsComponent implements OnInit {
     this.loaderService.show();
     this.adminContentService.patchArchive(contentId, contentType).subscribe({
       next: (updatedProject: Content) => {
-        // Aggiorna il progetto nella lista
+        // Update the project in the list
         const index = this.projects.findIndex((p) => p.id === contentId);
         if (index !== -1) {
           this.projects[index] = {
             ...updatedProject,
-            contentType: contentType, // Preserva il contentType originale
+            contentType: contentType, // Preserve the original contentType
             eventDates: updatedProject.eventDates
               ? updatedProject.eventDates.map((d: string | Date) => new Date(d))
               : [],
           };
-          // Ricarica l'immagine se necessario
+          // Reload the image if necessary
           this.getFullImageUrl(this.projects[index].coverImagePath, index);
         }
-        // Aggiorna anche filteredProjects ri-applicando i filtri dal session storage
-        const currentFilters = this.storageService.getProjectFilters(true); // true perché siamo in admin
+        // Also update filteredProjects by re-applying filters from session storage
+        const currentFilters = this.storageService.getProjectFilters(true); // true because we are in admin
         if (currentFilters) {
           this.applyFilters(currentFilters);
         } else {
-          // Fallback: copia tutti i progetti se non ci sono filtri salvati
+          // Fallback: copy all projects if no filters are saved
           this.filteredProjects = [...this.projects];
         }
-        // Mostra il messaggio di successo appropriato
+        // Show the appropriate success message
         const successKey = updatedProject.archived
           ? 'MODALS.ARCHIVE.SUCCESS'
           : 'MODALS.ARCHIVE.SUCCESS_UNARCHIVE';

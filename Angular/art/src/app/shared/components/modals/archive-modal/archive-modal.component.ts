@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
   selector: 'app-archive-modal',
   imports: [TranslateModule],
   templateUrl: './archive-modal.component.html',
-  styleUrl: './archive-modal.component.scss'
+  styleUrl: './archive-modal.component.scss',
 })
 export class ArchiveModalComponent {
   @Input() contentId!: string;
@@ -20,7 +20,7 @@ export class ArchiveModalComponent {
     this.activeModal.close({
       contentId: this.contentId,
       contentTitle: this.contentTitle,
-      contentType: this.contentType
+      contentType: this.contentType,
     });
   }
 }
