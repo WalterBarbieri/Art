@@ -218,11 +218,35 @@
     },
     "ARCHIVE":{
       "TITLE": "Archive Project",
+      "TITLE_UNARCHIVE": "Unarchive Project",
       "MESSAGE": "Are you sure you want to archive",
+      "MESSAGE_UNARCHIVE": "Are you sure you want to unarchive",
       "WARNING": "Warning: the archived project will no longer be visible on the public site.",
+      "WARNING_UNARCHIVE": "The unarchived project will be visible again on the public site.",
       "ARCHIVE": "Archive",
-      "SUCCESS": "Project archived successfully"
-    }
+      "UNARCHIVE": "Unarchive",
+      "SUCCESS": "Project archived successfully",
+      "SUCCESS_UNARCHIVE": "Project unarchived successfully"
+    },
+    "LINK": {
+      "TITLE": "Link Projects",
+      "CURRENT_COURSE": "Current Workshop",
+      "CURRENT_EVENT": "Current Performance",
+      "LINKED_COURSE": "Linked Workshop",
+      "LINKED_EVENT": "Linked Performance",
+      "AVAILABLE_COURSES": "Available Workshops",
+      "AVAILABLE_EVENTS": "Available Performances",
+      "SELECT_COURSE": "Select a workshop to link",
+      "SELECT_EVENT": "Select a performance to link",
+      "LINK_DESCRIPTION": "Link this project to another to create a relationship between workshop and performance. Linked projects share press reviews and are highlighted on their respective detail pages. You can only link one workshop to one performance and vice versa.",
+      "UNLINK_DESCRIPTION": "Remove the existing link between these projects. The two projects will no longer share reviews and will no longer be highlighted on their respective detail pages.",
+      "NO_AVAILABLE_TARGETS": "No projects available for linking. Make sure there are projects of the opposite type that are not archived and not already linked.",
+      "LINK": "Link",
+      "UNLINK": "Unlink",
+      "SUCCESS_LINK": "Projects linked successfully",
+      "SUCCESS_UNLINK": "Link removed successfully"
+    },
+    "CANCEL": "Cancel"
   },
   "GUARD": {
     "NOT_AUTHORIZED": "You are not authorized to view this content",

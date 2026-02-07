@@ -1,0 +1,89 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    <i class="fas fa-link me-2"></i>
+    {{ 'MODALS.LINK.TITLE' | translate }}
+  </h5>
+  <button type="button" class="btn-close" aria-label="Close" (click)="dismiss()"></button>
+</div>
+
+<div class="modal-body">
+  <div class="mb-3">
+    <h6 class="fw-bold">{{ content.contentType == 'Course' ? ('MODALS.LINK.CURRENT_COURSE' | translate) : ('MODALS.LINK.CURRENT_EVENT' | translate) }}</h6>
+    <div class="card">
+      <div class="card-body">
+        <div class="d-flex align-items-center">
+          <div class="flex-grow-1">
+            <h6 class="card-title mb-1">{{ content.title }}</h6>
+            <small class="text-muted">{{ content.contentType == 'Course' ? ('PROJECT.TYPE_COURSE' | translate) : ('PROJECT.TYPE_EVENT' | translate) }}</small>
+          </div>
+          @if (content.coverImagePath) {
+            <img [src]="content.coverImagePath" class="rounded ms-3" style="width: 60px; height: 45px; object-fit: cover;" alt="Cover">
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+
+  @if (isLinked()) {
+    <!-- Modalità scollegamento -->
+    <div class="mb-3">
+      <h6 class="fw-bold text-success">{{ content.contentType == 'Course' ? ('MODALS.LINK.LINKED_EVENT' | translate) : ('MODALS.LINK.LINKED_COURSE' | translate) }}</h6>
+      <div class="card border-success">
+        <div class="card-body">
+          <div class="d-flex align-items-center">
+            <div class="flex-grow-1">
+              <h6 class="card-title mb-1">{{ getLinkedContent()?.title }}</h6>
+              <small class="text-muted">{{ getLinkedContent()?.contentType == 'Course' ? ('PROJECT.TYPE_COURSE' | translate) : ('PROJECT.TYPE_EVENT' | translate) }}</small>
+            </div>
+            @if (getLinkedContent()?.coverImagePath) {
+              <img [src]="getLinkedContent()?.coverImagePath" class="rounded ms-3" style="width: 60px; height: 45px; object-fit: cover;" alt="Cover">
+            }
+          </div>
+        </div>
+      </div>
+      <p class="text-danger mt-2 ms-1">{{ 'MODALS.LINK.UNLINK_DESCRIPTION' | translate }}</p>
+    </div>
+  } @else {
+    <!-- Modalità collegamento -->
+    <div class="mb-3">
+      <h6 class="fw-bold">{{ content.contentType == 'Course' ? ('MODALS.LINK.AVAILABLE_EVENTS' | translate) : ('MODALS.LINK.AVAILABLE_COURSES' | translate) }}</h6>
+      @if (availableTargets.length > 0) {
+        <select id="content-select" class="form-select" [(ngModel)]="selectedTargetId">
+          <option value="">{{ content.contentType == 'Course' ? ('MODALS.LINK.SELECT_EVENT' | translate) : ('MODALS.LINK.SELECT_COURSE' | translate) }}</option>
+          @for (target of availableTargets; track target.id) {
+            <option [value]="target.id">{{ target.title }}</option>
+          }
+        </select>
+        <p class="text-muted mt-2 ms-1">{{ 'MODALS.LINK.LINK_DESCRIPTION' | translate }}</p>
+      } @else {
+        <div class="alert alert-info">
+          <i class="fas fa-info-circle me-2"></i>
+          {{ 'MODALS.LINK.NO_AVAILABLE_TARGETS' | translate }}
+        </div>
+      }
+    </div>
+  }
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" (click)="dismiss()">
+    {{ 'MODALS.CANCEL' | translate }}
+  </button>
+  @if (isLinked()) {
+    <button type="button" class="btn danger-button" (click)="unlink()" [disabled]="isLoading">
+      @if (isLoading) {
+        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+      }
+      <i class="fas fa-unlink me-2"></i>
+      {{ 'MODALS.LINK.UNLINK' | translate }}
+    </button>
+  } @else {
+    <button type="button" class="btn default-button" (click)="link()" [disabled]="!selectedTargetId || isLoading">
+      @if (isLoading) {
+        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+      }
+      <i class="fas fa-link me-2"></i>
+      {{ 'MODALS.LINK.LINK' | translate }}
+    </button>
+  }
+</div>

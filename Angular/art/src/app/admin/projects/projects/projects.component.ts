@@ -11,6 +11,7 @@ import { ProjectCardComponent } from 'src/app/shared/components/project/project-
 import { ErrorService } from 'src/app/core/services/error.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArchiveModalComponent } from 'src/app/shared/components/modals/archive-modal/archive-modal.component';
+import { LinkModalComponent } from 'src/app/shared/components/modals/link-modal/link-modal.component';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { TranslateService } from '@ngx-translate/core';
 import { StorageService } from 'src/app/shared/services/storage.service';
@@ -64,7 +65,7 @@ export class ProjectsComponent implements OnInit {
 
         this.projects = data.map(project => ({
           ...project,
-          eventDates: project.eventDates ? project.eventDates.map(d => new Date(d)) : []
+          eventDates: project.eventDates ? project.eventDates.map((d: string | Date) => new Date(d)) : []
         }));
         this.imageLoading = new Array(this.projects.length).fill(false);
         this.projects.forEach((project, index) => {
@@ -84,6 +85,66 @@ export class ProjectsComponent implements OnInit {
 
   onFiltersChanged(filters: FilterValues): void {
     this.applyFilters(filters);
+  }
+
+  openLinkModal(project: Content): void {
+    const availableTargets = this.getAvailableTargetsFor(project);
+    const linkedContent = this.getLinkedContentFor(project);
+    const modalRef = this.modalService.open(LinkModalComponent, {
+      centered: true,
+      size: 'lg'
+    });
+    modalRef.componentInstance.content = project;
+    modalRef.componentInstance.linkedContent = linkedContent;
+    modalRef.componentInstance.availableTargets = availableTargets;
+
+    modalRef.result.then((result) => {
+      if (result && result.updatedContent) {
+        // Aggiorna il progetto nella lista
+        const index = this.projects.findIndex(p => p.id === result.updatedContent.id);
+        if (index !== -1) {
+          this.projects[index] = {
+            ...result.updatedContent,
+            contentType: this.projects[index].contentType, // Preserva il contentType originale
+            eventDates: result.updatedContent.eventDates ? result.updatedContent.eventDates.map((d: string | Date) => new Date(d)) : []
+          };
+          // Ricarica l'immagine se necessario
+          this.getFullImageUrl(this.projects[index].coverImagePath, index);
+        }
+        // Aggiorna anche filteredProjects ri-applicando i filtri dal session storage
+        const currentFilters = this.storageService.getProjectFilters(true);
+        if (currentFilters) {
+          this.applyFilters(currentFilters);
+        } else {
+          this.filteredProjects = [...this.projects];
+        }
+        // Mostra il messaggio di successo appropriato
+        const successKey = result.action === 'link' ? 'MODALS.LINK.SUCCESS_LINK' : 'MODALS.LINK.SUCCESS_UNLINK';
+        this.translate.get(successKey).subscribe(message => {
+          this.toastService.showSuccess(message);
+        });
+      }
+    }).catch(() => {
+      // Modal dismissed
+    });
+  }
+
+  openArchiveModal(project: Content): void {
+    const modalRef = this.modalService.open(ArchiveModalComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.contentId = project.id;
+    modalRef.componentInstance.contentTitle = project.title;
+    modalRef.componentInstance.contentType = project.contentType;
+    modalRef.componentInstance.isArchived = project.archived;
+
+    modalRef.result.then(result => {
+      if (result) {
+        this.archiveProject(result.contentId, result.contentType);
+      }
+    }).catch(() => {
+      // Modal dismissed
+    });
   }
 
   private applyFilters(filters: FilterValues): void {
@@ -109,21 +170,33 @@ export class ProjectsComponent implements OnInit {
     }
   }
 
-  openArchiveModal(project: Content): void {
-    const modalRef = this.modalService.open(ArchiveModalComponent, {
-      centered: true,
-    });
-    modalRef.componentInstance.contentId = project.id;
-    modalRef.componentInstance.contentTitle = project.title;
-    modalRef.componentInstance.contentType = project.contentType;
+  private getAvailableTargetsFor(content: Content): Content[] {
+    return this.projects.filter(project => {
+      // Escludi il contenuto stesso
+      if (project.id === content.id) return false;
 
-    modalRef.result.then(result => {
-      if (result) {
-        this.archiveProject(result.contentId, result.contentType);
+      // Solo contenuti non archiviati
+      if (project.archived) return false;
+
+      // Solo contenuti non già collegati
+      if (project.linkedCourseId || project.linkedEventId) return false;
+
+      // Filtra per tipo: Course può collegarsi solo a Event, e viceversa
+      if (content.contentType === 'Course') {
+        return project.contentType === 'Event';
+      } else if (content.contentType === 'Event') {
+        return project.contentType === 'Course';
       }
-    }).catch(() => {
-      // Modal dismissed
+
+      return false;
     });
+  }
+
+  private getLinkedContentFor(content: Content): Content | null {
+    if (!content.linkedCourseId && !content.linkedEventId) return null;
+
+    const linkedId = content.linkedCourseId || content.linkedEventId;
+    return this.projects.find(p => p.id === linkedId) || null;
   }
 
   private archiveProject(contentId: string, contentType: string): void {
@@ -136,7 +209,7 @@ export class ProjectsComponent implements OnInit {
           this.projects[index] = {
             ...updatedProject,
             contentType: contentType, // Preserva il contentType originale
-            eventDates: updatedProject.eventDates ? updatedProject.eventDates.map(d => new Date(d)) : []
+            eventDates: updatedProject.eventDates ? updatedProject.eventDates.map((d: string | Date) => new Date(d)) : []
           };
           // Ricarica l'immagine se necessario
           this.getFullImageUrl(this.projects[index].coverImagePath, index);
@@ -149,7 +222,9 @@ export class ProjectsComponent implements OnInit {
           // Fallback: copia tutti i progetti se non ci sono filtri salvati
           this.filteredProjects = [...this.projects];
         }
-        this.translate.get('MODALS.ARCHIVE.SUCCESS').subscribe(message => {
+        // Mostra il messaggio di successo appropriato
+        const successKey = updatedProject.archived ? 'MODALS.ARCHIVE.SUCCESS' : 'MODALS.ARCHIVE.SUCCESS_UNARCHIVE';
+        this.translate.get(successKey).subscribe(message => {
           this.toastService.showSuccess(message);
         });
       },
@@ -161,5 +236,4 @@ export class ProjectsComponent implements OnInit {
       }
     });
   }
-
 }

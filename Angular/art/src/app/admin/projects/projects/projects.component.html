@@ -60,6 +60,7 @@
               [class.btn-secondary]="project.linkedCourseId || project.linkedEventId"
               [class.btn-outline-secondary]="!project.linkedCourseId && !project.linkedEventId"
               title="Link"
+              (click)="openLinkModal(project)"
             >
               <i class="fas fa-link"></i>
             </button>
@@ -68,7 +69,7 @@
               class="btn btn-sm"
               [class.btn-secondary]="project.archived"
               [class.btn-outline-secondary]="!project.archived"
-              title="Archive"
+              [title]="project.archived ? ('MODALS.ARCHIVE.UNARCHIVE' | translate) : ('MODALS.ARCHIVE.ARCHIVE' | translate)"
               (click)="openArchiveModal(project)"
             >
               <i class="fas fa-archive"></i>

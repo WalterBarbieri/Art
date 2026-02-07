@@ -215,11 +215,35 @@
     },
     "ARCHIVE": {
       "TITLE": "Archivia Progetto",
+      "TITLE_UNARCHIVE": "Riattiva Progetto",
       "MESSAGE": "Sei sicura di voler archiviare",
+      "MESSAGE_UNARCHIVE": "Sei sicura di voler riattivare",
       "WARNING": "Attenzione: il progetto archiviato non sarà più visibile nel sito pubblico.",
+      "WARNING_UNARCHIVE": "Il progetto riattivato sarà nuovamente visibile nel sito pubblico.",
       "ARCHIVE": "Archivia",
-      "SUCCESS": "Progetto archiviato con successo"
-    }
+      "UNARCHIVE": "Riattiva",
+      "SUCCESS": "Progetto archiviato con successo",
+      "SUCCESS_UNARCHIVE": "Progetto riattivato con successo"
+    },
+    "LINK": {
+      "TITLE": "Collega Progetti",
+      "CURRENT_COURSE": "Laboratorio Corrente",
+      "CURRENT_EVENT": "Performance Corrente",
+      "LINKED_COURSE": "Laboratorio Collegato",
+      "LINKED_EVENT": "Performance Collegata",
+      "AVAILABLE_COURSES": "Laboratori Disponibili",
+      "AVAILABLE_EVENTS": "Performance Disponibili",
+      "SELECT_COURSE": "Seleziona un laboratorio da collegare",
+      "SELECT_EVENT": "Seleziona una performance da collegare",
+      "LINK_DESCRIPTION": "Collega questo progetto a un altro per creare una relazione tra laboratorio e performance. Due progetti collegati condividono le recensioni e sono evidenziati nelle rispettive pagine dei dettagli. Puoi collegare solo un laboratorio a una performance e viceversa.",
+      "UNLINK_DESCRIPTION": "Rimuovi il collegamento esistente tra questi progetti. I due progetti non condivideranno più le recensioni e non saranno più evidenziati nelle rispettive pagine dei dettagli.",
+      "NO_AVAILABLE_TARGETS": "Nessun progetto disponibile per il collegamento. Assicurati che ci siano progetti del tipo opposto non archiviati e non già collegati.",
+      "LINK": "Collega",
+      "UNLINK": "Scollega",
+      "SUCCESS_LINK": "Progetti collegati con successo",
+      "SUCCESS_UNLINK": "Collegamento rimosso con successo"
+    },
+    "CANCEL": "Annulla"
   },
   "GUARD": {
     "NOT_AUTHORIZED": "Non sei autorizzato a vedere questo contenuto",

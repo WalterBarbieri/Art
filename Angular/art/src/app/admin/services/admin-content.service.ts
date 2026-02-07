@@ -20,4 +20,26 @@ export class AdminContentService {
     const endpoint = contentType === 'Course' ? 'course' : 'event';
     return this.http.patch<Content>(`${this.baseUrl}api/${endpoint}/${id}/archive`, {});
   }
+
+  linkContent(sourceId: string, targetId: string, sourceType: string): Observable<Content> {
+    const sourceEndpoint = sourceType === 'Course' ? 'course' : 'event';
+    const targetParam = sourceType === 'Course' ? 'eventId' : 'courseId';
+    const action = sourceType === 'Course' ? 'link-event' : 'link-course';
+
+    return this.http.patch<Content>(
+      `${this.baseUrl}api/${sourceEndpoint}/${sourceId}/${action}?${targetParam}=${targetId}`,
+      {}
+    );
+  }
+
+  unlinkContent(sourceId: string, targetId: string, sourceType: string): Observable<Content> {
+    const sourceEndpoint = sourceType === 'Course' ? 'course' : 'event';
+    const targetParam = sourceType === 'Course' ? 'eventId' : 'courseId';
+    const action = sourceType === 'Course' ? 'unlink-event' : 'unlink-course';
+
+    return this.http.patch<Content>(
+      `${this.baseUrl}api/${sourceEndpoint}/${sourceId}/${action}?${targetParam}=${targetId}`,
+      {}
+    );
+  }
 }

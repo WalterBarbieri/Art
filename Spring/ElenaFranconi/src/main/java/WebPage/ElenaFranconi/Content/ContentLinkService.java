@@ -29,6 +29,10 @@ public class ContentLinkService {
 		Event event = eventRepository.findById(eventId)
 				.orElseThrow(() -> new NotFoundException("Event not found: " + eventId));
 
+		if (course.isArchived() || event.isArchived()) {
+			throw new BadRequestException("Cannot link archived Course or Event.");
+		}
+
 		if (course.getLinkedEvent() != null || event.getLinkedCourse() != null) {
 			throw new BadRequestException("Course or Event is already linked.");
 		}

@@ -12,6 +12,7 @@ export class ArchiveModalComponent {
   @Input() contentId!: string;
   @Input() contentTitle!: string;
   @Input() contentType!: string;
+  @Input() isArchived: boolean = false;
 
   constructor(public activeModal: NgbActiveModal) {}
 
