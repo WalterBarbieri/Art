@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -38,8 +45,8 @@ export class ProjectPressReviewsFormComponent implements OnInit, OnDestroy {
   private initializeWorkingCopy(): void {
     // Create a deep copy of own press reviews only
     this.workingPressReviews = this.pressReviews
-      .filter(review => review.own)
-      .map(review => ({ ...review }));
+      .filter((review) => review.own)
+      .map((review) => ({ ...review }));
   }
 
   addPressReview(): void {
@@ -49,7 +56,7 @@ export class ProjectPressReviewsFormComponent implements OnInit, OnDestroy {
       imagePath: '',
       createdAt: new Date(),
       updatedAt: new Date(),
-      own: true
+      own: true,
     };
 
     this.workingPressReviews.push(newReview);
@@ -69,7 +76,7 @@ export class ProjectPressReviewsFormComponent implements OnInit, OnDestroy {
       // Update working copy with blob URL for preview
       this.workingPressReviews[index] = {
         ...this.workingPressReviews[index],
-        imagePath: URL.createObjectURL(file)
+        imagePath: URL.createObjectURL(file),
       };
       this.emitPressReviewsChange();
     }
@@ -79,11 +86,13 @@ export class ProjectPressReviewsFormComponent implements OnInit, OnDestroy {
     // Reset to empty (user can select a new image)
     this.workingPressReviews[index] = {
       ...this.workingPressReviews[index],
-      imagePath: ''
+      imagePath: '',
     };
 
     // Reset file input
-    const input = document.getElementById(`pressReviewImage-${index}`) as HTMLInputElement;
+    const input = document.getElementById(
+      `pressReviewImage-${index}`,
+    ) as HTMLInputElement;
     if (input) {
       input.value = '';
     }
@@ -97,13 +106,15 @@ export class ProjectPressReviewsFormComponent implements OnInit, OnDestroy {
 
   private emitPressReviewsChange(): void {
     // Create a map of modified/added reviews for quick lookup
-    const modifiedReviewsMap = new Map(this.workingPressReviews.map(review => [review.id, review]));
+    const modifiedReviewsMap = new Map(
+      this.workingPressReviews.map((review) => [review.id, review]),
+    );
 
     // Combine: keep all original reviews that are NOT own (external reviews)
     // Plus all reviews from workingPressReviews (modified/added/own reviews)
     const combinedPressReviews = [
-      ...this.pressReviews.filter(review => !review.own), // Keep external reviews
-      ...this.workingPressReviews // Add all working copy reviews (modified/added)
+      ...this.pressReviews.filter((review) => !review.own), // Keep external reviews
+      ...this.workingPressReviews, // Add all working copy reviews (modified/added)
     ];
 
     this.pressReviewsChange.emit(combinedPressReviews);

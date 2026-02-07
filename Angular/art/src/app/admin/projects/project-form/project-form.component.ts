@@ -7,7 +7,10 @@ import { ProjectPreview, ProjectFormValue } from './project-form.interface';
 import { AdminCourseService } from '../../services/admin-course.service';
 import { AdminEventService } from '../../services/admin-event.service';
 import { ProjectFileService } from '../../services/project-file.service';
-import { ProjectFormService, FormFiles } from '../../services/project-form.service';
+import {
+  ProjectFormService,
+  FormFiles,
+} from '../../services/project-form.service';
 import { EventFormService } from '../../services/event-form.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
 import { ToastService } from 'src/app/shared/services/toast.service';
@@ -34,9 +37,22 @@ import { ProjectPressReviewsFormComponent } from './project-press-reviews-form/p
 
 @Component({
   selector: 'app-project-form',
-  imports: [CommonModule, ReactiveFormsModule, TranslateModule, ProjectCoverComponent, ProjectGalleryComponent, ProjectInfoComponent, ProjectFilesComponent, ProjectDetailsInfoComponent, AnimatedButtonComponent, ProjectPressReviewsComponent, ProjectMainFormComponent, ProjectPressReviewsFormComponent],
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    TranslateModule,
+    ProjectCoverComponent,
+    ProjectGalleryComponent,
+    ProjectInfoComponent,
+    ProjectFilesComponent,
+    ProjectDetailsInfoComponent,
+    AnimatedButtonComponent,
+    ProjectPressReviewsComponent,
+    ProjectMainFormComponent,
+    ProjectPressReviewsFormComponent,
+  ],
   templateUrl: './project-form.component.html',
-  styleUrl: './project-form.component.scss'
+  styleUrl: './project-form.component.scss',
 })
 export class ProjectFormComponent implements OnInit, OnDestroy {
   projectForm!: FormGroup<any>;
@@ -93,7 +109,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Determine if we are in create or edit mode
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       if (params['type'] && !params['id']) {
         // Create mode: /admin/projects/create/:type
         this.projectType = params['type'] as 'COURSE' | 'EVENT';
@@ -109,7 +125,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     });
 
     // Subscribe to preview updates
-    this.previewContent$.subscribe(preview => {
+    this.previewContent$.subscribe((preview) => {
       this.previewContent = preview;
     });
   }
@@ -119,7 +135,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
     // Clean up blob URLs
-    this.videosPreviews.forEach(url => URL.revokeObjectURL(url));
+    this.videosPreviews.forEach((url) => URL.revokeObjectURL(url));
   }
 
   initializeForm(): void {
@@ -142,58 +158,70 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         next: (project: Course) => {
           console.log('Existing project data:', project);
           this.originalProject = project;
-          this.formService.populateForm(this.projectForm, project, this.projectType);
-          this.projectMediaService.loadExistingMedia(project).subscribe(media => {
-            this.existingCoverImage = media.coverImage;
-            this.existingImages = media.images;
-            this.existingVideos = media.videos;
-            this.existingFiles = media.files;
-            this.coverImagePreview = media.coverImage;
-            this.imagesPreviews = [...media.images];
-            this.videosPreviews = media.videos.map(v => v.url);
-            // Assegna press reviews alla preview
-            if (this.previewContent) {
-              this.previewContent.pressReviews = media.pressReviews;
-            }
-            this.updatePreview();
-            this.loaderService.hide();
-          });
+          this.formService.populateForm(
+            this.projectForm,
+            project,
+            this.projectType,
+          );
+          this.projectMediaService
+            .loadExistingMedia(project)
+            .subscribe((media) => {
+              this.existingCoverImage = media.coverImage;
+              this.existingImages = media.images;
+              this.existingVideos = media.videos;
+              this.existingFiles = media.files;
+              this.coverImagePreview = media.coverImage;
+              this.imagesPreviews = [...media.images];
+              this.videosPreviews = media.videos.map((v) => v.url);
+              // Assegna press reviews alla preview
+              if (this.previewContent) {
+                this.previewContent.pressReviews = media.pressReviews;
+              }
+              this.updatePreview();
+              this.loaderService.hide();
+            });
         },
         error: (processedError: ProcessedError) => {
           this.errorService.handleProcessedError(processedError);
         },
         complete: () => {
           // Loader hide is now inside the media subscribe
-        }
+        },
       });
     } else {
       this.adminEventService.getById(this.projectId).subscribe({
         next: (project: ProjectEvent) => {
           console.log('Existing project data:', project);
           this.originalProject = project;
-          this.formService.populateForm(this.projectForm, project, this.projectType);
-          this.projectMediaService.loadExistingMedia(project).subscribe(media => {
-            this.existingCoverImage = media.coverImage;
-            this.existingImages = media.images;
-            this.existingVideos = media.videos;
-            this.existingFiles = media.files;
-            this.coverImagePreview = media.coverImage;
-            this.imagesPreviews = [...media.images];
-            this.videosPreviews = media.videos.map(v => v.url);
-            // Assegna press reviews alla preview
-            if (this.previewContent) {
-              this.previewContent.pressReviews = media.pressReviews;
-            }
-            this.updatePreview();
-            this.loaderService.hide();
-          });
+          this.formService.populateForm(
+            this.projectForm,
+            project,
+            this.projectType,
+          );
+          this.projectMediaService
+            .loadExistingMedia(project)
+            .subscribe((media) => {
+              this.existingCoverImage = media.coverImage;
+              this.existingImages = media.images;
+              this.existingVideos = media.videos;
+              this.existingFiles = media.files;
+              this.coverImagePreview = media.coverImage;
+              this.imagesPreviews = [...media.images];
+              this.videosPreviews = media.videos.map((v) => v.url);
+              // Assegna press reviews alla preview
+              if (this.previewContent) {
+                this.previewContent.pressReviews = media.pressReviews;
+              }
+              this.updatePreview();
+              this.loaderService.hide();
+            });
         },
         error: (processedError: ProcessedError) => {
           this.errorService.handleProcessedError(processedError);
         },
         complete: () => {
           // Loader hide is now inside the media subscribe
-        }
+        },
       });
     }
   }
@@ -211,11 +239,17 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   get videoNames(): { name: string; size?: number }[] {
-    return [...this.existingVideos, ...this.videosFiles.map(f => ({ name: f.name, size: f.size }))];
+    return [
+      ...this.existingVideos,
+      ...this.videosFiles.map((f) => ({ name: f.name, size: f.size })),
+    ];
   }
 
   get fileNames(): { name: string; size?: number }[] {
-    return [...this.existingFiles, ...this.filesFiles.map(f => ({ name: f.name, size: f.size }))];
+    return [
+      ...this.existingFiles,
+      ...this.filesFiles.map((f) => ({ name: f.name, size: f.size })),
+    ];
   }
 
   onCoverImageChange(event: Event): void {
@@ -227,7 +261,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       },
       error: () => {
         // Error already handled in service
-      }
+      },
     });
   }
 
@@ -248,7 +282,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       },
       error: () => {
         // Error already handled in service
-      }
+      },
     });
   }
 
@@ -260,7 +294,12 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     } else {
       // Remove new image
       const newIndex = index - this.existingImages.length;
-      this.fileService.removeFileFromArray(this.imagesFiles, newIndex, this.imagesPreviews, index);
+      this.fileService.removeFileFromArray(
+        this.imagesFiles,
+        newIndex,
+        this.imagesPreviews,
+        index,
+      );
     }
     this.updatePreview();
   }
@@ -273,7 +312,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       },
       error: () => {
         // Error already handled in service
-      }
+      },
     });
   }
 
@@ -293,12 +332,14 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.fileService.handleVideosChange(event).subscribe({
       next: (files) => {
         this.videosFiles.push(...files);
-        this.videosPreviews.push(...files.map(file => URL.createObjectURL(file)));
+        this.videosPreviews.push(
+          ...files.map((file) => URL.createObjectURL(file)),
+        );
         this.updatePreview();
       },
       error: () => {
         // Error already handled in service
-      }
+      },
     });
   }
 
@@ -328,21 +369,37 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       coverImage: this.coverImageFile,
       images: this.imagesFiles,
       files: this.filesFiles,
-      videos: this.videosFiles
+      videos: this.videosFiles,
     };
 
-    const preview = this.formService.createPreview(formValue, files, this.originalProject);
+    const preview = this.formService.createPreview(
+      formValue,
+      files,
+      this.originalProject,
+    );
     // Override with component state for previews
     if (preview) {
       preview.coverImagePreview = this.coverImagePreview;
       preview.imagesPreviews = this.imagesPreviews;
       // Add existing media to gallery
       preview.galleryItems = [
-        ...this.existingImages.map(url => ({ href: url, type: 'image' as const })),
-        ...this.imagesPreviews.slice(this.existingImages.length).map(url => ({ href: url, type: 'image' as const })),
-        ...this.videosPreviews.map(url => ({ href: url, type: 'video' as const, source: 'local' as const }))
+        ...this.existingImages.map((url) => ({
+          href: url,
+          type: 'image' as const,
+        })),
+        ...this.imagesPreviews
+          .slice(this.existingImages.length)
+          .map((url) => ({ href: url, type: 'image' as const })),
+        ...this.videosPreviews.map((url) => ({
+          href: url,
+          type: 'video' as const,
+          source: 'local' as const,
+        })),
       ];
-      preview.filePaths = [...this.existingFiles.map(f => f.name), ...this.filesFiles.map(f => f.name)];
+      preview.filePaths = [
+        ...this.existingFiles.map((f) => f.name),
+        ...this.filesFiles.map((f) => f.name),
+      ];
       // Use current press reviews from previewContent if available, otherwise original
       if (this.previewContent?.pressReviews) {
         preview.pressReviews = this.previewContent.pressReviews;
@@ -358,7 +415,10 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
-    if (this.projectForm.invalid || (!this.coverImageFile && !this.existingCoverImage)) {
+    if (
+      this.projectForm.invalid ||
+      (!this.coverImageFile && !this.existingCoverImage)
+    ) {
       this.projectForm.markAllAsTouched();
       return;
     }
@@ -368,7 +428,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       this.coverImageFile,
       ...this.imagesFiles,
       ...this.filesFiles,
-      ...this.videosFiles
+      ...this.videosFiles,
     ].filter(Boolean) as File[];
 
     if (!this.fileService.validateTotalSize(allFiles)) {
@@ -380,32 +440,41 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       coverImage: this.coverImageFile,
       images: this.imagesFiles,
       files: this.filesFiles,
-      videos: this.videosFiles
+      videos: this.videosFiles,
     };
 
     this.loaderService.show();
 
-    this.projectSubmitService.submit(this.projectType, formValue, files, this.isEditMode, this.projectId).subscribe({
-      next: (response) => {
-        this.loaderService.hide();
-        const successMessage = this.projectType === 'COURSE'
-          ? 'ADMIN.PROJECTS.FORM.SUCCESS_COURSE_CREATED'
-          : 'ADMIN.PROJECTS.FORM.SUCCESS_EVENT_CREATED';
-        this.toastService.showSuccess(this.translate.instant(successMessage));
-        this.router.navigate(['/admin/projects']);
-      },
-      error: (error) => {
-        this.loaderService.hide();
-        if (error instanceof Error) {
-          this.toastService.showError(error.message);
-        } else {
-          this.errorService.handleProcessedError(error);
-        }
-      },
-      complete: () => {
-        this.loaderService.hide();
-      }
-    });
+    this.projectSubmitService
+      .submit(
+        this.projectType,
+        formValue,
+        files,
+        this.isEditMode,
+        this.projectId,
+      )
+      .subscribe({
+        next: (response) => {
+          this.loaderService.hide();
+          const successMessage =
+            this.projectType === 'COURSE'
+              ? 'ADMIN.PROJECTS.FORM.SUCCESS_COURSE_CREATED'
+              : 'ADMIN.PROJECTS.FORM.SUCCESS_EVENT_CREATED';
+          this.toastService.showSuccess(this.translate.instant(successMessage));
+          this.router.navigate(['/admin/projects']);
+        },
+        error: (error) => {
+          this.loaderService.hide();
+          if (error instanceof Error) {
+            this.toastService.showError(error.message);
+          } else {
+            this.errorService.handleProcessedError(error);
+          }
+        },
+        complete: () => {
+          this.loaderService.hide();
+        },
+      });
   }
 
   addPressReview(data: { url: string; image: File }): void {
@@ -432,29 +501,31 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     if (this.previewContent?.coverImagePreview) {
       items.push({
         href: this.previewContent.coverImagePreview,
-        type: 'image'
+        type: 'image',
       });
     }
     if (this.previewContent?.imagesPreviews) {
-      items.push(...this.previewContent.imagesPreviews.map(preview => ({
-        href: preview,
-        type: 'image'
-      })));
+      items.push(
+        ...this.previewContent.imagesPreviews.map((preview) => ({
+          href: preview,
+          type: 'image',
+        })),
+      );
     }
     if (this.videosPreviews) {
-      items.push(...this.videosPreviews.map(preview => ({
-        href: preview,
-        type: 'video'
-      })));
+      items.push(
+        ...this.videosPreviews.map((preview) => ({
+          href: preview,
+          type: 'video',
+        })),
+      );
     }
     return items;
   }
 
   get previewFilePaths(): string[] {
     if (!this.previewContent) return [];
-    return [
-      ...this.previewContent.filesNames
-    ];
+    return [...this.previewContent.filesNames];
   }
 
   onPressReviewsChange(pressReviews: PressReview[]): void {

@@ -6,20 +6,16 @@
       class="form-control"
       id="title"
       formControlName="title"
-      [placeholder]="
-        'ADMIN.PROJECTS.FORM.TITLE_PLACEHOLDER' | translate
-      "
+      [placeholder]="'ADMIN.PROJECTS.FORM.TITLE_PLACEHOLDER' | translate"
       [class.is-invalid]="
-        projectForm.get('title')?.invalid &&
-        projectForm.get('title')?.touched
+        projectForm.get('title')?.invalid && projectForm.get('title')?.touched
       "
     />
     <label for="title">{{
       "ADMIN.PROJECTS.FORM.TITLE_LABEL" | translate
     }}</label>
     @if (
-      projectForm.get("title")?.invalid &&
-      projectForm.get("title")?.touched
+      projectForm.get("title")?.invalid && projectForm.get("title")?.touched
     ) {
       <div class="invalid-feedback">
         {{ "ADMIN.PROJECTS.FORM.TITLE_REQUIRED" | translate }}
@@ -35,9 +31,7 @@
     <quill-editor
       formControlName="description"
       [modules]="quillModules"
-      [placeholder]="
-        'ADMIN.PROJECTS.FORM.DESCRIPTION_PLACEHOLDER' | translate
-      "
+      [placeholder]="'ADMIN.PROJECTS.FORM.DESCRIPTION_PLACEHOLDER' | translate"
       [class.is-invalid]="
         projectForm.get('description')?.invalid &&
         projectForm.get('description')?.touched
@@ -127,11 +121,7 @@
         "ADMIN.PROJECTS.FORM.EVENT_DATES_LABEL" | translate
       }}</label>
       <div formArrayName="eventDates">
-        @for (
-          control of eventDates.controls;
-          track $index;
-          let i = $index
-        ) {
+        @for (control of eventDates.controls; track $index; let i = $index) {
           <div class="input-group mb-2">
             <input
               type="datetime-local"
@@ -177,9 +167,7 @@
       class="form-control"
       id="location"
       formControlName="location"
-      [placeholder]="
-        'ADMIN.PROJECTS.FORM.LOCATION_PLACEHOLDER' | translate
-      "
+      [placeholder]="'ADMIN.PROJECTS.FORM.LOCATION_PLACEHOLDER' | translate"
       [class.is-invalid]="
         projectForm.get('location')?.invalid &&
         projectForm.get('location')?.touched
@@ -222,9 +210,7 @@
       projectForm.get("maxParticipants")?.touched
     ) {
       <div class="invalid-feedback">
-        {{
-          "ADMIN.PROJECTS.FORM.MAX_PARTICIPANTS_REQUIRED" | translate
-        }}
+        {{ "ADMIN.PROJECTS.FORM.MAX_PARTICIPANTS_REQUIRED" | translate }}
       </div>
     }
   </div>
@@ -236,9 +222,7 @@
       class="form-control"
       id="googleMapsLink"
       formControlName="googleMapsLink"
-      [placeholder]="
-        'ADMIN.PROJECTS.FORM.GOOGLE_MAPS_PLACEHOLDER' | translate
-      "
+      [placeholder]="'ADMIN.PROJECTS.FORM.GOOGLE_MAPS_PLACEHOLDER' | translate"
       [class.is-invalid]="
         projectForm.get('googleMapsLink')?.invalid &&
         projectForm.get('googleMapsLink')?.touched
@@ -265,9 +249,7 @@
     <quill-editor
       formControlName="informations"
       [modules]="quillModules"
-      [placeholder]="
-        'ADMIN.PROJECTS.FORM.INFORMATIONS_PLACEHOLDER' | translate
-      "
+      [placeholder]="'ADMIN.PROJECTS.FORM.INFORMATIONS_PLACEHOLDER' | translate"
     ></quill-editor>
   </div>
 
@@ -301,9 +283,7 @@
         </button>
       </div>
     }
-    @if (
-      !coverImageFile && !existingCoverImage && projectForm.touched
-    ) {
+    @if (!coverImageFile && !existingCoverImage && projectForm.touched) {
       <div class="text-danger small mt-1">
         {{ "ADMIN.PROJECTS.FORM.COVER_IMAGE_REQUIRED" | translate }}
       </div>
@@ -373,10 +353,7 @@
                 <i class="fas fa-video me-2"></i>{{ video.name }}
                 @if (video.size) {
                   <small class="text-muted ms-2 text-nowrap"
-                    >({{
-                      (video.size / 1024 / 1024).toFixed(2)
-                    }}
-                    MB)</small
+                    >({{ (video.size / 1024 / 1024).toFixed(2) }} MB)</small
                   >
                 }
               </span>
@@ -442,11 +419,7 @@
 
   <!-- Submit Button -->
   <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-    <button
-      type="button"
-      class="btn danger-button"
-      (click)="onCancel()"
-    >
+    <button type="button" class="btn danger-button" (click)="onCancel()">
       {{ "ADMIN.PROJECTS.FORM.CANCEL" | translate }}
     </button>
     <button

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
@@ -55,25 +62,24 @@ export class ProjectMainFormComponent implements OnInit, OnDestroy {
   quillModules = {
     toolbar: [
       ['bold', 'italic', 'underline'],
-      [{
-        'color': [
-          '#212B31', // dark-gray: rgb(33, 43, 49)
-          '#40B0C4', // dark-cyan: rgb(64, 176, 196)
-          '#7FCBD8', // light-cyan: rgb(127, 203, 216)
-          '#8E400F', // brown: rgb(142, 64, 15)
-          '#5DD479', // light-green: rgba(93, 212, 121, 0.95)
-          '#FFDA6C', // light-yellow: rgb(255, 218, 108, 0.95)
-          '#F36464'  // light-red: rgb(243, 100, 100, 0.95)
-        ]
-      }],
-      [{ 'list': 'ordered'}, { 'list': 'bullet' }]
-    ]
+      [
+        {
+          color: [
+            '#212B31', // dark-gray: rgb(33, 43, 49)
+            '#40B0C4', // dark-cyan: rgb(64, 176, 196)
+            '#7FCBD8', // light-cyan: rgb(127, 203, 216)
+            '#8E400F', // brown: rgb(142, 64, 15)
+            '#5DD479', // light-green: rgba(93, 212, 121, 0.95)
+            '#FFDA6C', // light-yellow: rgb(255, 218, 108, 0.95)
+            '#F36464', // light-red: rgb(243, 100, 100, 0.95)
+          ],
+        },
+      ],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+    ],
   };
 
-  constructor(
-    private fileService: ProjectFileService,
-    private previewService: ProjectPreviewService,
-  ) {}
+  constructor(private previewService: ProjectPreviewService) {}
 
   ngOnInit(): void {
     // Subscribe to form value changes to update preview
@@ -96,15 +102,15 @@ export class ProjectMainFormComponent implements OnInit, OnDestroy {
 
   get videoNames(): { name: string; size?: number }[] {
     return [
-      ...this.existingVideos.map(v => ({ name: v.name, size: v.size })),
-      ...this.videosFiles.map(f => ({ name: f.name, size: f.size }))
+      ...this.existingVideos.map((v) => ({ name: v.name, size: v.size })),
+      ...this.videosFiles.map((f) => ({ name: f.name, size: f.size })),
     ];
   }
 
   get fileNames(): { name: string; size?: number }[] {
     return [
-      ...this.existingFiles.map(f => ({ name: f.name, size: f.size })),
-      ...this.filesFiles.map(f => ({ name: f.name, size: f.size }))
+      ...this.existingFiles.map((f) => ({ name: f.name, size: f.size })),
+      ...this.filesFiles.map((f) => ({ name: f.name, size: f.size })),
     ];
   }
 

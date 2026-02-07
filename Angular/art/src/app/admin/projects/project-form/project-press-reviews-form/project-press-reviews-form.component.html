@@ -1,12 +1,17 @@
 <form (ngSubmit)="onSubmit()">
   <!-- Press Reviews List -->
   <div class="mb-4">
-    <h4 class="mb-3">{{ "ADMIN.PROJECTS.FORM.PRESS_REVIEWS_LABEL" | translate }}</h4>
+    <h4 class="mb-3">
+      {{ "ADMIN.PROJECTS.FORM.PRESS_REVIEWS_LABEL" | translate }}
+    </h4>
 
     @for (review of workingPressReviews; track $index; let i = $index) {
       <div class="press-review-item mb-4 p-3 border rounded">
         <div class="d-flex justify-content-between align-items-center mb-3">
-          <h5 class="mb-0">{{ "ADMIN.PROJECTS.FORM.PRESS_REVIEW_ITEM" | translate }} {{ i + 1 }}</h5>
+          <h5 class="mb-0">
+            {{ "ADMIN.PROJECTS.FORM.PRESS_REVIEW_ITEM" | translate }}
+            {{ i + 1 }}
+          </h5>
           <button
             type="button"
             class="btn btn-danger btn-sm"
@@ -26,11 +31,15 @@
                 class="form-control mb-md-0"
                 [id]="'pressReviewUrl-' + i"
                 [(ngModel)]="review.url"
-                [ngModelOptions]="{standalone: true}"
-                [placeholder]="'ADMIN.PROJECTS.FORM.PRESS_REVIEW_URL_PLACEHOLDER' | translate"
+                [ngModelOptions]="{ standalone: true }"
+                [placeholder]="
+                  'ADMIN.PROJECTS.FORM.PRESS_REVIEW_URL_PLACEHOLDER' | translate
+                "
                 (blur)="onUrlChange(i)"
               />
-              <label [for]="'pressReviewUrl-' + i">{{ "ADMIN.PROJECTS.FORM.PRESS_REVIEW_URL_LABEL" | translate }}</label>
+              <label [for]="'pressReviewUrl-' + i">{{
+                "ADMIN.PROJECTS.FORM.PRESS_REVIEW_URL_LABEL" | translate
+              }}</label>
             </div>
           </div>
 
@@ -84,10 +93,7 @@
 
     <!-- Submit Button -->
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <button
-        type="submit"
-        class="btn default-button"
-      >
+      <button type="submit" class="btn default-button">
         <i class="fas fa-save me-2"></i>
         {{ "ADMIN.PROJECTS.FORM.SAVE_PRESS_REVIEWS" | translate }}
       </button>
