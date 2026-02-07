@@ -6,10 +6,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AdminContentService } from 'src/app/admin/services/admin-content.service';
 import { ErrorService } from 'src/app/core/services/error.service';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
+import { ImageLoaderComponent } from 'src/app/shared/components/image-loader/image-loader.component';
 
 @Component({
   selector: 'app-link-modal',
-  imports: [FormsModule, TranslateModule],
+  imports: [FormsModule, TranslateModule, ImageLoaderComponent],
   templateUrl: './link-modal.component.html',
   styleUrl: './link-modal.component.scss',
 })
@@ -43,7 +44,7 @@ export class LinkModalComponent {
     this.isLoading = true;
     this.adminContentService.linkContent(this.content.id, this.selectedTargetId, this.content.contentType).subscribe({
       next: (updatedContent: Content) => {
-        this.activeModal.close({ action: 'link', updatedContent });
+        this.activeModal.close({ action: 'link', updatedContent, targetId: this.selectedTargetId });
       },
       error: (processedError: ProcessedError) => {
         this.errorService.handleProcessedError(processedError);
@@ -58,7 +59,8 @@ export class LinkModalComponent {
     this.isLoading = true;
     this.adminContentService.unlinkContent(this.content.id, this.linkedContent.id, this.content.contentType).subscribe({
       next: (updatedContent: Content) => {
-        this.activeModal.close({ action: 'unlink', updatedContent });
+        // Chiudi e lascia che il parent riapra il modale con dati aggiornati
+        this.activeModal.close({ action: 'unlink', updatedContent, targetId: this.linkedContent!.id, shouldReopen: true });
       },
       error: (processedError: ProcessedError) => {
         this.errorService.handleProcessedError(processedError);

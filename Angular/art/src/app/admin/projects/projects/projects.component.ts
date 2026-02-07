@@ -5,7 +5,10 @@ import { Content } from 'src/app/models/content.interface';
 import { ImageService } from 'src/app/service/image.service';
 import { AdminContentService } from '../../services/admin-content.service';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
-import { FilterValues, ProjectFiltersComponent } from 'src/app/shared/components/project/project-filters/project-filters.component';
+import {
+  FilterValues,
+  ProjectFiltersComponent,
+} from 'src/app/shared/components/project/project-filters/project-filters.component';
 import { RouterModule } from '@angular/router';
 import { ProjectCardComponent } from 'src/app/shared/components/project/project-card/project-card.component';
 import { ErrorService } from 'src/app/core/services/error.service';
@@ -19,9 +22,14 @@ import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-projects',
-  imports: [RouterModule, ProjectFiltersComponent, ProjectCardComponent, TranslateModule],
+  imports: [
+    RouterModule,
+    ProjectFiltersComponent,
+    ProjectCardComponent,
+    TranslateModule,
+  ],
   templateUrl: './projects.component.html',
-  styleUrl: './projects.component.scss'
+  styleUrl: './projects.component.scss',
 })
 export class ProjectsComponent implements OnInit {
   projects: Content[] = [];
@@ -37,7 +45,7 @@ export class ProjectsComponent implements OnInit {
     private modalService: NgbModal,
     private toastService: ToastService,
     private translate: TranslateService,
-    private storageService: StorageService
+    private storageService: StorageService,
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +61,7 @@ export class ProjectsComponent implements OnInit {
       },
       error: () => {
         this.imageLoading[index] = false;
-      }
+      },
     });
   }
 
@@ -63,24 +71,25 @@ export class ProjectsComponent implements OnInit {
       next: (data: Content[]) => {
         console.log('Loaded Content:', data);
 
-        this.projects = data.map(project => ({
+        this.projects = data.map((project) => ({
           ...project,
-          eventDates: project.eventDates ? project.eventDates.map((d: string | Date) => new Date(d)) : []
+          eventDates: project.eventDates
+            ? project.eventDates.map((d: string | Date) => new Date(d))
+            : [],
         }));
         this.imageLoading = new Array(this.projects.length).fill(false);
         this.projects.forEach((project, index) => {
           this.getFullImageUrl(project.coverImagePath, index);
         });
         this.filteredProjects = [...this.projects];
-
       },
       error: (processedError: ProcessedError) => {
         this.errorService.handleProcessedError(processedError);
       },
       complete: () => {
         this.loaderService.hide();
-      }
-    })
+      },
+    });
   }
 
   onFiltersChanged(filters: FilterValues): void {
@@ -92,41 +101,103 @@ export class ProjectsComponent implements OnInit {
     const linkedContent = this.getLinkedContentFor(project);
     const modalRef = this.modalService.open(LinkModalComponent, {
       centered: true,
-      size: 'lg'
+      size: 'lg',
     });
     modalRef.componentInstance.content = project;
     modalRef.componentInstance.linkedContent = linkedContent;
     modalRef.componentInstance.availableTargets = availableTargets;
 
-    modalRef.result.then((result) => {
-      if (result && result.updatedContent) {
-        // Aggiorna il progetto nella lista
-        const index = this.projects.findIndex(p => p.id === result.updatedContent.id);
-        if (index !== -1) {
-          this.projects[index] = {
-            ...result.updatedContent,
-            contentType: this.projects[index].contentType, // Preserva il contentType originale
-            eventDates: result.updatedContent.eventDates ? result.updatedContent.eventDates.map((d: string | Date) => new Date(d)) : []
-          };
-          // Ricarica l'immagine se necessario
-          this.getFullImageUrl(this.projects[index].coverImagePath, index);
+    modalRef.result
+      .then((result) => {
+        if (result && result.updatedContent) {
+          // Aggiorna il progetto source nella lista
+          const sourceIndex = this.projects.findIndex(
+            (p) => p.id === result.updatedContent.id,
+          );
+          if (sourceIndex !== -1) {
+            this.projects[sourceIndex] = {
+              ...result.updatedContent,
+              contentType: this.projects[sourceIndex].contentType, // Preserva il contentType originale
+              eventDates: result.updatedContent.eventDates
+                ? result.updatedContent.eventDates.map(
+                    (d: string | Date) => new Date(d),
+                  )
+                : [],
+            };
+            // Ricarica l'immagine per il source
+            this.getFullImageUrl(
+              this.projects[sourceIndex].coverImagePath,
+              sourceIndex,
+            );
+          }
+
+          // Aggiorna anche il progetto target se presente nella lista
+          if (result.action === 'link' && result.targetId) {
+            const targetIndex = this.projects.findIndex(
+              (p) => p.id === result.targetId,
+            );
+            if (targetIndex !== -1) {
+              // Imposta il link opposto nel target
+              if (result.updatedContent.contentType === 'Course') {
+                this.projects[targetIndex].linkedCourseId =
+                  result.updatedContent.id;
+              } else {
+                this.projects[targetIndex].linkedEventId =
+                  result.updatedContent.id;
+              }
+              // Ricarica l'immagine per il target (potrebbe essere cambiata)
+              this.getFullImageUrl(
+                this.projects[targetIndex].coverImagePath,
+                targetIndex,
+              );
+            }
+          } else if (result.action === 'unlink') {
+            // Rimuovi il link da entrambi i progetti
+            if (result.targetId) {
+              const targetIndex = this.projects.findIndex(
+                (p) => p.id === result.targetId,
+              );
+              if (targetIndex !== -1) {
+                this.projects[targetIndex].linkedCourseId = null;
+                this.projects[targetIndex].linkedEventId = null;
+                // Ricarica l'immagine per il target
+                this.getFullImageUrl(
+                  this.projects[targetIndex].coverImagePath,
+                  targetIndex,
+                );
+              }
+            }
+          }
+
+          // Aggiorna filteredProjects ri-applicando i filtri
+          const currentFilters = this.storageService.getProjectFilters(true);
+          if (currentFilters) {
+            this.applyFilters(currentFilters);
+          } else {
+            this.filteredProjects = [...this.projects];
+          }
+
+          // Mostra il messaggio di successo
+          const successKey =
+            result.action === 'link'
+              ? 'MODALS.LINK.SUCCESS_LINK'
+              : 'MODALS.LINK.SUCCESS_UNLINK';
+          this.translate.get(successKey).subscribe((message) => {
+            this.toastService.showSuccess(message);
+          });
+
+          // Se è un unlink e deve riaprirsi, riapri il modale con dati aggiornati
+          if (result.action === 'unlink' && result.shouldReopen) {
+            setTimeout(() => {
+              this.openLinkModal(this.projects[sourceIndex]);
+            }, 300);
+          } else {
+          }
         }
-        // Aggiorna anche filteredProjects ri-applicando i filtri dal session storage
-        const currentFilters = this.storageService.getProjectFilters(true);
-        if (currentFilters) {
-          this.applyFilters(currentFilters);
-        } else {
-          this.filteredProjects = [...this.projects];
-        }
-        // Mostra il messaggio di successo appropriato
-        const successKey = result.action === 'link' ? 'MODALS.LINK.SUCCESS_LINK' : 'MODALS.LINK.SUCCESS_UNLINK';
-        this.translate.get(successKey).subscribe(message => {
-          this.toastService.showSuccess(message);
-        });
-      }
-    }).catch(() => {
-      // Modal dismissed
-    });
+      })
+      .catch(() => {
+        // Modal dismissed
+      });
   }
 
   openArchiveModal(project: Content): void {
@@ -138,29 +209,31 @@ export class ProjectsComponent implements OnInit {
     modalRef.componentInstance.contentType = project.contentType;
     modalRef.componentInstance.isArchived = project.archived;
 
-    modalRef.result.then(result => {
-      if (result) {
-        this.archiveProject(result.contentId, result.contentType);
-      }
-    }).catch(() => {
-      // Modal dismissed
-    });
+    modalRef.result
+      .then((result) => {
+        if (result) {
+          this.archiveProject(result.contentId, result.contentType);
+        }
+      })
+      .catch(() => {
+        // Modal dismissed
+      });
   }
 
   private applyFilters(filters: FilterValues): void {
     this.filteredProjects = this.projects.filter((project) => {
       const statusMatch =
-        filters.status === 'all' ||
-        project.contentStatus === filters.status;
+        filters.status === 'all' || project.contentStatus === filters.status;
 
       const typeMatch =
-        filters.type === 'all' ||
-        project.contentType === filters.type;
+        filters.type === 'all' || project.contentType === filters.type;
 
       const archivedMatch =
         !filters.archived ||
         filters.archived === 'all' ||
-        (filters.archived === 'archived' ? project.archived === true : project.archived !== true);
+        (filters.archived === 'archived'
+          ? project.archived === true
+          : project.archived !== true);
 
       return statusMatch && typeMatch && archivedMatch;
     });
@@ -171,7 +244,7 @@ export class ProjectsComponent implements OnInit {
   }
 
   private getAvailableTargetsFor(content: Content): Content[] {
-    return this.projects.filter(project => {
+    return this.projects.filter((project) => {
       // Escludi il contenuto stesso
       if (project.id === content.id) return false;
 
@@ -196,7 +269,7 @@ export class ProjectsComponent implements OnInit {
     if (!content.linkedCourseId && !content.linkedEventId) return null;
 
     const linkedId = content.linkedCourseId || content.linkedEventId;
-    return this.projects.find(p => p.id === linkedId) || null;
+    return this.projects.find((p) => p.id === linkedId) || null;
   }
 
   private archiveProject(contentId: string, contentType: string): void {
@@ -204,12 +277,14 @@ export class ProjectsComponent implements OnInit {
     this.adminContentService.patchArchive(contentId, contentType).subscribe({
       next: (updatedProject: Content) => {
         // Aggiorna il progetto nella lista
-        const index = this.projects.findIndex(p => p.id === contentId);
+        const index = this.projects.findIndex((p) => p.id === contentId);
         if (index !== -1) {
           this.projects[index] = {
             ...updatedProject,
             contentType: contentType, // Preserva il contentType originale
-            eventDates: updatedProject.eventDates ? updatedProject.eventDates.map((d: string | Date) => new Date(d)) : []
+            eventDates: updatedProject.eventDates
+              ? updatedProject.eventDates.map((d: string | Date) => new Date(d))
+              : [],
           };
           // Ricarica l'immagine se necessario
           this.getFullImageUrl(this.projects[index].coverImagePath, index);
@@ -223,8 +298,10 @@ export class ProjectsComponent implements OnInit {
           this.filteredProjects = [...this.projects];
         }
         // Mostra il messaggio di successo appropriato
-        const successKey = updatedProject.archived ? 'MODALS.ARCHIVE.SUCCESS' : 'MODALS.ARCHIVE.SUCCESS_UNARCHIVE';
-        this.translate.get(successKey).subscribe(message => {
+        const successKey = updatedProject.archived
+          ? 'MODALS.ARCHIVE.SUCCESS'
+          : 'MODALS.ARCHIVE.SUCCESS_UNARCHIVE';
+        this.translate.get(successKey).subscribe((message) => {
           this.toastService.showSuccess(message);
         });
       },
@@ -233,7 +310,7 @@ export class ProjectsComponent implements OnInit {
       },
       complete: () => {
         this.loaderService.hide();
-      }
+      },
     });
   }
 }

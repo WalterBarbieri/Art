@@ -72,7 +72,7 @@
   @if (isLinked()) {
     <button type="button" class="btn danger-button" (click)="unlink()" [disabled]="isLoading">
       @if (isLoading) {
-        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+        <app-image-loader></app-image-loader>
       }
       <i class="fas fa-unlink me-2"></i>
       {{ 'MODALS.LINK.UNLINK' | translate }}
@@ -80,7 +80,7 @@
   } @else {
     <button type="button" class="btn default-button" (click)="link()" [disabled]="!selectedTargetId || isLoading">
       @if (isLoading) {
-        <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+        <app-image-loader></app-image-loader>
       }
       <i class="fas fa-link me-2"></i>
       {{ 'MODALS.LINK.LINK' | translate }}
