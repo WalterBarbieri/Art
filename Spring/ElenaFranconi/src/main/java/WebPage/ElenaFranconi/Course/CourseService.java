@@ -108,6 +108,9 @@ public class CourseService extends AbstractContentService<Course> {
 	@Transactional
 	public Course patchArchived(UUID courseId) {
 		Course course = findCourseById(courseId);
+		if (course.getLinkedEvent() != null) {
+			throw new BadRequestException("Cannot archive a course linked to events. Unlink them first.");
+		}
 		course.setArchived(!course.isArchived());
 		return courseRepository.save(course);
 	}

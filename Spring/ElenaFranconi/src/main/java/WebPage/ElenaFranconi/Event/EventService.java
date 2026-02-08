@@ -90,6 +90,9 @@ public class EventService extends AbstractContentService<Event> {
 	@Transactional
 	public Event patchArchived(UUID eventId) {
 		Event event = findEventById(eventId);
+		if (event.getLinkedCourse() != null) {
+			throw new BadRequestException("Cannot archive an event linked to a course. Unlink it first.");
+		}
 		event.setArchived(!event.isArchived());
 		return eventRepository.save(event);
 	}
