@@ -422,12 +422,10 @@
     <button type="button" class="btn btn-secondary" (click)="onCancel()">
       {{ "ADMIN.PROJECTS.FORM.CLOSE" | translate }}
     </button>
-    @if (!isEditMode) {
-      <button type="button" class="btn btn-warning" (click)="resetForm()">
-        <i class="fas fa-undo me-2"></i>
-        Reset
-      </button>
-    }
+    <button type="button" class="btn btn-warning" (click)="resetForm()">
+      <i class="fas fa-undo me-2"></i>
+      Reset
+    </button>
     <button
       type="submit"
       class="btn default-button"

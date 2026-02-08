@@ -11,7 +11,6 @@ import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { QuillModule } from 'ngx-quill';
 import { TranslateModule } from '@ngx-translate/core';
-import { ProjectFileService } from '../../../services/project-file.service';
 import { ProjectPreviewService } from '../../../services/project-preview.service';
 import { environment } from 'src/environments/environment';
 

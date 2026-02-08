@@ -78,8 +78,14 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   // Existing media from DB
   existingCoverImage: string | null = null;
   existingImages: string[] = [];
-  existingVideos: { name: string; size?: number }[] = [];
-  existingFiles: { name: string; size?: number }[] = [];
+  existingVideos: { name: string; url: string }[] = [];
+  existingFiles: { name: string }[] = [];
+
+  // Original media from DB (for edit mode reset)
+  originalCoverImage: string | null = null;
+  originalImages: string[] = [];
+  originalVideos: { name: string; url: string }[] = [];
+  originalFiles: { name: string }[] = [];
 
   // Preview object for reusable components
   previewContent$ = this.previewService.preview$;
@@ -170,6 +176,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
               this.existingImages = media.images;
               this.existingVideos = media.videos;
               this.existingFiles = media.files;
+              // Save originals for reset
+              this.originalCoverImage = media.coverImage;
+              this.originalImages = [...media.images];
+              this.originalVideos = [...media.videos];
+              this.originalFiles = [...media.files];
               this.coverImagePreview = media.coverImage;
               this.imagesPreviews = [...media.images];
               this.videosPreviews = media.videos.map((v) => v.url);
@@ -205,6 +216,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
               this.existingImages = media.images;
               this.existingVideos = media.videos;
               this.existingFiles = media.files;
+              // Save originals for reset
+              this.originalCoverImage = media.coverImage;
+              this.originalImages = [...media.images];
+              this.originalVideos = [...media.videos];
+              this.originalFiles = [...media.files];
               this.coverImagePreview = media.coverImage;
               this.imagesPreviews = [...media.images];
               this.videosPreviews = media.videos.map((v) => v.url);
@@ -492,18 +508,40 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   }
 
   onResetForm(): void {
-    // Reset all file selections and previews (only for create mode)
-    this.coverImageFile = null;
-    this.imagesFiles = [];
-    this.videosFiles = [];
-    this.filesFiles = [];
+    if (this.isEditMode) {
+      // Reset to original values
+      if (this.originalProject) {
+        this.formService.populateForm(this.projectForm, this.originalProject, this.projectType);
+      }
+      // Reset media to originals
+      this.existingCoverImage = this.originalCoverImage;
+      this.existingImages = [...this.originalImages];
+      this.existingVideos = [...this.originalVideos];
+      this.existingFiles = [...this.originalFiles];
+      // Clear new files
+      this.coverImageFile = null;
+      this.imagesFiles = [];
+      this.videosFiles = [];
+      this.filesFiles = [];
+      // Recreate previews
+      this.coverImagePreview = this.originalCoverImage;
+      this.imagesPreviews = [...this.originalImages];
+      this.videosPreviews = this.originalVideos.map(v => v.url);
+      // Clean up any blob URLs from new videos (but since we cleared videosFiles, no new blobs)
+    } else {
+      // Reset all file selections and previews (create mode)
+      this.coverImageFile = null;
+      this.imagesFiles = [];
+      this.videosFiles = [];
+      this.filesFiles = [];
 
-    // Clean up blob URLs
-    this.coverImagePreview = null;
-    this.imagesPreviews.forEach((url) => URL.revokeObjectURL(url));
-    this.imagesPreviews = [];
-    this.videosPreviews.forEach((url) => URL.revokeObjectURL(url));
-    this.videosPreviews = [];
+      // Clean up blob URLs
+      this.coverImagePreview = null;
+      this.imagesPreviews.forEach((url) => URL.revokeObjectURL(url));
+      this.imagesPreviews = [];
+      this.videosPreviews.forEach((url) => URL.revokeObjectURL(url));
+      this.videosPreviews = [];
+    }
 
     // Update preview
     this.updatePreview();
