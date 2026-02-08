@@ -48,6 +48,7 @@ export class ProjectMainFormComponent implements OnInit, OnDestroy {
   @Output() removeFileEvent = new EventEmitter<number>();
   @Output() addEventDateEvent = new EventEmitter<void>();
   @Output() removeEventDateEvent = new EventEmitter<number>();
+  @Output() resetFormEvent = new EventEmitter<void>();
 
   // Memory leak prevention
   private destroy$ = new Subject<void>();
@@ -160,6 +161,12 @@ export class ProjectMainFormComponent implements OnInit, OnDestroy {
 
   removeEventDate(index: number): void {
     this.removeEventDateEvent.emit(index);
+  }
+
+  resetForm(): void {
+    // Reset the form to empty state (only for create mode)
+    this.projectForm.reset();
+    this.resetFormEvent.emit();
   }
 
   private updatePreview(): void {

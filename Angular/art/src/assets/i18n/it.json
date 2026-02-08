@@ -139,7 +139,7 @@
         "FILES_SELECTED": "file selezionati",
         "VIDEOS_LABEL": "Video",
         "VIDEOS_SELECTED": "video selezionati",
-        "CANCEL": "Annulla",
+        "CLOSE": "Chiudi",
         "SAVE": "Salva Modifiche",
         "CREATE_PROJECT": "Crea Progetto",
         "PREVIEW_TITLE": "Anteprima",
@@ -245,8 +245,7 @@
       "SUCCESS_LINK": "Progetti collegati con successo",
       "SUCCESS_UNLINK": "Collegamento rimosso con successo",
       "ARCHIVED_WARNING": "I progetti archiviati non possono essere collegati. Se vuoi collegare un progetto archiviato, devi prima riattivarlo."
-    },
-    "CANCEL": "Annulla"
+    }
   },
   "GUARD": {
     "NOT_AUTHORIZED": "Non sei autorizzato a vedere questo contenuto",

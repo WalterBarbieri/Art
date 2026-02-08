@@ -139,7 +139,7 @@
         "FILES_SELECTED": "files selected",
         "VIDEOS_LABEL": "Videos",
         "VIDEOS_SELECTED": "videos selected",
-        "CANCEL": "Cancel",
+        "CLOSE": "Close",
         "SAVE": "Save Changes",
         "CREATE_PROJECT": "Create Project",
         "PREVIEW_TITLE": "Preview",
@@ -245,8 +245,7 @@
       "SUCCESS_LINK": "Projects linked successfully",
       "SUCCESS_UNLINK": "Link removed successfully",
       "ARCHIVED_WARNING": "Archived projects cannot be linked. If you want to link an archived project, you must first unarchive it."
-    },
-    "CANCEL": "Cancel"
+    }
   },
   "GUARD": {
     "NOT_AUTHORIZED": "You are not authorized to view this content",

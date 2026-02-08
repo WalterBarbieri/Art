@@ -491,6 +491,24 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.router.navigate(['/admin/projects']);
   }
 
+  onResetForm(): void {
+    // Reset all file selections and previews (only for create mode)
+    this.coverImageFile = null;
+    this.imagesFiles = [];
+    this.videosFiles = [];
+    this.filesFiles = [];
+
+    // Clean up blob URLs
+    this.coverImagePreview = null;
+    this.imagesPreviews.forEach((url) => URL.revokeObjectURL(url));
+    this.imagesPreviews = [];
+    this.videosPreviews.forEach((url) => URL.revokeObjectURL(url));
+    this.videosPreviews = [];
+
+    // Update preview
+    this.updatePreview();
+  }
+
   openUrl(url: string): void {
     window.open(url, '_blank');
   }
