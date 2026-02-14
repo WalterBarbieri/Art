@@ -14,31 +14,39 @@
   ></button>
 </div>
 <div class="modal-body">
-  <p class="text-black">
-    {{
-      isArchived
-        ? ("MODALS.ARCHIVE.MESSAGE_UNARCHIVE" | translate)
-        : ("MODALS.ARCHIVE.MESSAGE" | translate)
-    }}
-    {{
-      contentType == "Course"
-        ? ("GENERIC.ARTICLE_MALE" | translate) +
-          " " +
-          ("PROJECT.TYPE_COURSE" | translate)
-        : ("GENERIC.ARTICLE_FEMALE" | translate) +
-          " " +
-          ("PROJECT.TYPE_EVENT" | translate)
-    }}
-    <span class="fw-bold">{{ contentTitle }}</span>?
-  </p>
-  <div class="alert alert-warning mt-2">
-    <i class="fas fa-exclamation-triangle me-2"></i>
-    {{
-      isArchived
-        ? ("MODALS.ARCHIVE.WARNING_UNARCHIVE" | translate)
-        : ("MODALS.ARCHIVE.WARNING" | translate)
-    }}
-  </div>
+  @if (isLinked) {
+    <div class="alert alert-warning">
+      <i class="fas fa-exclamation-triangle me-2"></i>
+      {{ "MODALS.ARCHIVE.LINKED_WARNING" | translate }}
+    </div>
+  } @else {
+    <p class="text-black">
+      {{
+        isArchived
+          ? ("MODALS.ARCHIVE.MESSAGE_UNARCHIVE" | translate)
+          : ("MODALS.ARCHIVE.MESSAGE" | translate)
+      }}
+      {{
+        contentType == "Course"
+          ? ("GENERIC.ARTICLE_MALE" | translate) +
+            " " +
+            ("PROJECT.TYPE_COURSE" | translate)
+          : ("GENERIC.ARTICLE_FEMALE" | translate) +
+            " " +
+            ("PROJECT.TYPE_EVENT" | translate)
+      }}
+      <span class="fw-bold">{{ contentTitle }}</span
+      >?
+    </p>
+    <div class="alert alert-warning mt-2">
+      <i class="fas fa-exclamation-triangle me-2"></i>
+      {{
+        isArchived
+          ? ("MODALS.ARCHIVE.WARNING_UNARCHIVE" | translate)
+          : ("MODALS.ARCHIVE.WARNING" | translate)
+      }}
+    </div>
+  }
 </div>
 <div class="modal-footer">
   <button
@@ -48,11 +56,13 @@
   >
     {{ "MODALS.CLOSE" | translate }}
   </button>
-  <button type="button" class="btn danger-button" (click)="confirmArchive()">
-    {{
-      isArchived
-        ? ("MODALS.ARCHIVE.UNARCHIVE" | translate)
-        : ("MODALS.ARCHIVE.ARCHIVE" | translate)
-    }}
-  </button>
+  @if (!isLinked) {
+    <button type="button" class="btn danger-button" (click)="confirmArchive()">
+      {{
+        isArchived
+          ? ("MODALS.ARCHIVE.UNARCHIVE" | translate)
+          : ("MODALS.ARCHIVE.ARCHIVE" | translate)
+      }}
+    </button>
+  }
 </div>

@@ -208,6 +208,7 @@ export class ProjectsComponent implements OnInit {
     modalRef.componentInstance.contentTitle = project.title;
     modalRef.componentInstance.contentType = project.contentType;
     modalRef.componentInstance.isArchived = project.archived;
+    modalRef.componentInstance.isLinked = !!(project.linkedCourseId || project.linkedEventId);
 
     modalRef.result
       .then((result) => {

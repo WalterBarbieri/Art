@@ -155,8 +155,10 @@
         "ERROR_UPLOAD_SIZE_EXCEEDED": "Uploaded files size exceeds server limit. Reduce files or their sizes.",
         "DATE_RANGE_INVALID": "Start date must be before or equal to end date",
         "DUPLICATE_DATES": "Duplicate dates are not allowed",
-        "SUCCESS_COURSE_CREATED": "Course created successfully!",
-        "SUCCESS_EVENT_CREATED": "Event created successfully!",
+        "SUCCESS_COURSE_CREATED": "Workshop created successfully!",
+        "SUCCESS_EVENT_CREATED": "Performance created successfully!",
+        "SUCCESS_COURSE_UPDATED": "Workshop updated successfully!",
+        "SUCCESS_EVENT_UPDATED": "Performance updated successfully!",
         "DEFAULT_TITLE": "Project Title",
         "DEFAULT_DESCRIPTION": "Project Description",
         "DEFAULT_LOCATION": "Location",
@@ -225,7 +227,8 @@
       "ARCHIVE": "Archive",
       "UNARCHIVE": "Unarchive",
       "SUCCESS": "Project archived successfully",
-      "SUCCESS_UNARCHIVE": "Project unarchived successfully"
+      "SUCCESS_UNARCHIVE": "Project unarchived successfully",
+      "LINKED_WARNING": "Warning: a linked project cannot be archived. Remove the link between the projects first to archive."
     },
     "LINK": {
       "TITLE": "Link Projects",

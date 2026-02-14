@@ -155,8 +155,10 @@
         "ERROR_UPLOAD_SIZE_EXCEEDED": "La dimensione dei file caricati supera il limite del server. Riduci i file o le loro dimensioni.",
         "DATE_RANGE_INVALID": "La data di inizio deve essere precedente o uguale alla data di fine",
         "DUPLICATE_DATES": "Non sono ammesse date duplicate",
-        "SUCCESS_COURSE_CREATED": "Corso creato con successo!",
-        "SUCCESS_EVENT_CREATED": "Evento creato con successo!",
+        "SUCCESS_COURSE_CREATED": "Laboratorio creato con successo!",
+        "SUCCESS_EVENT_CREATED": "Performance creata con successo!",
+        "SUCCESS_COURSE_UPDATED": "Laboratorio aggiornato con successo!",
+        "SUCCESS_EVENT_UPDATED": "Performance aggiornata con successo!",
         "DEFAULT_TITLE": "Titolo del progetto",
         "DEFAULT_DESCRIPTION": "Descrizione del progetto",
         "DEFAULT_LOCATION": "Luogo",
@@ -225,7 +227,8 @@
       "ARCHIVE": "Archivia",
       "UNARCHIVE": "Riattiva",
       "SUCCESS": "Progetto archiviato con successo",
-      "SUCCESS_UNARCHIVE": "Progetto riattivato con successo"
+      "SUCCESS_UNARCHIVE": "Progetto riattivato con successo",
+      "LINKED_WARNING": "Attenzione: non è possibile archiviare un progetto collegato. Rimuovi prima il collegamento tra i progetti per poter archiviare."
     },
     "LINK": {
       "TITLE": "Collega Progetti",
