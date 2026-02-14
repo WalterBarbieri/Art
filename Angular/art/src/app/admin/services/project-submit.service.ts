@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { AdminCourseService } from './admin-course.service';
 import { AdminEventService } from './admin-event.service';
-import { FormFiles, ProjectFormService } from './project-form.service';
+import { FormFiles, ProjectFormService, RemovedFiles } from './project-form.service';
 import { ProjectFormValue } from '../projects/project-form/project-form.interface';
 
 @Injectable({
@@ -21,21 +21,20 @@ export class ProjectSubmitService {
     formValue: ProjectFormValue,
     files: FormFiles,
     isEdit: boolean,
-    projectId?: string
+    projectId?: string,
+    removedFiles?: RemovedFiles
   ): Observable<any> {
-    const formData = this.formService.buildFormData(formValue, files);
+    const formData = this.formService.buildFormData(formValue, files, removedFiles);
 
     if (projectType === 'COURSE') {
       if (isEdit && projectId) {
-        // TODO: Implement update when available
-        return throwError(() => new Error('Edit not implemented yet'));
+        return this.adminCourseService.update(projectId, formData);
       } else {
         return this.adminCourseService.create(formData);
       }
     } else {
       if (isEdit && projectId) {
-        // TODO: Implement update when available
-        return throwError(() => new Error('Edit not implemented yet'));
+        return this.adminEventService.update(projectId, formData);
       } else {
         return this.adminEventService.create(formData);
       }

@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import WebPage.ElenaFranconi.Event.dto.EventDto;
 import WebPage.ElenaFranconi.Event.dto.EventRequestDto;
+import WebPage.ElenaFranconi.Event.dto.EventUpdateDto;
 import jakarta.validation.Valid;
 
 @RestController
@@ -39,6 +41,15 @@ public class EventController {
 	@GetMapping("/{id}")
 	public ResponseEntity<EventDto> getEventById(@PathVariable UUID id) {
 		return ResponseEntity.ok(eventService.getEventDtoById(id));
+	}
+
+	// PUT METHODS
+	@PutMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+	@PreAuthorize("hasAuthority('ADMIN')")
+	public ResponseEntity<EventDto> updateEvent(@PathVariable UUID id, @Valid @ModelAttribute EventUpdateDto body) {
+	    Event updatedEvent = eventService.editEvent(id, body);
+	    EventDto dto = eventService.getEventDto(updatedEvent);
+	    return ResponseEntity.ok(dto);
 	}
 
 	// PATCH METHODS

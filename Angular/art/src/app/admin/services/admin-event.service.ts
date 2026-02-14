@@ -16,6 +16,10 @@ export class AdminEventService {
     return this.http.post<ProjectEvent>(this.baseUrl, formData);
   }
 
+  update(id: string, formData: FormData): Observable<ProjectEvent> {
+    return this.http.put<ProjectEvent>(`${this.baseUrl}/${id}`, formData);
+  }
+
   getById(id: string): Observable<ProjectEvent> {
     return this.http.get<ProjectEvent>(`${this.baseUrl}/${id}`);
   }

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import WebPage.ElenaFranconi.Content.Media.MediaUpdateDto;
 import WebPage.ElenaFranconi.Course.Course;
 import WebPage.ElenaFranconi.Event.Event;
 import WebPage.ElenaFranconi.Exceptions.BadRequestException;
@@ -78,6 +79,33 @@ public abstract class AbstractContentService<T extends Content> {
 				}
 			}
 		}
+	}
+
+	protected void handleMediaUpdate(T content, MediaUpdateDto body) {
+		if (body.getCoverImage() != null) {
+			storageService.deleteFile(content.getCoverImagePath());
+		}
+
+		if (body.getRemovedImages() != null && !body.getRemovedImages().isEmpty()) {
+			body.getRemovedImages().forEach(path -> {
+				content.getImagePaths().remove(path);
+				storageService.deleteFile(path);
+			});
+		}
+		if (body.getRemovedVideos() != null && !body.getRemovedVideos().isEmpty()) {
+			body.getRemovedVideos().forEach(path -> {
+				content.getVideoPaths().remove(path);
+				storageService.deleteFile(path);
+			});
+		}
+		if (body.getRemovedFiles() != null && !body.getRemovedFiles().isEmpty()) {
+			body.getRemovedFiles().forEach(path -> {
+				content.getFilePaths().remove(path);
+				storageService.deleteFile(path);
+			});
+		}
+
+		handleMediaAttachments(content, body.getCoverImage(), body.getImages(), body.getFiles(), body.getVideos());
 	}
 
 	protected void prepareContent(T content) {

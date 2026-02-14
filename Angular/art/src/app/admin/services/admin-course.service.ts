@@ -16,6 +16,10 @@ export class AdminCourseService {
     return this.http.post<Course>(this.baseUrl, formData);
   }
 
+  update(id: string, formData: FormData): Observable<Course> {
+    return this.http.put<Course>(`${this.baseUrl}/${id}`, formData);
+  }
+
   getById(id: string): Observable<Course> {
     return this.http.get<Course>(`${this.baseUrl}/${id}`);
   }

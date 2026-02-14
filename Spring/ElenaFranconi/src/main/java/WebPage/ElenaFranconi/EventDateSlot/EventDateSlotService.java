@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import WebPage.ElenaFranconi.Event.Event;
 import WebPage.ElenaFranconi.Event.EventService;
 import WebPage.ElenaFranconi.EventDateSlot.dto.EventDateSlotRequestDto;
+import WebPage.ElenaFranconi.EventDateSlot.dto.EventDateSlotUpdateDto;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
 
 @Service
@@ -20,7 +21,6 @@ public class EventDateSlotService {
 	public EventService eventService;
 
 	// POST METHODS
-
 	@Transactional
 	public EventDateSlot createEventDateSlot(EventDateSlotRequestDto body) {
 		EventDateSlot eventDateSlot = new EventDateSlot();
@@ -36,6 +36,17 @@ public class EventDateSlotService {
 	@Transactional(readOnly = true)
 	public EventDateSlot findById(UUID id) {
 		return eventDateSlotRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
+	}
+
+	// PATCH METHODS
+	@Transactional
+	public EventDateSlot updateEventDateSlot(UUID id, EventDateSlotUpdateDto body) {
+		EventDateSlot eventDateSlot = findById(id);
+		if (body.getDate() != null && !body.getDate().equals(eventDateSlot.getDate())) {
+			eventDateSlot.setDate(body.getDate());
+			return eventDateSlotRepository.save(eventDateSlot);
+		}
+		return eventDateSlot;
 	}
 
 }

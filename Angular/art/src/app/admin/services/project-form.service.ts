@@ -23,6 +23,12 @@ export interface FormFiles {
   videos: File[];
 }
 
+export interface RemovedFiles {
+  removedImages: string[];
+  removedFiles: string[];
+  removedVideos: string[];
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -122,7 +128,7 @@ export class ProjectFormService {
   /**
    * Build FormData for API submission
    */
-  buildFormData(formValue: ProjectFormValue, files: FormFiles): FormData {
+  buildFormData(formValue: ProjectFormValue, files: FormFiles, removedFiles?: RemovedFiles): FormData {
     const formData = new FormData();
 
     // Common fields
@@ -158,6 +164,19 @@ export class ProjectFormService {
       });
     }
 
+    // Removed files (for edit mode)
+    if (removedFiles) {
+      removedFiles.removedImages.forEach(path => {
+        formData.append('removedImages', path);
+      });
+      removedFiles.removedFiles.forEach(path => {
+        formData.append('removedFiles', path);
+      });
+      removedFiles.removedVideos.forEach(path => {
+        formData.append('removedVideos', path);
+      });
+    }
+
     // Files
     if (files.coverImage) {
       formData.append('coverImage', files.coverImage);
@@ -174,6 +193,16 @@ export class ProjectFormService {
     files.videos.forEach((file) => {
       formData.append('videos', file);
     });
+
+    // Log FormData contents for debugging
+    console.log('FormData being sent:');
+    try {
+      for (let [key, value] of (formData as any).entries()) {
+        console.log(`${key}:`, value);
+      }
+    } catch (e) {
+      console.log('FormData entries not supported, keys:', Array.from((formData as any).keys()));
+    }
 
     return formData;
   }

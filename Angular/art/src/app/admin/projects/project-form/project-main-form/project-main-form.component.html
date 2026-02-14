@@ -418,7 +418,7 @@
   </div>
 
   <!-- Submit Button -->
-  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+  <div class="d-grid gap-2 d-sm-flex justify-content-sm-end">
     <button type="button" class="btn btn-secondary" (click)="onCancel()">
       {{ "ADMIN.PROJECTS.FORM.CLOSE" | translate }}
     </button>
@@ -428,7 +428,7 @@
     </button>
     <button
       type="submit"
-      class="btn default-button"
+      class="btn default-button w-auto"
       [disabled]="
         projectForm.invalid || (!coverImageFile && !existingCoverImage)
       "

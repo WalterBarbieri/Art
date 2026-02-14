@@ -10,6 +10,7 @@ import { ProjectFileService } from '../../services/project-file.service';
 import {
   ProjectFormService,
   FormFiles,
+  RemovedFiles,
 } from '../../services/project-form.service';
 import { EventFormService } from '../../services/event-form.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
@@ -34,6 +35,7 @@ import { ProjectDetailsInfoComponent } from 'src/app/shared/components/project/d
 import { ProjectPreviewService } from '../../services/project-preview.service';
 import { ProjectMainFormComponent } from './project-main-form/project-main-form.component';
 import { ProjectPressReviewsFormComponent } from './project-press-reviews-form/project-press-reviews-form.component';
+import { ImageService } from 'src/app/service/image.service';
 
 @Component({
   selector: 'app-project-form',
@@ -87,6 +89,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   originalVideos: { name: string; url: string }[] = [];
   originalFiles: { name: string }[] = [];
 
+  // Removed media tracking (for edit mode)
+  removedImages: string[] = [];
+  removedFiles: string[] = [];
+  removedVideos: string[] = [];
+
   // Preview object for reusable components
   previewContent$ = this.previewService.preview$;
   previewContent: ProjectPreview | null = null;
@@ -111,6 +118,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     private projectMediaService: ProjectMediaService,
     private projectSubmitService: ProjectSubmitService,
     private previewService: ProjectPreviewService,
+    private imageService: ImageService,
   ) {}
 
   ngOnInit(): void {
@@ -304,7 +312,9 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   removeImage(index: number): void {
     if (index < this.existingImages.length) {
-      // Remove existing image
+      // Remove existing image - track for removal
+      const imagePath = this.imageService.convertUrlToRelativePath(this.existingImages[index]);
+      this.removedImages.push(imagePath);
       this.existingImages.splice(index, 1);
       this.imagesPreviews.splice(index, 1);
     } else {
@@ -334,7 +344,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   removeFile(index: number): void {
     if (index < this.existingFiles.length) {
-      // Remove existing file
+      const filePath = this.originalProject?.filePaths[index];
+      if (filePath) {
+        this.removedFiles.push(filePath);
+      }
+
       this.existingFiles.splice(index, 1);
     } else {
       // Remove new file
@@ -361,7 +375,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   removeVideo(index: number): void {
     if (index < this.existingVideos.length) {
-      // Remove existing video
+      const videoPath = this.imageService.convertUrlToRelativePath(this.existingVideos[index].url);
+      this.removedVideos.push(videoPath);
       this.existingVideos.splice(index, 1);
       if (this.videosPreviews[index]) {
         URL.revokeObjectURL(this.videosPreviews[index]);
@@ -459,6 +474,12 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       videos: this.videosFiles,
     };
 
+    const removedFiles: RemovedFiles = {
+      removedImages: this.removedImages,
+      removedFiles: this.removedFiles,
+      removedVideos: this.removedVideos,
+    };
+
     this.loaderService.show();
 
     this.projectSubmitService
@@ -468,14 +489,19 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         files,
         this.isEditMode,
         this.projectId,
+        removedFiles
       )
       .subscribe({
         next: (response) => {
           this.loaderService.hide();
           const successMessage =
             this.projectType === 'COURSE'
-              ? 'ADMIN.PROJECTS.FORM.SUCCESS_COURSE_CREATED'
-              : 'ADMIN.PROJECTS.FORM.SUCCESS_EVENT_CREATED';
+              ? (this.isEditMode
+                  ? 'ADMIN.PROJECTS.FORM.SUCCESS_COURSE_UPDATED'
+                  : 'ADMIN.PROJECTS.FORM.SUCCESS_COURSE_CREATED')
+              : (this.isEditMode
+                  ? 'ADMIN.PROJECTS.FORM.SUCCESS_EVENT_UPDATED'
+                  : 'ADMIN.PROJECTS.FORM.SUCCESS_EVENT_CREATED');
           this.toastService.showSuccess(this.translate.instant(successMessage));
           this.router.navigate(['/admin/projects']);
         },
@@ -527,6 +553,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       this.coverImagePreview = this.originalCoverImage;
       this.imagesPreviews = [...this.originalImages];
       this.videosPreviews = this.originalVideos.map(v => v.url);
+
+      // Clear removed tracking
+      this.removedImages = [];
+      this.removedFiles = [];
+      this.removedVideos = [];
       // Clean up any blob URLs from new videos (but since we cleared videosFiles, no new blobs)
     } else {
       // Reset all file selections and previews (create mode)

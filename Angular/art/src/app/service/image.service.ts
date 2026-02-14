@@ -169,4 +169,16 @@ export class ImageService {
 
     return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
   }
+
+  convertUrlToRelativePath(fullUrl: string): string {
+    // Remove the base URL part to get the relative path
+    // Example: "http://localhost:4001/storage/content/..." -> "content/..."
+    const baseUrlPattern = /^https?:\/\/[^\/]+\/storage\//;
+    let relative = fullUrl.replace(baseUrlPattern, '');
+    // Ensure it starts with 'content/'
+    if (!relative.startsWith('content/')) {
+      relative = 'content/' + relative;
+    }
+    return relative;
+  }
 }

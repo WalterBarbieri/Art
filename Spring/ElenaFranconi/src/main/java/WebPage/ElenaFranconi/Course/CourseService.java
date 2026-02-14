@@ -15,6 +15,7 @@ import WebPage.ElenaFranconi.Content.ContentLinkService;
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Course.dto.CourseDto;
 import WebPage.ElenaFranconi.Course.dto.CourseRequestDto;
+import WebPage.ElenaFranconi.Course.dto.CourseUpdateDto;
 import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
 import WebPage.ElenaFranconi.PressReview.PressReview;
@@ -72,6 +73,13 @@ public class CourseService extends AbstractContentService<Course> {
 		return courseRepository.findActiveCoursesSortedPaged(pageable);
 	}
 
+	// PUT METHODS
+	@Transactional
+	public Course editCourse(UUID courseId, CourseUpdateDto body) {
+		Course course = findCourseById(courseId);
+		return updateCourse(course, body);
+	}
+
 	// PATCH METHODS
 	@Transactional
 	public Course linkToEvent(UUID courseId, UUID eventId) {
@@ -83,26 +91,6 @@ public class CourseService extends AbstractContentService<Course> {
 	public Course unlinkFromEvent(UUID courseId, UUID eventId) {
 		contentLinkService.unlinkCourseAndEvent(courseId, eventId);
 		return findCourseById(courseId);
-	}
-
-	@Transactional
-	public Course patchInformations(UUID courseId, String informations) {
-		Course course = findCourseById(courseId);
-		if (informations != null && !informations.isBlank() && !informations.equals(course.getInformations())) {
-			course.setInformations(informations);
-			courseRepository.save(course);
-		}
-		return course;
-	}
-
-	@Transactional
-	public Course patchGoogleMapsLink(UUID courseId, String googleMapsLink) {
-		Course course = findCourseById(courseId);
-		if (googleMapsLink != null && !googleMapsLink.isBlank() && !googleMapsLink.equals(course.getGoogleMapsLink())) {
-			course.setGoogleMapsLink(googleMapsLink);
-			courseRepository.save(course);
-		}
-		return course;
 	}
 
 	@Transactional
@@ -129,7 +117,7 @@ public class CourseService extends AbstractContentService<Course> {
 		return getCourseDto(course);
 	}
 
-	public Course saveCourse(CourseRequestDto body) {
+	private Course saveCourse(CourseRequestDto body) {
 		if (body.getDateFrom().isAfter(body.getDateTo())) {
 			throw new BadRequestException("The start date must be before or equal the end date.");
 		}
@@ -152,8 +140,48 @@ public class CourseService extends AbstractContentService<Course> {
 		return courseRepository.save(course);
 	}
 
-	public List<PressReview> getCombinedPressReviews(UUID courseId) {
-		Course course = findCourseById(courseId);
-		return getCombinedPressReviews(course);
+	private Course updateCourse(Course course, CourseUpdateDto body) {
+		if (body.getTitle() != null && !body.getTitle().isBlank() && !body.getTitle().equals(course.getTitle())) {
+			course.setTitle(body.getTitle());
+		}
+		if (body.getDescription() != null && !body.getDescription().isBlank()
+				&& !body.getDescription().equals(course.getDescription())) {
+			course.setDescription(body.getDescription());
+		}
+		if (body.getDateFrom() != null && body.getDateTo() != null) {
+			if (body.getDateFrom().isAfter(body.getDateTo())) {
+				throw new BadRequestException("The start date must be before or equal the end date.");
+			}
+			if (!body.getDateFrom().equals(course.getDateFrom())) {
+				course.setDateFrom(body.getDateFrom());
+			}
+			if (!body.getDateTo().equals(course.getDateTo())) {
+				course.setDateTo(body.getDateTo());
+			}
+		} else if (body.getDateFrom() != null || body.getDateTo() != null) {
+			throw new BadRequestException("Both start and end dates must be provided together.");
+		}
+		if (body.getLocation() != null && !body.getLocation().isBlank()
+				&& !body.getLocation().equals(course.getLocation())) {
+			course.setLocation(body.getLocation());
+		}
+		if (body.getMaxParticipants() > 0 && body.getMaxParticipants() != course.getMaxParticipants()) {
+			course.setMaxParticipants(body.getMaxParticipants());
+		}
+		if (body.getInformations() != null && !body.getInformations().isBlank()
+				&& !body.getInformations().equals(course.getInformations())) {
+			course.setInformations(body.getInformations());
+		}
+		if (body.getGoogleMapsLink() != null && !body.getGoogleMapsLink().isBlank()
+				&& !body.getGoogleMapsLink().equals(course.getGoogleMapsLink())) {
+			course.setGoogleMapsLink(body.getGoogleMapsLink());
+		}
+
+		refreshContentStatusAndDate(course);
+
+		handleMediaUpdate(course, body);
+
+		return courseRepository.save(course);
+
 	}
 }

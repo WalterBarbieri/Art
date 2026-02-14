@@ -16,6 +16,7 @@ import WebPage.ElenaFranconi.Content.ContentLinkService;
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Event.dto.EventDto;
 import WebPage.ElenaFranconi.Event.dto.EventRequestDto;
+import WebPage.ElenaFranconi.Event.dto.EventUpdateDto;
 import WebPage.ElenaFranconi.EventDateSlot.EventDateSlot;
 import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
@@ -76,6 +77,12 @@ public class EventService extends AbstractContentService<Event> {
 
 	// PATCH METHODS
 	@Transactional
+	public Event editEvent(UUID eventId, EventUpdateDto body) {
+		Event event = findEventById(eventId);
+		return updateEvent(event, body);
+	}
+
+	@Transactional
 	public Event linkToCourse(UUID eventId, UUID courseId) {
 		contentLinkService.linkCourseAndEvent(courseId, eventId);
 		return findEventById(eventId);
@@ -111,7 +118,7 @@ public class EventService extends AbstractContentService<Event> {
 		return getEventDto(event);
 	}
 
-	public Event saveEvent(EventRequestDto body) {
+	private Event saveEvent(EventRequestDto body) {
 		List<LocalDateTime> dates = body.getEventDates();
 		long distinctDatesCount = dates.stream().distinct().count();
 		if (distinctDatesCount != dates.size()) {
@@ -142,8 +149,34 @@ public class EventService extends AbstractContentService<Event> {
 		return eventRepository.save(savedEvent);
 	}
 
-	public List<PressReview> getCombinedPressReviews(UUID eventId) {
-		Event event = findEventById(eventId);
-		return getCombinedPressReviews(event);
+	private Event updateEvent(Event event, EventUpdateDto body) {
+		if (body.getTitle() != null && !body.getTitle().isBlank() && !body.getTitle().equals(event.getTitle())) {
+			event.setTitle(body.getTitle());
+		}
+		if (body.getDescription() != null && !body.getDescription().isBlank()
+				&& !body.getDescription().equals(event.getDescription())) {
+			event.setDescription(body.getDescription());
+		}
+		if (body.getLocation() != null && !body.getLocation().isBlank()
+				&& !body.getLocation().equals(event.getLocation())) {
+			event.setLocation(body.getLocation());
+		}
+		if (body.getMaxParticipants() > 0 && body.getMaxParticipants() != event.getMaxParticipants()) {
+			event.setMaxParticipants(body.getMaxParticipants());
+		}
+		if (body.getInformations() != null && !body.getInformations().isBlank()
+				&& !body.getInformations().equals(event.getInformations())) {
+			event.setInformations(body.getInformations());
+		}
+		if (body.getGoogleMapsLink() != null && !body.getGoogleMapsLink().isBlank()
+				&& !body.getGoogleMapsLink().equals(event.getGoogleMapsLink())) {
+			event.setGoogleMapsLink(body.getGoogleMapsLink());
+		}
+
+		refreshContentStatusAndDate(event);
+
+		handleMediaUpdate(event, body);
+
+		return eventRepository.save(event);
 	}
 }

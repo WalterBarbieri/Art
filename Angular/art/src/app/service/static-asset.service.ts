@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { info } from 'console';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
