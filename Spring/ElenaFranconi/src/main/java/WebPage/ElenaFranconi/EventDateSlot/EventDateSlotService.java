@@ -39,7 +39,6 @@ public class EventDateSlotService {
 	}
 
 	// PATCH METHODS
-	@Transactional
 	public EventDateSlot updateEventDateSlot(UUID id, EventDateSlotUpdateDto body) {
 		EventDateSlot eventDateSlot = findById(id);
 		if (body.getDate() != null && !body.getDate().equals(eventDateSlot.getDate())) {
@@ -47,6 +46,12 @@ public class EventDateSlotService {
 			return eventDateSlotRepository.save(eventDateSlot);
 		}
 		return eventDateSlot;
+	}
+
+	// DELETE METHODS
+	public void deleteEventDateSlot(UUID id) {
+		EventDateSlot eventDateSlot = findById(id);
+		eventDateSlotRepository.delete(eventDateSlot);
 	}
 
 }
