@@ -12,15 +12,25 @@ export class EventFormService {
    */
   addEventDateToForm(form: FormGroup<any>, initialValue?: any): void {
     const eventDates = form.get('eventDates') as FormArray;
-    eventDates.push(this.fb.control(initialValue || '', [])); // No validators here, handled at form level
+    const slotGroup = this.fb.group({
+      id: [initialValue?.id || null],
+      date: [initialValue?.date || ''],
+      isRemoved: [false]
+    });
+    eventDates.push(slotGroup);
   }
 
   /**
-   * Remove event date from form
+   * Remove event date from form (mark as removed for edit mode)
    */
   removeEventDateFromForm(form: FormGroup<any>, index: number): void {
     const eventDates = form.get('eventDates') as FormArray;
-    if (eventDates.length > 1) {
+    const slotControl = eventDates.at(index);
+    if (slotControl.get('id')?.value) {
+      // Existing slot: mark as removed
+      slotControl.get('isRemoved')?.setValue(true);
+    } else {
+      // New slot: remove from array
       eventDates.removeAt(index);
     }
   }

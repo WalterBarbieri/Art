@@ -86,6 +86,27 @@ export class ProjectMainFormComponent implements OnInit, OnDestroy {
     this.valueChangesSub = this.projectForm.valueChanges.subscribe(() => {
       this.updatePreview();
     });
+
+    // Handle eventDates changes to enable/disable date controls based on isRemoved
+    if (this.projectType === 'EVENT') {
+      this.eventDates.controls.forEach((slotGroup, index) => {
+        const isRemovedControl = slotGroup.get('isRemoved');
+        const dateControl = slotGroup.get('date');
+        if (isRemovedControl && dateControl) {
+          isRemovedControl.valueChanges.subscribe((isRemoved: boolean) => {
+            if (isRemoved) {
+              dateControl.disable({ emitEvent: false });
+            } else {
+              dateControl.enable({ emitEvent: false });
+            }
+          });
+          // Initial state
+          if (isRemovedControl.value) {
+            dateControl.disable({ emitEvent: false });
+          }
+        }
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -159,7 +180,19 @@ export class ProjectMainFormComponent implements OnInit, OnDestroy {
   }
 
   removeEventDate(index: number): void {
-    this.removeEventDateEvent.emit(index);
+    const slotGroup = this.eventDates.at(index);
+    if (slotGroup.get('id')?.value) {
+      // Existing slot: mark as removed
+      slotGroup.get('isRemoved')?.setValue(true);
+    } else {
+      // New slot: remove from array
+      this.eventDates.removeAt(index);
+    }
+  }
+
+  restoreEventDate(index: number): void {
+    const slotGroup = this.eventDates.at(index);
+    slotGroup.get('isRemoved')?.setValue(false);
   }
 
   resetForm(): void {

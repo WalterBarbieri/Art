@@ -1,6 +1,12 @@
 // Interfacce per la preview del form (prima di inviare al backend)
 import { PressReview } from '../../../models/press-review.interface';
 
+export interface EventDateSlotForm {
+  id?: string;
+  date: string;
+  isRemoved?: boolean;
+}
+
 export interface ProjectFormPreview {
   title: string;
   description: string;
@@ -53,7 +59,7 @@ export interface ProjectFormValue {
   googleMapsLink?: string;
   dateFrom?: string;
   dateTo?: string;
-  eventDates?: string[];
+  eventDates?: EventDateSlotForm[];
   pressReviews?: PressReview[];
 }
 

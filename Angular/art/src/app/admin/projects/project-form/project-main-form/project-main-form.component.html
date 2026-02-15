@@ -121,17 +121,17 @@
         "ADMIN.PROJECTS.FORM.EVENT_DATES_LABEL" | translate
       }}</label>
       <div formArrayName="eventDates">
-        @for (control of eventDates.controls; track $index; let i = $index) {
-          <div class="input-group mb-2">
+        @for (slotGroup of eventDates.controls; track $index; let i = $index) {
+          <div class="input-group mb-2" [formGroupName]="i" [class.opacity-50]="slotGroup.get('isRemoved')?.value">
             <input
               type="datetime-local"
               class="form-control"
-              [formControlName]="i"
+              formControlName="date"
               [class.is-invalid]="
-                eventDates.at(i).invalid && eventDates.at(i).touched
+                eventDates.at(i).get('date')?.invalid && eventDates.at(i).get('date')?.touched
               "
             />
-            @if (eventDates.length > 1) {
+            @if (!slotGroup.get('isRemoved')?.value && eventDates.length > 1) {
               <button
                 type="button"
                 class="btn btn-danger btn-sm rounded event-date-remove-button"
@@ -139,6 +139,16 @@
                 [title]="'ADMIN.PROJECTS.FORM.REMOVE_DATE' | translate"
               >
                 <i class="fas fa-trash"></i>
+              </button>
+            }
+            @if (slotGroup.get('isRemoved')?.value) {
+              <button
+                type="button"
+                class="btn btn-warning btn-sm rounded"
+                (click)="restoreEventDate(i)"
+                [title]="'ADMIN.PROJECTS.FORM.RESTORE_DATE' | translate"
+              >
+                <i class="fas fa-undo"></i>
               </button>
             }
           </div>
@@ -155,6 +165,11 @@
       @if (eventDates.errors?.["duplicateDates"]) {
         <div class="text-danger small mt-2">
           {{ "ADMIN.PROJECTS.FORM.DUPLICATE_DATES" | translate }}
+        </div>
+      }
+      @if (eventDates.errors?.["noActiveDates"]) {
+        <div class="text-danger small mt-2">
+          {{ "ADMIN.PROJECTS.FORM.AT_LEAST_ONE_DATE" | translate }}
         </div>
       }
     </div>

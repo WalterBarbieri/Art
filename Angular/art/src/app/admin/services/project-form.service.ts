@@ -7,11 +7,13 @@ import {
   ProjectFormPreview,
   CourseFormPreview,
   EventFormPreview,
+  EventDateSlotForm,
 } from '../projects/project-form/project-form.interface';
 import {
   dateRangeValidator,
   duplicateDatesValidator,
   googleMapsLinkValidator,
+  atLeastOneActiveDateValidator,
 } from '../projects/project-form/project-form.validators';
 import { AdminUtilsService } from '../utils/admin-utils.service';
 import { EventFormService } from './event-form.service';
@@ -60,7 +62,7 @@ export class ProjectFormService {
     } else {
       form.addControl(
         'eventDates',
-        this.fb.array([], [Validators.required, duplicateDatesValidator]),
+        this.fb.array([], [Validators.required, duplicateDatesValidator, atLeastOneActiveDateValidator]),
       );
     }
 
@@ -118,8 +120,8 @@ export class ProjectFormService {
         contentType: 'EVENT' as const,
         eventDates:
           formValue.eventDates
-            ?.filter((d) => d && !isNaN(new Date(d).getTime()))
-            .map((d) => new Date(d)) || [],
+            ?.filter((d: any) => d.date && !d.isRemoved && !isNaN(new Date(d.date).getTime()))
+            .map((d: any) => new Date(d.date)) || [],
         pressReviews: pressReviews,
       } as EventFormPreview;
     }
@@ -158,9 +160,16 @@ export class ProjectFormService {
       formData.append('dateFrom', formValue.dateFrom!);
       formData.append('dateTo', formValue.dateTo!);
     } else {
-      // EVENT: array of dates
-      formValue.eventDates?.forEach((date) => {
-        formData.append('eventDates', date);
+      // EVENT: map eventDates to backend DTO fields using indexed form data
+      formValue.eventDates?.forEach((slot: any, index: number) => {
+        if (slot.id && !slot.isRemoved) {
+          formData.append(`eventDateSlots[${index}].id`, slot.id);
+          formData.append(`eventDateSlots[${index}].date`, slot.date);
+        } else if (slot.id && slot.isRemoved) {
+          formData.append(`removedEventDateSlotIds[${index}]`, slot.id);
+        } else if (slot.date) {
+          formData.append(`newEventDateSlots[${index}]`, slot.date);
+        }
       });
     }
 
@@ -250,12 +259,21 @@ export class ProjectFormService {
       // Add existing dates from eventDateSlots
       if (project.eventDateSlots && project.eventDateSlots.length > 0) {
         project.eventDateSlots.forEach((dateSlot: any) => {
-          const dateString = dateSlot.date.slice(0, 16); // YYYY-MM-DDTHH:MM
-          this.eventFormService.addEventDateToForm(form, dateString);
+          const slotGroup = this.fb.group({
+            id: [dateSlot.id],
+            date: [dateSlot.date.slice(0, 16)],
+            isRemoved: [false]
+          });
+          eventDatesArray.push(slotGroup);
         });
       } else {
         // Add at least one empty date for new events
-        this.eventFormService.addEventDateToForm(form);
+        const emptySlot = this.fb.group({
+          id: [null],
+          date: [''],
+          isRemoved: [false]
+        });
+        eventDatesArray.push(emptySlot);
       }
     }
   }

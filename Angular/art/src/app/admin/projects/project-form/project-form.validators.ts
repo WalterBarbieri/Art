@@ -27,11 +27,29 @@ export function duplicateDatesValidator(control: AbstractControl): ValidationErr
   const formArray = control as FormArray;
   if (!formArray || !formArray.value) return null;
 
-  const dates = formArray.value.filter((date: string) => date); // Filter out empty dates
+  const dates = formArray.value
+    .filter((slot: any) => slot.date && !slot.isRemoved) // Filter out empty or removed dates
+    .map((slot: any) => slot.date);
   const uniqueDates = new Set(dates);
 
   if (uniqueDates.size !== dates.length) {
     return { duplicateDates: true };
+  }
+
+  return null;
+}
+
+/**
+ * Custom validator for EVENT at least one active date slot
+ */
+export function atLeastOneActiveDateValidator(control: AbstractControl): ValidationErrors | null {
+  const formArray = control as FormArray;
+  if (!formArray || !formArray.value) return null;
+
+  const activeSlots = formArray.value.filter((slot: any) => slot.date && !slot.isRemoved);
+
+  if (activeSlots.length === 0) {
+    return { noActiveDates: true };
   }
 
   return null;

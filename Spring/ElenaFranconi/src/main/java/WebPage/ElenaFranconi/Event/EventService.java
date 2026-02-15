@@ -156,6 +156,9 @@ public class EventService extends AbstractContentService<Event> {
 		List<EventDateSlotUpdateDto> existingEventDateSlots = body.getEventDateSlots();
 		List<UUID> removedEventDateSlots = body.getRemovedEventDateSlotIds();
 		List<LocalDateTime> newEventDateSlots = body.getNewEventDateSlots();
+		System.out.println("Existing Event Date Slots: " + existingEventDateSlots);
+		System.out.println("Removed Event Date Slot IDs: " + removedEventDateSlots);
+		System.out.println("New Event Date Slots: " + newEventDateSlots);
 
 		if (body.getTitle() != null && !body.getTitle().isBlank() && !body.getTitle().equals(event.getTitle())) {
 			event.setTitle(body.getTitle());
