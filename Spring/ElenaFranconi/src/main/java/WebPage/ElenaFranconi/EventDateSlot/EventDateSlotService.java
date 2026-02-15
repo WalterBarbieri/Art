@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import WebPage.ElenaFranconi.Event.Event;
 import WebPage.ElenaFranconi.Event.EventService;
-import WebPage.ElenaFranconi.EventDateSlot.dto.EventDateSlotRequestDto;
-import WebPage.ElenaFranconi.EventDateSlot.dto.EventDateSlotUpdateDto;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
 
 @Service
@@ -20,38 +17,10 @@ public class EventDateSlotService {
 	@Autowired
 	public EventService eventService;
 
-	// POST METHODS
-	@Transactional
-	public EventDateSlot createEventDateSlot(EventDateSlotRequestDto body) {
-		EventDateSlot eventDateSlot = new EventDateSlot();
-		Event event = eventService.findEventById(body.getEventId());
-		eventDateSlot.setDate(body.getDate());
-		eventDateSlot.setMaxParticipants(body.getMaxParticipants());
-		eventDateSlot.setEvent(event);
-		return eventDateSlotRepository.save(eventDateSlot);
-
-	}
-
 	// GET METHODS
 	@Transactional(readOnly = true)
 	public EventDateSlot findById(UUID id) {
 		return eventDateSlotRepository.findById(id).orElseThrow(() -> new NotFoundException(id));
-	}
-
-	// PATCH METHODS
-	public EventDateSlot updateEventDateSlot(UUID id, EventDateSlotUpdateDto body) {
-		EventDateSlot eventDateSlot = findById(id);
-		if (body.getDate() != null && !body.getDate().equals(eventDateSlot.getDate())) {
-			eventDateSlot.setDate(body.getDate());
-			return eventDateSlotRepository.save(eventDateSlot);
-		}
-		return eventDateSlot;
-	}
-
-	// DELETE METHODS
-	public void deleteEventDateSlot(UUID id) {
-		EventDateSlot eventDateSlot = findById(id);
-		eventDateSlotRepository.delete(eventDateSlot);
 	}
 
 }

@@ -2,6 +2,7 @@ package WebPage.ElenaFranconi.Event.dto;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,9 +25,9 @@ public class EventUpdateDto implements MediaUpdateDto {
 	// Existing event date slots to update
 	private List<EventDateSlotUpdateDto> eventDateSlots;
 	// Existing event date slots to remove
-	private List<EventDateSlotUpdateDto> removedEventDateSlotIds;
+	private List<UUID> removedEventDateSlotIds;
 	// New event dates to add
-	private List<LocalDateTime> eventDates;
+	private List<LocalDateTime> newEventDateSlots;
 
 	@Min(value = 1, message = "Maximum participants must be at least 1")
 	private int maxParticipants;

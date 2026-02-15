@@ -3,11 +3,15 @@ package WebPage.ElenaFranconi.Event;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import WebPage.ElenaFranconi.Content.Content;
 import WebPage.ElenaFranconi.Content.ContentStatus;
 import WebPage.ElenaFranconi.Course.Course;
 import WebPage.ElenaFranconi.EventDateSlot.EventDateSlot;
+import WebPage.ElenaFranconi.EventDateSlot.dto.EventDateSlotUpdateDto;
+import WebPage.ElenaFranconi.Exceptions.BadRequestException;
+import WebPage.ElenaFranconi.Exceptions.NotFoundException;
 import WebPage.ElenaFranconi.PressReview.PressReview;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -69,4 +73,18 @@ public class Event extends Content {
 		this.dateSlots.add(slot);
 	}
 
+	public void updateDateSlot(EventDateSlotUpdateDto dto) {
+		EventDateSlot slot = this.dateSlots.stream().filter(s -> s.getId().equals(dto.getId())).findFirst()
+				.orElseThrow(() -> new NotFoundException(dto.getId()));
+		slot.setDate(dto.getDate());
+	}
+
+	public void removeDateSlot(UUID slotId) {
+		EventDateSlot slot = this.dateSlots.stream().filter(s -> s.getId().equals(slotId)).findFirst()
+				.orElseThrow(() -> new NotFoundException(slotId));
+		if (slot.countParticipants() > 0) {
+			throw new BadRequestException("Can't delete an Event Date Slot with subscribers");
+		}
+		this.dateSlots.remove(slot);
+	}
 }

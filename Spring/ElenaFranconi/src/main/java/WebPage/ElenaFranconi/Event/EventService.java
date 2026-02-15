@@ -2,7 +2,9 @@ package WebPage.ElenaFranconi.Event;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +20,7 @@ import WebPage.ElenaFranconi.Event.dto.EventDto;
 import WebPage.ElenaFranconi.Event.dto.EventRequestDto;
 import WebPage.ElenaFranconi.Event.dto.EventUpdateDto;
 import WebPage.ElenaFranconi.EventDateSlot.EventDateSlot;
+import WebPage.ElenaFranconi.EventDateSlot.dto.EventDateSlotUpdateDto;
 import WebPage.ElenaFranconi.Exceptions.BadRequestException;
 import WebPage.ElenaFranconi.Exceptions.NotFoundException;
 import WebPage.ElenaFranconi.PressReview.PressReview;
@@ -150,6 +153,10 @@ public class EventService extends AbstractContentService<Event> {
 	}
 
 	private Event updateEvent(Event event, EventUpdateDto body) {
+		List<EventDateSlotUpdateDto> existingEventDateSlots = body.getEventDateSlots();
+		List<UUID> removedEventDateSlots = body.getRemovedEventDateSlotIds();
+		List<LocalDateTime> newEventDateSlots = body.getNewEventDateSlots();
+
 		if (body.getTitle() != null && !body.getTitle().isBlank() && !body.getTitle().equals(event.getTitle())) {
 			event.setTitle(body.getTitle());
 		}
@@ -161,8 +168,26 @@ public class EventService extends AbstractContentService<Event> {
 				&& !body.getLocation().equals(event.getLocation())) {
 			event.setLocation(body.getLocation());
 		}
+		if (!existingEventDateSlots.isEmpty()) {
+			existingEventDateSlots.forEach(slotDto -> event.updateDateSlot(slotDto));
+		}
+		if (!removedEventDateSlots.isEmpty()) {
+			removedEventDateSlots.forEach(slotId -> event.removeDateSlot(slotId));
+		}
 		if (body.getMaxParticipants() > 0 && body.getMaxParticipants() != event.getMaxParticipants()) {
 			event.setMaxParticipants(body.getMaxParticipants());
+			event.getDateSlots().forEach(slot -> slot.setMaxParticipants(body.getMaxParticipants()));
+		}
+		if (!newEventDateSlots.isEmpty()) {
+			long distinctDatesCount = newEventDateSlots.stream().distinct().count();
+			if (distinctDatesCount != newEventDateSlots.size()) {
+				throw new BadRequestException("Duplicate dates are not allowed.");
+			}
+			newEventDateSlots.forEach(date -> {
+				EventDateSlot slot = new EventDateSlot();
+				slot.setDate(date);
+				event.addDateSlot(slot);
+			});
 		}
 		if (body.getInformations() != null && !body.getInformations().isBlank()
 				&& !body.getInformations().equals(event.getInformations())) {
@@ -171,6 +196,15 @@ public class EventService extends AbstractContentService<Event> {
 		if (body.getGoogleMapsLink() != null && !body.getGoogleMapsLink().isBlank()
 				&& !body.getGoogleMapsLink().equals(event.getGoogleMapsLink())) {
 			event.setGoogleMapsLink(body.getGoogleMapsLink());
+		}
+
+		Set<LocalDateTime> allDates = event.getDateSlots().stream().map(EventDateSlot::getDate)
+				.collect(Collectors.toSet());
+		if (allDates.size() != event.getDateSlots().size()) {
+			throw new BadRequestException("Duplicate dates are not allowed across all event date slots.");
+		}
+		if (event.getDateSlots().isEmpty()) {
+			throw new BadRequestException("An event must have at least one date slot.");
 		}
 
 		refreshContentStatusAndDate(event);
