@@ -7,10 +7,11 @@ import { AdminContentService } from 'src/app/admin/services/admin-content.servic
 import { ErrorService } from 'src/app/core/services/error.service';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
 import { ImageLoaderComponent } from 'src/app/shared/components/image-loader/image-loader.component';
+import { LoaderService } from 'src/app/core/services/loader.service';
 
 @Component({
   selector: 'app-link-modal',
-  imports: [FormsModule, TranslateModule, ImageLoaderComponent],
+  imports: [FormsModule, TranslateModule],
   templateUrl: './link-modal.component.html',
   styleUrl: './link-modal.component.scss',
 })
@@ -20,12 +21,12 @@ export class LinkModalComponent {
   @Input() availableTargets!: Content[];
 
   selectedTargetId: string = '';
-  isLoading: boolean = false;
 
   constructor(
     private activeModal: NgbActiveModal,
     private adminContentService: AdminContentService,
     private errorService: ErrorService,
+    private loaderService: LoaderService,
   ) {}
 
   // Helper: check if the content is already linked
@@ -41,7 +42,7 @@ export class LinkModalComponent {
   link(): void {
     if (!this.selectedTargetId) return;
 
-    this.isLoading = true;
+    this.loaderService.show();
     this.adminContentService
       .linkContent(
         this.content.id,
@@ -58,15 +59,16 @@ export class LinkModalComponent {
         },
         error: (processedError: ProcessedError) => {
           this.errorService.handleProcessedError(processedError);
-          this.isLoading = false;
+        },
+        complete: () => {
+          this.loaderService.hide();
         },
       });
   }
 
   unlink(): void {
     if (!this.linkedContent) return;
-
-    this.isLoading = true;
+    this.loaderService.show();
     this.adminContentService
       .unlinkContent(
         this.content.id,
@@ -85,7 +87,9 @@ export class LinkModalComponent {
         },
         error: (processedError: ProcessedError) => {
           this.errorService.handleProcessedError(processedError);
-          this.isLoading = false;
+        },
+        complete: () => {
+          this.loaderService.hide();
         },
       });
   }

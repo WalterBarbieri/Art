@@ -138,11 +138,7 @@
       type="button"
       class="btn danger-button"
       (click)="unlink()"
-      [disabled]="isLoading"
     >
-      @if (isLoading) {
-        <app-image-loader></app-image-loader>
-      }
       <i class="fas fa-unlink me-2"></i>
       {{ "MODALS.LINK.UNLINK" | translate }}
     </button>
@@ -152,11 +148,8 @@
         type="button"
         class="btn default-button"
         (click)="link()"
-        [disabled]="!selectedTargetId || isLoading"
+        [disabled]="!selectedTargetId"
       >
-        @if (isLoading) {
-          <app-image-loader></app-image-loader>
-        }
         <i class="fas fa-link me-2"></i>
         {{ "MODALS.LINK.LINK" | translate }}
       </button>
