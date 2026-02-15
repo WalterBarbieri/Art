@@ -54,7 +54,7 @@ public class ContentDto {
 		}
 		if (content instanceof Event) {
 			Event event = (Event) content;
-			dto.setEventDates(event.getDateSlots().stream().map(EventDateSlot::getDate).toList());
+			dto.setEventDates(event.getDateSlots().stream().map(EventDateSlot::getDate).sorted().toList());
 			dto.setLinkedCourseId(event.getLinkedCourse() != null ? event.getLinkedCourse().getId() : null);
 		}
 		return dto;

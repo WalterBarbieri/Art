@@ -9,10 +9,9 @@ export class ProjectCardService {
 
   getEventDatesDisplay(eventDates: Date[] | null): { dates: Date[], showDots: boolean } {
     if (!eventDates || eventDates.length === 0) return { dates: [], showDots: false };
-    const sorted = [...eventDates].sort((a, b) => b.getDate() - a.getDate());
-    if (sorted.length <= 2) {
-      return { dates: sorted, showDots: false };
+    if (eventDates.length <= 2) {
+      return { dates: eventDates, showDots: false };
     }
-    return { dates: [sorted[0], sorted[sorted.length - 1]], showDots: true };
+    return { dates: [eventDates[0], eventDates[eventDates.length - 1]], showDots: true };
   }
 }

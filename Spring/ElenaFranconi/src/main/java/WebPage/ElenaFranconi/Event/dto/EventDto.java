@@ -2,6 +2,7 @@ package WebPage.ElenaFranconi.Event.dto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,7 +35,8 @@ public class EventDto {
 	private List<PressReviewDto> pressReviews;
 
 	public static EventDto fromEvent(Event event) {
-		List<EventDateSlotDto> dateSlotDtos = EventDateSlotDto.fromEventDateSlots(event.getDateSlots());
+		List<EventDateSlotDto> dateSlotDtos = EventDateSlotDto.fromEventDateSlots(event.getDateSlots()).stream()
+				.sorted(Comparator.comparing(EventDateSlotDto::getDate)).toList();
 		EventDto dto = new EventDto();
 		dto.setId(event.getId());
 		dto.setTitle(event.getTitle());
