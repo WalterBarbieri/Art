@@ -34,7 +34,7 @@ export class ProjectMainFormComponent implements OnInit, OnDestroy {
   @Input() filesFiles: File[] = [];
   @Input() videosFiles: File[] = [];
   @Input() coverImageFile: File | null = null;
-
+  @Input() mediaModified: boolean = false;
   @Output() submitForm = new EventEmitter<void>();
   @Output() cancelForm = new EventEmitter<void>();
   @Output() coverImageChange = new EventEmitter<Event>();

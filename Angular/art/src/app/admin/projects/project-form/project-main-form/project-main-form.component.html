@@ -279,7 +279,7 @@
       id="coverImage"
       accept="image/*"
       (change)="onCoverImageChange($event)"
-      [class.is-invalid]="!coverImageFile && projectForm.touched"
+      [class.is-invalid]="!coverImageFile && (projectForm.dirty || mediaModified)"
     />
     @if (coverImagePreview) {
       <div class="mt-2 position-relative d-inline-block">
@@ -298,7 +298,7 @@
         </button>
       </div>
     }
-    @if (!coverImageFile && !existingCoverImage && projectForm.touched) {
+    @if (!coverImageFile && !existingCoverImage && (projectForm.dirty || mediaModified)) {
       <div class="text-danger small mt-1">
         {{ "ADMIN.PROJECTS.FORM.COVER_IMAGE_REQUIRED" | translate }}
       </div>
@@ -445,7 +445,7 @@
       type="submit"
       class="btn default-button w-auto"
       [disabled]="
-        projectForm.invalid || (!coverImageFile && !existingCoverImage)
+        projectForm.invalid || (!coverImageFile && !existingCoverImage) || (!projectForm.dirty && !mediaModified)
       "
     >
       <i class="fas fa-save me-2"></i

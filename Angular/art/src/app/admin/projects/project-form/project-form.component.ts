@@ -103,6 +103,9 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   // Tab management
   activeTab: 'info' | 'press-reviews' = 'info';
 
+  // Media modification tracking
+  mediaModified: boolean = false;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -288,6 +291,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       next: (result) => {
         this.coverImageFile = result.file;
         this.coverImagePreview = result.preview;
+        this.mediaModified = true;
         this.updatePreview();
       },
       error: () => {
@@ -301,6 +305,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.coverImagePreview = null;
     this.existingCoverImage = null;
     this.fileService.clearCoverImage();
+    this.mediaModified = true;
     this.updatePreview();
   }
 
@@ -309,6 +314,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       next: (result) => {
         this.imagesFiles.push(...result.files);
         this.imagesPreviews.push(...result.previews);
+        this.mediaModified = true;
         this.updatePreview();
       },
       error: () => {
@@ -334,6 +340,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         index,
       );
     }
+    this.mediaModified = true;
     this.updatePreview();
   }
 
@@ -341,6 +348,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.fileService.handleFilesChange(event).subscribe({
       next: (files) => {
         this.filesFiles.push(...files);
+        this.mediaModified = true;
         this.updatePreview();
       },
       error: () => {
@@ -362,6 +370,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       const newIndex = index - this.existingFiles.length;
       this.fileService.removeFileFromArray(this.filesFiles, newIndex);
     }
+    this.mediaModified = true;
     this.updatePreview();
   }
 
@@ -372,6 +381,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         this.videosPreviews.push(
           ...files.map((file) => URL.createObjectURL(file)),
         );
+        this.mediaModified = true;
         this.updatePreview();
       },
       error: () => {
@@ -398,6 +408,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       this.fileService.removeFileFromArray(this.videosFiles, newIndex);
       this.videosPreviews.splice(index, 1);
     }
+    this.mediaModified = true;
     this.updatePreview();
   }
 
@@ -589,6 +600,12 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       this.videosPreviews.forEach((url) => URL.revokeObjectURL(url));
       this.videosPreviews = [];
     }
+
+    // Reset cover image input
+    this.fileService.clearCoverImage();
+
+    // Reset media modification flag
+    this.mediaModified = false;
 
     // Update preview
     this.updatePreview();
