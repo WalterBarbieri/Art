@@ -155,6 +155,13 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   initializeForm(): void {
     this.projectForm = this.formService.createForm(this.projectType);
 
+    // For create mode events, add at least one empty date slot
+    if (!this.isEditMode && this.projectType === 'EVENT') {
+      const eventDatesArray = this.projectForm.get('eventDates') as FormArray;
+      const emptySlot = this.formService.createEmptyEventDateSlot();
+      eventDatesArray.push(emptySlot);
+    }
+
     // Subscribe to valueChanges to update preview
     this.valueChangesSub = this.projectForm.valueChanges.subscribe(() => {
       this.updatePreview();
@@ -560,6 +567,15 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       this.removedVideos = [];
       // Clean up any blob URLs from new videos (but since we cleared videosFiles, no new blobs)
     } else {
+      // Reset form to empty state (create mode)
+      this.projectForm.reset();
+      // For events, ensure at least one empty date slot
+      if (this.projectType === 'EVENT') {
+        const eventDatesArray = this.projectForm.get('eventDates') as FormArray;
+        eventDatesArray.clear();
+        const emptySlot = this.formService.createEmptyEventDateSlot();
+        eventDatesArray.push(emptySlot);
+      }
       // Reset all file selections and previews (create mode)
       this.coverImageFile = null;
       this.imagesFiles = [];

@@ -62,7 +62,14 @@ export class ProjectFormService {
     } else {
       form.addControl(
         'eventDates',
-        this.fb.array([], [Validators.required, duplicateDatesValidator, atLeastOneActiveDateValidator]),
+        this.fb.array(
+          [],
+          [
+            Validators.required,
+            duplicateDatesValidator,
+            atLeastOneActiveDateValidator,
+          ],
+        ),
       );
     }
 
@@ -72,7 +79,11 @@ export class ProjectFormService {
   /**
    * Create preview object from form value and files
    */
-  createPreview(formValue: ProjectFormValue, files: FormFiles, project?: any): ProjectPreview {
+  createPreview(
+    formValue: ProjectFormValue,
+    files: FormFiles,
+    project?: any,
+  ): ProjectPreview {
     let sanitizedGoogleMapsLink: string | null = null;
     try {
       sanitizedGoogleMapsLink = AdminUtilsService.sanitizeGoogleMapsUrl(
@@ -84,7 +95,10 @@ export class ProjectFormService {
 
     const pressReviews = formValue.pressReviews || [];
 
-    const basePreview: Omit<ProjectFormPreview, 'contentType' | 'dateFrom' | 'dateTo' | 'eventDates'> = {
+    const basePreview: Omit<
+      ProjectFormPreview,
+      'contentType' | 'dateFrom' | 'dateTo' | 'eventDates'
+    > = {
       title:
         formValue.title ||
         this.translate.instant('ADMIN.PROJECTS.FORM.DEFAULT_TITLE'),
@@ -120,7 +134,10 @@ export class ProjectFormService {
         contentType: 'EVENT' as const,
         eventDates:
           formValue.eventDates
-            ?.filter((d: any) => d.date && !d.isRemoved && !isNaN(new Date(d.date).getTime()))
+            ?.filter(
+              (d: any) =>
+                d.date && !d.isRemoved && !isNaN(new Date(d.date).getTime()),
+            )
             .map((d: any) => new Date(d.date)) || [],
         pressReviews: pressReviews,
       } as EventFormPreview;
@@ -130,7 +147,11 @@ export class ProjectFormService {
   /**
    * Build FormData for API submission
    */
-  buildFormData(formValue: ProjectFormValue, files: FormFiles, removedFiles?: RemovedFiles): FormData {
+  buildFormData(
+    formValue: ProjectFormValue,
+    files: FormFiles,
+    removedFiles?: RemovedFiles,
+  ): FormData {
     const formData = new FormData();
 
     // Common fields
@@ -161,27 +182,34 @@ export class ProjectFormService {
       formData.append('dateTo', formValue.dateTo!);
     } else {
       // EVENT: map eventDates to backend DTO fields using indexed form data
-      formValue.eventDates?.forEach((slot: any, index: number) => {
+      let eventSlotIndex = 0;
+      let removedIndex = 0;
+      let newIndex = 0;
+
+      formValue.eventDates?.forEach((slot: any) => {
         if (slot.id && !slot.isRemoved) {
-          formData.append(`eventDateSlots[${index}].id`, slot.id);
-          formData.append(`eventDateSlots[${index}].date`, slot.date);
+          formData.append(`eventDateSlots[${eventSlotIndex}].id`, slot.id);
+          formData.append(`eventDateSlots[${eventSlotIndex}].date`, slot.date);
+          eventSlotIndex++;
         } else if (slot.id && slot.isRemoved) {
-          formData.append(`removedEventDateSlotIds[${index}]`, slot.id);
+          formData.append(`removedEventDateSlotIds[${removedIndex}]`, slot.id);
+          removedIndex++;
         } else if (slot.date) {
-          formData.append(`newEventDateSlots[${index}]`, slot.date);
+          formData.append(`newEventDateSlots[${newIndex}]`, slot.date);
+          newIndex++;
         }
       });
     }
 
     // Removed files (for edit mode)
     if (removedFiles) {
-      removedFiles.removedImages.forEach(path => {
+      removedFiles.removedImages.forEach((path) => {
         formData.append('removedImages', path);
       });
-      removedFiles.removedFiles.forEach(path => {
+      removedFiles.removedFiles.forEach((path) => {
         formData.append('removedFiles', path);
       });
-      removedFiles.removedVideos.forEach(path => {
+      removedFiles.removedVideos.forEach((path) => {
         formData.append('removedVideos', path);
       });
     }
@@ -210,7 +238,10 @@ export class ProjectFormService {
         console.log(`${key}:`, value);
       }
     } catch (e) {
-      console.log('FormData entries not supported, keys:', Array.from((formData as any).keys()));
+      console.log(
+        'FormData entries not supported, keys:',
+        Array.from((formData as any).keys()),
+      );
     }
 
     return formData;
@@ -262,7 +293,7 @@ export class ProjectFormService {
           const slotGroup = this.fb.group({
             id: [dateSlot.id],
             date: [dateSlot.date.slice(0, 16)],
-            isRemoved: [false]
+            isRemoved: [false],
           });
           eventDatesArray.push(slotGroup);
         });
@@ -271,7 +302,7 @@ export class ProjectFormService {
         const emptySlot = this.fb.group({
           id: [null],
           date: [''],
-          isRemoved: [false]
+          isRemoved: [false],
         });
         eventDatesArray.push(emptySlot);
       }
@@ -285,5 +316,14 @@ export class ProjectFormService {
     formValue: ProjectFormValue,
   ): formValue is ProjectFormValue & { dateFrom: string; dateTo: string } {
     return 'dateFrom' in formValue && 'dateTo' in formValue;
+  }
+
+  // Create an empty event date slot FormGroup
+  createEmptyEventDateSlot(): FormGroup {
+    return this.fb.group({
+      id: [null],
+      date: [''],
+      isRemoved: [false],
+    });
   }
 }

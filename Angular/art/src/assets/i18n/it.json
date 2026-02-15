@@ -155,6 +155,7 @@
         "ERROR_UPLOAD_SIZE_EXCEEDED": "La dimensione dei file caricati supera il limite del server. Riduci i file o le loro dimensioni.",
         "DATE_RANGE_INVALID": "La data di inizio deve essere precedente o uguale alla data di fine",
         "DUPLICATE_DATES": "Non sono ammesse date duplicate",
+        "AT_LEAST_ONE_DATE": "Almeno una data evento è richiesta",
         "SUCCESS_COURSE_CREATED": "Laboratorio creato con successo!",
         "SUCCESS_EVENT_CREATED": "Performance creata con successo!",
         "SUCCESS_COURSE_UPDATED": "Laboratorio aggiornato con successo!",

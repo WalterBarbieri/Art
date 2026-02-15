@@ -121,7 +121,7 @@
         "ADMIN.PROJECTS.FORM.EVENT_DATES_LABEL" | translate
       }}</label>
       <div formArrayName="eventDates">
-        @for (slotGroup of eventDates.controls; track $index; let i = $index) {
+        @for (slotGroup of eventDates.controls; track slotGroup; let i = $index) {
           <div class="input-group mb-2" [formGroupName]="i" [class.opacity-50]="slotGroup.get('isRemoved')?.value">
             <input
               type="datetime-local"

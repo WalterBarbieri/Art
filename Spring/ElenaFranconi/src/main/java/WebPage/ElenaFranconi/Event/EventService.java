@@ -171,17 +171,17 @@ public class EventService extends AbstractContentService<Event> {
 				&& !body.getLocation().equals(event.getLocation())) {
 			event.setLocation(body.getLocation());
 		}
-		if (!existingEventDateSlots.isEmpty()) {
+		if (existingEventDateSlots != null && !existingEventDateSlots.isEmpty()) {
 			existingEventDateSlots.forEach(slotDto -> event.updateDateSlot(slotDto));
 		}
-		if (!removedEventDateSlots.isEmpty()) {
+		if (removedEventDateSlots != null && !removedEventDateSlots.isEmpty()) {
 			removedEventDateSlots.forEach(slotId -> event.removeDateSlot(slotId));
 		}
 		if (body.getMaxParticipants() > 0 && body.getMaxParticipants() != event.getMaxParticipants()) {
 			event.setMaxParticipants(body.getMaxParticipants());
 			event.getDateSlots().forEach(slot -> slot.setMaxParticipants(body.getMaxParticipants()));
 		}
-		if (!newEventDateSlots.isEmpty()) {
+		if (newEventDateSlots != null && !newEventDateSlots.isEmpty()) {
 			long distinctDatesCount = newEventDateSlots.stream().distinct().count();
 			if (distinctDatesCount != newEventDateSlots.size()) {
 				throw new BadRequestException("Duplicate dates are not allowed.");
