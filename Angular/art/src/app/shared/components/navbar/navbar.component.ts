@@ -5,8 +5,7 @@ import {
   HostListener,
   OnInit,
   OnDestroy,
-  ViewChild,
-  TemplateRef,
+  ViewChild
 } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
@@ -25,7 +24,6 @@ import { StaticAssetService } from 'src/app/service/static-asset.service';
 export class NavbarComponent implements OnInit, OnDestroy {
   isOpen: boolean = false;
   isLargeScreen!: boolean;
-  logoPath: string = '';
   selectedLanguage!: string;
   private languageSubscription: Subscription = new Subscription();
   user!: AuthData | null;
@@ -39,7 +37,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   constructor(
     private cdr: ChangeDetectorRef,
     private elementRef: ElementRef,
-    private staticAssetService: StaticAssetService,
+    public staticAssetService: StaticAssetService,
     private languageService: LanguageService,
     private authService: AuthService,
     private modalService: NgbModal,
@@ -52,8 +50,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.languageSubscription = this.languageService.language$.subscribe((lang) => {
       this.selectedLanguage = lang;
     });
-
-    this.logoPath = this.staticAssetService.getAssetPath('logo');
 
     document.addEventListener('click', this.onClickOutside.bind(this), true);
 
