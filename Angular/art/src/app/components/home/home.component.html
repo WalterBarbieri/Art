@@ -1,7 +1,5 @@
 <div
   class="topSection pt-5"
-  [ngStyle]="{ 'background-image': 'url(' + homeBannerPath + ')' }"
-  alt="Homepage Art Banner"
 >
   <div class="container h-100 d-flex align-items-center justify-content-center">
     <div class="hero-content text-center">
@@ -29,7 +27,27 @@
     <div
       class="col-12 col-lg-6 d-flex justify-content-center align-items-center"
     >
-      <img [src]="homeArtPath" alt="Homepage Art Image" />
+      <picture>
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('home_art', 0)"
+          media="(max-width: 480px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('home_art', 1)"
+          media="(min-width: 481px) and (max-width: 768px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('home_art', 2)"
+          media="(min-width: 769px)"
+          type="image/webp"
+        />
+        <img
+          [src]="this.staticAssetService.getAssetFallback('home_art')"
+          alt="Homepage Art Image"
+        />
+      </picture>
     </div>
   </div>
 </div>
@@ -70,7 +88,27 @@
     <div
       class="col-12 col-lg-6 d-flex justify-content-center align-items-center order-1 mb-3 mb-lg-0"
     >
-      <img [src]="homeElenaFranconiPath" alt="Homepage Elena Franconi Image" />
+    <picture>
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('home_elena_franconi', 0)"
+          media="(max-width: 480px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('home_elena_franconi', 1)"
+          media="(min-width: 481px) and (max-width: 768px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('home_elena_franconi', 2)"
+          media="(min-width: 769px)"
+          type="image/webp"
+        />
+        <img
+          [src]="this.staticAssetService.getAssetFallback('home_elena_franconi')"
+          alt="Homepage Elena Franconi Image"
+        />
+      </picture>
     </div>
   </div>
 </div>

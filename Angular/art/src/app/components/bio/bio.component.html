@@ -4,7 +4,27 @@
     <h4 class="text-center">
       {{ "BIO.SUBTITLE" | translate }}
     </h4>
-    <img [src]="bioBannerPath" alt="Bio Art Banner" />
+    <picture>
+      <source
+        [srcset]="this.staticAssetService.getAssetWebp('bio_banner', 0)"
+        media="(max-width: 480px)"
+        type="image/webp"
+      />
+      <source
+        [srcset]="this.staticAssetService.getAssetWebp('bio_banner', 1)"
+        media="(min-width: 481px) and (max-width: 768px)"
+        type="image/webp"
+      />
+      <source
+        [srcset]="this.staticAssetService.getAssetWebp('bio_banner', 2)"
+        media="(min-width: 769px)"
+        type="image/webp"
+      />
+      <img
+        [src]="this.staticAssetService.getAssetFallback('bio_banner')"
+        alt="Bio Art Banner"
+      />
+    </picture>
   </div>
   <div class="section-divider"></div>
   <div
@@ -16,7 +36,28 @@
       </p>
     </div>
     <div class="bioImageContainer">
-      <img [src]="bioArt1Path" alt="Bio Art Image" class="bioImage" />
+      <picture>
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('bio_art_1', 0)"
+          media="(max-width: 480px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('bio_art_1', 1)"
+          media="(min-width: 481px) and (max-width: 768px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('bio_art_1', 2)"
+          media="(min-width: 769px)"
+          type="image/webp"
+        />
+        <img
+          [src]="this.staticAssetService.getAssetFallback('bio_art_1')"
+          alt="Bio Art Image"
+          class="bioImage"
+        />
+      </picture>
     </div>
   </div>
   <div class="section-divider"></div>
@@ -51,7 +92,28 @@
       </ul>
     </div>
     <div class="bioImageContainer">
-      <img [src]="bioArt2Path" alt="Bio Art Image" class="bioImage" />
+      <picture>
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('bio_art_2', 0)"
+          media="(max-width: 480px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('bio_art_2', 1)"
+          media="(min-width: 481px) and (max-width: 768px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('bio_art_2', 2)"
+          media="(min-width: 769px)"
+          type="image/webp"
+        />
+        <img
+          [src]="this.staticAssetService.getAssetFallback('bio_art_2')"
+          alt="Bio Art Image"
+          class="bioImage"
+        />
+      </picture>
     </div>
   </div>
   <div class="section-divider"></div>
@@ -83,7 +145,28 @@
       </div>
     </div>
     <div class="bioImageContainer">
-      <img [src]="bioArt3Path" alt="Bio Art Image" class="bioImage" />
+      <picture>
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('bio_art_3', 0)"
+          media="(max-width: 480px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('bio_art_3', 1)"
+          media="(min-width: 481px) and (max-width: 768px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('bio_art_3', 2)"
+          media="(min-width: 769px)"
+          type="image/webp"
+        />
+        <img
+          [src]="this.staticAssetService.getAssetFallback('bio_art_3')"
+          alt="Bio Art Image"
+          class="bioImage"
+        />
+      </picture>
     </div>
   </div>
 </div>

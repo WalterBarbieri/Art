@@ -8,6 +8,37 @@
   min-height: calc(100vh - $navbar-height);
   width: 100%;
 
+  // Default for large screens (1920px+)
+  background-image: url($home-banner-1920);
+
+  @supports not (background: url('data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==')) {
+    background-image: url($home-banner-fallback);
+  }
+
+  @media (max-width: 1440px) {
+    background-image: url($home-banner-1440);
+
+    @supports not (background: url('data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==')) {
+      background-image: url($home-banner-fallback);
+    }
+  }
+
+  @media (max-width: 1000px) {
+    background-image: url($home-banner-1000);
+
+    @supports not (background: url('data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==')) {
+      background-image: url($home-banner-fallback);
+    }
+  }
+
+  @media (max-width: 768px) {
+    background-image: url($home-banner-768);
+
+    @supports not (background: url('data:image/webp;base64,UklGRhoAAABXRUJQVlA4TA0AAAAvAAAAEAcQERGIiP4HAA==')) {
+      background-image: url($home-banner-fallback);
+    }
+  }
+
   .hero-content {
     padding: 2rem;
     color: $white;
@@ -18,7 +49,7 @@
       font-size: 5em;
       @include typed("ART\AnATuRa teATRo",
         "ART\AnATuRe theATRe",
-        0.5, // velocità digitazione (sec per lettera)
+        0.5, // type speed (seconds per character)
         (caret: true,
           caret-speed: 0.75,
           caret-width: 3px,
@@ -91,9 +122,11 @@
     @media (min-width: 992px) {
       width: 60%;
     }
+
     @media (min-width: 1200px) {
       width: 50%;
     }
+
     @media (min-width: 1400px) {
       width: 45%;
     }

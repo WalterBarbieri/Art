@@ -12,41 +12,23 @@ import { MetaManagedComponent } from 'src/app/shared/classes/meta-managed.compon
 })
 export class InfoComponent extends MetaManagedComponent implements OnInit, OnDestroy {
 
-  infoBannerPath: string = '';
-  infoArt1Path: string = '';
-  infoArt2Path: string = '';
-  infoArt3Path: string = '';
-  infoArt4Path: string = '';
-  infoArt5Path: string = '';
-
   constructor(
     protected override metaService: MetaService,
     protected override languageService: LanguageService,
-    private staticAssetService: StaticAssetService
+    public staticAssetService: StaticAssetService
   ) {
     super(metaService, languageService);
   }
 
   ngOnInit(): void {
     this.initializeMetaManagement();
-    this.loadStaticAssets();
   }
 
   ngOnDestroy(): void {
     this.cleanupMetaManagement();
   }
 
-  loadStaticAssets(): void {
-    this.infoBannerPath = this.staticAssetService.getAssetPath('info_banner');
-    this.infoArt1Path = this.staticAssetService.getAssetPath('info_art_1');
-    this.infoArt2Path = this.staticAssetService.getAssetPath('info_art_2');
-    this.infoArt3Path = this.staticAssetService.getAssetPath('info_art_3');
-    this.infoArt4Path = this.staticAssetService.getAssetPath('info_art_4');
-    this.infoArt5Path = this.staticAssetService.getAssetPath('info_art_5');
-  }
-
   protected getComponentName(): string {
     return 'info';
   }
-
 }

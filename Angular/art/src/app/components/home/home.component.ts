@@ -7,7 +7,6 @@ import { Content } from 'src/app/models/content.interface';
 import { ImageService } from 'src/app/service/image.service';
 import { ContentService } from 'src/app/service/content.service';
 import { LoaderService } from 'src/app/core/services/loader.service';
-import { TranslateService } from '@ngx-translate/core';
 import { ProcessedError } from 'src/app/models/processed-error.interface';
 import { ToastService } from 'src/app/shared/services/toast.service';
 import { MetaManagedComponent } from 'src/app/shared/classes/meta-managed.component';
@@ -24,15 +23,10 @@ export class HomeComponent extends MetaManagedComponent implements OnInit, OnDes
   projects: Content[] = [];
   imageLoading: boolean[] = [];
 
-  // Static asset paths
-  homeBannerPath: string = '';
-  homeArtPath: string = '';
-  homeElenaFranconiPath: string = '';
-
   constructor(
     protected override metaService: MetaService,
     protected override languageService: LanguageService,
-    private staticAssetService: StaticAssetService,
+    public staticAssetService: StaticAssetService,
     private route: ActivatedRoute,
     private imageService: ImageService,
     private contentService: ContentService,
@@ -45,7 +39,6 @@ export class HomeComponent extends MetaManagedComponent implements OnInit, OnDes
 
   ngOnInit(): void {
     this.initializeMetaManagement();
-    this.loadStaticAssets();
     this.route.queryParams.subscribe((params) => {
       const message = params['message'];
       if (message === 'LoginSuccess') {
@@ -70,14 +63,6 @@ export class HomeComponent extends MetaManagedComponent implements OnInit, OnDes
 
   protected getComponentName(): string {
     return 'home';
-  }
-
-  private loadStaticAssets(): void {
-    this.homeBannerPath = this.staticAssetService.getAssetPath('home_banner');
-    this.homeArtPath = this.staticAssetService.getAssetPath('home_art');
-    this.homeElenaFranconiPath = this.staticAssetService.getAssetPath(
-      'home_elena_franconi'
-    );
   }
 
   getFullImageUrl(imagePath: string | null, index: number): void {

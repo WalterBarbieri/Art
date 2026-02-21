@@ -5,12 +5,33 @@
   <div class="infoSubtitleContainer">
     <h4>
       <span class="fw-bold">{{ "HOME.TITLE" | translate }}</span>
-      <span [innerHTML]="('INFO.SUBTITLE' | translate | appNewlineToBr)"></span>
+      <span [innerHTML]="'INFO.SUBTITLE' | translate | appNewlineToBr"></span>
     </h4>
-    <img [src]="infoBannerPath" alt="Info Art Banner" class="mb-3">
+    <picture>
+      <source
+        [srcset]="this.staticAssetService.getAssetWebp('info_banner', 0)"
+        media="(max-width: 480px)"
+        type="image/webp"
+      />
+      <source
+        [srcset]="this.staticAssetService.getAssetWebp('info_banner', 1)"
+        media="(min-width: 481px) and (max-width: 768px)"
+        type="image/webp"
+      />
+      <source
+        [srcset]="this.staticAssetService.getAssetWebp('info_banner', 2)"
+        media="(min-width: 769px)"
+        type="image/webp"
+      />
+      <img
+        [src]="this.staticAssetService.getAssetFallback('info_banner')"
+        alt="Info Art Banner"
+        class="mb-3"
+      />
+    </picture>
     <h4>
       <span class="fw-bold">{{ "HOME.TITLE" | translate }}</span>
-      <span [innerHTML]="('INFO.SUBTITLE_2' | translate | appNewlineToBr)"></span>
+      <span [innerHTML]="'INFO.SUBTITLE_2' | translate | appNewlineToBr"></span>
     </h4>
   </div>
   <div class="section-divider"></div>
@@ -20,11 +41,35 @@
     <div class="mb-5 mb-md-0 infoTextContainer text-md-end">
       <p>
         {{ "HOME.TITLE" | translate }}
-        <span class="fst-italic" [innerHTML]="('INFO.SECTION_1' | translate | appNewlineToBr)"></span>
+        <span
+          class="fst-italic"
+          [innerHTML]="'INFO.SECTION_1' | translate | appNewlineToBr"
+        ></span>
       </p>
     </div>
     <div class="infoImageContainer">
-      <img [src]="infoArt1Path" alt="Info Art Image" class="infoImage" />
+      <picture>
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_1', 0)"
+          media="(max-width: 480px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_1', 1)"
+          media="(min-width: 481px) and (max-width: 768px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_1', 2)"
+          media="(min-width: 769px)"
+          type="image/webp"
+        />
+        <img
+          [src]="this.staticAssetService.getAssetFallback('info_art_1')"
+          alt="Info Art Image"
+          class="infoImage"
+        />
+      </picture>
     </div>
   </div>
   <div class="section-divider"></div>
@@ -34,11 +79,35 @@
     <div class="mb-5 mb-md-0 infoTextContainer">
       <p>
         {{ "HOME.TITLE" | translate }}
-        <span class="fst-italic" [innerHTML]="('INFO.SECTION_2' | translate | appNewlineToBr)"></span>
+        <span
+          class="fst-italic"
+          [innerHTML]="'INFO.SECTION_2' | translate | appNewlineToBr"
+        ></span>
       </p>
     </div>
     <div class="infoImageContainer">
-      <img [src]="infoArt2Path" alt="Info Art Image" class="infoImage" />
+      <picture>
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_2', 0)"
+          media="(max-width: 480px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_2', 1)"
+          media="(min-width: 481px) and (max-width: 768px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_2', 2)"
+          media="(min-width: 769px)"
+          type="image/webp"
+        />
+        <img
+          [src]="this.staticAssetService.getAssetFallback('info_art_2')"
+          alt="Info Art Image"
+          class="infoImage"
+        />
+      </picture>
     </div>
   </div>
   <div class="section-divider"></div>
@@ -48,11 +117,35 @@
     <div class="mb-5 mb-md-0 infoTextContainer text-md-end">
       <p>
         {{ "HOME.TITLE" | translate }}
-        <span class="fst-italic" [innerHTML]="('INFO.SECTION_3' | translate | appNewlineToBr)"></span>
+        <span
+          class="fst-italic"
+          [innerHTML]="'INFO.SECTION_3' | translate | appNewlineToBr"
+        ></span>
       </p>
     </div>
     <div class="infoImageContainer">
-      <img [src]="infoArt3Path" alt="Info Art Image" class="infoImage" />
+      <picture>
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_3', 0)"
+          media="(max-width: 480px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_3', 1)"
+          media="(min-width: 481px) and (max-width: 768px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_3', 2)"
+          media="(min-width: 769px)"
+          type="image/webp"
+        />
+        <img
+          [src]="this.staticAssetService.getAssetFallback('info_art_3')"
+          alt="Info Art Image"
+          class="infoImage"
+        />
+      </picture>
     </div>
   </div>
   <div class="section-divider"></div>
@@ -62,11 +155,35 @@
     <div class="mb-5 mb-md-0 infoTextContainer">
       <p>
         {{ "HOME.TITLE" | translate }}
-        <span class="fst-italic" [innerHTML]="('INFO.SECTION_4' | translate | appNewlineToBr)"></span>
+        <span
+          class="fst-italic"
+          [innerHTML]="'INFO.SECTION_4' | translate | appNewlineToBr"
+        ></span>
       </p>
     </div>
     <div class="infoImageContainer">
-      <img [src]="infoArt4Path" alt="Info Art Image" class="infoImage" />
+      <picture>
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_4', 0)"
+          media="(max-width: 480px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_4', 1)"
+          media="(min-width: 481px) and (max-width: 768px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_4', 2)"
+          media="(min-width: 769px)"
+          type="image/webp"
+        />
+        <img
+          [src]="this.staticAssetService.getAssetFallback('info_art_4')"
+          alt="Info Art Image"
+          class="infoImage"
+        />
+      </picture>
     </div>
   </div>
   <div class="section-divider"></div>
@@ -76,11 +193,35 @@
     <div class="mb-5 mb-md-0 infoTextContainer text-md-end">
       <p>
         {{ "HOME.TITLE" | translate }}
-        <span class="fst-italic" [innerHTML]="('INFO.SECTION_5' | translate | appNewlineToBr)"></span>
+        <span
+          class="fst-italic"
+          [innerHTML]="'INFO.SECTION_5' | translate | appNewlineToBr"
+        ></span>
       </p>
     </div>
     <div class="infoImageContainer">
-      <img [src]="infoArt5Path" alt="Info Art Image" class="infoImage" />
+      <picture>
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_5', 0)"
+          media="(max-width: 480px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_5', 1)"
+          media="(min-width: 481px) and (max-width: 768px)"
+          type="image/webp"
+        />
+        <source
+          [srcset]="this.staticAssetService.getAssetWebp('info_art_5', 2)"
+          media="(min-width: 769px)"
+          type="image/webp"
+        />
+        <img
+          [src]="this.staticAssetService.getAssetFallback('info_art_5')"
+          alt="Info Art Image"
+          class="infoImage"
+        />
+      </picture>
     </div>
   </div>
 </div>

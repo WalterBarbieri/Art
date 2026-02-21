@@ -34,6 +34,7 @@ export class AppComponent extends MetaManagedComponent implements OnInit, OnDest
   }
 
   private preloadAssets() {
-    this.staticAssetService.preloadCriticalAssets(['logo']);
+    const deviceWidth = window.innerWidth;
+    this.staticAssetService.preloadCriticalAssetsResponsive(['home_banner','logo'], deviceWidth);
   }
 }
