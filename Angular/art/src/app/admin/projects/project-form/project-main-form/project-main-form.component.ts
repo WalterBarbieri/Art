@@ -56,8 +56,6 @@ export class ProjectMainFormComponent implements OnInit, OnDestroy {
   // Preview object for reusable components
   previewContent$ = this.previewService.preview$;
 
-  fallbackImage: string = environment.fallBackImage;
-
   // Quill editor configuration
   quillModules = {
     toolbar: [

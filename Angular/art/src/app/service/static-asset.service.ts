@@ -18,7 +18,6 @@ export class StaticAssetService {
     },
     home_banner: {
       webp: [
-        'assets/images/art_1_banner_480.webp',
         'assets/images/art_1_banner_768.webp',
         'assets/images/art_1_banner_1000.webp',
         'assets/images/art_1_banner_1440.webp',
@@ -126,11 +125,11 @@ export class StaticAssetService {
   constructor() {}
 
   getAssetWebp(key: string, index: number = 0): string {
-    return this.assets[key]?.webp[index] || '';
+    return this.assets[key]?.webp[index] || this.assets[key]?.fallback || '';
   }
 
   getAssetFallback(key: string): string {
-    return this.assets[key]?.fallback || '';
+    return this.assets[key]?.fallback || this.getAssetWebp('fallback_image');
   }
 
   preloadCriticalAssetsResponsive(keys: string[], deviceWidth: number): void {
@@ -140,15 +139,12 @@ export class StaticAssetService {
 
       let assetPath: string;
       if (key === 'home_banner') {
-        let index = 4; // 1920px default
-        if (deviceWidth <= 480)
-          index = 0; // 480px
-        else if (deviceWidth <= 768)
-          index = 1; // 768px
+        let index = 3; // 1920px default
+        if (deviceWidth <= 768)
+          index = 0; // 768px
         else if (deviceWidth <= 1000)
-          index = 2; // 1000px
-        else if (deviceWidth <= 1440) index = 3; // 1440px
-        // else index = 4; // 1920px
+          index = 1; // 1000px
+        else if (deviceWidth <= 1440) index = 2; // 1440px
         assetPath = asset.webp[index] || asset.fallback;
       } else {
         // For other assets, just take the first webp version

@@ -36,6 +36,7 @@ import { ProjectPreviewService } from '../../services/project-preview.service';
 import { ProjectMainFormComponent } from './project-main-form/project-main-form.component';
 import { ProjectPressReviewsFormComponent } from './project-press-reviews-form/project-press-reviews-form.component';
 import { ImageService } from 'src/app/service/image.service';
+import { StaticAssetService } from 'src/app/service/static-asset.service';
 
 @Component({
   selector: 'app-project-form',
@@ -98,8 +99,6 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   previewContent$ = this.previewService.preview$;
   previewContent: ProjectPreview | null = null;
 
-  fallbackImage: string = environment.fallBackImage;
-
   // Tab management
   activeTab: 'info' | 'press-reviews' = 'info';
 
@@ -122,6 +121,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     private projectSubmitService: ProjectSubmitService,
     private previewService: ProjectPreviewService,
     private imageService: ImageService,
+    public staticAssetService: StaticAssetService,
   ) {}
 
   ngOnInit(): void {

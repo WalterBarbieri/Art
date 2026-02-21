@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { catchError, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { StaticAssetService } from './static-asset.service';
 
 export interface FileValidationResult {
   valid: File[];
@@ -16,13 +17,15 @@ export class ImageService {
   private readonly MB = 1024 * 1024;
 
   // File size limits (in bytes)
-  readonly MAX_FILE_SIZE = 50 * this.MB; // 50MB per single file
+  readonly MAX_FILE_SIZE = 50 * this.MB; // 50MB for single file
   readonly MAX_REQUEST_SIZE = 200 * this.MB; // 200MB total
 
   baseUrl = environment.baseURL;
-  private fallBackImage = environment.fallBackImage;
+  private fallBackImage: string;
 
-  constructor() { }
+  constructor(private staticAssetService: StaticAssetService) {
+    this.fallBackImage = this.staticAssetService.getAssetWebp('fallback_image');
+   }
 
   getFullImageUrl(imagePath: string | null): Observable<string> {
     if (!imagePath) {

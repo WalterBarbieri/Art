@@ -109,7 +109,7 @@
         @if (previewContent) {
           <!-- Project Cover Preview -->
           <app-project-cover
-            [coverImagePath]="previewContent.coverImagePreview || fallbackImage"
+            [coverImagePath]="previewContent.coverImagePreview || staticAssetService.getAssetWebp('fallback_image')"
             [title]="previewContent.title"
             [description]="previewContent.description"
             [isPreviewMode]="true"
