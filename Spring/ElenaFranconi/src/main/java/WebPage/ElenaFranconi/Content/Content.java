@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import WebPage.ElenaFranconi.PressReview.PressReview;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorColumn;
 import jakarta.persistence.ElementCollection;
@@ -89,5 +90,7 @@ public abstract class Content {
 	public abstract ContentStatus calculateContentStatus();
 
 	public abstract LocalDate calculateRelevantDate();
+
+	public abstract List<PressReview> getPressReviews();
 
 }

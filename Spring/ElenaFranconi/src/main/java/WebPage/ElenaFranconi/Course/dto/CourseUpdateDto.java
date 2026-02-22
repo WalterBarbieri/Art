@@ -2,11 +2,14 @@ package WebPage.ElenaFranconi.Course.dto;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.lang.Nullable;
 import org.springframework.web.multipart.MultipartFile;
 
 import WebPage.ElenaFranconi.Content.Media.MediaUpdateDto;
+import WebPage.ElenaFranconi.PressReview.dto.PressReviewRequestDto;
+import WebPage.ElenaFranconi.PressReview.dto.PressReviewUpdateDto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -39,14 +42,6 @@ public class CourseUpdateDto implements MediaUpdateDto {
 	@Min(value = 1, message = "Maximum participants must be at least 1")
 	private int maxParticipants;
 
-	// Existing media to keep
-	@Nullable
-	private List<String> existingImages;
-	@Nullable
-	private List<String> existingFiles;
-	@Nullable
-	private List<String> existingVideos;
-
 	// Existing media to remove
 	@Nullable
 	private List<String> removedImages;
@@ -64,5 +59,13 @@ public class CourseUpdateDto implements MediaUpdateDto {
 	private List<MultipartFile> files;
 	@Nullable
 	private List<MultipartFile> videos;
+
+	// Press Reviews
+	@Nullable
+	private List<UUID> removedPressReviewIds;
+	@Nullable
+	private List<PressReviewRequestDto> newPressReviews;
+	@Nullable
+	private List<PressReviewUpdateDto> updatedPressReviews;
 
 }

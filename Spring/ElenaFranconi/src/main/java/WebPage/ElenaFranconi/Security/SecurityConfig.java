@@ -44,7 +44,6 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/event/**").authenticated());
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/course-recipients/**").hasAuthority("ADMIN"));
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/event-recipients/**").hasAuthority("ADMIN"));
-		http.authorizeHttpRequests(auth -> auth.requestMatchers("/api/press-review/**").hasAuthority("ADMIN"));
 		http.authorizeHttpRequests(auth -> auth.requestMatchers("/storage/**").permitAll());
 		http.authorizeHttpRequests(auth -> auth.anyRequest().denyAll());
 

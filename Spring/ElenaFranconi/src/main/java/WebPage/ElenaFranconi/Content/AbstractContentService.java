@@ -28,7 +28,7 @@ public abstract class AbstractContentService<T extends Content> {
 	private StorageService storageService;
 
 	@Autowired
-	private PressReviewService pressReviewService;
+	private PressReviewService<Content> pressReviewService;
 
 	// HELPER METHODS
 
@@ -138,6 +138,20 @@ public abstract class AbstractContentService<T extends Content> {
 						.reversed())
 				.collect(Collectors.toMap(PressReview::getUrl, review -> review, (existing, replacement) -> existing))
 				.values().stream().toList();
+	}
+
+	protected void processPressReviews(T content, MediaUpdateDto body) {
+		if (body.getRemovedPressReviewIds() != null && !body.getRemovedPressReviewIds().isEmpty()) {
+			body.getRemovedPressReviewIds().forEach(pressReviewService::deletePressReview);
+		}
+
+		if (body.getUpdatedPressReviews() != null && !body.getUpdatedPressReviews().isEmpty()) {
+			body.getUpdatedPressReviews().forEach(pr -> pressReviewService.editPressReview(content, pr));
+		}
+
+		if (body.getNewPressReviews() != null && !body.getNewPressReviews().isEmpty()) {
+			body.getNewPressReviews().forEach(pr -> pressReviewService.createPressReview(content, pr));
+		}
 	}
 
 	// VALIDATION METHODS

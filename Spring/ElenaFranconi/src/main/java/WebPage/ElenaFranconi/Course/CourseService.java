@@ -181,6 +181,8 @@ public class CourseService extends AbstractContentService<Course> {
 
 		handleMediaUpdate(course, body);
 
+		processPressReviews(course, body);
+
 		return courseRepository.save(course);
 
 	}
