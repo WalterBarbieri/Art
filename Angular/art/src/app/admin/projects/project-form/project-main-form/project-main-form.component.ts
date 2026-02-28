@@ -12,8 +12,6 @@ import { Subject, Subscription } from 'rxjs';
 import { QuillModule } from 'ngx-quill';
 import { TranslateModule } from '@ngx-translate/core';
 import { ProjectPreviewService } from '../../../services/project-preview.service';
-import { environment } from 'src/environments/environment';
-
 @Component({
   selector: 'app-project-main-form',
   imports: [CommonModule, ReactiveFormsModule, QuillModule, TranslateModule],
@@ -35,6 +33,8 @@ export class ProjectMainFormComponent implements OnInit, OnDestroy {
   @Input() videosFiles: File[] = [];
   @Input() coverImageFile: File | null = null;
   @Input() mediaModified: boolean = false;
+  @Input() canSubmit: boolean = false;
+  @Input() canReset: boolean = false;
   @Output() submitForm = new EventEmitter<void>();
   @Output() cancelForm = new EventEmitter<void>();
   @Output() coverImageChange = new EventEmitter<Event>();

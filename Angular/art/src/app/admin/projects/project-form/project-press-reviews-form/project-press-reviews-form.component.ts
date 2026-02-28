@@ -21,12 +21,16 @@ import { ProjectFileService } from '../../../services/project-file.service';
   templateUrl: './project-press-reviews-form.component.html',
   styleUrl: './project-press-reviews-form.component.scss',
 })
-export class ProjectPressReviewsFormComponent implements OnInit, OnChanges, OnDestroy {
+export class ProjectPressReviewsFormComponent
+  implements OnInit, OnChanges, OnDestroy
+{
   @Input() pressReviews: PressReviewForm[] = [];
   @Input() projectType: 'COURSE' | 'EVENT' = 'COURSE';
   @Input() isEditMode: boolean = false;
   @Input() projectId?: string;
   @Input() refreshTrigger: number = 0;
+  @Input() canSubmit: boolean = false;
+  @Input() canReset: boolean = false;
 
   @Output() pressReviewsChange = new EventEmitter<PressReviewForm[]>();
   @Output() submitForm = new EventEmitter<void>();
@@ -103,7 +107,7 @@ export class ProjectPressReviewsFormComponent implements OnInit, OnChanges, OnDe
         error: () => {
           // Error already handled in service (toast)
           input.value = '';
-        }
+        },
       });
     }
   }
@@ -152,9 +156,11 @@ export class ProjectPressReviewsFormComponent implements OnInit, OnChanges, OnDe
 
   onReset(): void {
     this.resetFormEvent.emit();
+    console.log('onReset Called');
   }
 
   public reset(): void {
     this.initializeWorkingCopy();
+    console.log('reset Called');
   }
 }

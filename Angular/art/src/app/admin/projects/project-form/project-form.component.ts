@@ -105,6 +105,20 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   // Trigger for refreshing press reviews form
   refreshTrigger: number = 0;
 
+  // Form modification tracking
+  pressReviewsModified: boolean = false;
+
+  get canSubmit(): boolean {
+    const hasChanges = this.projectForm.dirty || this.mediaModified || this.pressReviewsModified;
+    const isValid = !this.projectForm.invalid && (this.coverImageFile !== null || this.existingCoverImage !== null);
+    return hasChanges && isValid;
+  }
+
+  get canReset(): boolean {
+    const hasChanges = this.projectForm.dirty || this.mediaModified || this.pressReviewsModified;
+    return hasChanges;
+  }
+
   // Tab management
   activeTab: 'info' | 'press-reviews' = 'info';
 
@@ -475,6 +489,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   onPressReviewsChange(pressReviews: PressReviewForm[]): void {
     this.pressReviews = pressReviews;
+    this.pressReviewsModified = true;
     this.updatePreview();
   }
 
@@ -636,7 +651,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
     // Reset media modification flag
     this.mediaModified = false;
-
+    this.pressReviewsModified = false;
+    this.refreshTrigger++;
     // Update preview
     this.updatePreview();
   }

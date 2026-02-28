@@ -289,7 +289,7 @@
       accept="image/*"
       (change)="onCoverImageChange($event)"
       [class.is-invalid]="
-        !coverImageFile && (projectForm.dirty || mediaModified)
+        !coverImageFile && !existingCoverImage && (projectForm.dirty || mediaModified)
       "
     />
     @if (coverImagePreview) {
@@ -456,11 +456,7 @@
       type="button"
       class="btn btn-warning"
       (click)="resetForm()"
-      [disabled]="
-        projectForm.invalid ||
-        (!coverImageFile && !existingCoverImage) ||
-        (!projectForm.dirty && !mediaModified)
-      "
+      [disabled]="!canReset"
     >
       <i class="fas fa-undo me-2"></i>
       Reset
@@ -468,11 +464,7 @@
     <button
       type="submit"
       class="btn default-button w-auto"
-      [disabled]="
-        projectForm.invalid ||
-        (!coverImageFile && !existingCoverImage) ||
-        (!projectForm.dirty && !mediaModified)
-      "
+      [disabled]="!canSubmit"
     >
       <i class="fas fa-save me-2"></i
       >{{

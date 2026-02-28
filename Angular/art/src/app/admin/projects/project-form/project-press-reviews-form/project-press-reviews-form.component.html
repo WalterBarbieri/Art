@@ -97,11 +97,11 @@
     <button type="button" class="btn btn-secondary" (click)="onCancel()">
       {{ "ADMIN.PROJECTS.FORM.CLOSE" | translate }}
     </button>
-    <button type="button" class="btn btn-warning" (click)="onReset()">
+    <button type="button" class="btn btn-warning" (click)="onReset()" [disabled]="!canReset">
       <i class="fas fa-undo me-2"></i>
       Reset
     </button>
-    <button type="button" class="btn default-button w-auto" (click)="onSubmit()">
+    <button type="button" class="btn default-button w-auto" (click)="onSubmit()" [disabled]="!canSubmit">
       <i class="fas fa-save me-2"></i>
       {{ "ADMIN.PROJECTS.FORM.SAVE" | translate }}
     </button>
