@@ -51,9 +51,9 @@
         }
 
         <!-- Tab Content -->
-        @if (activeTab === "info") {
-          <app-project-main-form
-            [projectForm]="projectForm"
+        <app-project-main-form
+          [hidden]="activeTab !== 'info'"
+          [projectForm]="projectForm"
             [projectType]="projectType"
             [isEditMode]="isEditMode"
             [existingCoverImage]="existingCoverImage"
@@ -84,10 +84,9 @@
             (resetFormEvent)="onResetForm()"
           >
           </app-project-main-form>
-        }
 
-        @if (activeTab === "press-reviews") {
-          <app-project-press-reviews-form
+        <app-project-press-reviews-form
+          [hidden]="activeTab !== 'press-reviews'"
             [pressReviews]="pressReviews"
             [projectType]="projectType"
             [isEditMode]="isEditMode"
@@ -100,7 +99,6 @@
             (cancelForm)="onCancel()"
             (resetFormEvent)="onResetForm()"
           ></app-project-press-reviews-form>
-        }
       </div>
     </div>
 
