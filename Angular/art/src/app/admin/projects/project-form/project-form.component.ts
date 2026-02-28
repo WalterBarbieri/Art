@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -28,7 +28,6 @@ import { ProjectPressReviewsComponent } from 'src/app/shared/components/project/
 import { environment } from 'src/environments/environment';
 import { Course } from 'src/app/models/course.interface';
 import { ProjectEvent } from 'src/app/models/event.interface';
-import { PressReview } from 'src/app/models/press-review.interface';
 import { ProjectMediaService } from '../../services/project-media.service';
 import { ProjectSubmitService } from '../../services/project-submit.service';
 import { ProjectDetailsInfoComponent } from 'src/app/shared/components/project/details-info/project-details-info.component';
@@ -103,11 +102,16 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   pressReviews: PressReviewForm[] = [];
   originalPressReviews: PressReviewForm[] = [];
 
+  // Trigger for refreshing press reviews form
+  refreshTrigger: number = 0;
+
   // Tab management
   activeTab: 'info' | 'press-reviews' = 'info';
 
   // Media modification tracking
   mediaModified: boolean = false;
+
+  @ViewChild(ProjectPressReviewsFormComponent) pressReviewsForm!: ProjectPressReviewsFormComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -212,6 +216,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
               }
               this.pressReviews = media.pressReviews.map(review => ({ ...review, isRemoved: false, imageFile: null }));
               this.originalPressReviews = [...this.pressReviews];
+              this.refreshTrigger++;
               this.updatePreview();
               this.loaderService.hide();
             });
@@ -254,6 +259,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
               }
               this.pressReviews = media.pressReviews.map(review => ({ ...review, isRemoved: false, imageFile: null }));
               this.originalPressReviews = [...this.pressReviews];
+              this.refreshTrigger++;
               this.updatePreview();
               this.loaderService.hide();
             });
@@ -577,6 +583,9 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       if (this.originalProject) {
         this.formService.populateForm(this.projectForm, this.originalProject, this.projectType);
         this.pressReviews = [...this.originalPressReviews];
+        if (this.pressReviewsForm) {
+          this.pressReviewsForm.reset();
+        }
       }
       // Reset media to originals
       this.existingCoverImage = this.originalCoverImage;

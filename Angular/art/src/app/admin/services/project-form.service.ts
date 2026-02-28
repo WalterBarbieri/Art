@@ -212,7 +212,7 @@ export class ProjectFormService {
       if (!review.own) return;
 
       if (review.id && !review.isRemoved) {
-        // Verifica che abbia un imagePath valido (non cancellato)
+        // Verify if URL is valid and starts with http (to avoid sending invalid URLs or local previews)
         if (review.imagePath && review.imagePath.startsWith('http')) {
           formData.append(`updatedPressReviews[${updatedIndex}].id`, review.id);
           formData.append(`updatedPressReviews[${updatedIndex}].url`, review.url);

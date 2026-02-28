@@ -2,9 +2,11 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -19,10 +21,12 @@ import { ProjectFileService } from '../../../services/project-file.service';
   templateUrl: './project-press-reviews-form.component.html',
   styleUrl: './project-press-reviews-form.component.scss',
 })
-export class ProjectPressReviewsFormComponent implements OnInit, OnDestroy {
+export class ProjectPressReviewsFormComponent implements OnInit, OnChanges, OnDestroy {
   @Input() pressReviews: PressReviewForm[] = [];
   @Input() projectType: 'COURSE' | 'EVENT' = 'COURSE';
   @Input() isEditMode: boolean = false;
+  @Input() projectId?: string;
+  @Input() refreshTrigger: number = 0;
 
   @Output() pressReviewsChange = new EventEmitter<PressReviewForm[]>();
   @Output() submitForm = new EventEmitter<void>();
@@ -39,6 +43,12 @@ export class ProjectPressReviewsFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initializeWorkingCopy();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['refreshTrigger'] && !changes['refreshTrigger'].firstChange) {
+      this.initializeWorkingCopy();
+    }
   }
 
   ngOnDestroy(): void {
@@ -142,5 +152,9 @@ export class ProjectPressReviewsFormComponent implements OnInit, OnDestroy {
 
   onReset(): void {
     this.resetFormEvent.emit();
+  }
+
+  public reset(): void {
+    this.initializeWorkingCopy();
   }
 }

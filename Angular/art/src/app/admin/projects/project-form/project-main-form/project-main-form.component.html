@@ -121,17 +121,26 @@
         "ADMIN.PROJECTS.FORM.EVENT_DATES_LABEL" | translate
       }}</label>
       <div formArrayName="eventDates">
-        @for (slotGroup of eventDates.controls; track slotGroup; let i = $index) {
-          <div class="input-group mb-2" [formGroupName]="i" [class.opacity-50]="slotGroup.get('isRemoved')?.value">
+        @for (
+          slotGroup of eventDates.controls;
+          track slotGroup;
+          let i = $index
+        ) {
+          <div
+            class="input-group mb-2"
+            [formGroupName]="i"
+            [class.opacity-50]="slotGroup.get('isRemoved')?.value"
+          >
             <input
               type="datetime-local"
               class="form-control"
               formControlName="date"
               [class.is-invalid]="
-                eventDates.at(i).get('date')?.invalid && eventDates.at(i).get('date')?.touched
+                eventDates.at(i).get('date')?.invalid &&
+                eventDates.at(i).get('date')?.touched
               "
             />
-            @if (!slotGroup.get('isRemoved')?.value && eventDates.length > 1) {
+            @if (!slotGroup.get("isRemoved")?.value && eventDates.length > 1) {
               <button
                 type="button"
                 class="btn btn-danger btn-sm rounded event-date-remove-button"
@@ -141,7 +150,7 @@
                 <i class="fas fa-trash"></i>
               </button>
             }
-            @if (slotGroup.get('isRemoved')?.value) {
+            @if (slotGroup.get("isRemoved")?.value) {
               <button
                 type="button"
                 class="btn btn-warning btn-sm rounded"
@@ -279,7 +288,9 @@
       id="coverImage"
       accept="image/*"
       (change)="onCoverImageChange($event)"
-      [class.is-invalid]="!coverImageFile && (projectForm.dirty || mediaModified)"
+      [class.is-invalid]="
+        !coverImageFile && (projectForm.dirty || mediaModified)
+      "
     />
     @if (coverImagePreview) {
       <div class="mt-2 position-relative d-inline-block">
@@ -298,7 +309,11 @@
         </button>
       </div>
     }
-    @if (!coverImageFile && !existingCoverImage && (projectForm.dirty || mediaModified)) {
+    @if (
+      !coverImageFile &&
+      !existingCoverImage &&
+      (projectForm.dirty || mediaModified)
+    ) {
       <div class="text-danger small mt-1">
         {{ "ADMIN.PROJECTS.FORM.COVER_IMAGE_REQUIRED" | translate }}
       </div>
@@ -437,7 +452,16 @@
     <button type="button" class="btn btn-secondary" (click)="onCancel()">
       {{ "ADMIN.PROJECTS.FORM.CLOSE" | translate }}
     </button>
-    <button type="button" class="btn btn-warning" (click)="resetForm()">
+    <button
+      type="button"
+      class="btn btn-warning"
+      (click)="resetForm()"
+      [disabled]="
+        projectForm.invalid ||
+        (!coverImageFile && !existingCoverImage) ||
+        (!projectForm.dirty && !mediaModified)
+      "
+    >
       <i class="fas fa-undo me-2"></i>
       Reset
     </button>
@@ -445,7 +469,9 @@
       type="submit"
       class="btn default-button w-auto"
       [disabled]="
-        projectForm.invalid || (!coverImageFile && !existingCoverImage) || (!projectForm.dirty && !mediaModified)
+        projectForm.invalid ||
+        (!coverImageFile && !existingCoverImage) ||
+        (!projectForm.dirty && !mediaModified)
       "
     >
       <i class="fas fa-save me-2"></i

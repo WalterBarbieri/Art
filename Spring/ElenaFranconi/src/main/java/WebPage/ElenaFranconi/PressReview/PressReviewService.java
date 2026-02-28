@@ -79,8 +79,8 @@ public class PressReviewService<T extends Content> {
 	public PressReview editPressReview(T content, PressReviewUpdateDto body) {
 		PressReview pressReview = this.findPressReviewById(body.getId());
 
-		if (!pressReview.getCourse().getId().equals(content.getId())
-				&& !pressReview.getEvent().getId().equals(content.getId())) {
+		if (content instanceof Course ? !pressReview.getCourse().getId().equals(content.getId())
+				: !pressReview.getEvent().getId().equals(content.getId())) {
 			throw new BadRequestException("Press review does not belong to the specified content");
 		}
 
