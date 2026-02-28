@@ -24,16 +24,27 @@ export class ProjectSubmitService {
     projectId?: string,
     removedFiles?: RemovedFiles
   ): Observable<any> {
+    console.log('ProjectSubmitService.submit called with:', {
+      projectType,
+      isEdit,
+      projectId,
+      formValue,
+      files,
+      removedFiles
+    });
+
     const formData = this.formService.buildFormData(formValue, files, removedFiles);
 
     if (projectType === 'COURSE') {
       if (isEdit && projectId) {
+        console.log('Calling adminCourseService.update with id:', projectId);
         return this.adminCourseService.update(projectId, formData);
       } else {
         return this.adminCourseService.create(formData);
       }
     } else {
       if (isEdit && projectId) {
+        console.log('Calling adminEventService.update with id:', projectId);
         return this.adminEventService.update(projectId, formData);
       } else {
         return this.adminEventService.create(formData);

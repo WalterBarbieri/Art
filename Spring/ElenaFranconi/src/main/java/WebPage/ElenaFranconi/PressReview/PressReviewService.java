@@ -77,10 +77,14 @@ public class PressReviewService<T extends Content> {
 
 	// PUT METHODS
 	public PressReview editPressReview(T content, PressReviewUpdateDto body) {
-		PressReview pressReview = content.getPressReviews().stream().filter(pr -> pr.getId().equals(body.getId()))
-				.findFirst().orElseThrow(() -> new NotFoundException(body.getId()));
+		PressReview pressReview = this.findPressReviewById(body.getId());
 
-		if (body.getUrl() != null && !body.getUrl().isEmpty()) {
+		if (!pressReview.getCourse().getId().equals(content.getId())
+				&& !pressReview.getEvent().getId().equals(content.getId())) {
+			throw new BadRequestException("Press review does not belong to the specified content");
+		}
+
+		if (body.getUrl() != null && !body.getUrl().isEmpty() && !body.getUrl().equals(pressReview.getUrl())) {
 			boolean urlExists = false;
 
 			if (content instanceof Course) {
@@ -109,9 +113,13 @@ public class PressReviewService<T extends Content> {
 
 	// DELETE METHODS
 	public void deletePressReview(UUID pressReviewId) {
-		PressReview pressReview = findPressReviewById(pressReviewId);
-		storageService.deleteFile(pressReview.getImagePath());
-		pressReviewRepository.delete(pressReview);
+		try {
+			PressReview pressReview = findPressReviewById(pressReviewId);
+			storageService.deleteFile(pressReview.getImagePath());
+			pressReviewRepository.delete(pressReview);
+		} catch (Exception e) {
+			throw new BadRequestException("Error deleting press review: " + e.getMessage());
+		}
 	}
 
 	// HELPER METHODS

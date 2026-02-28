@@ -86,10 +86,13 @@
 
         @if (activeTab === "press-reviews") {
           <app-project-press-reviews-form
-            [pressReviews]="previewContent?.pressReviews || []"
+            [pressReviews]="pressReviews"
             [projectType]="projectType"
             [isEditMode]="isEditMode"
             (pressReviewsChange)="onPressReviewsChange($event)"
+            (submitForm)="onSubmit()"
+            (cancelForm)="onCancel()"
+            (resetFormEvent)="onResetForm()"
           ></app-project-press-reviews-form>
         }
       </div>

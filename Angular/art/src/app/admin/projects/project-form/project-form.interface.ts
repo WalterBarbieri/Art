@@ -1,6 +1,11 @@
 // Interfacce per la preview del form (prima di inviare al backend)
 import { PressReview } from '../../../models/press-review.interface';
 
+export interface PressReviewForm extends PressReview {
+  isRemoved?: boolean;  // Flag per tracciare rimozioni
+  imageFile?: File;     // Per nuove immagini o sostituzioni
+}
+
 export interface EventDateSlotForm {
   id?: string;
   date: string;
@@ -32,7 +37,7 @@ export interface ProjectFormPreview {
   filePaths?: string[];
 
   // Press reviews
-  pressReviews?: PressReview[];
+  pressReviews?: PressReviewForm[];
 }
 
 export interface CourseFormPreview extends ProjectFormPreview {
@@ -60,7 +65,7 @@ export interface ProjectFormValue {
   dateFrom?: string;
   dateTo?: string;
   eventDates?: EventDateSlotForm[];
-  pressReviews?: PressReview[];
+  pressReviews?: PressReviewForm[];
 }
 
 // Payload per il backend (da costruire in FormData)

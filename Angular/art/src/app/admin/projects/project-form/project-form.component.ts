@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
-import { ProjectPreview, ProjectFormValue } from './project-form.interface';
+import { ProjectPreview, ProjectFormValue, PressReviewForm } from './project-form.interface';
 import { AdminCourseService } from '../../services/admin-course.service';
 import { AdminEventService } from '../../services/admin-event.service';
 import { ProjectFileService } from '../../services/project-file.service';
@@ -98,6 +98,10 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   // Preview object for reusable components
   previewContent$ = this.previewService.preview$;
   previewContent: ProjectPreview | null = null;
+
+  // Press reviews for form
+  pressReviews: PressReviewForm[] = [];
+  originalPressReviews: PressReviewForm[] = [];
 
   // Tab management
   activeTab: 'info' | 'press-reviews' = 'info';
@@ -206,6 +210,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
               if (this.previewContent) {
                 this.previewContent.pressReviews = media.pressReviews;
               }
+              this.pressReviews = media.pressReviews.map(review => ({ ...review, isRemoved: false, imageFile: null }));
+              this.originalPressReviews = [...this.pressReviews];
               this.updatePreview();
               this.loaderService.hide();
             });
@@ -246,6 +252,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
               if (this.previewContent) {
                 this.previewContent.pressReviews = media.pressReviews;
               }
+              this.pressReviews = media.pressReviews.map(review => ({ ...review, isRemoved: false, imageFile: null }));
+              this.originalPressReviews = [...this.pressReviews];
               this.updatePreview();
               this.loaderService.hide();
             });
@@ -449,12 +457,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         ...this.existingFiles.map((f) => f.name),
         ...this.filesFiles.map((f) => f.name),
       ];
-      // Use current press reviews from previewContent if available, otherwise original
-      if (this.previewContent?.pressReviews) {
-        preview.pressReviews = this.previewContent.pressReviews;
-      } else if (this.originalProject?.pressReviews) {
-        preview.pressReviews = this.originalProject.pressReviews;
-      }
+      // Use current press reviews (filter out removed ones)
+      preview.pressReviews = this.pressReviews.filter(review => !review.isRemoved);
     }
     this.previewService.setPreview(preview);
   }
@@ -463,7 +467,20 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     this.activeTab = tab;
   }
 
+  onPressReviewsChange(pressReviews: PressReviewForm[]): void {
+    this.pressReviews = pressReviews;
+    this.updatePreview();
+  }
+
   onSubmit(): void {
+    console.log('onSubmit called with:', {
+      projectType: this.projectType,
+      isEditMode: this.isEditMode,
+      projectId: this.projectId,
+      formValue: this.projectForm.value,
+      pressReviews: this.pressReviews
+    });
+
     if (
       this.projectForm.invalid ||
       (!this.coverImageFile && !this.existingCoverImage)
@@ -484,7 +501,10 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const formValue: ProjectFormValue = this.projectForm.value;
+    const formValue: ProjectFormValue = {
+      ...this.projectForm.value,
+      pressReviews: this.pressReviews,
+    };
     const files: FormFiles = {
       coverImage: this.coverImageFile,
       images: this.imagesFiles,
@@ -556,6 +576,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       // Reset to original values
       if (this.originalProject) {
         this.formService.populateForm(this.projectForm, this.originalProject, this.projectType);
+        this.pressReviews = [...this.originalPressReviews];
       }
       // Reset media to originals
       this.existingCoverImage = this.originalCoverImage;
@@ -646,12 +667,5 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   get previewFilePaths(): string[] {
     if (!this.previewContent) return [];
     return [...this.previewContent.filesNames];
-  }
-
-  onPressReviewsChange(pressReviews: PressReview[]): void {
-    if (this.previewContent) {
-      this.previewContent.pressReviews = pressReviews;
-      this.updatePreview();
-    }
   }
 }

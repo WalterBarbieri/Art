@@ -1,11 +1,11 @@
-<form (ngSubmit)="onSubmit()">
-  <!-- Press Reviews List -->
-  <div class="mb-4">
-    <h4 class="mb-3">
-      {{ "ADMIN.PROJECTS.FORM.PRESS_REVIEWS_LABEL" | translate }}
-    </h4>
+<!-- Press Reviews List -->
+<div class="mb-4">
+  <h4 class="mb-3">
+    {{ "ADMIN.PROJECTS.FORM.PRESS_REVIEWS_LABEL" | translate }}
+  </h4>
 
-    @for (review of workingPressReviews; track $index; let i = $index) {
+  @for (review of workingPressReviews; track $index; let i = $index) {
+    @if (!review.isRemoved) {
       <div class="press-review-item mb-4 p-3 border rounded">
         <div class="d-flex justify-content-between align-items-center mb-3">
           <h5 class="mb-0">
@@ -78,25 +78,32 @@
         </div>
       </div>
     }
+  }
 
-    <!-- Add New Press Review Button -->
-    <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4">
-      <button
-        type="button"
-        class="btn default-button btn-sm"
-        (click)="addPressReview()"
-      >
-        <i class="fas fa-plus me-2"></i>
-        {{ "ADMIN.PROJECTS.FORM.ADD_PRESS_REVIEW_BUTTON" | translate }}
-      </button>
-    </div>
-
-    <!-- Submit Button -->
-    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-      <button type="submit" class="btn default-button">
-        <i class="fas fa-save me-2"></i>
-        {{ "ADMIN.PROJECTS.FORM.SAVE_PRESS_REVIEWS" | translate }}
-      </button>
-    </div>
+  <!-- Add New Press Review Button -->
+  <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4">
+    <button
+      type="button"
+      class="btn default-button btn-sm"
+      (click)="addPressReview()"
+    >
+      <i class="fas fa-plus me-2"></i>
+      {{ "ADMIN.PROJECTS.FORM.ADD_PRESS_REVIEW_BUTTON" | translate }}
+    </button>
   </div>
-</form>
+
+  <!-- Action Buttons -->
+  <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+    <button type="button" class="btn btn-secondary" (click)="onCancel()">
+      {{ "ADMIN.PROJECTS.FORM.CLOSE" | translate }}
+    </button>
+    <button type="button" class="btn btn-warning" (click)="onReset()">
+      <i class="fas fa-undo me-2"></i>
+      Reset
+    </button>
+    <button type="button" class="btn default-button w-auto" (click)="onSubmit()">
+      <i class="fas fa-save me-2"></i>
+      {{ "ADMIN.PROJECTS.FORM.SAVE" | translate }}
+    </button>
+  </div>
+</div>

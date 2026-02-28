@@ -8,6 +8,7 @@ import {
   CourseFormPreview,
   EventFormPreview,
   EventDateSlotForm,
+  PressReviewForm,
 } from '../projects/project-form/project-form.interface';
 import {
   dateRangeValidator,
@@ -201,6 +202,33 @@ export class ProjectFormService {
       });
     }
 
+    // Press Reviews
+    let updatedIndex = 0;
+    let removedIndex = 0;
+    let newIndex = 0;
+
+    formValue.pressReviews?.forEach((review: any) => {
+      // Solo press review proprie possono essere modificate
+      if (!review.own) return;
+
+      if (review.id && !review.isRemoved) {
+        // Verifica che abbia un imagePath valido (non cancellato)
+        if (review.imagePath && review.imagePath.startsWith('http')) {
+          formData.append(`updatedPressReviews[${updatedIndex}].id`, review.id);
+          formData.append(`updatedPressReviews[${updatedIndex}].url`, review.url);
+          if (review.imageFile) formData.append(`updatedPressReviews[${updatedIndex}].image`, review.imageFile);
+          updatedIndex++;
+        }
+      } else if (review.id && review.isRemoved) {
+        formData.append(`removedPressReviewIds[${removedIndex}]`, review.id);
+        removedIndex++;
+      } else if (review.url) {  // Nuova
+        formData.append(`newPressReviews[${newIndex}].url`, review.url);
+        if (review.imageFile) formData.append(`newPressReviews[${newIndex}].image`, review.imageFile);
+        newIndex++;
+      }
+    });
+
     // Removed files (for edit mode)
     if (removedFiles) {
       removedFiles.removedImages.forEach((path) => {
@@ -325,5 +353,20 @@ export class ProjectFormService {
       date: [''],
       isRemoved: [false],
     });
+  }
+
+  /**
+   * Populate press reviews for edit mode
+   */
+  populatePressReviews(project: any): PressReviewForm[] {
+    if (!project.pressReviews || project.pressReviews.length === 0) {
+      return [];
+    }
+
+    return project.pressReviews.map((review: any) => ({
+      ...review,
+      isRemoved: false,
+      imageFile: undefined, // No file initially
+    }));
   }
 }
