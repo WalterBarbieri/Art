@@ -2,14 +2,17 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { AdminCourseService } from './admin-course.service';
 import { AdminEventService } from './admin-event.service';
-import { FormFiles, ProjectFormService, RemovedFiles } from './project-form.service';
+import {
+  FormFiles,
+  ProjectFormService,
+  RemovedFiles,
+} from './project-form.service';
 import { ProjectFormValue } from '../projects/project-form/project-form.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProjectSubmitService {
-
   constructor(
     private adminCourseService: AdminCourseService,
     private adminEventService: AdminEventService,
@@ -22,7 +25,7 @@ export class ProjectSubmitService {
     files: FormFiles,
     isEdit: boolean,
     projectId?: string,
-    removedFiles?: RemovedFiles
+    removedFiles?: RemovedFiles,
   ): Observable<any> {
     console.log('ProjectSubmitService.submit called with:', {
       projectType,
@@ -30,10 +33,14 @@ export class ProjectSubmitService {
       projectId,
       formValue,
       files,
-      removedFiles
+      removedFiles,
     });
 
-    const formData = this.formService.buildFormData(formValue, files, removedFiles);
+    const formData = this.formService.buildFormData(
+      formValue,
+      files,
+      removedFiles,
+    );
 
     if (projectType === 'COURSE') {
       if (isEdit && projectId) {

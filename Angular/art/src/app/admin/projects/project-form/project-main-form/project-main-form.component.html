@@ -289,7 +289,9 @@
       accept="image/*"
       (change)="onCoverImageChange($event)"
       [class.is-invalid]="
-        !coverImageFile && !existingCoverImage && (projectForm.dirty || mediaModified)
+        !coverImageFile &&
+        !existingCoverImage &&
+        (projectForm.dirty || mediaModified)
       "
     />
     @if (coverImagePreview) {

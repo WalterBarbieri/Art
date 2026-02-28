@@ -215,16 +215,28 @@ export class ProjectFormService {
         // Verify if URL is valid and starts with http (to avoid sending invalid URLs or local previews)
         if (review.imagePath && review.imagePath.startsWith('http')) {
           formData.append(`updatedPressReviews[${updatedIndex}].id`, review.id);
-          formData.append(`updatedPressReviews[${updatedIndex}].url`, review.url);
-          if (review.imageFile) formData.append(`updatedPressReviews[${updatedIndex}].image`, review.imageFile);
+          formData.append(
+            `updatedPressReviews[${updatedIndex}].url`,
+            review.url,
+          );
+          if (review.imageFile)
+            formData.append(
+              `updatedPressReviews[${updatedIndex}].image`,
+              review.imageFile,
+            );
           updatedIndex++;
         }
       } else if (review.id && review.isRemoved) {
         formData.append(`removedPressReviewIds[${removedIndex}]`, review.id);
         removedIndex++;
-      } else if (review.url) {  // Nuova
+      } else if (review.url) {
+        // Nuova
         formData.append(`newPressReviews[${newIndex}].url`, review.url);
-        if (review.imageFile) formData.append(`newPressReviews[${newIndex}].image`, review.imageFile);
+        if (review.imageFile)
+          formData.append(
+            `newPressReviews[${newIndex}].image`,
+            review.imageFile,
+          );
         newIndex++;
       }
     });

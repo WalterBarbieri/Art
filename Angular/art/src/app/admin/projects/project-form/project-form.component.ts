@@ -3,7 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subject, Subscription } from 'rxjs';
-import { ProjectPreview, ProjectFormValue, PressReviewForm } from './project-form.interface';
+import {
+  ProjectPreview,
+  ProjectFormValue,
+  PressReviewForm,
+} from './project-form.interface';
 import { AdminCourseService } from '../../services/admin-course.service';
 import { AdminEventService } from '../../services/admin-event.service';
 import { ProjectFileService } from '../../services/project-file.service';
@@ -109,13 +113,17 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   pressReviewsModified: boolean = false;
 
   get canSubmit(): boolean {
-    const hasChanges = this.projectForm.dirty || this.mediaModified || this.pressReviewsModified;
-    const isValid = !this.projectForm.invalid && (this.coverImageFile !== null || this.existingCoverImage !== null);
+    const hasChanges =
+      this.projectForm.dirty || this.mediaModified || this.pressReviewsModified;
+    const isValid =
+      !this.projectForm.invalid &&
+      (this.coverImageFile !== null || this.existingCoverImage !== null);
     return hasChanges && isValid;
   }
 
   get canReset(): boolean {
-    const hasChanges = this.projectForm.dirty || this.mediaModified || this.pressReviewsModified;
+    const hasChanges =
+      this.projectForm.dirty || this.mediaModified || this.pressReviewsModified;
     return hasChanges;
   }
 
@@ -125,7 +133,8 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   // Media modification tracking
   mediaModified: boolean = false;
 
-  @ViewChild(ProjectPressReviewsFormComponent) pressReviewsForm!: ProjectPressReviewsFormComponent;
+  @ViewChild(ProjectPressReviewsFormComponent)
+  pressReviewsForm!: ProjectPressReviewsFormComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -228,7 +237,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
               if (this.previewContent) {
                 this.previewContent.pressReviews = media.pressReviews;
               }
-              this.pressReviews = media.pressReviews.map(review => ({ ...review, isRemoved: false, imageFile: null }));
+              this.pressReviews = media.pressReviews.map((review) => ({
+                ...review,
+                isRemoved: false,
+                imageFile: null,
+              }));
               this.originalPressReviews = [...this.pressReviews];
               this.refreshTrigger++;
               this.updatePreview();
@@ -271,7 +284,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
               if (this.previewContent) {
                 this.previewContent.pressReviews = media.pressReviews;
               }
-              this.pressReviews = media.pressReviews.map(review => ({ ...review, isRemoved: false, imageFile: null }));
+              this.pressReviews = media.pressReviews.map((review) => ({
+                ...review,
+                isRemoved: false,
+                imageFile: null,
+              }));
               this.originalPressReviews = [...this.pressReviews];
               this.refreshTrigger++;
               this.updatePreview();
@@ -354,7 +371,9 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
   removeImage(index: number): void {
     if (index < this.existingImages.length) {
       // Remove existing image - track for removal
-      const imagePath = this.imageService.convertUrlToRelativePath(this.existingImages[index]);
+      const imagePath = this.imageService.convertUrlToRelativePath(
+        this.existingImages[index],
+      );
       this.removedImages.push(imagePath);
       this.existingImages.splice(index, 1);
       this.imagesPreviews.splice(index, 1);
@@ -420,7 +439,9 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
 
   removeVideo(index: number): void {
     if (index < this.existingVideos.length) {
-      const videoPath = this.imageService.convertUrlToRelativePath(this.existingVideos[index].url);
+      const videoPath = this.imageService.convertUrlToRelativePath(
+        this.existingVideos[index].url,
+      );
       this.removedVideos.push(videoPath);
       this.existingVideos.splice(index, 1);
       if (this.videosPreviews[index]) {
@@ -478,7 +499,9 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         ...this.filesFiles.map((f) => f.name),
       ];
       // Use current press reviews (filter out removed ones)
-      preview.pressReviews = this.pressReviews.filter(review => !review.isRemoved);
+      preview.pressReviews = this.pressReviews.filter(
+        (review) => !review.isRemoved,
+      );
     }
     this.previewService.setPreview(preview);
   }
@@ -499,7 +522,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       isEditMode: this.isEditMode,
       projectId: this.projectId,
       formValue: this.projectForm.value,
-      pressReviews: this.pressReviews
+      pressReviews: this.pressReviews,
     });
 
     if (
@@ -548,19 +571,19 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
         files,
         this.isEditMode,
         this.projectId,
-        removedFiles
+        removedFiles,
       )
       .subscribe({
         next: (response) => {
           this.loaderService.hide();
           const successMessage =
             this.projectType === 'COURSE'
-              ? (this.isEditMode
-                  ? 'ADMIN.PROJECTS.FORM.SUCCESS_COURSE_UPDATED'
-                  : 'ADMIN.PROJECTS.FORM.SUCCESS_COURSE_CREATED')
-              : (this.isEditMode
-                  ? 'ADMIN.PROJECTS.FORM.SUCCESS_EVENT_UPDATED'
-                  : 'ADMIN.PROJECTS.FORM.SUCCESS_EVENT_CREATED');
+              ? this.isEditMode
+                ? 'ADMIN.PROJECTS.FORM.SUCCESS_COURSE_UPDATED'
+                : 'ADMIN.PROJECTS.FORM.SUCCESS_COURSE_CREATED'
+              : this.isEditMode
+                ? 'ADMIN.PROJECTS.FORM.SUCCESS_EVENT_UPDATED'
+                : 'ADMIN.PROJECTS.FORM.SUCCESS_EVENT_CREATED';
           this.toastService.showSuccess(this.translate.instant(successMessage));
           this.router.navigate(['/admin/projects']);
         },
@@ -596,7 +619,11 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
     if (this.isEditMode) {
       // Reset to original values
       if (this.originalProject) {
-        this.formService.populateForm(this.projectForm, this.originalProject, this.projectType);
+        this.formService.populateForm(
+          this.projectForm,
+          this.originalProject,
+          this.projectType,
+        );
         this.pressReviews = [...this.originalPressReviews];
         if (this.pressReviewsForm) {
           this.pressReviewsForm.reset();
@@ -615,7 +642,7 @@ export class ProjectFormComponent implements OnInit, OnDestroy {
       // Recreate previews
       this.coverImagePreview = this.originalCoverImage;
       this.imagesPreviews = [...this.originalImages];
-      this.videosPreviews = this.originalVideos.map(v => v.url);
+      this.videosPreviews = this.originalVideos.map((v) => v.url);
 
       // Clear removed tracking
       this.removedImages = [];

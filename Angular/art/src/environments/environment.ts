@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   baseURL: 'http://localhost:4001/',
-  isStaticMode: true
+  isStaticMode: true,
 };
 
 /*
