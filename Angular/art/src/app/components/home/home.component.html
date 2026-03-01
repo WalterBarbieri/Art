@@ -59,12 +59,18 @@
             [text]="'PROJECT.TITLE' | translate"
           ></app-animated-button>
   </div>
-
+  @if (projects && projects.length > 0) {
   <!-- CAROUSEL -->
   <app-carousel
     [projects]="projects"
     [imageLoading]="imageLoading"
   ></app-carousel>
+  } @else {
+    <div class="alert alert-info alert-constrained text-center mt-4 mx-auto">
+      <i class="fas fa-info-circle me-2"></i>
+      {{ "PROJECT.NO_PROJECTS" | translate }}
+    </div>
+  }
 </div>
 <div class="middleSection container-fluid">
   <div class="row h-100">

@@ -54,6 +54,10 @@ public class UserService {
 		return this.findByUsername(userDetails.getUsername());
 	}
 
+	public long countUsers() {
+		return ur.count();
+	}
+
 	// PUT METHODS
 	public User updateUser(User user) {
 		return ur.save(user);
