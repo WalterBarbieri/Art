@@ -17,8 +17,8 @@ public class CorsFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 		String origin = request.getHeader("Origin");
-		if (origin != null && (origin.equals("https://elenafranconi.it")
-				|| origin.equals("https://www.elenafranconi.it") || origin.equals("http://localhost:4200"))) {
+		if (origin != null && (origin.equals("https://artnaturateatro.it")
+				|| origin.equals("https://www.artnaturateatro.it") || origin.equals("http://localhost:4200"))) {
 			response.setHeader("Access-Control-Allow-Origin", origin);
 		}
 		response.setHeader("Access-Control-Allow-Methods", "*");

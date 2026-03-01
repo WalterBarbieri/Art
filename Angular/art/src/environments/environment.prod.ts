@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  baseURL: 'http://localhost:4001/',
+  baseURL: 'https://artnaturateatro.it/',
   isStaticMode: true,
 };
