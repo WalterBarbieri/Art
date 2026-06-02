@@ -8,14 +8,16 @@ import java.nio.file.StandardCopyOption;
 import java.util.Comparator;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class StorageService {
-	public final String uploadDir = "uploads";
+	private String uploadDir;
 
-	public StorageService() {
+	public StorageService(@Value("${image.upload.directory}") String uploadDir) {
+		this.uploadDir = uploadDir;
 		Path uploadPath = Paths.get(uploadDir);
 		try {
 			if (!Files.exists(uploadPath)) {
@@ -37,7 +39,9 @@ public class StorageService {
 				Files.createDirectories(contDirPath);
 			}
 			Path destinationPath = contDirPath.resolve(fileName);
-			Files.copy(file.getInputStream(), destinationPath, StandardCopyOption.REPLACE_EXISTING);
+			try (var inputStream = file.getInputStream()) {
+				Files.copy(inputStream, destinationPath, StandardCopyOption.REPLACE_EXISTING);
+			}
 			return normalizePath(Paths.get("content", contentId.toString(), subDir, fileName).toString());
 		} catch (IOException e) {
 			throw new RuntimeException("Failed to store file " + fileName, e);
