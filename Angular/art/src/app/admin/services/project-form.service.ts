@@ -152,6 +152,7 @@ export class ProjectFormService {
     formValue: ProjectFormValue,
     files: FormFiles,
     removedFiles?: RemovedFiles,
+    isEdit: boolean = false,
   ): FormData {
     const formData = new FormData();
 
@@ -187,19 +188,36 @@ export class ProjectFormService {
       let removedIndex = 0;
       let newIndex = 0;
 
-      formValue.eventDates?.forEach((slot: any) => {
-        if (slot.id && !slot.isRemoved) {
-          formData.append(`eventDateSlots[${eventSlotIndex}].id`, slot.id);
-          formData.append(`eventDateSlots[${eventSlotIndex}].date`, slot.date);
-          eventSlotIndex++;
-        } else if (slot.id && slot.isRemoved) {
-          formData.append(`removedEventDateSlotIds[${removedIndex}]`, slot.id);
-          removedIndex++;
-        } else if (slot.date) {
-          formData.append(`newEventDateSlots[${newIndex}]`, slot.date);
-          newIndex++;
-        }
-      });
+      if (!isEdit) {
+        // In create mode, send all dates as eventDates
+        formValue.eventDates?.forEach((slot: any) => {
+          if (slot.date) {
+            formData.append(`eventDates[${newIndex}]`, slot.date);
+            newIndex++;
+          }
+        });
+      } else {
+        // In edit mode, differentiate between updated, removed and new dates
+        formValue.eventDates?.forEach((slot: any) => {
+          if (slot.id && !slot.isRemoved) {
+            formData.append(`eventDateSlots[${eventSlotIndex}].id`, slot.id);
+            formData.append(
+              `eventDateSlots[${eventSlotIndex}].date`,
+              slot.date,
+            );
+            eventSlotIndex++;
+          } else if (slot.id && slot.isRemoved) {
+            formData.append(
+              `removedEventDateSlotIds[${removedIndex}]`,
+              slot.id,
+            );
+            removedIndex++;
+          } else if (slot.date) {
+            formData.append(`newEventDateSlots[${newIndex}]`, slot.date);
+            newIndex++;
+          }
+        });
+      }
     }
 
     // Press Reviews
@@ -208,7 +226,7 @@ export class ProjectFormService {
     let newIndex = 0;
 
     formValue.pressReviews?.forEach((review: any) => {
-      // Solo press review proprie possono essere modificate
+      // Can only edit/remove own reviews
       if (!review.own) return;
 
       if (review.id && !review.isRemoved) {
@@ -230,7 +248,7 @@ export class ProjectFormService {
         formData.append(`removedPressReviewIds[${removedIndex}]`, review.id);
         removedIndex++;
       } else if (review.url) {
-        // Nuova
+        // New Press review
         formData.append(`newPressReviews[${newIndex}].url`, review.url);
         if (review.imageFile)
           formData.append(

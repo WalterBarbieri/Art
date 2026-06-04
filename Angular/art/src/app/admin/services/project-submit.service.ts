@@ -40,6 +40,7 @@ export class ProjectSubmitService {
       formValue,
       files,
       removedFiles,
+      isEdit
     );
 
     if (projectType === 'COURSE') {
